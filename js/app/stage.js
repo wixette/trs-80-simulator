@@ -119,17 +119,17 @@ export class Stage {
       b.addEventListener("click", () => this.setMode(m));
       this.toggle.append(b);
     }
-    // the 2D view's own: the phone's drawers, and the key legend
+    // the 2D view's own: its drawers, each a toggle that shows whether it is open (the
+    // recorder's on an upright phone only, where the recorder does not fit beside the display)
     this.drawers = el("div", { class: "band-group drawers" });
     for (const which of /** @type {const} */ (["rec", "kbd"])) {
-      const b = el("button", { class: `btn small tonal has-icon drawer-${which}`, type: "button", "aria-pressed": String(this.flat.el.dataset[which] === "open") }, [icon(which === "rec" ? "voicemail" : "keyboard"), el("span", { text: t(which === "rec" ? "stage.drawer.recorder" : "stage.drawer.keyboard") })]);
+      const b = el("button", { class: `btn small tonal has-icon drawer-${which}`, type: "button", "aria-pressed": String(this.flat.drawerOpen(which)) }, [icon(which === "rec" ? "voicemail" : "keyboard"), el("span", { text: t(which === "rec" ? "stage.drawer.recorder" : "stage.drawer.keyboard") })]);
       setTip(b, t(which === "rec" ? "stage.drawer.recorder.tip" : "stage.drawer.keyboard.tip"));
       b.setAttribute("data-tip-describes", "");
       b.addEventListener("click", () => b.setAttribute("aria-pressed", String(this.flat.toggleDrawer(which))));
       this.drawers.append(b);
     }
-    this.legend = el("p", { class: "key-legend", text: t("stage.legend") });
-    band.append(this.legend, el("span", { class: "spacer" }), this.drawers, this.tools3d, this.toggle);
+    band.append(el("span", { class: "spacer" }), this.drawers, this.tools3d, this.toggle);
     // Put it all back (U3)
     this.putBack = el("button", { class: "btn filled has-icon put-back", type: "button", hidden: true }, [icon("construction"), el("span", { text: t("stage.putBack") })]);
     this.putBack.addEventListener("click", () => this.system.putAllBack());

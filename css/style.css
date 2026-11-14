@@ -134,9 +134,10 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .menu-btn { color: var(--md-on-surface); padding: 0 6px 0 12px; }
 .menu-btn.active { color: var(--md-primary-text); }
 .segmented.mode { flex: none; height: 32px; }
-.key-legend { margin: 0; color: var(--md-on-surface-variant); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-#stage[data-mode="3d"] .key-legend, #stage[data-mode="3d"] .drawers, #stage[data-mode="2d"] .tools3d { display: none; }
+#stage[data-mode="3d"] .drawers, #stage[data-mode="2d"] .tools3d { display: none; }
 .drawer-rec { display: none; }
+/* a drawer's toggle: filled while its drawer is open */
+.drawers .btn[aria-pressed="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 
 /* the helper strip (U4): the controls that are hard to reach on the machine, in a strip at the
    stage's foot, centred; a tab on its top edge folds it away, leaving the tab */
@@ -169,8 +170,8 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .loading-bar span { display: block; height: 100%; width: 0; background: var(--md-primary); transition: width 120ms linear; }
 
 /* ---- the 2D view: the machine's faces, flat (D10) ---- */
-/* on a desktop the drawn keyboard is a drawer, closed at first: the visitor types on their own,
-   and the screen gets the stage's whole height (docs/ui-design.md, U10) */
+/* the drawn keyboard is a drawer, at any width, shown only while open; closed, the screen gets
+   the stage's whole height (docs/ui-design.md, U10) */
 .flat { position: absolute; inset: 0; display: grid; grid-template-rows: minmax(0, 1fr); gap: 12px; padding: 12px 16px; }
 .flat[data-kbd="open"] { grid-template-rows: minmax(0, 1.9fr) minmax(0, 1fr); }
 .flat:not([data-kbd="open"]) .flat-kbd { display: none; }
@@ -417,9 +418,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   .tool { flex-wrap: wrap; }
   .lesson-companion { flex-basis: 420px; }
 }
-@media (max-width: 1000px) {
-  .key-legend { display: none; }
-}
 @media (max-width: 860px) {
   .show-btn > span { display: none; }
   .strip-label { display: none; }
@@ -441,9 +439,10 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   .segmented.mode .icon { display: none; }
   .segmented.mode button { padding: 0 10px; }
   .drawer-rec { display: inline-flex; }
-  .drawer-kbd { display: none; }
-  .flat, .flat[data-kbd="open"] { padding: 8px 6px; gap: 8px; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
-  .flat .flat-kbd, .flat:not([data-kbd="open"]) .flat-kbd { display: flex; }
+  .drawers .btn span { display: none; }
+  .drawers .btn.small.has-icon { padding: 0 10px; }
+  .flat { padding: 8px 6px; gap: 8px; }
+  .flat[data-kbd="open"] { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
   .flat-display { width: min(100cqw, 100cqh * var(--ar)); }
   .flat-recorder { display: none; }
   .flat[data-rec="open"] .flat-recorder { display: block; position: absolute; z-index: 3; right: 8px; top: 4cqh; width: min(46cqw, 90cqh * var(--ar)); filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6)); }
@@ -459,7 +458,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 @media (max-height: 520px) and (orientation: landscape) {
   .drawer-rec { display: none; }
   .drawer-kbd { display: inline-flex; }
-  .key-legend { display: none; }
   .flat, .flat[data-kbd="open"] { padding-top: 8px; grid-template-rows: minmax(0, 1fr); }
   .flat .flat-kbd, .flat:not([data-kbd="open"]) .flat-kbd { display: none; }
   .flat[data-kbd="open"] .flat-kbd { display: flex; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 55%; z-index: 3; filter: drop-shadow(0 -6px 20px rgba(0, 0, 0, 0.6)); }

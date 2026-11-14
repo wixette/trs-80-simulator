@@ -54,7 +54,7 @@ export class KeyboardTool {
       this.rowEls.push({ row, addr, byte, rate });
     }
     this.note = el("p", { class: "tool-note", "aria-live": "off" });
-    host.append(el("div", { class: "tool kbd-tool" }, [el("div", { class: "tool-main" }, [table]), el("div", { class: "tool-side" }, [this.note, el("p", { class: "dim", text: t("kbd.about") })])]));
+    host.append(el("div", { class: "tool kbd-tool" }, [el("div", { class: "tool-main" }, [table]), el("div", { class: "tool-side" }, [this.note, el("p", { class: "dim", text: t("kbd.about") }), el("p", { class: "dim", text: t("stage.legend") })])]));
   }
 
   /** The program read the keyboard (the page passes on the machine's scan event). @param {number} sel the rows selected @param {number} value */

@@ -114,7 +114,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 - **Going to 2D, the camera flies** to face the screen, then the flat views cross-fade in (as AGT-30's Screen). Going back, they fade out and the camera flies back to where it was. With `prefers-reduced-motion`, both are a cut.
 - **A double-click on the CRT in 3D** goes to 2D. A single click does nothing there, so that clicks and drags turn the camera.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
-- **The 3D view's own tools** (⌂, zoom, Views, Show, Put it all back) show only in 3D. In 2D the band holds the key legend, the Keyboard drawer and the toggle. The helper strip (U4) is under the stage in both.
+- **The 3D view's own tools** (⌂, zoom, Views, Show, Put it all back) show only in 3D. In 2D the band holds the Keyboard drawer's toggle (and on an upright phone the Recorder's) and the 2D | 3D toggle. The helper strip (U4) is under the stage in both.
 
 *Rejected:* the toggle in the top bar, which is for occasional actions (P4) and is full on phones; the 2D view as a tool in the dock, which would put the machine in two places.
 
@@ -144,7 +144,7 @@ The machine's controls that are hard to reach are clickable where they are: the 
 - **A held key holds the Model I's key,** so games that poll the keys play. Several keys at once work.
 - **SHIFT is worked out for each character:** a typed `"` is the Model I's SHIFT 2, whatever the visitor's layout.
 - **Special keys:** Esc is BREAK; Delete (or Home) is CLEAR; Backspace is ←; the arrows are the arrows; Enter is ENTER.
-- **A key legend** in the status line's first message, and in the 2D view's band, names the special keys.
+- **A key legend** in the status line's first message, and in the Keyboard tool, names the special keys.
 - **The Model I's own keys** can be clicked or tapped, in 3D and in 2D. SHIFT clicked latches for the next key.
 
 ### U6. The dock's five tabs
@@ -183,8 +183,12 @@ A dialog holding:
 - a link to the source repository;
 - "not affiliated with Tandy or RadioShack".
 
-### U10. In 2D on a desktop, the drawn keyboard is a drawer
+### U10. In 2D, the drawn keyboard is a drawer
 
-*(build)* The 2D view first put the keyboard unit under the display, as on the desk. With the dock open, that left the screen less than one screen pixel per dot even on a 1080p desktop, which is too small to read. On a desktop the visitor types on their own keyboard, so there the drawn keyboard is a drawer, closed at first: a *Keyboard* button on the band opens it, to click the Model I's keys, and the screen gets the stage's whole height. Where the pointer is coarse (a phone, a tablet), the keyboard is shown at first, as the visitor has no other.
+*(build)* The 2D view first put the keyboard unit under the display, as on the desk. With the dock open, that left the screen less than one screen pixel per dot even on a 1080p desktop, which is too small to read. So the drawn keyboard is a drawer, at every width: shown only while it is open, and the screen gets the stage's whole height while it is closed.
+- **Its toggle**, *Keyboard* on the band, is filled while the drawer is open, so it always says which state it is in. On a phone it is its icon alone.
+- **At first** it is open only where the visitor has no keyboard of their own and the screen is upright (a phone held upright, a tablet), and closed elsewhere. After that it stays as the visitor left it.
+- **On an upright phone** the recorder does not fit beside the display: it is a drawer of its own, *Recorder*, over the display. On a phone on its side, the keyboard drawer rises over the display.
+- **The key legend** (Esc is BREAK, Delete is CLEAR…) is not on the band, where it took the stage's top left: the status line says it as the 2D view opens, and the Keyboard tool keeps it.
 
-*Rejected:* a smaller default dock, which would take the lessons' room for a picture that would still be too small.
+*Rejected:* a smaller default dock, which would take the lessons' room for a picture that would still be too small; showing the keyboard by the window's width alone, which made it appear on its own as a window narrowed, with a toggle that did nothing there.

@@ -12,11 +12,13 @@
 //   alone latches for the next key), the power LED, and the two controls on its rear, the
 //   POWER switch and RESET, at the left of the band behind the keys, with icons.
 //
-// Layout (css/style.css): on a desktop, the display and the recorder side by side as on the
-// desk, the keyboard below. On an upright phone, the display, then the main keys (the keypad
-// cropped: every digit is on the main keys), the recorder in a drawer. On a phone on its side,
-// the display and the recorder, the keyboard in a drawer. Nothing in the drawings can be
-// selected or dragged.
+// Layout (css/style.css): the display and the recorder side by side as on the desk; the
+// keyboard is a drawer under them, shown only while it is open, at any width (docs/ui-design.md,
+// U10). It opens at first where the visitor has no keyboard of their own (a touch screen held
+// upright), and after that as the visitor left it. On an upright phone the keypad is cropped
+// (every digit is on the main keys), and the recorder is a drawer of its own; on a phone on its
+// side, the keyboard drawer rises over the display. Nothing in the drawings can be selected or
+// dragged.
 
 import { t } from "../l10n/l10n.js";
 import { KEYS } from "../sim/keymap.js";
@@ -34,6 +36,8 @@ const SHORT = /** @type {Record<string, string>} */ ({ UP: "↑", DOWN: "↓", L
 /** @type {DeckKey[]} */
 const DECK = ["record", "rewind", "play", "fastf", "stop", "eject"];
 const DECK_LEGEND = { record: "RECORD", rewind: "REWIND", play: "PLAY", fastf: "FAST-F", stop: "STOP", eject: "EJECT" };
+/** Where the keyboard drawer's state is remembered. */
+const KBD_STORE = "trs80.kbd";
 /** Canvas pixels per dot: 384 x 192 dots on a 4:3 picture. */
 const DOT_W = 3;
 /** The tube's glass round the picture, as fractions of the canvas. */
@@ -72,9 +76,16 @@ export class Flat {
     this.system = system;
     this.o = o;
     this.c = o.colours;
-    // the drawn keyboard: shown at first where the visitor has no keyboard of their own (U10)
-    const touch = matchMedia("(pointer: coarse)").matches;
-    this.el = el("div", { class: "flat", "data-rec": "closed", "data-kbd": touch ? "open" : "closed" }, [
+    // the drawn keyboard: as the visitor left it; at first, open only where they have no keyboard
+    // of their own and the screen is upright, so that it has room under the display (U10)
+    let kbd = null;
+    try {
+      kbd = localStorage.getItem(KBD_STORE);
+    } catch {
+      // not remembered
+    }
+    if (kbd !== "open" && kbd !== "closed") kbd = matchMedia("(pointer: coarse) and (orientation: portrait)").matches ? "open" : "closed";
+    this.el = el("div", { class: "flat", "data-rec": "closed", "data-kbd": kbd }, [
       el("div", { class: "flat-top" }, [el("div", { class: "flat-box flat-display" }), el("div", { class: "flat-box flat-recorder" })]),
       el("div", { class: "flat-kbd" }, [el("div", { class: "flat-box flat-keyboard", role: "group", "aria-label": t("flat.keyboard") })]),
     ]);
@@ -107,10 +118,22 @@ export class Flat {
     this.layoutKeyboard();
   }
 
-  /** The recorder or keyboard drawer, on a phone. @param {"rec" | "kbd"} which @param {boolean} [open] */
+  /** Whether a drawer is open: the keyboard, or the recorder (a phone's). @param {"rec" | "kbd"} which */
+  drawerOpen(which) {
+    return this.el.dataset[which] === "open";
+  }
+
+  /** Opens or closes a drawer; the keyboard's is remembered. @param {"rec" | "kbd"} which @param {boolean} [open] */
   toggleDrawer(which, open) {
-    const now = open ?? this.el.dataset[which] !== "open";
+    const now = open ?? !this.drawerOpen(which);
     this.el.dataset[which] = now ? "open" : "closed";
+    if (which === "kbd") {
+      try {
+        localStorage.setItem(KBD_STORE, this.el.dataset.kbd ?? "closed");
+      } catch {
+        // not remembered
+      }
+    }
     return now;
   }
 

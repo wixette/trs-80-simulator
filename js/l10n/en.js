@@ -239,8 +239,8 @@ export default {
   "region.high": "Empty",
 
   // ---- what the machine says (the status line) ----
-  "status.welcome": "Switch on: Computer and Display, above. Your keyboard is the Model I's: Esc is BREAK, Enter is ENTER.",
-  "status.welcome2d": "Switch on with POWER on the keyboard and the display's red button. Your keyboard is the Model I's: Esc is BREAK.",
+  "status.welcome": "Switch on: Computer and Display, below the machine. Your keyboard is the Model I's: Esc is BREAK, Enter is ENTER.",
+  "status.welcome2d": "Switch on: Computer and Display, below the machine. Your keyboard is the Model I's: Esc is BREAK, Enter is ENTER.",
   "status.noRom": "No ROM: roms/level2-v12.bin is missing (see roms/NOTICE). Choose a Level II image of your own to run.",
   "status.otherRom": "Running a ROM that is not Level II v1.2.",
   "status.phone2d": "On a phone, 2D is the place to type: the screen at full size, with the keyboard under it. 2D is at the top right.",
