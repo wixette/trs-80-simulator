@@ -394,7 +394,6 @@ export class Flat {
     const fr = { x0: -W / 2, x1: W / 2, y0: -back, y1: D / 2 };
     const band = (/** @type {number[]} */ ys) => ({ y: -ys[1], h: ys[1] - ys[0] });
     const door = band(v(b.door));
-    const lp = band(v(b.label_panel));
     const gr = band([v(b.grille)[0], back - 4]);
     const [cx0, cx1] = v(r.counter.x);
     const [cy0, cy1] = v(r.counter.y);
