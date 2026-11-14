@@ -417,7 +417,8 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .dialog-body h3 { margin: 16px 0 6px; font-size: 14px; font-weight: 500; color: var(--md-on-surface-variant); }
 .dialog-text { margin: 0 0 12px; font-size: 14px; line-height: 1.5; color: var(--md-on-surface-variant); }
 .dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 20px; }
-.dialog-actions .btn { flex-direction: column; gap: 0; line-height: 1.15; }
+.dialog-actions .btn { line-height: 1.15; }
+.dialog-actions .choice-label { display: inline-flex; flex-direction: column; align-items: flex-start; }
 .dialog-actions .btn .why { font-size: 11px; font-weight: 400; opacity: 0.8; }
 .dialog-actions .btn[aria-disabled="true"] { opacity: 0.55; }
 .program-listing { margin: 10px 0 4px; padding: 8px 10px; max-height: 11.5em; overflow: auto; border-radius: var(--radius-xs); background: var(--md-well); font-family: var(--mono); font-size: 12px; line-height: 1.45; white-space: pre; user-select: text; -webkit-user-select: text; }

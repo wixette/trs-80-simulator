@@ -120,7 +120,7 @@ export class TopBar {
     const title = t(`sample.${id}.title`);
     const about = t(`sample.${id}.about`);
     const noRom = this.o.rom() ? undefined : t("bar.needsRom");
-    const tape = { label: t("program.tape"), primary: !sm, disabled: sm ? noRom : undefined, run: () => (sm ? this.sampleTape(sm) : s.insertTape(tapeFromCas(t("tape.screenName"), screenProgramCas()))) };
+    const tape = { label: t("program.tape"), choice: true, icon: /** @type {const} */ ("voicemail"), disabled: sm ? noRom : undefined, run: () => (sm ? this.sampleTape(sm) : s.insertTape(tapeFromCas(t("tape.screenName"), screenProgramCas()))) };
     const body = [
       el("p", { class: "dialog-text", text: about.charAt(0).toUpperCase() + about.slice(1) }),
       ...(sm ? [el("pre", { class: "program-listing", text: sm.text.replace(/\nRUN\n$/, "\n").trimEnd() })] : []),
@@ -131,11 +131,12 @@ export class TopBar {
     ];
     if (!sm) return void showDialog(title, body, [tape]);
     const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
+    // two ways in, of equal weight, in the order the dialog lists them
     showDialog(title, body, [
-      tape,
       {
         label: t("program.type"),
-        primary: true,
+        choice: true,
+        icon: "keyboard",
         disabled: off,
         run: () => {
           if (!s.machine.powered) return void s.say({ key: "type.off" });
@@ -143,6 +144,7 @@ export class TopBar {
           s.say({ key: "program.typing", params: { title, about } });
         },
       },
+      tape,
     ]);
   }
 

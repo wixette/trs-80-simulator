@@ -242,6 +242,8 @@ export function tabs(list, onSelect) {
  * @typedef {object} DialogAction a button at the dialog's foot; each closes the dialog, then runs
  * @property {string} label
  * @property {boolean} [primary] the one action the dialog is for: filled, and the focus at first
+ * @property {boolean} [choice] one of several choices of equal weight: tonal, with its icon; the first has the focus
+ * @property {IconName} [icon] shown before the label
  * @property {string} [disabled] greyed, with this reason under its label; choosing it still runs it, which says why (P6)
  * @property {() => void} [run]
  */
@@ -264,13 +266,13 @@ export function showDialog(title, body, actions = []) {
     "div",
     { class: "dialog-actions" },
     actions.map((a) => {
-      const b = el("button", { class: `btn ${a.primary ? "filled" : ""}`, type: "button" }, [el("span", { text: a.label }), a.disabled ? el("small", { class: "why", text: a.disabled }) : null]);
+      const b = el("button", { class: `btn${a.primary ? " filled" : a.choice ? " tonal choice" : ""}${a.icon ? " has-icon" : ""}`, type: "button" }, [a.icon ? icon(a.icon) : null, el("span", { class: "choice-label" }, [el("span", { text: a.label }), a.disabled ? el("small", { class: "why", text: a.disabled }) : null])]);
       if (a.disabled) b.setAttribute("aria-disabled", "true");
       b.addEventListener("click", () => {
         d.close();
         a.run?.();
       });
-      if (a.primary) first = b;
+      if (a.primary || (a.choice && !first)) first = b;
       return b;
     }),
   );
@@ -279,8 +281,18 @@ export function showDialog(title, body, actions = []) {
     el("div", { class: "dialog-body" }, [...body, ...(actions.length ? [foot] : [])]),
   ]);
   close.addEventListener("click", () => d.close());
+  // a click on the scrim closes it, but only one that both began and ended there: a press
+  // inside (selecting text, say) released outside is not one
+  /** @param {MouseEvent} e */
+  const outside = (e) => {
+    const r = d.getBoundingClientRect();
+    return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+  };
+  let downOutside = false;
+  d.addEventListener("pointerdown", (e) => (downOutside = outside(e)));
   d.addEventListener("click", (e) => {
-    if (e.target === d) d.close();
+    if (e.target === d && downOutside && outside(e)) d.close();
+    downOutside = false;
   });
   d.addEventListener("close", () => d.remove());
   document.body.appendChild(d);
