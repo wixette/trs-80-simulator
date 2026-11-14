@@ -44,7 +44,7 @@ Teacher notes, with timings and the questions students ask: [lessons/teacher-not
 3. At `MEMORY SIZE?` press Enter.
 4. Type `PRINT "HELLO"` and press Enter.
 
-Then open **Programs** for a few of ours, or **Tapes** for a sample tape.
+Then open **Programs** for a few of ours: type one in, or load it from its tape.
 
 ## Run it locally
 

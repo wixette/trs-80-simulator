@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // The top bar (docs/ui-design.md, U8): what you do to the machine on the left (Tapes,
-// Programs), what you do with the app on the right (About). Each is a menu or a dialog (P4,
+// Programs), what you do with the app on the right (Sound, About). Programs is the one
+// catalogue of our samples: each opens a dialog that offers both ways in, typed on the keys
+// or loaded from its tape; Tapes is for tapes themselves. Each is a menu or a dialog (P4,
 // P10). Visitors bring their own tapes, read locally and never uploaded (D7); our samples are
 // recorded at run time by a second Model I, so nothing but the ROM's own output is on them.
 
@@ -88,17 +90,9 @@ export class TopBar {
     const s = this.system;
     const has = !!s.deck.tape;
     const recorded = has && /** @type {Tape} */ (s.deck.tape).pulses.length > 0;
-    const noRom = this.o.rom() ? undefined : t("bar.needsRom");
     return [
       { label: t("bar.tape.blank"), icon: "voicemail", run: () => s.insertTape(new Tape(t("tape.blankName"))) },
       { label: t("bar.tape.open"), icon: "upload_file", run: () => this.file.click() },
-      ...SAMPLES.map((sm, i) => ({
-        label: t("bar.tape.sample", { title: t(`sample.${sm.id}.title`), letter: sm.letter }),
-        divider: i === 0 ? t("bar.tape.samples") : undefined,
-        disabled: noRom,
-        run: () => this.sampleTape(sm),
-      })),
-      { label: t("bar.tape.screen"), run: () => s.insertTape(tapeFromCas(t("tape.screenName"), screenProgramCas())) },
       { label: t("bar.tape.saveCas"), icon: "download", divider: true, disabled: recorded ? undefined : t("bar.tape.nothing"), run: () => this.save("cas") },
       { label: t("bar.tape.saveWav"), icon: "download", disabled: recorded ? undefined : t("bar.tape.nothing"), run: () => this.save("wav") },
       { label: t("bar.tape.eject"), icon: "eject", disabled: has ? undefined : t("bar.tape.noTape"), run: () => s.deckKey("eject") },
@@ -109,18 +103,49 @@ export class TopBar {
 
   /** @private @returns {import("../ui/components.js").MenuItem[]} */
   programItems() {
-    const s = this.system;
-    const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
-    return SAMPLES.map((sm) => ({
-      label: t(`sample.${sm.id}.title`),
-      disabled: off,
-      run: () => {
-        if (!s.machine.powered) return void s.say({ key: "type.off" });
-        s.type(sm.text);
-        s.say({ key: "program.typing", params: { title: t(`sample.${sm.id}.title`), about: t(`sample.${sm.id}.about`) } });
-      },
-    }));
+    return [
+      ...SAMPLES.map((sm) => ({ label: t(`sample.${sm.id}.title`), run: () => this.program(sm) })),
+      { label: t("sample.screen.menu"), run: () => this.program(null) },
+    ];
   }
+
+  /**
+   * A program's dialog: what it does, its listing, and the two ways in, typed on the Model I's
+   * keys or put in the recorder on its tape. Machine code has only the tape.
+   * @private @param {import("../sim/samples.js").Sample | null} sm null: the machine-code sample
+   */
+  program(sm) {
+    const s = this.system;
+    const id = sm ? sm.id : "screen";
+    const title = t(`sample.${id}.title`);
+    const about = t(`sample.${id}.about`);
+    const noRom = this.o.rom() ? undefined : t("bar.needsRom");
+    const tape = { label: t("program.tape"), primary: !sm, disabled: sm ? noRom : undefined, run: () => (sm ? this.sampleTape(sm) : s.insertTape(tapeFromCas(t("tape.screenName"), screenProgramCas()))) };
+    const body = [
+      el("p", { class: "dialog-text", text: about.charAt(0).toUpperCase() + about.slice(1) }),
+      ...(sm ? [el("pre", { class: "program-listing", text: sm.text.replace(/\nRUN\n$/, "\n").trimEnd() })] : []),
+      el("ul", { class: "program-ways dim" }, [
+        ...(sm ? [el("li", { text: t("program.how.type") })] : []),
+        el("li", { text: sm ? t("program.how.tape", { letter: sm.letter }) : t("program.how.system") }),
+      ]),
+    ];
+    if (!sm) return void showDialog(title, body, [tape]);
+    const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
+    showDialog(title, body, [
+      tape,
+      {
+        label: t("program.type"),
+        primary: true,
+        disabled: off,
+        run: () => {
+          if (!s.machine.powered) return void s.say({ key: "type.off" });
+          s.type(sm.text);
+          s.say({ key: "program.typing", params: { title, about } });
+        },
+      },
+    ]);
+  }
+
 
   /** @private @param {import("../sim/samples.js").Sample} sm */
   sampleTape(sm) {

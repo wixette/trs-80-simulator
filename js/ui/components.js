@@ -242,6 +242,7 @@ export function tabs(list, onSelect) {
  * @typedef {object} DialogAction a button at the dialog's foot; each closes the dialog, then runs
  * @property {string} label
  * @property {boolean} [primary] the one action the dialog is for: filled, and the focus at first
+ * @property {string} [disabled] greyed, with this reason under its label; choosing it still runs it, which says why (P6)
  * @property {() => void} [run]
  */
 
@@ -263,7 +264,8 @@ export function showDialog(title, body, actions = []) {
     "div",
     { class: "dialog-actions" },
     actions.map((a) => {
-      const b = el("button", { class: `btn ${a.primary ? "filled" : ""}`, type: "button", text: a.label });
+      const b = el("button", { class: `btn ${a.primary ? "filled" : ""}`, type: "button" }, [el("span", { text: a.label }), a.disabled ? el("small", { class: "why", text: a.disabled }) : null]);
+      if (a.disabled) b.setAttribute("aria-disabled", "true");
       b.addEventListener("click", () => {
         d.close();
         a.run?.();
