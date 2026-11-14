@@ -221,6 +221,10 @@ export class Flat {
     const label = (/** @type {string} */ s, /** @type {number} */ x, /** @type {number} */ z, /** @type {number} */ size, /** @type {string} */ fill) =>
       `<text x="${f(x)}" y="${f(Y(z) + size * 0.37)}" font-size="${f(size)}" fill="${fill}" text-anchor="middle" font-family="var(--font)" font-weight="600">${s}</text>`;
     const { x: bx, z: bz } = L.button;
+    // the silver tray, seen straight from the front: its sides end square at the top, as the 3D
+    // model's do; round at the bottom
+    const sr = 10;
+    const shellPath = `<path d="M${f(-W / 2)} 0H${f(W / 2)}V${f(H - base - sr)}Q${f(W / 2)} ${f(H - base)} ${f(W / 2 - sr)} ${f(H - base)}H${f(-W / 2 + sr)}Q${f(-W / 2)} ${f(H - base)} ${f(-W / 2)} ${f(H - base - sr)}Z" fill="${c.caseSilver}"/>`;
     // the dark front: square at the top, where it meets the case's top edge; round at the bottom
     const br = L.brown;
     const frontPath = `<path d="M${f(br.x0)} ${f(Y(br.z1))}H${f(br.x1)}V${f(Y(br.z0) - br.r)}Q${f(br.x1)} ${f(Y(br.z0))} ${f(br.x1 - br.r)} ${f(Y(br.z0))}H${f(br.x0 + br.r)}Q${f(br.x0)} ${f(Y(br.z0))} ${f(br.x0)} ${f(Y(br.z0) - br.r)}Z" fill="${c.monitorBrown}"/>`;
@@ -231,7 +235,7 @@ export class Flat {
       <svg viewBox="${fr.x0} 0 ${W} ${H}" aria-hidden="true">
         <defs><linearGradient id="flat-alu" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#d9d9d6"/><stop offset="0.5" stop-color="#bdbdb9"/><stop offset="1" stop-color="#d0d0cc"/></linearGradient></defs>
         <rect x="${f(-W / 2 + L.base.inset)}" y="${f(H - base)}" width="${f(W - 2 * L.base.inset)}" height="${f(base)}" fill="${c.caseSilverDark}"/>
-        <rect x="${f(-W / 2)}" y="0" width="${f(W)}" height="${f(H - base)}" rx="10" fill="${c.caseSilver}"/>
+        ${shellPath}
         ${frontPath}
         ${slots}
         ${rect(L.opening, L.opening.r, c.tubeBlack)}
