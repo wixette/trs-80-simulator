@@ -114,7 +114,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 - **Going to 2D, the camera flies** to face the screen, then the flat views cross-fade in (as AGT-30's Screen). Going back, they fade out and the camera flies back to where it was. With `prefers-reduced-motion`, both are a cut.
 - **A double-click on the CRT in 3D** goes to 2D. A single click does nothing there, so that clicks and drags turn the camera.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
-- **The 3D view's own tools** (⌂, zoom, Views, Show, Put it all back) show only in 3D. In 2D the band holds the Keyboard drawer's toggle (and on an upright phone the Recorder's) and the 2D | 3D toggle. The helper strip (U4) is under the stage in both.
+- **The 3D view's own tools** (⌂, zoom, Views, Show, Put it all back) show only in 3D. In 2D the band holds the Recorder and Keyboard toggles and the 2D | 3D toggle. The helper strip (U4) is under the stage in both.
 
 *Rejected:* the toggle in the top bar, which is for occasional actions (P4) and is full on phones; the 2D view as a tool in the dock, which would put the machine in two places.
 
@@ -183,12 +183,14 @@ A dialog holding:
 - a link to the source repository;
 - "not affiliated with Tandy or RadioShack".
 
-### U10. In 2D, the drawn keyboard is a drawer
+### U10. In 2D, the recorder and the keyboard are drawers
 
 *(build)* The 2D view first put the keyboard unit under the display, as on the desk. With the dock open, that left the screen less than one screen pixel per dot even on a 1080p desktop, which is too small to read. So the drawn keyboard is a drawer, at every width: shown only while it is open, and the screen gets the stage's whole height while it is closed.
-- **Its toggle**, *Keyboard* on the band, is filled while the drawer is open, so it always says which state it is in. On a phone it is its icon alone.
-- **At first** it is open only where the visitor has no keyboard of their own and the screen is upright (a phone held upright, a tablet), and closed elsewhere. After that it stays as the visitor left it.
-- **On an upright phone** the recorder does not fit beside the display: it is a drawer of its own, *Recorder*, over the display. On a phone on its side, the keyboard drawer rises over the display.
+- **The recorder is a drawer too**, beside the display as on the desk: the helper strip (U4) has its keys, so a visitor may want the display's room instead. Closed, the display takes the row.
+- **Their toggles**, *Recorder* and *Keyboard* on the band, are Material's tonal toggle buttons: grey while closed, filled amber (primary container) while open, as the selected half of 2D | 3D is. They are always there, so they always say which state each drawer is in. On a phone, their icons alone.
+- **Each is remembered** as the visitor left it.
+- **At first** the keyboard is open only where the visitor has no keyboard of their own and the screen is upright (a phone held upright, a tablet); the recorder is open but on an upright phone, where it has no room beside the display.
+- **On an upright phone** the recorder, opened, lies over the display. On a phone on its side, the keyboard, opened, rises over the display.
 - **The key legend** (Esc is BREAK, Delete is CLEAR…) is not on the band, where it took the stage's top left: the status line says it as the 2D view opens, and the Keyboard tool keeps it.
 
 *Rejected:* a smaller default dock, which would take the lessons' room for a picture that would still be too small; showing the keyboard by the window's width alone, which made it appear on its own as a window narrowed, with a toggle that did nothing there.

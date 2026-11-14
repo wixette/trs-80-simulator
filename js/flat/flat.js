@@ -12,13 +12,13 @@
 //   alone latches for the next key), the power LED, and the two controls on its rear, the
 //   POWER switch and RESET, at the left of the band behind the keys, with icons.
 //
-// Layout (css/style.css): the display and the recorder side by side as on the desk; the
-// keyboard is a drawer under them, shown only while it is open, at any width (docs/ui-design.md,
-// U10). It opens at first where the visitor has no keyboard of their own (a touch screen held
-// upright), and after that as the visitor left it. On an upright phone the keypad is cropped
-// (every digit is on the main keys), and the recorder is a drawer of its own; on a phone on its
-// side, the keyboard drawer rises over the display. Nothing in the drawings can be selected or
-// dragged.
+// Layout (css/style.css): the display, with the recorder beside it as on the desk, and the
+// keyboard under them. The recorder and the keyboard are drawers, each shown only while it is
+// open, at any width, and remembered as the visitor left them (docs/ui-design.md, U10); with
+// both closed, the display has the stage. On an upright phone the keypad is cropped (every
+// digit is on the main keys) and the recorder, which has no room beside the display, opens over
+// it; on a phone on its side, the keyboard opens over the display. Nothing in the drawings can be
+// selected or dragged.
 
 import { t } from "../l10n/l10n.js";
 import { KEYS } from "../sim/keymap.js";
@@ -37,7 +37,7 @@ const SHORT = /** @type {Record<string, string>} */ ({ UP: "↑", DOWN: "↓", L
 const DECK = ["record", "rewind", "play", "fastf", "stop", "eject"];
 const DECK_LEGEND = { record: "RECORD", rewind: "REWIND", play: "PLAY", fastf: "FAST-F", stop: "STOP", eject: "EJECT" };
 /** Where the keyboard drawer's state is remembered. */
-const KBD_STORE = "trs80.kbd";
+const STORE = { kbd: "trs80.kbd", rec: "trs80.rec" };
 /** Canvas pixels per dot: 384 x 192 dots on a 4:3 picture. */
 const DOT_W = 3;
 /** The tube's glass round the picture, as fractions of the canvas. */
@@ -76,16 +76,22 @@ export class Flat {
     this.system = system;
     this.o = o;
     this.c = o.colours;
-    // the drawn keyboard: as the visitor left it; at first, open only where they have no keyboard
-    // of their own and the screen is upright, so that it has room under the display (U10)
-    let kbd = null;
-    try {
-      kbd = localStorage.getItem(KBD_STORE);
-    } catch {
-      // not remembered
-    }
-    if (kbd !== "open" && kbd !== "closed") kbd = matchMedia("(pointer: coarse) and (orientation: portrait)").matches ? "open" : "closed";
-    this.el = el("div", { class: "flat", "data-rec": "closed", "data-kbd": kbd }, [
+    // the two drawers, each as the visitor left it (U10). At first the keyboard is open only where
+    // they have no keyboard of their own and the screen is upright, so that it has room under the
+    // display; the recorder is open but on an upright phone, where it has no room beside it.
+    /** @param {"kbd" | "rec"} which @param {boolean} first */
+    const drawer = (which, first) => {
+      let v = null;
+      try {
+        v = localStorage.getItem(STORE[which]);
+      } catch {
+        // not remembered
+      }
+      return v === "open" || v === "closed" ? v : first ? "open" : "closed";
+    };
+    const kbd = drawer("kbd", matchMedia("(pointer: coarse) and (orientation: portrait)").matches);
+    const rec = drawer("rec", !matchMedia("(max-width: 700px) and (orientation: portrait)").matches);
+    this.el = el("div", { class: "flat", "data-rec": rec, "data-kbd": kbd }, [
       el("div", { class: "flat-top" }, [el("div", { class: "flat-box flat-display" }), el("div", { class: "flat-box flat-recorder" })]),
       el("div", { class: "flat-kbd" }, [el("div", { class: "flat-box flat-keyboard", role: "group", "aria-label": t("flat.keyboard") })]),
     ]);
@@ -118,21 +124,19 @@ export class Flat {
     this.layoutKeyboard();
   }
 
-  /** Whether a drawer is open: the keyboard, or the recorder (a phone's). @param {"rec" | "kbd"} which */
+  /** Whether a drawer is open: the keyboard, or the recorder. @param {"rec" | "kbd"} which */
   drawerOpen(which) {
     return this.el.dataset[which] === "open";
   }
 
-  /** Opens or closes a drawer; the keyboard's is remembered. @param {"rec" | "kbd"} which @param {boolean} [open] */
+  /** Opens or closes a drawer, and remembers it. @param {"rec" | "kbd"} which @param {boolean} [open] */
   toggleDrawer(which, open) {
     const now = open ?? !this.drawerOpen(which);
     this.el.dataset[which] = now ? "open" : "closed";
-    if (which === "kbd") {
-      try {
-        localStorage.setItem(KBD_STORE, this.el.dataset.kbd ?? "closed");
-      } catch {
-        // not remembered
-      }
+    try {
+      localStorage.setItem(STORE[which], now ? "open" : "closed");
+    } catch {
+      // not remembered
     }
     return now;
   }

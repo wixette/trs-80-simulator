@@ -119,8 +119,8 @@ export class Stage {
       b.addEventListener("click", () => this.setMode(m));
       this.toggle.append(b);
     }
-    // the 2D view's own: its drawers, each a toggle that shows whether it is open (the
-    // recorder's on an upright phone only, where the recorder does not fit beside the display)
+    // the 2D view's own: its two drawers, the recorder and the keyboard, each a toggle that is
+    // filled while its drawer is open
     this.drawers = el("div", { class: "band-group drawers" });
     for (const which of /** @type {const} */ (["rec", "kbd"])) {
       const b = el("button", { class: `btn small tonal has-icon drawer-${which}`, type: "button", "aria-pressed": String(this.flat.drawerOpen(which)) }, [icon(which === "rec" ? "voicemail" : "keyboard"), el("span", { text: t(which === "rec" ? "stage.drawer.recorder" : "stage.drawer.keyboard") })]);
