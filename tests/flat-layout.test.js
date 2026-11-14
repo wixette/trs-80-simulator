@@ -42,7 +42,7 @@ test("APP-FLAT-2: the front's parts nest and do not overlap", () => {
 });
 
 const display = { w: L.W, h: L.H };
-const recorder = { w: 134, h: 195 };
+const recorder = { w: 134, h: 240 };
 const keyboard = { w: 380, h: 140 };
 for (const [w, h] of [[1400, 330], [1400, 700], [900, 500], [380, 600]]) {
   test(`APP-FLAT-3: the drawings fit the stage, at one scale, at ${w} x ${h}`, () => {

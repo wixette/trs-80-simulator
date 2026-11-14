@@ -37,8 +37,6 @@ import { Painter, PICTURE_ASPECT } from "./painter.js";
 const SHORT = /** @type {Record<string, string>} */ ({ UP: "↑", DOWN: "↓", LEFT: "←", RIGHT: "→", LSHIFT: "SHIFT", RSHIFT: "SHIFT", SPACE: "" });
 /** @type {DeckKey[]} */
 const DECK = ["record", "rewind", "play", "fastf", "stop", "eject"];
-/** The 2D recorder's speaker grille runs this far behind the counter, mm (to the machine's back, about 74). */
-const REC_BEHIND_COUNTER = 14;
 const DECK_LEGEND = { record: "RECORD", rewind: "REWIND", play: "PLAY", fastf: "FAST-F", stop: "STOP", eject: "EJECT" };
 /** Where the keyboard drawer's state is remembered. */
 const STORE = { kbd: "trs80.kbd", rec: "trs80.rec" };
@@ -385,75 +383,89 @@ export class Flat {
     const r = this.o.machine.recorder;
     const [W, D] = v(r.size);
     const b = r.bands;
-    // readability first, as the display's front (layout.js): the speaker grille is trimmed
-    // behind the counter, so the drawing is less deep and is drawn larger (fitFlat), and its
-    // printing is larger than the machine's
-    const back = v(r.counter.y)[1] + REC_BEHIND_COUNTER;
-    this.recorderMm = { w: W, h: back + D / 2 };
+    // the machine's own plan, part for part as the 3D model has it (model/blender/scripts/
+    // build_peripherals.py), drawn as tall as the display (fitFlat); its printing is larger than
+    // the machine's, so it can be read
+    this.recorderMm = { w: W, h: D };
     // from above, the front at the bottom: drawing y = -Y (machine +Y is the back)
-    const fr = { x0: -W / 2, x1: W / 2, y0: -back, y1: D / 2 };
+    const fr = { x0: -W / 2, x1: W / 2, y0: -D / 2, y1: D / 2 };
     const band = (/** @type {number[]} */ ys) => ({ y: -ys[1], h: ys[1] - ys[0] });
     const door = band(v(b.door));
-    const gr = band([v(b.grille)[0], back - 4]);
+    const [gy0, gy1] = v(b.grille);
     const [cx0, cx1] = v(r.counter.x);
     const [cy0, cy1] = v(r.counter.y);
     const [lx, ly] = v(r.led);
     const [mx0, mx1] = v(r.mic_grille.x);
     const [my0, my1] = v(r.mic_grille.y);
+    const [kl0, kl1] = v(b.key_labels);
+    const [, ky1] = v(b.keys);
+    const k = r.keys;
+    const kPitch = v(k.pitch);
+    const kx0 = v(k.x0);
+    const kxa = kx0 - kPitch / 2 - 0.4;
+    const kxb = kx0 + 5.5 * kPitch + 0.4;
+    const lpMid = -(v(b.label_panel)[0] + v(b.label_panel)[1]) / 2;
     const dy0 = v(b.door)[0];
     const dy1 = v(b.door)[1];
     const wy0 = dy0 + 7;
     const wy1 = dy1 - 4;
     const hy = (wy0 + wy1) / 2 + 3;
+    const hole = (/** @type {number} */ x, /** @type {number} */ y, /** @type {number} */ s) => `<rect x="${f(x - s / 2)}" y="${f(y - s / 2)}" width="${s}" height="${s}" fill="#0b0b0b"/>`;
+    // the speaker grille's holes, round the counter, as the model's
     let holes = "";
     const p = v(r.grille_holes.pitch);
-    for (let x = -W / 2 + 8; x < W / 2 - 6; x += p) {
-      for (let y = gr.y + 5; y < gr.y + gr.h - 4; y += p) {
-        if (x > cx0 - 3 && x < cx1 + 7 && -y > cy0 - 3 && -y < cy1 + 3) continue;
-        holes += `<rect x="${f(x)}" y="${f(y)}" width="1.8" height="1.8" fill="#0b0b0b"/>`;
+    const hs = v(r.grille_holes.size);
+    for (let x = -W / 2 + 8; x < W / 2 - 7.5; x += p) {
+      for (let y = gy0 + 3; y < gy1 - 5; y += p) {
+        if (!(cx0 - 2 < x && x < cx1 + 6 && cy0 - 2 < y && y < cy1 + 2)) holes += hole(x, -y, hs);
       }
     }
+    // the mic grille's: six by six
+    let mic = "";
+    for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) mic += hole(mx0 + 2 + (i + 0.5) * ((mx1 - mx0 - 4) / 6), -my1 + 2 + (j + 0.5) * ((my1 - my0 - 4) / 6), 1.7);
     const reel = (/** @type {string} */ id, /** @type {number} */ x) =>
       `<g class="flat-reel" data-reel="${id}" data-x="${x}" data-y="${f(-hy)}" transform="translate(${x} ${f(-hy)})"><circle r="4.2" fill="#e6e6e0"/><circle r="2.4" fill="#111"/>${[0, 60, 120, 180, 240, 300].map((a) => `<rect x="1.4" y="-0.45" width="1.4" height="0.9" fill="#e6e6e0" transform="rotate(${a})"/>`).join("")}</g>`;
+    const label = (/** @type {number} */ x, /** @type {number} */ y, /** @type {number} */ size, /** @type {string} */ text, extra = "", fill = "#c9c9c4") =>
+      `<text x="${f(x)}" y="${f(y)}" font-size="${size}" fill="${fill}" text-anchor="middle" dominant-baseline="central" font-family="var(--font)"${extra}>${text}</text>`;
     const box = this.q(".flat-recorder");
-    const RH = back + D / 2;
-    box.style.setProperty("--ar", String(W / RH));
+    box.style.setProperty("--ar", String(W / D));
     box.innerHTML = `
-      <svg viewBox="${-W / 2} ${-back} ${W} ${RH}" aria-hidden="true">
-        <rect x="${-W / 2}" y="${-back}" width="${W}" height="${RH}" rx="4" fill="${this.c.recorderBlack}"/>
-        <rect x="${-W / 2 + 5}" y="${f(gr.y)}" width="${W - 10}" height="${f(gr.h)}" rx="2" fill="#262626"/>
+      <svg viewBox="${-W / 2} ${-D / 2} ${W} ${D}" aria-hidden="true">
+        <rect x="${-W / 2}" y="${-D / 2}" width="${W}" height="${D}" rx="4" fill="${this.c.recorderBlack}"/>
+        <rect x="${-W / 2 + 5}" y="${f(-gy1 + 2.5)}" width="${W - 10}" height="${f(gy1 - 2.5 - gy0)}" rx="3" fill="#2b2b2b"/>
         ${holes}
-        <rect x="${cx0}" y="${-cy1}" width="${cx1 - cx0}" height="${cy1 - cy0}" rx="1" fill="#0e0e0e" stroke="#555" stroke-width="0.5"/>
-        <text class="flat-counter" x="${f((cx0 + cx1) / 2)}" y="${f(-(cy0 + cy1) / 2 + 3)}" font-size="8.5" fill="#e8e8e2" text-anchor="middle" font-family="var(--mono)">000</text>
-        <rect x="${-W / 2 + 5}" y="${f(-dy1 - 3.5)}" width="${W - 10}" height="3" fill="#a7a7a2"/>
-        <rect x="${-W / 2 + 5}" y="${f(-dy0)}" width="${W - 10}" height="3" fill="#a7a7a2"/>
-        <rect x="${-W / 2 + 6}" y="${f(door.y)}" width="${W - 12}" height="${f(door.h)}" rx="1.5" fill="#101010"/>
-        <rect x="${-W / 2 + 12}" y="${f(-wy1)}" width="${W - 24}" height="${f(wy1 - wy0)}" rx="1.5" fill="#1d2222"/>
+        <rect x="${cx0}" y="${-cy1}" width="${cx1 - cx0}" height="${cy1 - cy0}" rx="0.8" fill="#161616"/>
+        <text class="flat-counter" x="${f((cx0 + cx1) / 2)}" y="${f(-(cy0 + cy1) / 2)}" font-size="7.5" fill="#e8e8e2" text-anchor="middle" dominant-baseline="central" font-family="var(--mono)">000</text>
+        <rect x="${f(cx1 + 1)}" y="${f(-cy1 + 1.5)}" width="3.5" height="${f(cy1 - cy0 - 3)}" rx="0.8" fill="#b9b9b4"/>
+        <rect x="${-W / 2 + 5}" y="${f(-dy1 - 3.5)}" width="${W - 10}" height="3.5" fill="#c4c4c0"/>
+        <rect x="${-W / 2 + 5}" y="${f(-dy0)}" width="${W - 10}" height="3" fill="#c4c4c0"/>
+        <rect x="${-W / 2 + 6}" y="${f(door.y)}" width="${W - 12}" height="${f(door.h)}" rx="1.5" fill="#2e2e2e"/>
+        <rect x="${-W / 2 + 12}" y="${f(-wy1)}" width="${W - 24}" height="${f(wy1 - wy0)}" rx="1" fill="#383838"/>
         <g class="flat-cassette">
           <rect x="-50.2" y="${f(-(wy0 + wy1) / 2 - 31.9)}" width="100.4" height="63.8" rx="2" fill="#0c0c0d"/>
           <rect x="-45" y="${f(-(wy0 + wy1) / 2 - 27.9)}" width="90" height="46" fill="#cfc7ae"/>
           <rect x="-30" y="${f(-hy - 6.5)}" width="60" height="13" fill="#2a160b"/>
           ${reel("l", -21.25)}${reel("r", 21.25)}
         </g>
-        <text x="0" y="${f(-dy0 - 2.1)}" font-size="4" fill="#bdbdb8" text-anchor="middle" font-family="var(--font)">AUTOMATIC STOP</text>
-        <rect x="${mx0}" y="${-my1}" width="${mx1 - mx0}" height="${my1 - my0}" rx="1" fill="#a7a7a2"/>
-        <text x="${f(mx1 + 4)}" y="${f(-ly + 2.7)}" fill="#c9c9c4" font-family="var(--font)"><tspan font-size="7.5" font-style="italic" font-weight="700">REALISTIC</tspan><tspan dx="3" font-size="5">CTR-80</tspan></text>
-        <text x="${f(mx1 + 4)}" y="${f(-my0 - 1.5)}" font-size="2.9" fill="#bdbdb8" font-family="var(--font)">AC/BATTERY CASSETTE RECORDER</text>
-        <text x="${f(lx)}" y="${f(-my0 - 1.5)}" font-size="3.4" fill="#bdbdb8" text-anchor="middle" font-family="var(--font)">RECORD/BATTERY</text>
+        ${label(0, -dy0 - 3.5, 3.6, "AUTOMATIC STOP")}
+        <rect x="${mx0}" y="${-my1}" width="${mx1 - mx0}" height="${my1 - my0}" rx="1.2" fill="#c4c4c0"/>
+        ${mic}
+        ${label(-7, lpMid - 3, 6.5, "REALISTIC", ' font-style="italic" font-weight="700"')}
+        ${label(23, lpMid - 3, 4.2, "CTR-80")}
+        ${label(6, lpMid + 5, 3, "AC/BATTERY CASSETTE RECORDER")}
+        ${label(lx, -ly - 5, 2.8, "RECORD/BATTERY")}
         <circle cx="${lx}" cy="${-ly}" r="2.1" fill="#141414"/>
         <circle class="flat-recled" cx="${lx}" cy="${-ly}" r="1.5" fill="${this.c.ledOff}"/>
+        <rect x="${f(kxa)}" y="${f(-kl1)}" width="${f(kxb - kxa)}" height="${f(kl1 - kl0)}" fill="#c4c4c0"/>
+        ${DECK.map((id, i) => label(kx0 + i * kPitch, -(kl0 + kl1) / 2, 3.1, DECK_LEGEND[id], ' font-weight="600" letter-spacing="-0.05"', "#1a1a1a")).join("")}
       </svg>`;
-    // the six keys, larger than the deck's own (D10: clearest first): the whole width, and
-    // deeper, over the strip that carries their names on the machine
-    const [ky0] = v(b.keys);
-    const KY1 = v(b.label_panel)[0] - 1;
-    const pitch = (W - 6) / 6;
+    // the six keys, where the machine's are, under the strip that names them
     for (const [i, id] of DECK.entries()) {
-      const btn = el("button", { class: `flat-deckkey${id === "record" ? " rec" : ""}`, type: "button", "data-deck": id, text: DECK_LEGEND[id] });
+      const btn = el("button", { class: `flat-deckkey${id === "record" ? " rec" : ""}`, type: "button", "data-deck": id, "aria-label": DECK_LEGEND[id] });
       setTip(btn, t(`deck.key.${id}`));
       btn.setAttribute("data-tip-describes", "");
-      const x = -W / 2 + 3 + i * pitch;
-      placeIn(btn, { x0: x + 0.5, x1: x + pitch - 0.5, y0: -KY1, y1: -ky0 + 1 }, fr);
+      const x = kx0 + i * kPitch;
+      placeIn(btn, { x0: x - kPitch / 2 + 0.4, x1: x + kPitch / 2 - 0.4, y0: -ky1 + 0.8, y1: D / 2 - 0.5 }, fr);
       btn.addEventListener("click", () => this.system.deckKey(id));
       box.appendChild(btn);
     }
