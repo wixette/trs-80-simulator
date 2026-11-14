@@ -78,7 +78,7 @@ export class Flat {
     this.c = o.colours;
     // the two drawers, each as the visitor left it (U10). At first the keyboard is open only where
     // they have no keyboard of their own and the screen is upright, so that it has room under the
-    // display; the recorder is open but on an upright phone, where it has no room beside it.
+    // display; the recorder is closed, its keys being on the helper strip.
     /** @param {"kbd" | "rec"} which @param {boolean} first */
     const drawer = (which, first) => {
       let v = null;
@@ -90,7 +90,7 @@ export class Flat {
       return v === "open" || v === "closed" ? v : first ? "open" : "closed";
     };
     const kbd = drawer("kbd", matchMedia("(pointer: coarse) and (orientation: portrait)").matches);
-    const rec = drawer("rec", !matchMedia("(max-width: 700px) and (orientation: portrait)").matches);
+    const rec = drawer("rec", false);
     this.el = el("div", { class: "flat", "data-rec": rec, "data-kbd": kbd }, [
       el("div", { class: "flat-top" }, [el("div", { class: "flat-box flat-display" }), el("div", { class: "flat-box flat-recorder" })]),
       el("div", { class: "flat-kbd" }, [el("div", { class: "flat-box flat-keyboard", role: "group", "aria-label": t("flat.keyboard") })]),
