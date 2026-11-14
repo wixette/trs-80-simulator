@@ -2,7 +2,8 @@
 //
 // APP: the 2D view's geometry (js/flat/layout.js, docs/ui-design.md U10). The display's front
 // puts readability first: a larger glass, everything round it trimmed, nothing overlapping.
-// The drawings share one scale on the stage, and fit in it.
+// The display and the keyboard share one scale on the stage, the recorder is as tall as the
+// display, and they fit in it.
 
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -41,7 +42,7 @@ test("APP-FLAT-2: the front's parts nest and do not overlap", () => {
 });
 
 const display = { w: L.W, h: L.H };
-const recorder = { w: 134, h: 240 };
+const recorder = { w: 134, h: 195 };
 const keyboard = { w: 380, h: 140 };
 for (const [w, h] of [[1400, 330], [1400, 700], [900, 500], [380, 600]]) {
   test(`APP-FLAT-3: the drawings fit the stage, at one scale, at ${w} x ${h}`, () => {
@@ -50,10 +51,11 @@ for (const [w, h] of [[1400, 330], [1400, 700], [900, 500], [380, 600]]) {
         const o = fitFlat({ width: w, height: h, gap: 12, display, recorder: rec, keyboard: kbd });
         const s = o.display / display.w; // px per mm
         const across = o.display + (rec ? 12 + o.recorder : 0);
-        const down = Math.max(display.h, rec ? rec.h : 0) * s + (kbd ? 12 + (o.keyboard * kbd.h) / kbd.w : 0);
+        const down = display.h * s + (kbd ? 12 + (o.keyboard * kbd.h) / kbd.w : 0);
         assert.ok(across <= w + 0.01 && down <= h + 0.01, `${across.toFixed(1)} x ${down.toFixed(1)}`);
         assert.ok(Math.abs(across - w) < 0.01 || Math.abs(down - h) < 0.01, "one side is filled");
-        if (rec) assert.ok(Math.abs(o.recorder / recorder.w - s) < 1e-9, "the recorder at the display's scale");
+        if (rec) assert.ok(Math.abs((o.recorder * recorder.h) / recorder.w - display.h * s) < 1e-9, "the recorder as tall as the display");
+        if (rec) assert.ok(o.recorder / recorder.w > s * 1.2, "the recorder drawn larger than the display's scale");
         if (kbd) assert.ok(Math.abs(o.keyboard / keyboard.w - s) < 1e-9, "the keyboard at the display's scale");
       }
     }
@@ -90,10 +92,10 @@ for (const [w, h] of [[348, 150], [378, 310], [400, 420], [348, 90]]) {
     for (const rec of [null, recorder]) {
       const o = fitFlat({ width: w, height: h, gap: 8, display, recorder: rec, keyboard, fullKeyboard: true });
       const s = o.display / display.w;
-      const down = Math.max(display.h, rec ? rec.h : 0) * s + 8 + (o.keyboard * keyboard.h) / keyboard.w;
+      const down = display.h * s + 8 + (o.keyboard * keyboard.h) / keyboard.w;
       assert.ok(down <= h + 0.01, `${down.toFixed(1)} px down in ${h}`);
       assert.ok(o.keyboard <= w && o.display + (rec ? 8 + o.recorder : 0) <= w + 0.01);
-      assert.ok((Math.max(display.h, rec ? rec.h : 0) * s) / (h - 8) >= 0.45 - 1e-9 || o.keyboard === w, "the display keeps its share");
+      assert.ok((display.h * s) / (h - 8) >= 0.45 - 1e-9 || o.keyboard === w, "the display keeps its share");
     }
   });
 }

@@ -7,10 +7,12 @@
 //   panel and the band under the case are trimmed to make room, at the monitor's own width.
 //   The 3D model keeps the measured proportions (model/params/machine.json); this keeps their
 //   order and their shapes, not their sizes.
-// - fitFlat: how big each drawing is on the stage. The display, the recorder and the keyboard
-//   are drawn at one scale, as they stand on the desk, so the keyboard is no wider than it is
-//   beside the monitor; the display takes as much of the stage as that leaves. On an upright
-//   phone the keyboard takes the stage's width, as its keys must be tapped.
+// - fitFlat: how big each drawing is on the stage. The display and the keyboard are drawn at
+//   one scale, as they stand on the desk, so the keyboard is no wider than it is beside the
+//   monitor; the display takes as much of the stage as that leaves. The recorder is small
+//   beside them, and its printing smaller still, so it is drawn larger: as tall as the display,
+//   beside it. On an upright phone the keyboard takes the stage's width, as its keys must be
+//   tapped.
 
 /** @param {{ v: any } | any} p a parameter: its value */
 const v = (p) => (p && typeof p === "object" && "v" in p ? p.v : p);
@@ -115,10 +117,12 @@ const DISPLAY_SHARE = 0.45;
  */
 export function fitFlat(o) {
   const { width, height, gap, display: d, recorder: r, keyboard: k } = o;
-  // across: the display, and the recorder beside it at the same scale
-  const across = (width - (r ? gap : 0)) / (1 + (r ? r.w / d.w : 0));
-  // down: the top row (the taller of the two), then the keyboard
-  const topH = Math.max(d.h, r ? r.h : 0) / d.w; // px of height per px of the display's width
+  /** the recorder's width per px of the display's: as tall as the display */
+  const recShare = r ? (d.h / d.w) * (r.w / r.h) : 0;
+  // across: the display, and the recorder beside it
+  const across = (width - (r ? gap : 0)) / (1 + recShare);
+  // down: the top row (the display, the recorder as tall), then the keyboard
+  const topH = d.h / d.w; // px of height per px of the display's width
   let down;
   let keyboard = 0;
   if (k && o.fullKeyboard) {
@@ -131,5 +135,5 @@ export function fitFlat(o) {
   // never more than fits: a short stage draws everything smaller rather than overflowing
   const display = Math.max(1, Math.min(across, down));
   if (k && !o.fullKeyboard) keyboard = Math.min(width, (display * k.w) / d.w);
-  return { display, recorder: r ? (display * r.w) / d.w : 0, keyboard };
+  return { display, recorder: display * recShare, keyboard };
 }

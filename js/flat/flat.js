@@ -37,6 +37,8 @@ import { Painter, PICTURE_ASPECT } from "./painter.js";
 const SHORT = /** @type {Record<string, string>} */ ({ UP: "↑", DOWN: "↓", LEFT: "←", RIGHT: "→", LSHIFT: "SHIFT", RSHIFT: "SHIFT", SPACE: "" });
 /** @type {DeckKey[]} */
 const DECK = ["record", "rewind", "play", "fastf", "stop", "eject"];
+/** The 2D recorder's speaker grille runs this far behind the counter, mm (to the machine's back, about 74). */
+const REC_BEHIND_COUNTER = 14;
 const DECK_LEGEND = { record: "RECORD", rewind: "REWIND", play: "PLAY", fastf: "FAST-F", stop: "STOP", eject: "EJECT" };
 /** Where the keyboard drawer's state is remembered. */
 const STORE = { kbd: "trs80.kbd", rec: "trs80.rec" };
@@ -382,14 +384,18 @@ export class Flat {
   buildRecorder() {
     const r = this.o.machine.recorder;
     const [W, D] = v(r.size);
-    this.recorderMm = { w: W, h: D };
     const b = r.bands;
+    // readability first, as the display's front (layout.js): the speaker grille is trimmed
+    // behind the counter, so the drawing is less deep and is drawn larger (fitFlat), and its
+    // printing is larger than the machine's
+    const back = v(r.counter.y)[1] + REC_BEHIND_COUNTER;
+    this.recorderMm = { w: W, h: back + D / 2 };
     // from above, the front at the bottom: drawing y = -Y (machine +Y is the back)
-    const fr = { x0: -W / 2, x1: W / 2, y0: -D / 2, y1: D / 2 };
+    const fr = { x0: -W / 2, x1: W / 2, y0: -back, y1: D / 2 };
     const band = (/** @type {number[]} */ ys) => ({ y: -ys[1], h: ys[1] - ys[0] });
     const door = band(v(b.door));
     const lp = band(v(b.label_panel));
-    const gr = band(v(b.grille));
+    const gr = band([v(b.grille)[0], back - 4]);
     const [cx0, cx1] = v(r.counter.x);
     const [cy0, cy1] = v(r.counter.y);
     const [lx, ly] = v(r.led);
@@ -411,14 +417,15 @@ export class Flat {
     const reel = (/** @type {string} */ id, /** @type {number} */ x) =>
       `<g class="flat-reel" data-reel="${id}" data-x="${x}" data-y="${f(-hy)}" transform="translate(${x} ${f(-hy)})"><circle r="4.2" fill="#e6e6e0"/><circle r="2.4" fill="#111"/>${[0, 60, 120, 180, 240, 300].map((a) => `<rect x="1.4" y="-0.45" width="1.4" height="0.9" fill="#e6e6e0" transform="rotate(${a})"/>`).join("")}</g>`;
     const box = this.q(".flat-recorder");
-    box.style.setProperty("--ar", String(W / D));
+    const RH = back + D / 2;
+    box.style.setProperty("--ar", String(W / RH));
     box.innerHTML = `
-      <svg viewBox="${-W / 2} ${-D / 2} ${W} ${D}" aria-hidden="true">
-        <rect x="${-W / 2}" y="${-D / 2}" width="${W}" height="${D}" rx="4" fill="${this.c.recorderBlack}"/>
+      <svg viewBox="${-W / 2} ${-back} ${W} ${RH}" aria-hidden="true">
+        <rect x="${-W / 2}" y="${-back}" width="${W}" height="${RH}" rx="4" fill="${this.c.recorderBlack}"/>
         <rect x="${-W / 2 + 5}" y="${f(gr.y)}" width="${W - 10}" height="${f(gr.h)}" rx="2" fill="#262626"/>
         ${holes}
         <rect x="${cx0}" y="${-cy1}" width="${cx1 - cx0}" height="${cy1 - cy0}" rx="1" fill="#0e0e0e" stroke="#555" stroke-width="0.5"/>
-        <text class="flat-counter" x="${f((cx0 + cx1) / 2)}" y="${f(-(cy0 + cy1) / 2 + 2.6)}" font-size="7" fill="#e8e8e2" text-anchor="middle" font-family="var(--mono)">000</text>
+        <text class="flat-counter" x="${f((cx0 + cx1) / 2)}" y="${f(-(cy0 + cy1) / 2 + 3)}" font-size="8.5" fill="#e8e8e2" text-anchor="middle" font-family="var(--mono)">000</text>
         <rect x="${-W / 2 + 5}" y="${f(-dy1 - 3.5)}" width="${W - 10}" height="3" fill="#a7a7a2"/>
         <rect x="${-W / 2 + 5}" y="${f(-dy0)}" width="${W - 10}" height="3" fill="#a7a7a2"/>
         <rect x="${-W / 2 + 6}" y="${f(door.y)}" width="${W - 12}" height="${f(door.h)}" rx="1.5" fill="#101010"/>
@@ -429,11 +436,11 @@ export class Flat {
           <rect x="-30" y="${f(-hy - 6.5)}" width="60" height="13" fill="#2a160b"/>
           ${reel("l", -21.25)}${reel("r", 21.25)}
         </g>
-        <text x="0" y="${f(-dy0 - 3.4)}" font-size="2.6" fill="#bdbdb8" text-anchor="middle" font-family="var(--font)">AUTOMATIC STOP</text>
+        <text x="0" y="${f(-dy0 - 1.6)}" font-size="4.4" fill="#bdbdb8" text-anchor="middle" font-family="var(--font)">AUTOMATIC STOP</text>
         <rect x="${mx0}" y="${-my1}" width="${mx1 - mx0}" height="${my1 - my0}" rx="1" fill="#a7a7a2"/>
-        <text x="-6" y="${f(lp.y + 9)}" font-size="4.2" fill="#c9c9c4" font-style="italic" font-weight="700" font-family="var(--font)">REALISTIC</text>
-        <text x="22" y="${f(lp.y + 9)}" font-size="2.8" fill="#c9c9c4" font-family="var(--font)">CTR-80</text>
-        <text x="${f(lx - 2)}" y="${f(-ly - 3.4)}" font-size="1.5" fill="#bdbdb8" font-family="var(--font)">RECORD/BATTERY</text>
+        <text x="${f(mx1 + 4)}" y="${f(lp.y + 10)}" font-size="7.5" fill="#c9c9c4" font-style="italic" font-weight="700" font-family="var(--font)">REALISTIC</text>
+        <text x="${f(lx - 5)}" y="${f(lp.y + 10)}" font-size="5.5" fill="#c9c9c4" text-anchor="end" font-family="var(--font)">CTR-80</text>
+        <text x="${f(W / 2 - 4)}" y="${f(lp.y + lp.h - 3)}" font-size="5" fill="#bdbdb8" text-anchor="end" font-family="var(--font)">RECORD/BATTERY</text>
         <circle cx="${lx}" cy="${-ly}" r="2.1" fill="#141414"/>
         <circle class="flat-recled" cx="${lx}" cy="${-ly}" r="1.5" fill="${this.c.ledOff}"/>
       </svg>`;
