@@ -123,3 +123,9 @@ The visitor's own keys are not gated: pressed while nothing reads the keys, they
 On the CTR-80 the computer's REM plug stops the motor whenever the computer has not started it, so owners pulled the plug to wind the tape. Here REWIND and FAST-F wind regardless of the relay, and the Cassette tool says so the first time. PLAY and RECORD still move the tape only while the computer closes the relay.
 
 **Fast tape** (on by default) runs the machine 32 times faster while the tape moves, and winds 32 times faster too. A 9 KB game that takes 2 minutes 42 seconds to load at the real speed takes about 5 seconds. Untick it for the real speed and the tape's sound.
+
+## D17. Keys tapped faster than the debounce wait their turn
+
+Level II reads one key at a time, and debounces it for tens of milliseconds. A visitor's key is held down for at least 70 ms of machine time (KEY_DOWN_T), so that a quick tap is seen. A key pressed while an earlier tap is still held for that reason, or less than 70 ms after it was let go (KEY_UP_T), waits its turn, then goes down. So fast typing, or text a browser sends all at once, reaches BASIC letter by letter. Keys that are really held together (an arrow and SPACE in a game) are down together, because neither is a tap waiting to be let go.
+
+*Found while building:* keys arriving a few milliseconds apart overlapped in the matrix, and Level II kept only some of them.

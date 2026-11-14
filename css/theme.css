@@ -1,0 +1,80 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* The theme's tokens (docs/ui-design.md, P11): Material 3's roles in a dark scheme, as the
+   Altair 8800 simulator has them, around an amber primary. The brightest thing on the page is
+   the screen's phosphor; the interface round it is quiet. One colour, one meaning: amber what
+   to press, green on and done, blue the story, red refused. The canvases and the 3D scene read
+   these tokens (js/ui/theme.js). */
+
+:root {
+  color-scheme: dark;
+  /* amber: what to press, and the one action a place is for */
+  --md-primary: #ffb95c;
+  --md-on-primary: #462a00;
+  --md-primary-container: #653e00;
+  --md-on-primary-container: #ffddb6;
+  /* the machine's controls on the instrument: a warm grey */
+  --md-secondary-container: #4a4237;
+  --md-on-secondary-container: #f0e0cc;
+  /* neutrals, a little warm, like the machine */
+  --md-surface: #121110;
+  --md-surface-low: #1a1917;
+  --md-surface-mid: #1f1d1b;
+  --md-surface-high: #292724;
+  --md-surface-highest: #34312e;
+  --md-well: #0c0b0a;
+  --md-on-surface: #e9e2da;
+  --md-on-surface-variant: #cfc5b9;
+  --md-outline: #998f83;
+  --md-outline-variant: #4c463f;
+  --md-scrim: rgba(0, 0, 0, 0.6);
+  /* green: on, and done */
+  --on: #8fd88a;
+  --on-container: #1f4a20;
+  /* blue: the story, and the asides */
+  --story: #9ecaff;
+  --story-container: #17324f;
+  /* red: refused, or a fault */
+  --md-error: #ffb4ab;
+  --md-error-container: #6b1c14;
+  --warn-container: #5a3d00;
+  --state-hover: 0.08;
+  --state-press: 0.14;
+
+  /* the screen */
+  --phosphor: #e4ecff;
+  --glass-off: #4b5856;
+  --glass-on: #414d4b;
+  --tube-black: #0b0d0c;
+  /* the machine's finishes, as the 3D model's materials look on screen */
+  --case-silver: #959590;
+  --case-silver-dark: #85857f;
+  --monitor-brown: #241f1b;
+  --panel-brown: #2d2722;
+  --ink-silver: #cfcfcb;
+  --chrome: #c6c8cb;
+  --key-black: #1c1c1c;
+  --key-cream: #d9cfb2;
+  --key-legend: #f2f2ee;
+  --bezel-black: #0d0d0d;
+  --recorder-black: #1a1a1a;
+  --led-off: #3a0d0a;
+  --led-on: #ff3b24;
+  --desk: #2a2826;
+  /* the chips, lit (a view the real machine never had) */
+  --glow-cpu: #ff8a3d;
+  --glow-rom: #55d18a;
+  --glow-ram: #d16cff;
+  --glow-video: #4a7dff;
+
+  --font: "Roboto Flex", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --radius-xs: 4px;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+  --bar-h: 52px;
+  --status-h: 30px;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}

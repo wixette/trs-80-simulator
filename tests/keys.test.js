@@ -6,7 +6,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { HostKeys } from "../js/sim/host-keys.js";
-import { KEY_DOWN_T, Typist } from "../js/sim/keys.js";
+import { KEY_DOWN_T, KEY_UP_T, Typist } from "../js/sim/keys.js";
 import { CLOCK_HZ, Machine } from "../js/sim/machine.js";
 import { NO_ROM, rom } from "./boot.js";
 
@@ -66,6 +66,9 @@ describe("KEY: the visitor's keyboard", () => {
     m.t = KEY_DOWN_T;
     h.up({ key: "@", code: "Digit2" });
     h.down({ key: '"', code: "Quote" });
+    assert.equal(m.rows[4] & (1 << 2), 0, "waits KEY_UP_T after @ was let go (D17)");
+    m.t += KEY_UP_T;
+    h.tick();
     assert.equal(m.rows[4] & (1 << 2), 1 << 2, "2 down");
     assert.equal(m.rows[7] & 1, 1, 'SHIFT down for ", SHIFT 2 on the Model I');
     h.releaseAll();
@@ -118,6 +121,50 @@ describe("KEY: the visitor's keyboard", () => {
     type('PRINT "A@"2+2\n');
     run(0.5);
     assert.ok(m.screenText().includes("A@ 4"), m.screenText().filter(Boolean).join(" | "));
+  });
+});
+
+describe("KEY: fast typing", () => {
+  it("KEY-16: keys tapped faster than the debounce wait their turn, and all reach Level II (D17)", { skip: NO_ROM }, () => {
+    const m = new Machine({ rom: rom() });
+    const h = new HostKeys(m);
+    m.power(true);
+    /** @param {number} s */
+    const run = (s) => {
+      const end = m.t + s * CLOCK_HZ;
+      while (m.t < end) {
+        h.tick();
+        m.run(Math.min(CLOCK_HZ / 1000, h.next()) || 1);
+      }
+    };
+    run(1.5);
+    h.down({ key: "Enter", code: "Enter" });
+    h.up({ key: "Enter", code: "Enter" });
+    run(1.5);
+    // every key down and up within the same millisecond, as a script or a very fast typist
+    for (const c of "PRINT 6*7+22") {
+      const e = { key: c === " " ? " " : c.toLowerCase(), code: `K${c}` };
+      const code = { "*": "Digit8", "+": "Equal" }[c] ?? e.code;
+      const shifted = c === "*" || c === "+";
+      if (shifted) h.down({ key: "Shift", code: "ShiftLeft" });
+      h.down({ ...e, code });
+      h.up({ ...e, code });
+      if (shifted) h.up({ key: "Shift", code: "ShiftLeft" });
+      run(0.001);
+    }
+    h.down({ key: "Enter", code: "Enter" });
+    h.up({ key: "Enter", code: "Enter" });
+    run(3);
+    assert.ok(m.screenText().includes(" 64"), m.screenText().filter(Boolean).join(" | "));
+  });
+
+  it("KEY-17: keys held together are down together (a game's arrow and SPACE)", () => {
+    const m = matrix();
+    const h = new HostKeys(m);
+    h.down({ key: "ArrowRight", code: "ArrowRight" });
+    m.t = 2 * KEY_DOWN_T;
+    h.down({ key: " ", code: "Space" });
+    assert.equal(m.rows[6], (1 << 6) | (1 << 7));
   });
 });
 

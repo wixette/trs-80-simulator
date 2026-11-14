@@ -11,3 +11,4 @@ tests/.cache/
 model/blender/out/
 # Release media (pnpm shots writes outside the repository by default)
 shots/
+.claude/

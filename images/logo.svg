@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+  <!-- The simulator's mark: a Video Display over a keyboard unit, drawn plain. Our own drawing, not the machine's logo. -->
+  <rect x="9" y="4" width="46" height="36" rx="5" fill="#959590"/>
+  <rect x="13" y="8" width="38" height="25" rx="3" fill="#241f1b"/>
+  <rect x="16" y="11" width="25" height="19" rx="3" fill="#414d4b"/>
+  <rect x="19" y="15" width="10" height="2.4" rx="0.6" fill="#e4ecff"/>
+  <rect x="19" y="20" width="15" height="2.4" rx="0.6" fill="#e4ecff"/>
+  <rect x="19" y="25" width="3" height="2.4" rx="0.6" fill="#ffb95c"/>
+  <circle cx="46" cy="18" r="1.8" fill="#d7442c"/>
+  <path d="M4 60 L8 48 Q9 45 12 45 H52 Q55 45 56 48 L60 60 Z" fill="#959590"/>
+  <path d="M11 57 L13 50 H51 L53 57 Z" fill="#1c1c1c"/>
+  <g fill="#e9e2da" opacity="0.8">
+    <rect x="15" y="51.5" width="3" height="1.8" rx="0.4"/><rect x="20" y="51.5" width="3" height="1.8" rx="0.4"/><rect x="25" y="51.5" width="3" height="1.8" rx="0.4"/><rect x="30" y="51.5" width="3" height="1.8" rx="0.4"/><rect x="35" y="51.5" width="3" height="1.8" rx="0.4"/><rect x="40" y="51.5" width="3" height="1.8" rx="0.4"/><rect x="45" y="51.5" width="3" height="1.8" rx="0.4"/>
+    <rect x="18" y="54.3" width="28" height="1.6" rx="0.4"/>
+  </g>
+</svg>

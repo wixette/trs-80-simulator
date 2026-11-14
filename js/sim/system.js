@@ -54,6 +54,8 @@ export class System {
     this.display = { on: false, contrast: 0.5, brightness: 0.5 };
     this.fastTape = true;
     this.fastTyping = true;
+    /** The memory traffic of the last frame, for the chips and the memory map. @type {import("./machine.js").Traffic} */
+    this.traffic = this.machine.takeTraffic();
     /** What the visitor should be told. @type {(m: Message) => void} */
     this.say = () => {};
     /** Something the views show changed: power, the deck, the tape, the box. @type {(() => void)[]} */
@@ -300,6 +302,7 @@ export class System {
     this.deck.wind(dt * (this.fastTape ? FAST_TAPE : 1), this.machine.t);
     this.clock.boost = this.deck.running && this.fastTape ? FAST_TAPE : this.typist.busy && this.fastTyping ? FAST_TYPING : 1;
     this.stepMotion(dt);
+    this.traffic = this.machine.takeTraffic();
   }
 
   /** Types text on the Model I's keys, as a person would (D15). @param {string} text */

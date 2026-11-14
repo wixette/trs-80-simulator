@@ -1,0 +1,121 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="The TRS-80 Model I (1977) in 3D in your browser: switch it on, type Level II BASIC, load tapes, open it up and watch the screen and keyboard work as memory.">
+    <meta name="theme-color" content="#121110">
+    <title>TRS-80 Simulator: the Model I in 3D</title>
+    <link rel="icon" href="images/favicon.svg?v=0.0.1" type="image/svg+xml">
+    <link rel="stylesheet" href="css/style.css?v=0.0.1">
+    <!-- Every file name here carries the version (?v=), and so does each module the
+         scripts import, through this map. pnpm version writes them, or pnpm stamp
+         (tools/stamp.mjs); do not edit them by hand. -->
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js?v=0.0.1",
+        "three/addons/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.1",
+        "three/addons/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.1",
+        "three/addons/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.1",
+        "three/addons/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.1",
+        "./js/app/about.js": "./js/app/about.js?v=0.0.1",
+        "./js/app/dock.js": "./js/app/dock.js?v=0.0.1",
+        "./js/app/lessons.js": "./js/app/lessons.js?v=0.0.1",
+        "./js/app/link.js": "./js/app/link.js?v=0.0.1",
+        "./js/app/main.js": "./js/app/main.js?v=0.0.1",
+        "./js/app/selftest.js": "./js/app/selftest.js?v=0.0.1",
+        "./js/app/stage.js": "./js/app/stage.js?v=0.0.1",
+        "./js/app/tools/cassette.js": "./js/app/tools/cassette.js?v=0.0.1",
+        "./js/app/tools/cpu.js": "./js/app/tools/cpu.js?v=0.0.1",
+        "./js/app/tools/keyboard.js": "./js/app/tools/keyboard.js?v=0.0.1",
+        "./js/app/tools/vram.js": "./js/app/tools/vram.js?v=0.0.1",
+        "./js/app/topbar.js": "./js/app/topbar.js?v=0.0.1",
+        "./js/audio/tape-sound.js": "./js/audio/tape-sound.js?v=0.0.1",
+        "./js/flat/flat.js": "./js/flat/flat.js?v=0.0.1",
+        "./js/flat/painter.js": "./js/flat/painter.js?v=0.0.1",
+        "./js/l10n/en.js": "./js/l10n/en.js?v=0.0.1",
+        "./js/l10n/l10n.js": "./js/l10n/l10n.js?v=0.0.1",
+        "./js/l10n/lessons.en.js": "./js/l10n/lessons.en.js?v=0.0.1",
+        "./js/lessons/lessons.js": "./js/lessons/lessons.js?v=0.0.1",
+        "./js/scene/crt.js": "./js/scene/crt.js?v=0.0.1",
+        "./js/scene/desk3d.js": "./js/scene/desk3d.js?v=0.0.1",
+        "./js/scene/viewer.js": "./js/scene/viewer.js?v=0.0.1",
+        "./js/sim/assembly.js": "./js/sim/assembly.js?v=0.0.1",
+        "./js/sim/cassette.js": "./js/sim/cassette.js?v=0.0.1",
+        "./js/sim/charset-data.js": "./js/sim/charset-data.js?v=0.0.1",
+        "./js/sim/charset.js": "./js/sim/charset.js?v=0.0.1",
+        "./js/sim/clock.js": "./js/sim/clock.js?v=0.0.1",
+        "./js/sim/cpu.js": "./js/sim/cpu.js?v=0.0.1",
+        "./js/sim/disasm.js": "./js/sim/disasm.js?v=0.0.1",
+        "./js/sim/host-keys.js": "./js/sim/host-keys.js?v=0.0.1",
+        "./js/sim/keymap.js": "./js/sim/keymap.js?v=0.0.1",
+        "./js/sim/keys.js": "./js/sim/keys.js?v=0.0.1",
+        "./js/sim/machine.js": "./js/sim/machine.js?v=0.0.1",
+        "./js/sim/recorder.js": "./js/sim/recorder.js?v=0.0.1",
+        "./js/sim/roms.js": "./js/sim/roms.js?v=0.0.1",
+        "./js/sim/sample-tapes.js": "./js/sim/sample-tapes.js?v=0.0.1",
+        "./js/sim/samples.js": "./js/sim/samples.js?v=0.0.1",
+        "./js/sim/system-samples.js": "./js/sim/system-samples.js?v=0.0.1",
+        "./js/sim/system-tape.js": "./js/sim/system-tape.js?v=0.0.1",
+        "./js/sim/system.js": "./js/sim/system.js?v=0.0.1",
+        "./js/sim/wav.js": "./js/sim/wav.js?v=0.0.1",
+        "./js/ui/components.js": "./js/ui/components.js?v=0.0.1",
+        "./js/ui/theme.js": "./js/ui/theme.js?v=0.0.1",
+        "./vendor/material-symbols/icons.js": "./vendor/material-symbols/icons.js?v=0.0.1",
+        "./vendor/three/build/three.core.js": "./vendor/three/build/three.core.js?v=0.0.1",
+        "./vendor/three/build/three.module.js": "./vendor/three/build/three.module.js?v=0.0.1",
+        "./vendor/three/examples/jsm/controls/OrbitControls.js": "./vendor/three/examples/jsm/controls/OrbitControls.js?v=0.0.1",
+        "./vendor/three/examples/jsm/loaders/GLTFLoader.js": "./vendor/three/examples/jsm/loaders/GLTFLoader.js?v=0.0.1",
+        "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js": "./vendor/three/examples/jsm/utils/BufferGeometryUtils.js?v=0.0.1",
+        "./vendor/three/examples/jsm/utils/SkeletonUtils.js": "./vendor/three/examples/jsm/utils/SkeletonUtils.js?v=0.0.1",
+        "./vendor/z80js/Z80.js": "./vendor/z80js/Z80.js?v=0.0.1",
+        "./vendor/z80js/z80.module.js": "./vendor/z80js/z80.module.js?v=0.0.1"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <header id="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="images/logo.svg?v=0.0.1" alt="">
+        <span class="brand-name" data-l10n="app.name">TRS-80 Simulator</span>
+        <span class="brand-tag" data-l10n="app.tagline"></span>
+      </div>
+      <button id="tapes" class="btn tonal has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="voicemail"></i><span class="label" data-l10n="bar.tapes"></span><i data-icon="keyboard_arrow_down"></i></button>
+      <button id="programs" class="btn tonal has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="play_arrow"></i><span class="label" data-l10n="bar.programs"></span><i data-icon="keyboard_arrow_down"></i></button>
+      <span class="spacer"></span>
+      <button id="about" class="btn icon-only" type="button"><i data-icon="info"></i></button>
+    </header>
+
+    <main id="stage">
+      <div id="view3d"></div>
+      <div id="view2d" hidden></div>
+      <nav id="band"></nav>
+    </main>
+
+    <section id="dock">
+      <div id="dock-handle" role="separator" aria-orientation="horizontal" tabindex="0" data-l10n-tip="dock.resize"></div>
+      <div class="dock-bar">
+        <div id="dock-tabs" role="tablist">
+          <button id="tab-lessons" class="dock-tab" role="tab" aria-controls="pane-lessons" type="button"><i data-icon="school"></i><span data-l10n="dock.lessons"></span><span class="dot" hidden></span></button>
+          <button id="tab-vram" class="dock-tab" role="tab" aria-controls="pane-vram" type="button"><i data-icon="grid_on"></i><span data-l10n="dock.vram"></span><span class="dot" hidden></span></button>
+          <button id="tab-keyboard" class="dock-tab" role="tab" aria-controls="pane-keyboard" type="button"><i data-icon="keyboard"></i><span data-l10n="dock.keyboard"></span><span class="dot" hidden></span></button>
+          <button id="tab-cassette" class="dock-tab" role="tab" aria-controls="pane-cassette" type="button"><i data-icon="voicemail"></i><span data-l10n="dock.cassette"></span><span class="dot" hidden></span></button>
+          <button id="tab-cpu" class="dock-tab" role="tab" aria-controls="pane-cpu" type="button"><i data-icon="memory"></i><span data-l10n="dock.cpu"></span><span class="dot" hidden></span></button>
+        </div>
+        <span class="spacer"></span>
+        <button id="dock-fold" class="btn icon-only" type="button"></button>
+      </div>
+      <div id="pane-lessons" class="dock-pane" role="tabpanel" aria-labelledby="tab-lessons"></div>
+      <div id="pane-vram" class="dock-pane" role="tabpanel" aria-labelledby="tab-vram" hidden></div>
+      <div id="pane-keyboard" class="dock-pane" role="tabpanel" aria-labelledby="tab-keyboard" hidden></div>
+      <div id="pane-cassette" class="dock-pane" role="tabpanel" aria-labelledby="tab-cassette" hidden></div>
+      <div id="pane-cpu" class="dock-pane" role="tabpanel" aria-labelledby="tab-cpu" hidden></div>
+    </section>
+
+    <footer id="status" role="status" aria-live="polite"><span id="status-text"></span></footer>
+    <script type="module" src="js/app/main.js?v=0.0.1"></script>
+  </body>
+</html>
