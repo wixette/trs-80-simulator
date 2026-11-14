@@ -9,7 +9,8 @@ import { t } from "../l10n/l10n.js";
 import { icon, setTip, tabs } from "../ui/components.js";
 
 /** @typedef {"lessons" | "vram" | "keyboard" | "cassette" | "cpu" | "refs"} ToolId */
-export const TOOLS = /** @type {ToolId[]} */ (["lessons", "vram", "keyboard", "cassette", "cpu", "refs"]);
+/** In the bar's order: the instruments, in the order lessons 3 to 6 use them; then the reading, the lessons (the default) and References, as the Altair 8800 simulator's dock. */
+export const TOOLS = /** @type {ToolId[]} */ (["vram", "keyboard", "cassette", "cpu", "lessons", "refs"]);
 
 /** The dock's least open height, px; at the start it takes this share of the window. */
 const DOCK_MIN = 140;

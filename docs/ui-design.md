@@ -152,12 +152,13 @@ The machine's controls that are hard to reach are clickable where they are: the 
 
 ### U6. The dock's six tabs
 
-1. **Lessons:** the lesson bar (numbered tabs, one lesson at a time), then the lesson's steps (U7).
-2. **Video RAM:** the 64 × 16 grid of bytes, live, cells flashing on write. Click a cell, here or on the screen in 2D, to inspect it: its address, its byte as read back with bit 6 marked as rebuilt, and either the character's 6 × 12 dots from the character generator, row by row, or the 2 × 3 blocks by bit.
-3. **Keyboard:** the 8 × 8 matrix, keys lit while down. The rows the program reads light as it reads them, with each read's address and byte, and reads a second.
-4. **Cassette:** the tape in the recorder (its name and what it holds, how to load it), the position and length, Fast tape, and the tape under the head: pulses, bits, bytes, and what each byte is (leader, sync, name, block, address, data, checksum, entry).
-5. **CPU & Memory:** the registers (AF, BC, DE, HL, IX, IY, SP, PC, the alternate set, I, R) and the flags by letter (S Z H P/V N C). The next instruction disassembled. A memory map strip (ROM, unused, keyboard, video, RAM) lit where the CPU reads and writes. A memory dump that can follow PC, SP or HL. Pause, Step, Run to (an address), and a clock speed (real, 1/10, 1/100, 1/1,000). Paused, everything else waits too: the screen, the tape, the keys.
+The instruments first, in the order lessons 3 to 6 use them, then the reading: Lessons (the default on a first visit) and References, as the Altair 8800 simulator's dock has its tools, then its Tutorial and References.
 
+1. **Video RAM:** the 64 × 16 grid of bytes, live, cells flashing on write. Click a cell, here or on the screen in 2D, to inspect it: its address, its byte as read back with bit 6 marked as rebuilt, and either the character's 6 × 12 dots from the character generator, row by row, or the 2 × 3 blocks by bit.
+2. **Keyboard:** the 8 × 8 matrix, keys lit while down. The rows the program reads light as it reads them, with each read's address and byte, and reads a second.
+3. **Cassette:** the tape in the recorder (its name and what it holds, how to load it), the position and length, Fast tape, and the tape under the head: pulses, bits, bytes, and what each byte is (leader, sync, name, block, address, data, checksum, entry).
+4. **CPU & Memory:** the registers (AF, BC, DE, HL, IX, IY, SP, PC, the alternate set, I, R) and the flags by letter (S Z H P/V N C). The next instruction disassembled. A memory map strip (ROM, unused, keyboard, video, RAM) lit where the CPU reads and writes. A memory dump that can follow PC, SP or HL. Pause, Step, Run to (an address), and a clock speed (real, 1/10, 1/100, 1/1,000). Paused, everything else waits too: the screen, the tape, the keys.
+5. **Lessons:** the lesson bar (numbered tabs, one lesson at a time), then the lesson's steps (U7).
 6. **References:** what the simulator simplifies, what it is built on, further reading and the source, one column down the middle, as the 8800 simulator's References tab. About's *References* button opens it.
 
 The first visit opens the dock on Lessons. After that the dock remembers its tab and its height. What the machine does never switches the dock's tab by itself. A tab that changes while not shown gets an activity dot.
