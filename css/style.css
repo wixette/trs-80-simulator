@@ -27,7 +27,7 @@ body {
 [hidden] { display: none !important; }
 .lesson, .dialog-body, #status, .vram-inspector, .tape-tool .tool-side, .tool-note, .cpu-state { user-select: text; -webkit-user-select: text; }
 button, input, select { font: inherit; color: inherit; }
-a { color: var(--md-primary); }
+a { color: var(--link); }
 :focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
 .icon { width: 20px; height: 20px; fill: currentColor; flex: none; display: block; }
 code, pre, .mono, kbd { font-family: var(--mono); }
@@ -47,7 +47,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   border: 0;
   border-radius: var(--radius-full);
   background: transparent;
-  color: var(--md-primary);
+  color: var(--md-primary-text);
   font-weight: 560;
   cursor: pointer;
   white-space: nowrap;
@@ -86,12 +86,12 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .segmented { display: inline-flex; border: 1px solid var(--md-outline); border-radius: var(--radius-full); overflow: hidden; height: 32px; }
 .segmented button { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border: 0; background: none; color: var(--md-on-surface); font-size: 13px; font-weight: 560; cursor: pointer; }
 .segmented button + button { border-left: 1px solid var(--md-outline); }
-.segmented button[aria-checked="true"] { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.segmented button[aria-checked="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); }
 .segmented .icon { width: 18px; height: 18px; }
 
 /* a chip: Type it, Show me */
 .chip { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 8px; border: 1px solid var(--md-outline); border-radius: var(--radius-s); background: none; color: var(--md-on-surface); font-size: 13px; font-weight: 560; cursor: pointer; }
-.chip .icon { width: 18px; height: 18px; color: var(--md-primary); }
+.chip .icon { width: 18px; height: 18px; color: var(--md-primary-text); }
 
 /* a switch (Material 3) */
 .switch { display: inline-flex; align-items: center; gap: 10px; height: 32px; padding: 0 12px 0 4px; border: 0; border-radius: var(--radius-full); background: none; color: var(--md-on-surface); cursor: pointer; font-weight: 560; }
@@ -116,6 +116,8 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 /* the stage: its band, a row of its own, then the machine in a card under it (U1) */
 #stage { display: flex; flex-direction: column; overflow: hidden; min-height: 0; padding: 0 12px 10px; background: var(--md-surface); }
 #stage-view { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; border-radius: var(--radius-m); background: var(--md-surface-low); }
+/* the 3D view draws on a clear canvas over a dark blue glow: no floor, nothing brighter than the machine */
+#view3d { background: radial-gradient(ellipse at 50% 42%, #2e3646 0%, #1d222b 55%, #15181e 100%); }
 #view3d, #view2d { position: absolute; inset: 0; }
 #view3d canvas { display: block; width: 100%; height: 100%; touch-action: none; outline: none; }
 #view3d canvas:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -3px; }
@@ -130,7 +132,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .band-group .btn.icon-only { width: 34px; height: 34px; }
 .joined { display: inline-flex; }
 .menu-btn { color: var(--md-on-surface); padding: 0 6px 0 12px; }
-.menu-btn.active { color: var(--md-primary); }
+.menu-btn.active { color: var(--md-primary-text); }
 .segmented.mode { flex: none; height: 32px; }
 .key-legend { margin: 0; color: var(--md-on-surface-variant); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 #stage[data-mode="3d"] .key-legend, #stage[data-mode="3d"] .drawers, #stage[data-mode="2d"] .helpers, #stage[data-mode="2d"] .tools3d { display: none; }
@@ -140,7 +142,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .part-label { position: absolute; z-index: 6; max-width: 320px; padding: 8px 12px; border-radius: var(--radius-s); background: var(--md-surface-highest); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45); pointer-events: none; display: flex; flex-direction: column; gap: 2px; }
 .part-label strong { font-weight: 640; }
 .part-label span { color: var(--md-on-surface-variant); font-size: 13px; }
-.part-label em { color: var(--md-primary); font-style: normal; font-size: 12px; }
+.part-label em { color: var(--md-primary-text); font-style: normal; font-size: 12px; }
 .put-back { position: absolute; right: 12px; bottom: 12px; z-index: 5; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); height: 48px; border-radius: var(--radius-l); }
 .loading { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 5; width: min(320px, 80%); text-align: center; color: var(--md-on-surface-variant); font-size: 13px; }
 .loading-bar { height: 4px; border-radius: 2px; background: var(--md-surface-highest); overflow: hidden; }
@@ -191,7 +193,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .dock-tab { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 6px; height: 100%; padding: 0 14px; border: 0; background: none; color: var(--md-on-surface-variant); font-weight: 560; cursor: pointer; border-radius: 0; white-space: nowrap; }
 .dock-tab .icon { width: 18px; height: 18px; }
 .dock-tab:focus-visible { outline-offset: -2px; }
-.dock-tab[aria-selected="true"] { color: var(--md-primary); }
+.dock-tab[aria-selected="true"] { color: var(--md-primary-text); }
 .dock-tab[aria-selected="true"]::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--md-primary); }
 .dock-tab .dot { position: absolute; top: 9px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--md-primary); }
 /* room below a pane's end for a status message risen over the dock's foot (P7) */
@@ -218,7 +220,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .vram-cell.picked { outline: 2px solid var(--md-primary); outline-offset: -1px; color: var(--md-on-surface); }
 .vram-inspector { flex: 1 1 250px; min-width: 240px; max-width: 360px; }
 .insp-head { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
-.insp-head strong { font-size: 16px; color: var(--md-primary); }
+.insp-head strong { font-size: 16px; color: var(--md-primary-text); }
 .insp-value { margin: 4px 0; }
 .bits { display: flex; gap: 3px; margin: 6px 0 10px; }
 .bit { display: flex; flex-direction: column; align-items: center; width: 28px; padding: 2px 0; border-radius: var(--radius-xs); background: var(--md-surface-high); font-family: var(--mono); }
@@ -238,7 +240,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .matrix { display: inline-grid; gap: 2px; padding: 6px; background: var(--md-well); border-radius: var(--radius-m); font-size: 12px; max-width: 100%; overflow-x: auto; }
 .matrix-row { display: grid; grid-template-columns: 64px repeat(8, 54px) 64px 64px; gap: 2px; align-items: center; border-radius: var(--radius-xs); }
 .matrix-head { color: var(--md-outline); font-size: 11px; }
-.matrix-row.read .mx-addr { color: var(--md-primary); }
+.matrix-row.read .mx-addr { color: var(--md-primary-text); }
 .matrix-row.read { background: color-mix(in srgb, var(--md-primary) 10%, transparent); }
 .mx-addr { padding-left: 4px; color: var(--md-on-surface-variant); }
 .mx-key { height: 26px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-xs); background: var(--md-surface-high); font-weight: 560; }
@@ -269,16 +271,16 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .reg { display: inline-flex; flex-direction: column; min-width: 54px; padding: 2px 6px; border-radius: var(--radius-xs); background: var(--md-well); }
 .reg small { font-size: 10px; color: var(--md-outline); }
 .reg b { font-weight: 500; font-size: 13px; }
-.reg.changed b { color: var(--md-primary); }
+.reg.changed b { color: var(--md-primary-text); }
 .flags { display: flex; gap: 4px; margin-top: 8px; }
 .flag { min-width: 32px; padding: 2px 6px; text-align: center; border-radius: var(--radius-xs); background: var(--md-well); color: var(--md-outline); font-family: var(--mono); font-size: 12px; }
 .flag.on { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 .code { margin: 0; padding: 0; list-style: none; font-size: 12.5px; }
 .code li { display: grid; grid-template-columns: 44px 98px 1fr; gap: 8px; padding: 1px 6px; border-radius: var(--radius-xs); }
-.code li.at-pc { background: color-mix(in srgb, var(--md-primary) 18%, transparent); color: var(--md-primary); }
+.code li.at-pc { background: color-mix(in srgb, var(--md-primary) 18%, transparent); color: var(--md-primary-text); }
 .code li.undoc .c-text::after { content: " *"; color: var(--md-outline); }
 .c-addr, .c-bytes { color: var(--md-outline); }
-.code li.at-pc .c-addr { color: var(--md-primary); }
+.code li.at-pc .c-addr { color: var(--md-primary-text); }
 .memmap { display: flex; height: 26px; margin: 8px 0; border-radius: var(--radius-xs); overflow: hidden; gap: 1px; background: var(--md-outline-variant); }
 .region { --lit: 0; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; background: color-mix(in srgb, var(--md-primary) calc(var(--lit) * 70%), var(--md-surface-high)); font-size: 10px; color: var(--md-on-surface-variant); cursor: pointer; overflow: hidden; }
 .region span { white-space: nowrap; overflow: hidden; text-overflow: clip; padding: 0 2px; }
@@ -288,7 +290,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .d-addr { color: var(--md-outline); }
 .d-bytes { display: inline-flex; gap: 0.6ch; }
 .d-bytes span { border-radius: 2px; }
-.d-bytes .at-pc { background: color-mix(in srgb, var(--md-primary) 30%, transparent); color: var(--md-primary); }
+.d-bytes .at-pc { background: color-mix(in srgb, var(--md-primary) 30%, transparent); color: var(--md-primary-text); }
 .d-bytes .at-sp { outline: 1px solid var(--story); }
 .d-ascii { color: var(--md-outline); letter-spacing: 0.05em; }
 
@@ -331,7 +333,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .listing { margin: 8px 0; padding: 10px 14px; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-s); background: var(--md-well); color: var(--phosphor); font-size: 13px; line-height: 1.5; overflow-x: auto; }
 /* a step's chips: what to press, in amber (Material's assist chip) */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.chip { border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); }
+.chip { border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary-text); }
 .chip .icon { color: inherit; }
 /* Going further: the story and the asides, in blue */
 .more { margin-top: 10px; padding: 4px 14px; border-left: 3px solid var(--story); border-radius: var(--radius-s); background: color-mix(in srgb, var(--story) 10%, transparent); }
@@ -342,7 +344,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .step.done .step-n { background: var(--on); border-color: var(--on); color: var(--on-container); }
 /* on to the next lesson: Material's outlined button, at the right */
 .btn.next-lesson { display: flex; margin: 8px 0 8px auto; background: none; border: 1px solid var(--md-outline); color: var(--md-on-surface); }
-.btn.next-lesson:hover { border-color: var(--md-primary); color: var(--md-primary); }
+.btn.next-lesson:hover { border-color: var(--md-primary); color: var(--md-primary-text); }
 .lessons .dim:last-child { margin-top: 8px; }
 /* the tool Show me opened, beside the lesson: the grids keep their size and scroll */
 .lesson-companion { position: sticky; top: 56px; flex: 0 1 560px; min-width: 0; max-height: calc(100% - 8px); overflow: auto; padding: 8px 12px; border-radius: var(--radius-l); background: var(--md-surface-mid); border: 1px solid var(--md-outline-variant); line-height: 1.45; }
@@ -356,7 +358,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
    gains as much room below its end (--status-rise); a refusal is amber, a fault red */
 #status { position: relative; z-index: 7; min-width: 0; font-size: 13px; color: var(--md-on-surface); background: var(--md-surface-mid); }
 #status-text { position: absolute; left: 0; right: 0; bottom: 0; min-height: var(--status-h); padding: 5px 16px 6px; line-height: 18px; background: inherit; color: inherit; border-top: 1px solid var(--md-well); }
-#status[data-level="warn"] { background: var(--warn-container); color: var(--md-on-primary-container); }
+#status[data-level="warn"] { background: var(--warn-container); color: var(--on-warn-container); }
 #status[data-level="error"] { background: var(--md-error-container); color: var(--md-error); }
 #status:has(.rom-pick) #status-text { padding-right: 200px; }
 .rom-pick { position: absolute; right: 8px; bottom: 0; top: 0; margin: auto 0; z-index: 1; }

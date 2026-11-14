@@ -99,7 +99,7 @@ let desk = null;
 /** @type {Crt | null} */
 let crt = null;
 if (webgl) {
-  viewer = new Viewer($("view3d"), { background: c.surface, desk: c.desk });
+  viewer = new Viewer($("view3d"));
   viewer.jumpTo(viewer.fit(VIEWS.desk));
 }
 

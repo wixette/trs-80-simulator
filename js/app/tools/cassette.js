@@ -88,11 +88,11 @@ export class CassetteTool {
     const css = getComputedStyle(document.documentElement);
     /** @private */
     this.col = {
-      ink: css.getPropertyValue("--md-on-surface").trim() || "#e9e2da",
-      dim: css.getPropertyValue("--md-outline").trim() || "#998f83",
-      hot: css.getPropertyValue("--story").trim() || "#9ecaff",
-      head: css.getPropertyValue("--md-primary").trim() || "#ffb95c",
-      line: css.getPropertyValue("--md-outline-variant").trim() || "#4c463f",
+      ink: css.getPropertyValue("--md-on-surface").trim() || "#e6e6e6",
+      dim: css.getPropertyValue("--md-outline").trim() || "#8c8c8c",
+      hot: css.getPropertyValue("--story").trim() || "#8db9f2",
+      head: css.getPropertyValue("--md-primary").trim() || "#ff9900",
+      line: css.getPropertyValue("--md-outline-variant").trim() || "#444444",
     };
   }
 

@@ -1,42 +1,45 @@
 /* SPDX-License-Identifier: Apache-2.0 */
-/* The theme's tokens (docs/ui-design.md, P11): Material 3's roles in a dark scheme, as the
-   Altair 8800 simulator has them, around an amber primary. The brightest thing on the page is
+/* The theme's tokens (docs/ui-design.md, P11): Material 3's roles in a dark scheme, the Altair
+   8800 simulator's own: neutral greys round an amber primary. The brightest thing on the page is
    the screen's phosphor; the interface round it is quiet. One colour, one meaning: amber what
    to press, green on and done, blue the story, red refused. The canvases and the 3D scene read
    these tokens (js/ui/theme.js). */
 
 :root {
   color-scheme: dark;
-  /* amber: what to press, and the one action a place is for */
-  --md-primary: #ffb95c;
-  --md-on-primary: #462a00;
-  --md-primary-container: #653e00;
-  --md-on-primary-container: #ffddb6;
-  /* the machine's controls on the instrument: a warm grey */
-  --md-secondary-container: #4a4237;
-  --md-on-secondary-container: #f0e0cc;
-  /* neutrals, a little warm, like the machine */
-  --md-surface: #121110;
-  --md-surface-low: #1a1917;
-  --md-surface-mid: #1f1d1b;
-  --md-surface-high: #292724;
-  --md-surface-highest: #34312e;
-  --md-well: #0c0b0a;
-  --md-on-surface: #e9e2da;
-  --md-on-surface-variant: #cfc5b9;
-  --md-outline: #998f83;
-  --md-outline-variant: #4c463f;
+  /* amber: what to press, and the one action a place is for; a lighter amber for text */
+  --md-primary: #f90;
+  --md-primary-text: #ffb340;
+  --md-on-primary: #241500;
+  --md-primary-container: rgba(255, 153, 0, 0.18);
+  --md-on-primary-container: #ffc670;
+  /* the tonal buttons: a plain grey */
+  --md-secondary-container: #464646;
+  --md-on-secondary-container: #ededed;
+  /* neutral greys, from the darkest well (code and data) up to the dialogs */
+  --md-well: #171717;
+  --md-surface: #1f1f1f;
+  --md-surface-low: #242424;
+  --md-surface-mid: #2b2b2b;
+  --md-surface-high: #333333;
+  --md-surface-highest: #3c3c3c;
+  --md-on-surface: #e6e6e6;
+  --md-on-surface-variant: #a8a8a8;
+  --md-outline: #8c8c8c;
+  --md-outline-variant: #444444;
   --md-scrim: rgba(0, 0, 0, 0.6);
+  --link: #8ab4f8;
   /* green: on, and done */
-  --on: #8fd88a;
-  --on-container: #1f4a20;
+  --on: #3ddc63;
+  --on-container: #1d4a2a;
   /* blue: the story, and the asides */
-  --story: #9ecaff;
-  --story-container: #17324f;
-  /* red: refused, or a fault */
-  --md-error: #ffb4ab;
-  --md-error-container: #6b1c14;
-  --warn-container: #5a3d00;
+  --story: #8db9f2;
+  --story-container: #1d2f47;
+  /* red: refused for a fault; amber-brown: refused, with why */
+  --md-error: #ff8a80;
+  --md-error-container: #5a2323;
+  --warn-container: #5a4a1a;
+  --on-warn-container: #ffd98a;
   --state-hover: 0.08;
   --state-press: 0.14;
 
@@ -59,7 +62,6 @@
   --recorder-black: #1a1a1a;
   --led-off: #3a0d0a;
   --led-on: #ff3b24;
-  --desk: #2a2826;
   /* the chips, lit (a view the real machine never had) */
   --glow-cpu: #ff8a3d;
   --glow-rom: #55d18a;

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // The 3D stage's viewer (docs/ui-design.md, U2): renderer, camera, orbit controls, a studio
-// environment for the metals, a key light with soft shadows, and a dark desk. After the Altair
+// environment for the metals, and a key light with soft shadows. No floor: the canvas is clear, over
+// the stage's dark blue glow (css/style.css, #view3d), so nothing is brighter than the machine. After the Altair
 // 8800 simulator's viewer, simplified.
 //
 // - Drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and
@@ -60,11 +61,10 @@ export const FOV = 35;
 export class Viewer {
   /**
    * @param {HTMLElement} host
-   * @param {{ background: string, desk: string }} colours
    */
-  constructor(host, colours) {
+  constructor(host) {
     this.host = host;
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.05;
@@ -74,7 +74,6 @@ export class Viewer {
     this.canvas = this.renderer.domElement;
     this.canvas.tabIndex = 0;
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(colours.background);
     const pmrem = new THREE.PMREMGenerator(this.renderer);
     this.scene.environment = pmrem.fromScene(studioEnvironment(), 0.04).texture;
     this.scene.environmentIntensity = 0.9;
@@ -83,8 +82,7 @@ export class Viewer {
     this.controls.enableDamping = true;
     this.controls.minDistance = MIN_DISTANCE;
     this.controls.maxDistance = MAX_DISTANCE;
-    // the whole sphere, so the undersides can be seen (See inside looks up from below); the
-    // desk hides while the camera is under it
+    // the whole sphere, so the undersides can be seen (See inside looks up from below)
     this.controls.maxPolarAngle = Math.PI;
     this.controls.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
     this.controls.listenToKeyEvents(this.canvas);
@@ -100,11 +98,6 @@ export class Viewer {
     key.shadow.bias = -0.0004;
     key.shadow.radius = 4;
     this.scene.add(key);
-    this.desk = new THREE.Mesh(new THREE.CircleGeometry(2.2, 64), new THREE.MeshStandardMaterial({ color: colours.desk, roughness: 0.85, metalness: 0 }));
-    this.desk.rotation.x = -Math.PI / 2;
-    this.desk.position.y = -0.0041;
-    this.desk.receiveShadow = true;
-    this.scene.add(this.desk);
     /** Called every frame, with seconds since the last. @type {((dt: number) => void)[]} */
     this.onFrame = [];
     /** Called after the canvas changes size. @type {(() => void)[]} */
@@ -157,7 +150,6 @@ export class Viewer {
     if (this.flight && this.flight(dt)) this.flight = null;
     if (!this.active) return;
     this.controls.update();
-    this.desk.visible = this.camera.position.y > this.desk.position.y + 0.002;
     this.renderer.render(this.scene, this.camera);
   }
 
