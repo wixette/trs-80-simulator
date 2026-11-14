@@ -9,6 +9,16 @@
 | **v0.0.3** | More sample programs and tapes; the lessons improved |
 | **v1.0.0** | Built on v0.0.3: the README in full, with the screenshots for it, as the 8800 simulator's |
 
+## v0.0.1: where it stands
+
+Ready for release, waiting for approval (2026-11-15):
+- **Unit tests** checked and brought up to date: 243 pass (`pnpm check`), ZEXDOC opt-in.
+- **Browser checks** (`pnpm test:browser`, [../tests/browser/](../tests/browser/)): 114 pass.
+- **Code review:** done; its findings are fixed, each bug with a browser check.
+- **README** with screenshots (`pnpm shots --readme`); CHANGELOG.md's 0.0.1 entry; REUSE lint clean; CI green.
+
+Left for the release itself, once approved: a manual pass in Safari and Firefox and on a phone; the release pull request from `dev-v0.0.1` to `main`; the `v0.0.1` tag on its merge commit, marked as a pre-release.
+
 ## Decided
 
 - **No share link in 1.0.0** (2026-11-15). A link that carries the whole machine cannot be short: the state is the memory, 16 KB and more, with the tape.
