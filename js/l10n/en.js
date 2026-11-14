@@ -151,6 +151,7 @@ export default {
   "tape.motorOn": "on",
   "tape.motorOff": "off",
   "tape.fast": "Fast tape",
+  "tape.fast.note": "Not on the real machine: the simulator's own shortcut. While the tape moves, the computer runs 32 times faster, so a load takes seconds, not minutes. Turn it off for the real speed, and to hear the tape.",
   "tape.fast.tip": "Runs the machine 32 times faster while the tape moves, and winds faster. Off: the real speed, and the sound",
   "tape.fastOn": "Fast tape: the machine runs 32 times faster while the tape moves.",
   "tape.fastOff": "Real speed: 500 bits a second, as it was. You can hear it.",

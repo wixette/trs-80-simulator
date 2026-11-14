@@ -70,7 +70,7 @@ export class CassetteTool {
     this.now = el("p", { class: "tape-now", "aria-live": "off" });
     host.append(
       el("div", { class: "tool tape-tool" }, [
-        el("div", { class: "tool-side" }, [this.name, this.what, this.where, el("div", { class: "tool-actions" }, [fast])]),
+        el("div", { class: "tool-side" }, [this.name, this.what, this.where, el("div", { class: "tool-actions" }, [fast]), el("p", { class: "tool-note dim", text: t("tape.fast.note") })]),
         el("div", { class: "tool-main" }, [el("h3", { text: t("tape.under") }), this.canvas, this.now]),
       ]),
     );
