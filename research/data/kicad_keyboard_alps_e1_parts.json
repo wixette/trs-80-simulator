@@ -1,0 +1,1208 @@
+{
+"outline_mm": [
+378.0,
+122.0
+],
+"parts": [
+{
+"ref": "SW41",
+"footprint": "SW_Matias_1.00u",
+"value": "LEFT",
+"layer": "F.Cu",
+"x": 268.1,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+256.6,
+20.7,
+270.6,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW38",
+"footprint": "SW_Matias_1.00u",
+"value": "U",
+"layer": "F.Cu",
+"x": 172.8,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+161.3,
+20.7,
+175.3,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW17",
+"footprint": "SW_Matias_1.00u",
+"value": "B",
+"layer": "F.Cu",
+"x": 149.1,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+137.6,
+59.1,
+151.6,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW27",
+"footprint": "SW_Matias_1.00u",
+"value": "3",
+"layer": "F.Cu",
+"x": 87.6,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+76.1,
+1.5,
+90.1,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW39",
+"footprint": "SW_Matias_1.00u",
+"value": "5",
+"layer": "F.Cu",
+"x": 125.6,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+114.1,
+1.5,
+128.1,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW16",
+"footprint": "SW_Matias_1.00u",
+"value": "CLEAR",
+"layer": "F.Cu",
+"x": 291.9,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+280.4,
+39.9,
+294.4,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW11",
+"footprint": "SW_Matias_1.00u",
+"value": "I",
+"layer": "F.Cu",
+"x": 191.8,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+180.3,
+20.7,
+194.3,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW15",
+"footprint": "SW_Matias_1.00u",
+"value": "9",
+"layer": "F.Cu",
+"x": 201.6,
+"y": 12.62,
+"rot": -90.0,
+"body": [
+190.1,
+1.53,
+204.1,
+18.73
+],
+"pads": 2
+},
+{
+"ref": "Z4",
+"footprint": "TRS80_Model_I_DIP16",
+"value": "74LS368",
+"layer": "F.Cu",
+"x": 65.51,
+"y": 96.79,
+"rot": -90.0,
+"body": [
+63.01,
+86.79,
+68.01,
+106.79
+],
+"pads": 16
+},
+{
+"ref": "SW34",
+"footprint": "SW_Matias_1.00u",
+"value": ",",
+"layer": "F.Cu",
+"x": 206.2,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+194.7,
+59.1,
+208.7,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW40",
+"footprint": "SW_Matias_1.00u",
+"value": "-",
+"layer": "F.Cu",
+"x": 258.5,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+247.0,
+1.5,
+261.0,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW13",
+"footprint": "SW_Matias_1.00u",
+"value": "Y",
+"layer": "F.Cu",
+"x": 153.8,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+142.3,
+20.7,
+156.3,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW24",
+"footprint": "SW_Matias_1.00u",
+"value": "C",
+"layer": "F.Cu",
+"x": 111.3,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+99.8,
+59.1,
+113.8,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW54",
+"footprint": "SW_Matias_1.00u",
+"value": "0",
+"layer": "F.Cu",
+"x": 331.1,
+"y": 79.6,
+"rot": -90.0,
+"body": [
+319.6,
+68.5,
+333.6,
+85.7
+],
+"pads": 2
+},
+{
+"ref": "SW10",
+"footprint": "SW_Matias_1.00u",
+"value": "A",
+"layer": "F.Cu",
+"x": 63.5,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+52.0,
+39.9,
+66.0,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW60",
+"footprint": "SW_Matias_1.00u",
+"value": "3",
+"layer": "F.Cu",
+"x": 369.1,
+"y": 60.5,
+"rot": -90.0,
+"body": [
+357.6,
+49.4,
+371.6,
+66.6
+],
+"pads": 2
+},
+{
+"ref": "SW18",
+"footprint": "SW_Matias_1.00u",
+"value": "J",
+"layer": "F.Cu",
+"x": 177.5,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+166.0,
+39.9,
+180.0,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW55",
+"footprint": "SW_Matias_1.00u",
+"value": "8",
+"layer": "F.Cu",
+"x": 350.1,
+"y": 22.2,
+"rot": -90.0,
+"body": [
+338.6,
+11.1,
+352.6,
+28.3
+],
+"pads": 2
+},
+{
+"ref": "SW35",
+"footprint": "SW_Matias_1.00u",
+"value": "DOWN",
+"layer": "F.Cu",
+"x": 44.6,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+33.1,
+39.9,
+47.1,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW25",
+"footprint": "SW_Matias_1.00u",
+"value": "K",
+"layer": "F.Cu",
+"x": 196.6,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+185.1,
+39.9,
+199.1,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW7",
+"footprint": "SW_Matias_1.00u",
+"value": "ENTER",
+"layer": "F.Cu",
+"x": 272.1,
+"y": 45.7,
+"rot": 0.0,
+"body": [
+261.0,
+43.2,
+278.2,
+57.2
+],
+"pads": 2
+},
+{
+"ref": "SW57",
+"footprint": "SW_Matias_1.00u",
+"value": "1",
+"layer": "F.Cu",
+"x": 331.1,
+"y": 60.5,
+"rot": -90.0,
+"body": [
+319.6,
+49.4,
+333.6,
+66.6
+],
+"pads": 2
+},
+{
+"ref": "SW50",
+"footprint": "SW_Matias_1.00u",
+"value": "W",
+"layer": "F.Cu",
+"x": 78.0,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+66.5,
+20.7,
+80.5,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW43",
+"footprint": "SW_Matias_1.00u",
+"value": "N",
+"layer": "F.Cu",
+"x": 168.0,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+156.5,
+59.1,
+170.5,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "Z2",
+"footprint": "TRS80_Model_I_DIP14",
+"value": "74LS05",
+"layer": "F.Cu",
+"x": 30.11,
+"y": 98.02,
+"rot": -90.0,
+"body": [
+27.61,
+89.02,
+32.61,
+107.02
+],
+"pads": 14
+},
+{
+"ref": "SW46",
+"footprint": "SW_Matias_1.00u",
+"value": ".",
+"layer": "F.Cu",
+"x": 225.2,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+213.7,
+59.1,
+227.7,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW8",
+"footprint": "SW_Matias_1.00u",
+"value": "LSHIFT",
+"layer": "F.Cu",
+"x": 49.0,
+"y": 64.62,
+"rot": 0.0,
+"body": [
+37.9,
+62.12,
+55.1,
+76.12
+],
+"pads": 2
+},
+{
+"ref": "C2",
+"footprint": "TRS80_Model_I_C_Disc_9.5L_4W_6P_Small",
+"value": "0.1uF",
+"layer": "F.Cu",
+"x": 73.3,
+"y": 92.1,
+"rot": -90.0,
+"body": [
+71.45,
+87.43,
+75.15,
+96.8
+],
+"pads": 2
+},
+{
+"ref": "SW49",
+"footprint": "SW_Matias_1.00u",
+"value": "O",
+"layer": "F.Cu",
+"x": 210.9,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+199.4,
+20.7,
+213.4,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW14",
+"footprint": "SW_Matias_1.00u",
+"value": "1",
+"layer": "F.Cu",
+"x": 49.5,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+38.0,
+1.5,
+52.0,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW2",
+"footprint": "SW_Matias_1.00u",
+"value": "H",
+"layer": "F.Cu",
+"x": 158.6,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+147.1,
+39.9,
+161.1,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW9",
+"footprint": "SW_Matias_1.00u",
+"value": "RSHIFT",
+"layer": "F.Cu",
+"x": 267.6,
+"y": 64.7,
+"rot": 0.0,
+"body": [
+256.5,
+62.2,
+273.7,
+76.2
+],
+"pads": 2
+},
+{
+"ref": "SW33",
+"footprint": "SW_Matias_1.00u",
+"value": "4",
+"layer": "F.Cu",
+"x": 106.6,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+95.1,
+1.5,
+109.1,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW1",
+"footprint": "SW_Matias_1.00u",
+"value": "@",
+"layer": "F.Cu",
+"x": 249.0,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+237.5,
+20.7,
+251.5,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW4",
+"footprint": "SW_Matias_1.00u",
+"value": "X",
+"layer": "F.Cu",
+"x": 92.3,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+80.8,
+59.1,
+94.8,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW56",
+"footprint": "SW_Matias_1.00u",
+"value": "ENTER",
+"layer": "F.Cu",
+"x": 369.1,
+"y": 79.6,
+"rot": -90.0,
+"body": [
+357.6,
+68.5,
+371.6,
+85.7
+],
+"pads": 2
+},
+{
+"ref": "SW29",
+"footprint": "SW_Matias_1.00u",
+"value": "UP",
+"layer": "F.Cu",
+"x": 40.0,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+28.5,
+20.7,
+42.5,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW51",
+"footprint": "SW_Matias_1.00u",
+"value": "7",
+"layer": "F.Cu",
+"x": 163.5,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+152.0,
+1.5,
+166.0,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "R1",
+"footprint": "R_Array_SIP9",
+"value": "4.7k",
+"layer": "F.Cu",
+"x": 66.92,
+"y": 81.0,
+"rot": 180.0,
+"body": [
+45.31,
+79.75,
+68.21,
+82.25
+],
+"pads": 9
+},
+{
+"ref": "SW23",
+"footprint": "SW_Matias_1.00u",
+"value": "BREAK",
+"layer": "F.Cu",
+"x": 277.6,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+266.1,
+1.5,
+280.1,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW6",
+"footprint": "SW_Matias_1.00u",
+"value": "8",
+"layer": "F.Cu",
+"x": 182.5,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+171.0,
+1.5,
+185.0,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW36",
+"footprint": "SW_Matias_1.00u",
+"value": "E",
+"layer": "F.Cu",
+"x": 97.1,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+85.6,
+20.7,
+99.6,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "Z3",
+"footprint": "TRS80_Model_I_DIP16",
+"value": "74LS368",
+"layer": "F.Cu",
+"x": 47.81,
+"y": 96.79,
+"rot": -90.0,
+"body": [
+45.31,
+86.79,
+50.31,
+106.79
+],
+"pads": 16
+},
+{
+"ref": "SW44",
+"footprint": "SW_Matias_1.00u",
+"value": "V",
+"layer": "F.Cu",
+"x": 130.2,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+118.7,
+59.1,
+132.7,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW47",
+"footprint": "SW_Matias_1.00u",
+"value": "RIGHT",
+"layer": "F.Cu",
+"x": 287.1,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+275.6,
+20.7,
+289.6,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW26",
+"footprint": "SW_Matias_1.00u",
+"value": "S",
+"layer": "F.Cu",
+"x": 82.6,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+71.1,
+39.9,
+85.1,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW20",
+"footprint": "SW_Matias_1.00u",
+"value": "Z",
+"layer": "F.Cu",
+"x": 73.1,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+61.6,
+59.1,
+75.6,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW61",
+"footprint": "SW_Matias_1.00u",
+"value": "4",
+"layer": "F.Cu",
+"x": 331.1,
+"y": 41.3,
+"rot": -90.0,
+"body": [
+319.6,
+30.2,
+333.6,
+47.4
+],
+"pads": 2
+},
+{
+"ref": "SW48",
+"footprint": "SW_Matias_1.00u",
+"value": "G",
+"layer": "F.Cu",
+"x": 139.7,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+128.2,
+39.9,
+142.2,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW19",
+"footprint": "SW_Matias_1.00u",
+"value": "R",
+"layer": "F.Cu",
+"x": 116.0,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+104.5,
+20.7,
+118.5,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW12",
+"footprint": "SW_Matias_1.00u",
+"value": "Q",
+"layer": "F.Cu",
+"x": 59.08,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+47.58,
+20.7,
+61.58,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW62",
+"footprint": "SW_Matias_1.00u",
+"value": "5",
+"layer": "F.Cu",
+"x": 350.1,
+"y": 41.3,
+"rot": -90.0,
+"body": [
+338.6,
+30.2,
+352.6,
+47.4
+],
+"pads": 2
+},
+{
+"ref": "SW52",
+"footprint": "SW_Matias_1.00u",
+"value": "/",
+"layer": "F.Cu",
+"x": 244.1,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+232.6,
+59.1,
+246.6,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW58",
+"footprint": "SW_Matias_1.00u",
+"value": "9",
+"layer": "F.Cu",
+"x": 369.1,
+"y": 22.2,
+"rot": -90.0,
+"body": [
+357.6,
+11.1,
+371.6,
+28.3
+],
+"pads": 2
+},
+{
+"ref": "SW59",
+"footprint": "SW_Matias_1.00u",
+"value": "2",
+"layer": "F.Cu",
+"x": 350.1,
+"y": 60.5,
+"rot": -90.0,
+"body": [
+338.6,
+49.4,
+352.6,
+66.6
+],
+"pads": 2
+},
+{
+"ref": "CR1",
+"footprint": "LED_D5.0mm",
+"value": "RED 5mm",
+"layer": "F.Cu",
+"x": 298.8,
+"y": 76.56,
+"rot": -90.0,
+"body": [
+296.3,
+75.33,
+301.3,
+80.73
+],
+"pads": 2
+},
+{
+"ref": "SW65",
+"footprint": "SW_Matias_1.00u",
+"value": "7",
+"layer": "F.Cu",
+"x": 331.1,
+"y": 22.2,
+"rot": -90.0,
+"body": [
+319.6,
+11.1,
+333.6,
+28.3
+],
+"pads": 2
+},
+{
+"ref": "SW42",
+"footprint": "SW_Matias_1.00u",
+"value": "F",
+"layer": "F.Cu",
+"x": 120.8,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+109.3,
+39.9,
+123.3,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "J1",
+"footprint": "PinHeader_1x20_P2.54mm_Vertical",
+"value": "Connection Keyboad Side",
+"layer": "F.Cu",
+"x": 4.8,
+"y": 118.4,
+"rot": 90.0,
+"body": [
+3.53,
+117.13,
+54.33,
+119.67
+],
+"pads": 20
+},
+{
+"ref": "SW45",
+"footprint": "SW_Matias_1.00u",
+"value": "6",
+"layer": "F.Cu",
+"x": 144.5,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+133.0,
+1.5,
+147.0,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW32",
+"footprint": "SW_Matias_1.00u",
+"value": "T",
+"layer": "F.Cu",
+"x": 134.9,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+123.4,
+20.7,
+137.4,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "R2",
+"footprint": "TRS80_Model_I_R_0.25W",
+"value": "330",
+"layer": "F.Cu",
+"x": 281.3,
+"y": 82.8,
+"rot": 180.0,
+"body": [
+276.35,
+81.8,
+286.25,
+83.8
+],
+"pads": 2
+},
+{
+"ref": "SW63",
+"footprint": "SW_Matias_1.00u",
+"value": "6",
+"layer": "F.Cu",
+"x": 369.1,
+"y": 41.3,
+"rot": -90.0,
+"body": [
+357.6,
+30.2,
+371.6,
+47.4
+],
+"pads": 2
+},
+{
+"ref": "SW53",
+"footprint": "SW_Matias_1.00u",
+"value": "SPACE",
+"layer": "F.Cu",
+"x": 153.05,
+"y": 89.5,
+"rot": 180.0,
+"body": [
+146.95,
+78.0,
+164.15,
+92.0
+],
+"pads": 2
+},
+{
+"ref": "C1",
+"footprint": "TRS80_Model_I_C_Disc_9.5L_4W_6P_Small",
+"value": "0.1uF",
+"layer": "F.Cu",
+"x": 4.3,
+"y": 106.2,
+"rot": -90.0,
+"body": [
+2.45,
+101.53,
+6.15,
+110.9
+],
+"pads": 2
+},
+{
+"ref": "SW3",
+"footprint": "SW_Matias_1.00u",
+"value": "P",
+"layer": "F.Cu",
+"x": 229.9,
+"y": 31.8,
+"rot": -90.0,
+"body": [
+218.4,
+20.7,
+232.4,
+37.9
+],
+"pads": 2
+},
+{
+"ref": "SW21",
+"footprint": "SW_Matias_1.00u",
+"value": "2",
+"layer": "F.Cu",
+"x": 68.5,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+57.0,
+1.5,
+71.0,
+18.7
+],
+"pads": 2
+},
+{
+"ref": "SW5",
+"footprint": "SW_Matias_1.00u",
+"value": "0",
+"layer": "F.Cu",
+"x": 220.5,
+"y": 12.62,
+"rot": -90.0,
+"body": [
+209.0,
+1.53,
+223.0,
+18.73
+],
+"pads": 2
+},
+{
+"ref": "SW31",
+"footprint": "SW_Matias_1.00u",
+"value": "L",
+"layer": "F.Cu",
+"x": 215.7,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+204.2,
+39.9,
+218.2,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "Z1",
+"footprint": "TRS80_Model_I_DIP14",
+"value": "74LS05",
+"layer": "F.Cu",
+"x": 12.29,
+"y": 98.02,
+"rot": -90.0,
+"body": [
+9.79,
+89.02,
+14.79,
+107.02
+],
+"pads": 14
+},
+{
+"ref": "SW64",
+"footprint": "SW_Matias_1.00u",
+"value": ".",
+"layer": "F.Cu",
+"x": 350.1,
+"y": 79.6,
+"rot": -90.0,
+"body": [
+338.6,
+68.5,
+352.6,
+85.7
+],
+"pads": 2
+},
+{
+"ref": "SW28",
+"footprint": "SW_Matias_1.00u",
+"value": ";",
+"layer": "F.Cu",
+"x": 234.6,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+223.1,
+39.9,
+237.1,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW30",
+"footprint": "SW_Matias_1.00u",
+"value": "D",
+"layer": "F.Cu",
+"x": 101.7,
+"y": 51.0,
+"rot": -90.0,
+"body": [
+90.2,
+39.9,
+104.2,
+57.1
+],
+"pads": 2
+},
+{
+"ref": "SW37",
+"footprint": "SW_Matias_1.00u",
+"value": "M",
+"layer": "F.Cu",
+"x": 187.0,
+"y": 70.2,
+"rot": -90.0,
+"body": [
+175.5,
+59.1,
+189.5,
+76.3
+],
+"pads": 2
+},
+{
+"ref": "SW22",
+"footprint": "SW_Matias_1.00u",
+"value": ":",
+"layer": "F.Cu",
+"x": 239.5,
+"y": 12.6,
+"rot": -90.0,
+"body": [
+228.0,
+1.5,
+242.0,
+18.7
+],
+"pads": 2
+}
+]
+}

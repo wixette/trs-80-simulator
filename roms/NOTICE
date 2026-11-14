@@ -1,0 +1,49 @@
+ROM images distributed with this simulator
+==========================================
+
+The files in this directory are NOT covered by the Apache License 2.0
+that applies to the simulator's code. They are historical software,
+included so that the simulator can run the machine it simulates. Their
+copyright belongs to their original owners (design/decisions.md, D2).
+
+
+level2-v12.bin
+--------------
+
+TRS-80 Model I Level II BASIC, version 1.2. Written by Microsoft for
+Tandy Corporation (Radio Shack). It boots with "MEMORY SIZE?" and
+"RADIO SHACK LEVEL II BASIC".
+
+  Size     12288 bytes
+  SHA-256  3cd3824d2ac2743750d2179951ed812794302b885ccb4f98aa2579b352c4b00e
+  Load     absolute at 0000H (0000H-2FFFH)
+
+It is the Model I's two ROMs joined as the computer sees them: ROM A
+(Z33, 8 KB at 0000H) and the used half of ROM B (Z34, 4 KB at 2000H).
+tools/vendor.mjs makes it from src/rom_a_L2_v12.bin and
+src/rom_b_L2_v12.bin, taken from RetroStack's ROM repository at a
+pinned commit and checked by their SHA-256:
+
+  https://github.com/RetroStack/TRS-80-Model-I-System-ROMs
+  (commit 3f31faebde2214214acb74f87f06b836df3914d2, 1-Option_2x64/)
+
+  src/rom_a_L2_v12.bin  SHA-256 3d07912ff154dbf0174c25691fd1e4502ff6c15292202c8193a6ae89636b7fc5
+  src/rom_b_L2_v12.bin  SHA-256 a59d730f3ef732119f354bb571314e4530b9f707dba231a28fa89aacb57c3295
+
+The joined image is identical, byte for byte, to model1-level2.rom in
+Lawrence Kesteloot's TRS-80 emulator, an independent second copy:
+
+  https://github.com/lkesteloot/trs80  (packages/trs80-emulator/roms/)
+
+The copyright in this program is Microsoft's and Tandy's. It has never
+been formally released, and no licence to redistribute it has been
+granted. It is included here on the same footing as the other open
+TRS-80 emulators and preservation archives that carry it: as a
+historical artifact, for study and for running on a simulator of the
+machine it was written for. If you are the rights holder and would
+rather it were not here, please open an issue on the repository and it
+will be removed.
+
+If you would rather not have these files in your copy of the
+repository, delete them. The simulator will say that the ROM is
+missing, and will run a copy you supply yourself.
