@@ -436,11 +436,11 @@ export class Flat {
           <rect x="-30" y="${f(-hy - 6.5)}" width="60" height="13" fill="#2a160b"/>
           ${reel("l", -21.25)}${reel("r", 21.25)}
         </g>
-        <text x="0" y="${f(-dy0 - 1.6)}" font-size="4.4" fill="#bdbdb8" text-anchor="middle" font-family="var(--font)">AUTOMATIC STOP</text>
+        <text x="0" y="${f(-dy0 - 2.1)}" font-size="4" fill="#bdbdb8" text-anchor="middle" font-family="var(--font)">AUTOMATIC STOP</text>
         <rect x="${mx0}" y="${-my1}" width="${mx1 - mx0}" height="${my1 - my0}" rx="1" fill="#a7a7a2"/>
-        <text x="${f(mx1 + 4)}" y="${f(lp.y + 10)}" font-size="7.5" fill="#c9c9c4" font-style="italic" font-weight="700" font-family="var(--font)">REALISTIC</text>
-        <text x="${f(lx - 5)}" y="${f(lp.y + 10)}" font-size="5.5" fill="#c9c9c4" text-anchor="end" font-family="var(--font)">CTR-80</text>
-        <text x="${f(W / 2 - 4)}" y="${f(lp.y + lp.h - 3)}" font-size="5" fill="#bdbdb8" text-anchor="end" font-family="var(--font)">RECORD/BATTERY</text>
+        <text x="${f(mx1 + 4)}" y="${f(-ly + 2.7)}" fill="#c9c9c4" font-family="var(--font)"><tspan font-size="7.5" font-style="italic" font-weight="700">REALISTIC</tspan><tspan dx="3" font-size="5">CTR-80</tspan></text>
+        <text x="${f(mx1 + 4)}" y="${f(-my0 - 1.5)}" font-size="2.9" fill="#bdbdb8" font-family="var(--font)">AC/BATTERY CASSETTE RECORDER</text>
+        <text x="${f(lx)}" y="${f(-my0 - 1.5)}" font-size="3.4" fill="#bdbdb8" text-anchor="middle" font-family="var(--font)">RECORD/BATTERY</text>
         <circle cx="${lx}" cy="${-ly}" r="2.1" fill="#141414"/>
         <circle class="flat-recled" cx="${lx}" cy="${-ly}" r="1.5" fill="${this.c.ledOff}"/>
       </svg>`;
