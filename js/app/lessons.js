@@ -52,8 +52,8 @@ export class LessonsTool {
     this.bar = el("div", { class: "lesson-bar", role: "tablist", "aria-label": t("lessons.bar") });
     for (const [i, l] of LESSONS.entries()) {
       const b = el("button", { class: "lesson-tab", role: "tab", id: `lesson-tab-${l.id}`, type: "button" }, [el("b", { text: String(i + 1) }), el("span", { text: t(`lesson.${l.id}.title`) })]);
-      setTip(b, t(`lesson.${l.id}.title`));
       b.setAttribute("data-tip-describes", "");
+      setTip(b, t(`lesson.${l.id}.title`));
       this.bar.append(b);
     }
     this.page = el("article", { class: "lesson" });
@@ -77,8 +77,8 @@ export class LessonsTool {
       const chips = el("div", { class: "chips" });
       if (st.type) {
         const b = el("button", { class: "chip type-it", type: "button" }, [icon("keyboard"), el("span", { text: t("lessons.typeIt") })]);
-        setTip(b, t("lessons.typeIt.tip"));
         b.setAttribute("data-tip-describes", "");
+        setTip(b, t("lessons.typeIt.tip"));
         b.addEventListener("click", () => {
           if (!this.system.machine.powered) return void this.system.say({ key: "type.off" });
           typeKeys(this.system, /** @type {string} */ (st.type));
@@ -88,8 +88,8 @@ export class LessonsTool {
       }
       if (st.show) {
         const b = el("button", { class: "chip show-me", type: "button" }, [icon("visibility"), el("span", { text: t("lessons.showMe") })]);
-        setTip(b, t("lessons.showMe.tip"));
         b.setAttribute("data-tip-describes", "");
+        setTip(b, t("lessons.showMe.tip"));
         b.addEventListener("click", () => this.showMe(/** @type {Show} */ (st.show)));
         chips.append(b);
       }

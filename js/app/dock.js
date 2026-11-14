@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The dock under the stage (docs/ui-design.md, P3, U6): the lessons and four tools, one at a
-// time. It is resized by its top edge (drag, or the arrow keys on the handle), folds to its
+// The dock under the stage (docs/ui-design.md, P3, U6): four tools, the lessons and the
+// references, one at a time. It is resized by its top edge (drag, or the arrow keys on the handle), folds to its
 // tab bar, and remembers its tab and height. What the machine does never switches its tab.
 // After the AGT-30 simulator's dock (https://github.com/wixette/agt30-simulator, Apache-2.0).
 
@@ -12,13 +12,14 @@ import { icon, setTip, tabs } from "../ui/components.js";
 /** In the bar's order: the instruments, in the order lessons 3 to 6 use them; then the reading, the lessons (the default) and References, as the Altair 8800 simulator's dock. */
 export const TOOLS = /** @type {ToolId[]} */ (["vram", "keyboard", "cassette", "cpu", "lessons", "refs"]);
 
-/** The dock's least open height, px; at the start it takes this share of the window. */
+/** The dock's least open height, px. */
 const DOCK_MIN = 140;
 /** A window this short, px, or shorter (a phone on its side): the dock opens folded at first,
  * and its least height gives way to the stage's. */
 const SHORT = 520;
 /** The dock's least open height in this window, px. */
 const dockMin = () => Math.min(DOCK_MIN, Math.round(window.innerHeight * 0.25));
+/** The share of the window the dock takes until the visitor chooses its height. */
 const DOCK_START = 0.4;
 /** One arrow key's step on the handle, px. */
 const KEY_STEP = 24;
@@ -53,22 +54,18 @@ export class Dock {
     this.folded = saved.folded ?? window.innerHeight <= SHORT;
     /** @type {ToolId} */
     this.current = saved.tab && TOOLS.includes(saved.tab) ? saved.tab : "lessons";
-    /** Called when a tab is shown. @type {(id: ToolId) => void} */
-    this.onShow = () => {};
     /** @private while the remembered tab is shown at the start */
     this.starting = false;
     /** Called when the dock changes size or folds. */
     this.onResize = () => {};
     this.select = tabs(/** @type {HTMLElement} */ (document.getElementById("dock-tabs")), (tabId) => {
       this.current = /** @type {ToolId} */ (tabId.replace(/^tab-/, ""));
-      document.getElementById(tabId)?.querySelector(".dot")?.setAttribute("hidden", "");
       // a tab chosen opens the dock; the one shown at the start leaves it as it was
       if (this.folded && !this.starting) {
         this.folded = false;
         this.apply();
       }
       this.save();
-      this.onShow(this.current);
     });
     this.fold.addEventListener("click", () => {
       this.folded = !this.folded;
@@ -130,7 +127,6 @@ export class Dock {
     setTip(this.fold, t(this.folded ? "dock.unfold" : "dock.fold"));
     this.save();
     this.onResize();
-    window.dispatchEvent(new Event("dockresize"));
   }
 
   /** @private The visitor's height, by the handle: what the window allows of it is what they see, and so what they chose. @param {number} h */
@@ -160,9 +156,4 @@ export class Dock {
     return this.current === id && !this.folded;
   }
 
-  /** A dot on a tab out of sight: something new there. @param {ToolId} id */
-  mark(id) {
-    if (this.shows(id)) return;
-    document.getElementById(`tab-${id}`)?.querySelector(".dot")?.removeAttribute("hidden");
-  }
 }

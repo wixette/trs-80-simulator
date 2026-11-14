@@ -56,6 +56,8 @@ export class System {
     this.motion = new Map(this.assembly.units.map((u) => [u, { f: 0, target: 0, rate: 1 / OUT_S }]));
     this.display = { on: false, contrast: CONTROL_MID, brightness: CONTROL_MID };
     this.fastTape = true;
+    /** @private the tape last decoded, how many pulses it had, and what it holds @type {{ tape: object | null, n: number, end: number, info: ReturnType<typeof tapeInfo> | null }} */
+    this.infoKey = { tape: null, n: 0, end: 0, info: null };
     this.fastTyping = true;
     /** The memory traffic of the last frame, for the chips and the memory map. @type {import("./machine.js").Traffic} */
     this.traffic = this.machine.takeTraffic();
@@ -205,7 +207,12 @@ export class System {
   /** What the tape in the recorder holds, from its first recording, or null for none or blank. */
   tapeInfo() {
     const tape = this.deck.tape;
-    return tape && tape.pulses.length ? tapeInfo(casFromTape(tape)) : null;
+    const n = tape ? tape.pulses.length : 0;
+    const end = tape ? tape.end : 0;
+    // decoding a tape reads every recording on it: once for each tape, and again only when it
+    // has more on it (the Cassette tab asks every frame)
+    if (this.infoKey.tape !== tape || this.infoKey.n !== n || this.infoKey.end !== end) this.infoKey = { tape, n, end, info: tape && n ? tapeInfo(casFromTape(tape)) : null };
+    return this.infoKey.info;
   }
 
   // ---- taking it apart --------------------------------------------------------------------

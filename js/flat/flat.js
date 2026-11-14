@@ -23,7 +23,6 @@
 
 import { t } from "../l10n/l10n.js";
 import { KEYS } from "../sim/keymap.js";
-import { mmss } from "../sim/system.js";
 import { el, icon, setTip } from "../ui/components.js";
 import { displayLayout, fitFlat, pictureMargin } from "./layout.js";
 import { Painter, PICTURE_ASPECT } from "./painter.js";
@@ -38,7 +37,7 @@ const SHORT = /** @type {Record<string, string>} */ ({ UP: "↑", DOWN: "↓", L
 /** @type {DeckKey[]} */
 const DECK = ["record", "rewind", "play", "fastf", "stop", "eject"];
 const DECK_LEGEND = { record: "RECORD", rewind: "REWIND", play: "PLAY", fastf: "FAST-F", stop: "STOP", eject: "EJECT" };
-/** Where the keyboard drawer's state is remembered. */
+/** Where each drawer's state, open or closed, is remembered. */
 const STORE = { kbd: "trs80.kbd", rec: "trs80.rec" };
 /** Canvas pixels per dot: 384 x 192 dots on a 4:3 picture. */
 const DOT_W = 3;
@@ -292,6 +291,7 @@ export class Flat {
       setTip(k, t(`flat.${which}`));
       placeIn(k, { x0: kx - rb, x1: kx + rb, y0: Y(kz) - rb, y1: Y(kz) + rb }, fr);
       k.addEventListener("pointerdown", (e) => {
+        if (e.button) return; // the main button, or a touch, turns it
         k.setPointerCapture(e.pointerId);
         const x0 = e.clientX;
         const v0 = this.system.display[which];
@@ -299,9 +299,13 @@ export class Flat {
         const end = () => {
           k.removeEventListener("pointermove", move);
           k.removeEventListener("pointerup", end);
+          k.removeEventListener("pointercancel", end);
+          k.removeEventListener("lostpointercapture", end);
         };
         k.addEventListener("pointermove", move);
         k.addEventListener("pointerup", end);
+        k.addEventListener("pointercancel", end);
+        k.addEventListener("lostpointercapture", end);
       });
       k.addEventListener("wheel", (e) => {
         e.preventDefault();
@@ -462,8 +466,8 @@ export class Flat {
     // the six keys, where the machine's are, under the strip that names them
     for (const [i, id] of DECK.entries()) {
       const btn = el("button", { class: `flat-deckkey${id === "record" ? " rec" : ""}`, type: "button", "data-deck": id, "aria-label": DECK_LEGEND[id] });
-      setTip(btn, t(`deck.key.${id}`));
       btn.setAttribute("data-tip-describes", "");
+      setTip(btn, t(`deck.key.${id}`));
       const x = kx0 + i * kPitch;
       placeIn(btn, { x0: x - kPitch / 2 + 0.4, x1: x + kPitch / 2 - 0.4, y0: -ky1 + 0.8, y1: D / 2 - 0.5 }, fr);
       btn.addEventListener("click", () => this.system.deckKey(id));
@@ -481,8 +485,8 @@ export class Flat {
     // left of the band behind the keys, POWER then RESET, each with an icon
     for (const kind of /** @type {const} */ (["power", "reset"])) {
       const b = el("button", { class: "flat-rear", type: "button" }, [icon(kind === "power" ? "power_settings_new" : "restart_alt"), el("span", { text: kind === "power" ? "POWER" : "RESET" })]);
-      setTip(b, t(kind === "power" ? "flat.power" : "flat.reset"));
       b.setAttribute("data-tip-describes", "");
+      setTip(b, t(kind === "power" ? "flat.power" : "flat.reset"));
       b.addEventListener("click", () => (kind === "power" ? this.system.power(!this.system.machine.powered) : this.system.reset()));
       box.appendChild(b);
       this.rear.push({ el: b, kind });
@@ -612,9 +616,4 @@ export class Flat {
     }
   }
 
-  /** What the drawing says about the tape, for the band. */
-  tapeLine() {
-    const d = this.system.deck;
-    return d.tape ? `${d.tape.name} · ${mmss(d.at(this.system.machine.t))} / ${mmss(d.length)}` : "";
-  }
 }

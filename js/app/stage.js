@@ -106,8 +106,8 @@ export class Stage {
       this.viewer?.zoom(0.8);
     });
     this.viewsBtn = el("button", { class: "btn small menu-btn", type: "button", "aria-haspopup": "menu", "aria-expanded": "false" });
-    setTip(this.viewsBtn, t("stage.views.tip"));
     this.viewsBtn.setAttribute("data-tip-describes", "");
+    setTip(this.viewsBtn, t("stage.views.tip"));
     this.viewsBtn.addEventListener("click", () =>
       showMenu(
         this.viewsBtn,
@@ -120,8 +120,8 @@ export class Stage {
     this.toggle = el("div", { class: "segmented mode", role: "radiogroup", "aria-label": t("stage.mode") });
     for (const m of /** @type {const} */ (["2d", "3d"])) {
       const b = el("button", { type: "button", role: "radio", "data-mode": m }, [icon(m === "2d" ? "web_asset" : "view_in_ar"), el("span", { text: m.toUpperCase() })]);
-      setTip(b, t(`stage.${m}.tip`));
       b.setAttribute("data-tip-describes", "");
+      setTip(b, t(`stage.${m}.tip`));
       b.addEventListener("click", () => this.setMode(m));
       this.toggle.append(b);
     }
@@ -130,8 +130,8 @@ export class Stage {
     this.drawers = el("div", { class: "band-group drawers" });
     for (const which of /** @type {const} */ (["rec", "kbd"])) {
       const b = el("button", { class: `btn small tonal has-icon drawer-${which}`, type: "button", "aria-pressed": String(this.flat.drawerOpen(which)) }, [icon(which === "rec" ? "voicemail" : "keyboard"), el("span", { text: t(which === "rec" ? "stage.drawer.recorder" : "stage.drawer.keyboard") })]);
-      setTip(b, t(which === "rec" ? "stage.drawer.recorder.tip" : "stage.drawer.keyboard.tip"));
       b.setAttribute("data-tip-describes", "");
+      setTip(b, t(which === "rec" ? "stage.drawer.recorder.tip" : "stage.drawer.keyboard.tip"));
       b.dataset.drawer = which;
       b.addEventListener("click", () => {
         this.flat.toggleDrawer(which);
@@ -197,6 +197,13 @@ export class Stage {
     const s = this.system;
     const rec = this.flat.drawerOpen("rec");
     const kbd = this.flat.drawerOpen("kbd");
+    // Taken apart, then put back together (Put it all back, or 2D): the view is the desk again
+    if (this.view === "apart" && [...s.motion.values()].every((m) => m.target === 0)) {
+      this.view = "desk";
+      if (this.fitted === "apart") this.fitted = "desk";
+      if (this.fittedBefore === "apart") this.fittedBefore = "desk";
+      if (this.mode === "3d" && !this.moving && this.viewer) this.viewer.flyTo(this.framed("desk"));
+    }
     const key = `${s.whole}${this.mode}${this.view}${rec}${kbd}`;
     if (key === this.shownKey) return;
     // the drawers' toggles say what the drawing shows, however a drawer was opened
@@ -228,6 +235,8 @@ export class Stage {
     if (this.mode === "2d") this.setMode("3d");
     if (this.view === "apart" && v !== "apart" && !this.system.whole) this.system.putAllBack();
     this.view = v;
+    // on the way back from 2D, the flight that lands the camera goes to this view, not the last
+    this.fittedBefore = v;
     this.seeInside(v === "inside");
     this.fitted = v;
     this.viewer.flyTo(this.framed(v));

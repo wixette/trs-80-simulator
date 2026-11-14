@@ -26,8 +26,14 @@ export default async function (h) {
   h.verify("lesson 1 has Show me chips", shown > 0);
   await h.js("document.querySelectorAll('#pane-lessons .step')[2]?.scrollIntoView()");
   const inside = await h.js(`(() => { const s = document.querySelectorAll('#pane-lessons .step')[2]; const b = s && [...s.querySelectorAll('button')].find((x) => /Show me/.test(x.textContent)); if (!b) return null; b.id ||= 'check-show'; return '#' + b.id; })()`);
+  // from 2D, as on a phone: the camera lands on the step's view, not the one before 2D
+  await h.press('#band [data-mode="2d"]');
+  await h.until("app.stage.mode === '2d' && !app.stage.moving", 5000);
   if (inside) await h.press(inside);
-  h.verify("Look inside's Show me goes to Inside, from below", await h.until("app.stage.view === 'inside' && app.stage.glass", 5000));
+  await h.until("app.stage.mode === '3d' && !app.stage.moving", 6000);
+  h.verify("Look inside's Show me, from 2D, goes to Inside, from below", (await h.until("app.stage.view === 'inside' && app.stage.glass", 5000)) && (await h.js("app.stage.fitted")) === "inside", await h.js("[app.stage.view, app.stage.fitted]"));
+  await h.press('#band [data-mode="2d"]');
+  h.verify("and the 2D | 3D toggle still works after it", await h.until("app.stage.mode === '2d'", 5000));
 
   // Sound, on the top bar, remembered
   await h.press("#sound");

@@ -94,7 +94,6 @@ export default {
   "dock.fold": "Fold the dock",
   "dock.unfold": "Open the dock",
   "dock.resize": "Drag to resize the dock (or the arrow keys)",
-  "dock.activity": "Something new here",
 
   // the lessons
   "lessons.bar": "Lessons",

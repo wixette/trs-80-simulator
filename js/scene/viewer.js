@@ -111,6 +111,8 @@ export class Viewer {
     this.active = true;
     /** @private @type {((dt: number) => boolean) | null} the flight under way */
     this.flight = null;
+    /** @private what follows the flight under way @type {(() => void) | null} */
+    this.flightThen = null;
     this.reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
     this.clock = new THREE.Clock();
     new ResizeObserver(() => this.resize()).observe(host);
@@ -206,7 +208,7 @@ export class Viewer {
 
   /** Puts the camera at a pose at once. @param {Pose} pose */
   jumpTo(pose) {
-    this.flight = null;
+    this.endFlight();
     this.camera.position.set(...pose.pos);
     this.controls.target.set(...pose.target);
   }
@@ -222,23 +224,36 @@ export class Viewer {
     const t1 = new THREE.Vector3(...pose.target);
     const p0 = this.camera.position.clone();
     const t0 = this.controls.target.clone();
+    this.endFlight();
     if (this.reducedMotion.matches) {
       this.camera.position.copy(p1);
       this.controls.target.copy(t1);
-      this.flight = null;
       then?.();
       return;
     }
     let t = 0;
+    this.flightThen = then ?? null;
     this.flight = (dt) => {
       t = Math.min(1, t + dt / seconds);
       const e = t * t * (3 - 2 * t);
       this.camera.position.lerpVectors(p0, p1, e);
       this.controls.target.lerpVectors(t0, t1, e);
       if (t < 1) return false;
+      this.flightThen = null;
       then?.();
       return true;
     };
+  }
+
+  /**
+   * @private Ends the flight under way, if any, for another move: what was to follow it still
+   * follows (a stage waiting for it to land would otherwise wait for ever).
+   */
+  endFlight() {
+    const then = this.flightThen;
+    this.flight = null;
+    this.flightThen = null;
+    then?.();
   }
 
   /** Where the camera is now. @returns {Pose} */

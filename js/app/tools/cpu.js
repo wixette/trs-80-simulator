@@ -44,19 +44,21 @@ export class CpuTool {
     /** @private seconds since the last full redraw, and what it showed */
     this.since = 1;
     this.shown = "";
+    /** @private what the controls showed last */
+    this.look = "";
     const s = system;
 
     // the controls
     this.pauseBtn = el("button", { class: "btn tonal small has-icon", type: "button" });
     this.pauseBtn.addEventListener("click", () => this.togglePause());
     this.stepBtn = el("button", { class: "btn tonal small has-icon", type: "button" }, [icon("skip_next"), el("span", { text: t("cpu.step") })]);
-    setTip(this.stepBtn, t("cpu.step.tip"));
     this.stepBtn.setAttribute("data-tip-describes", "");
+    setTip(this.stepBtn, t("cpu.step.tip"));
     this.stepBtn.addEventListener("click", () => this.step());
     this.toField = /** @type {HTMLInputElement} */ (el("input", { class: "field mono", type: "text", inputmode: "text", maxlength: "5", size: "6", placeholder: "1A19", "aria-label": t("cpu.runTo.field"), spellcheck: "false", autocomplete: "off" }));
     this.toBtn = el("button", { class: "btn tonal small has-icon", type: "button" }, [icon("fast_forward"), el("span", { text: t("cpu.runTo") })]);
-    setTip(this.toBtn, t("cpu.runTo.tip"));
     this.toBtn.setAttribute("data-tip-describes", "");
+    setTip(this.toBtn, t("cpu.runTo.tip"));
     this.toBtn.addEventListener("click", () => this.runTo());
     this.toField.addEventListener("keydown", (e) => {
       e.stopPropagation();
@@ -64,11 +66,10 @@ export class CpuTool {
     });
     this.speed = el("div", { class: "segmented", role: "radiogroup", "aria-label": t("cpu.speed") });
     for (const sp of SPEEDS) {
-      const b = el("button", { type: "button", role: "radio", "aria-checked": String(sp === 1), text: sp === 1 ? t("cpu.speed.real") : `1/${Math.round(1 / sp)}` });
+      const b = el("button", { type: "button", role: "radio", "aria-checked": String(sp === 1), "data-speed": String(sp), text: sp === 1 ? t("cpu.speed.real") : `1/${Math.round(1 / sp)}` });
       setTip(b, t(sp === 1 ? "cpu.speed.real.tip" : "cpu.speed.slow.tip", { n: Math.round(1 / sp) }));
       b.addEventListener("click", () => {
         s.clock.speed = sp;
-        for (const x of this.speed.children) x.setAttribute("aria-checked", String(x === b));
         s.say({ key: sp === 1 ? "cpu.speedReal" : "cpu.speedSlow", params: { n: Math.round(1 / sp) } });
       });
       this.speed.append(b);
@@ -178,10 +179,17 @@ export class CpuTool {
     const m = s.machine;
     const on = m.powered;
     const paused = s.clock.paused;
-    this.pauseBtn.replaceChildren(icon(paused ? "play_arrow" : "pause"), el("span", { text: t(paused ? "cpu.run" : "cpu.pause") }));
-    setTip(this.pauseBtn, t(paused ? "cpu.run.tip" : "cpu.pause.tip"));
-    this.pauseBtn.setAttribute("data-tip-describes", "");
-    for (const b of [this.pauseBtn, this.stepBtn, this.toBtn]) b.setAttribute("aria-disabled", String(!on));
+    // the controls, when what they show changes: Pause or Run, enabled, the speed (which
+    // another copy of this tool, a lesson's, may have set)
+    const look = `${paused}|${on}|${s.clock.speed}`;
+    if (look !== this.look) {
+      this.look = look;
+      this.pauseBtn.replaceChildren(icon(paused ? "play_arrow" : "pause"), el("span", { text: t(paused ? "cpu.run" : "cpu.pause") }));
+      this.pauseBtn.setAttribute("data-tip-describes", "");
+      setTip(this.pauseBtn, t(paused ? "cpu.run.tip" : "cpu.pause.tip"));
+      for (const b of [this.pauseBtn, this.stepBtn, this.toBtn]) b.setAttribute("aria-disabled", String(!on));
+      for (const x of /** @type {HTMLCollectionOf<HTMLElement>} */ (this.speed.children)) x.setAttribute("aria-checked", String(Number(x.dataset.speed) === s.clock.speed));
+    }
     this.state.textContent = !on ? t("cpu.off") : paused ? t("cpu.state.paused", { addr: hex(m.pc, 4) }) : s.clock.stops.size ? t("cpu.state.runningTo", { addr: hex([...s.clock.stops][0], 4) }) : t("cpu.state.running");
     this.renderMap(dt);
     // the registers, code and dump: ten times a second while it runs; paused, when they change

@@ -159,9 +159,12 @@ export function showMenu(anchor, items) {
     const b = el("button", { role, tabindex: "-1" }, [mark, it.icon ? icon(it.icon) : null, el("span", { text: it.label }), it.disabled ? el("small", { class: "why", text: it.disabled }) : null]);
     if (it.checked !== undefined) b.setAttribute("aria-checked", String(it.checked));
     if (it.disabled) b.setAttribute("aria-disabled", "true");
-    b.addEventListener("click", () => {
+    b.addEventListener("click", (e) => {
       closeMenu();
-      anchor.focus();
+      // chosen by the keyboard, the focus goes back to the menu's button; by the pointer, it is
+      // let go, so that the next keys (Enter, Space) are the machine's, not a reopened menu
+      if (e.detail === 0) anchor.focus();
+      else anchor.blur();
       it.run();
     });
     box.appendChild(b);

@@ -145,7 +145,6 @@ export class TopBar {
     ]);
   }
 
-
   /**
    * Types a program in as an owner did, every key visible: ENTER first if the machine still
    * asks MEMORY SIZE? (it reads its line as a number, and anything else is thrown away as it

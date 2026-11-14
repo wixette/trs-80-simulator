@@ -19,7 +19,7 @@ const walk = (dir) =>
   readdirSync(join(ROOT, dir), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : e.name.endsWith(".js") ? [`${dir}/${e.name}`] : []));
 
 /** The keys built at run time, by the prefix the code builds them from. */
-const FAMILIES = [/^lesson\./, /^view\./, /^show\./, /^stage\.(2d|3d)\.tip$/, /^stage\.drawer\./, /^deck\.key\./, /^deck\./, /^tape\.(blank|basic|basicLong|system|systemLong|unknown)$/, /^role\./, /^region\./, /^flag\./, /^cpu\.follow\./, /^sample\./, /^part\./, /^unit\./, /^display\.(contrast|brightness)$/, /^dock\./, /^power\./, /^display\./, /^motor\./, /^apart\./, /^about\./, /^status\./, /^cpu\.speed/, /^vram\./, /^flat\./];
+const FAMILIES = [/^lesson\./, /^view\.[a-z]+$/, /^stage\.(2d|3d)\.tip$/, /^deck\.key\./, /^sample\./, /^part\./, /^unit\./, /^role\./, /^region\./, /^flag\./, /^cpu\.follow\./, /^(flat|display)\.(contrast|brightness)$/, /^deck\.(record|play|rewind|fastf|stop|eject)$/];
 
 describe("APP: every text is a message", () => {
   const code = [...walk("js"), "index.html"].filter((f) => !f.startsWith("js/l10n/")).map((f) => readFileSync(join(ROOT, f), "utf8")).join("\n");

@@ -47,8 +47,8 @@ export class HelperStrip {
     /** @param {string} cls @param {import("../ui/components.js").IconName} ic @param {string} label @param {string} tip @param {() => void} run */
     const button = (cls, ic, label, tip, run) => {
       const b = el("button", { class: `btn tonal small has-icon ${cls}`, type: "button" }, [icon(ic), el("span", { class: "strip-label", text: label })]);
-      setTip(b, tip);
       b.setAttribute("data-tip-describes", "");
+      setTip(b, tip);
       b.addEventListener("click", run);
       return b;
     };

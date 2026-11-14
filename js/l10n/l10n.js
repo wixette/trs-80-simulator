@@ -14,14 +14,6 @@ import en from "./en.js";
 let table = en;
 
 /**
- * Uses another table of messages (for tests).
- * @param {Messages} messages
- */
-export function useMessages(messages) {
-  table = messages;
-}
-
-/**
  * Whether a key has a message.
  * @param {string} key
  * @returns {boolean}
@@ -40,9 +32,3 @@ export function t(key, params = {}) {
   return msg.replace(/\{(\w+)\}/g, (_, k) => (k in params ? String(params[k]) : `{${k}}`));
 }
 
-/**
- * A number as English writes it: 1,000.
- * @param {number} n
- * @returns {string}
- */
-export const num = (n) => n.toLocaleString("en");

@@ -71,7 +71,12 @@ const say = (text, level = "") => {
   fitStatus();
 };
 addEventListener("resize", fitStatus);
-system.say = (m) => say(t(m.key, m.params ?? {}), levelOf(m.key));
+// a unit taken out is named for the visitor ("the main board"), not by its id (board.main)
+system.say = (m) => {
+  const params = { ...(m.params ?? {}) };
+  if (typeof params.unit === "string") params.unit = t(`unit.${params.unit}`);
+  say(t(m.key, params), levelOf(m.key));
+};
 
 // ---- the stage: 2D always, 3D where WebGL is ---------------------------------------------------
 const flat = new Flat($("view2d"), system, {
@@ -141,9 +146,11 @@ new ReferencesTool($("pane-refs"));
 let companion = null;
 /** The Keyboard tool beside the lesson, which hears the program's reads too. @type {KeyboardTool | null} */
 let companionKeys = null;
+/** Where the companion tool is: once closed, out of the page. @type {HTMLElement | null} */
+let companionHost = null;
 system.machine.on.scan = (sel, value) => {
   keyboard.scanned(sel, value);
-  companionKeys?.scanned(sel, value);
+  if (companionHost?.isConnected) companionKeys?.scanned(sel, value);
 };
 dock.start();
 
@@ -156,6 +163,8 @@ function showMe(s) {
   if (s.view) stage.goTo(s.view);
   if (s.tool) {
     const host = el("div", { class: "companion-tool" });
+    companionKeys = null; // a tool that replaces the Keyboard one no longer hears the reads
+    companionHost = host;
     if (s.tool === "vram") {
       const v = new VramTool(host, system, (cell) => {
         flat.highlight = cell;
@@ -231,6 +240,8 @@ system.deck.onPulse = (tt) => pulses.push(tt);
 /** Whether a key event belongs to the page rather than the machine. @param {KeyboardEvent} e */
 function forThePage(e) {
   if (overlayOpen()) return true;
+  // a control that acted on the key already (the dock's handle, a tab list's arrows)
+  if (e.defaultPrevented) return true;
   if (e.metaKey || e.ctrlKey || e.altKey) return true;
   const a = /** @type {HTMLElement | null} */ (document.activeElement);
   if (!a || a === document.body) return false;
@@ -240,7 +251,8 @@ function forThePage(e) {
   if (a.matches(".vram-cell") && e.key.startsWith("Arrow")) return true;
   // the 3D view, which only Tab can focus: its arrows, + and - move the camera, Home goes home
   if (viewer && a === viewer.canvas && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "+", "=", "-", "_", "Home"].includes(e.key)) return true;
-  return e.key === "Tab" || e.key === "F5" || e.key.startsWith("F");
+  // Tab, and the function keys F1 to F12 (not the letter F, typed with Shift or Caps Lock)
+  return e.key === "Tab" || /^F\d{1,2}$/.test(e.key);
 }
 addEventListener("keydown", (e) => {
   sound.unlock();

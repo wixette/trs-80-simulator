@@ -228,7 +228,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .dock-tab:focus-visible { outline-offset: -2px; }
 .dock-tab[aria-selected="true"] { color: var(--md-primary-text); }
 .dock-tab[aria-selected="true"]::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--md-primary); }
-.dock-tab .dot { position: absolute; top: 9px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--md-primary); }
 /* room below a pane's end for a status message risen over the dock's foot (P7) */
 .dock-pane { flex: 1; min-height: 0; overflow: auto; padding: 8px 16px calc(16px + var(--status-rise, 0px)); }
 #dock.folded .dock-pane { display: none; }
@@ -459,7 +458,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   .strip-body .btn.small.has-icon { padding: 0 9px; }
   .lesson-body { flex-direction: column-reverse; }
   .lesson-companion { position: static; width: 100%; flex: none; max-height: none; }
-  .dock-tab span:not(.dot) { display: none; }
+  .dock-tab span { display: none; }
   .dock-tab { padding: 0 12px; }
 }
 /* a phone, upright (P9): the display, then the main keys; the recorder in a drawer */

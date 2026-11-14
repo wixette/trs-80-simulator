@@ -63,8 +63,8 @@ export class CassetteTool {
     // the same switch as the Tapes menu's: either sets it, both show it
     const fast = toggle(t("tape.fast"), system.fastTape, (on) => system.setFastTape(on));
     this.fast = fast;
-    setTip(fast, t("tape.fast.tip"));
     fast.setAttribute("data-tip-describes", "");
+    setTip(fast, t("tape.fast.tip"));
     this.canvas = /** @type {HTMLCanvasElement} */ (el("canvas", { width: String(W), height: String(H), class: "tape-strip", "aria-label": t("tape.strip") }));
     this.ctx = /** @type {CanvasRenderingContext2D} */ (this.canvas.getContext("2d"));
     this.now = el("p", { class: "tape-now", "aria-live": "off" });

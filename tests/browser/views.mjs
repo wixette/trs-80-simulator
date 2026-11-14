@@ -36,7 +36,12 @@ export default async function (h) {
   h.verify("off, Taken apart takes the computer apart", await h.until("[...trs80.motion.values()].every((m) => m.f === 1)", 15000));
   h.verify("Put it all back shows while anything is out", !(await h.js("document.querySelector('.put-back').hidden")));
   await h.pressText("#helper-strip button", "Computer");
-  h.verify("POWER is refused while it is apart", !(await h.js("trs80.machine.powered")) && /Put the machine back together/.test(await h.status()));
+  const said = await h.status();
+  h.verify("POWER is refused while it is apart, naming the part for the visitor", !(await h.js("trs80.machine.powered")) && /Put the machine back together/.test(said) && !/board\.main|case\.top/.test(said), said);
+  await h.press(".put-back");
+  h.verify("Put it all back: the machine is whole, and the view is the desk again", (await h.until("trs80.whole", 10000)) && (await h.js("document.querySelector('#band .menu-btn').textContent")) === "Desk");
+  await h.choose("#band .menu-btn", "Taken apart");
+  await h.until("[...trs80.motion.values()].every((m) => m.f === 1)", 15000);
   await h.choose("#band .menu-btn", "Inside, from below");
   h.verify("another view puts it back together", await h.until("trs80.whole && [...trs80.motion.values()].every((m) => m.f === 0)", 10000));
 
