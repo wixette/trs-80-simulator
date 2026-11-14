@@ -1,0 +1,24 @@
+{
+  "note": "Machine facts for a later build, each with its source key (sources/bibliography.md) and confidence. 'to-confirm' means not yet checked against a primary source.",
+  "cpu": {"type": "Z80", "clock_hz": 1774080, "source": "rs-info; wp-trs80 (1.774 MHz)", "confidence": "high; crystal 10.6445 MHz / 6 to-confirm"},
+  "memory_map": [
+    {"start": "0000", "end": "0FFF", "what": "ROM, Level I BASIC", "source": "general; to-confirm tm-1978"},
+    {"start": "0000", "end": "2FFF", "what": "ROM, Level II BASIC", "source": "wp-l1 (12 KB); to-confirm tm-1978"},
+    {"start": "37E0", "end": "37FF", "what": "Expansion Interface devices", "source": "rs-info"},
+    {"start": "3800", "end": "3BFF", "what": "keyboard matrix; address lines A0-A7 select rows, D0-D7 return columns; a read ORs the selected rows", "source": "rs-info keyboard", "confidence": "high"},
+    {"start": "3C00", "end": "3FFF", "what": "video RAM, 64 x 16, 7 bits stored, bit 6 = NOR(bit 5, bit 7)", "source": "rs-info video", "confidence": "high"},
+    {"start": "4000", "end": "4FFF", "what": "user RAM, 4 KB (to 7FFF with 16 KB, FFFF with the Expansion Interface)", "source": "reed-m1"}
+  ],
+  "port_ff": {"write": {"bit0": "cassette out 1", "bit1": "cassette out 2 (inverted side)", "bit2": "cassette motor relay", "bit3": "32/64-column mode (to-confirm)"}, "read": {"bit7": "cassette input flip-flop; any write to port FF clears it"}, "source": "rs-info cassette"},
+  "video": {"columns": 64, "rows": 16, "cell_dots": [6, 12], "glyph_dots": [5, 8], "picture_dots": [384, 192], "graphics_grid": [128, 48], "graphics_cell": [2, 3], "character_generator": "MCM6670 (Z29), six known images", "source": "rs-info video"},
+  "keyboard": {"matrix": [8, 8], "main_keys": 53, "keypad_keys": 12, "keypad": "wired in parallel with 0-9 . ENTER", "shift_row": "3880", "debounce_ms": [18.8, 51.3], "source": "rs-info keyboard"},
+  "cassette": {"level1_baud": 250, "level2_baud": 500, "leader": "255 zero bytes then a sync byte", "source": "reed-m1; rs-info cassette"},
+  "dimensions_mm": {
+    "keyboard_unit_case": {"w": 424.0, "d": 205.0, "h_top_part": 51.2, "h_bottom_part": 56.9, "source": "rs-parts Original_Top.stl / Original_Bottom.stl, measured with tools/measure.py", "confidence": "medium: a reconstruction compared with an original by its author"},
+    "keyboard_bezel_alpha": {"w": 388.0, "d": 135.5, "h": 13.0, "source": "rs-parts Bezel_Alpha_Original.stl"},
+    "mainboard_rev_g": {"w": 407.0, "d": 184.0, "footprints": 230, "ics": 76, "source": "rs-kicad TRS80_Model_I_G_E1.kicad_pcb, Edge.Cuts"},
+    "video_display_26_1201": {"w": [412.8, 419.1], "h": 304.8, "d": 330.2, "weight_lb": [12, 14], "screen_in": "12 (CHM: 11 diagonal)", "source": "chm-102667566; chm-102766382"},
+    "ctr_41": {"source": "not found yet"}
+  },
+  "prices_usd_1977": {"26-1001 computer": 399.95, "26-1201 video display": 199.95, "14-841 CTR-41": 49.95, "26-1051 complete Level I 4K system": 599.95, "source": "reed-m1"}
+}

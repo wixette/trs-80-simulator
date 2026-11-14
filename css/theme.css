@@ -1,0 +1,85 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* The theme's tokens (docs/ui-design.md, P11): Material 3's roles in a dark scheme, the Altair
+   8800 simulator's own: neutral greys round an amber primary. The brightest thing on the page is
+   the screen's phosphor; the interface round it is quiet. One colour, one meaning: amber what
+   to press, green on and done, blue the story, red refused. The canvases and the 3D scene read
+   these tokens (js/ui/theme.js). */
+
+:root {
+  color-scheme: dark;
+  /* amber: what to press, and the one action a place is for; a lighter amber for text */
+  --md-primary: #f90;
+  --md-primary-text: #ffb340;
+  --md-on-primary: #241500;
+  --md-primary-container: rgba(255, 153, 0, 0.18);
+  --md-on-primary-container: #ffc670;
+  /* the tonal buttons: a plain grey */
+  --md-secondary-container: #464646;
+  --md-on-secondary-container: #ededed;
+  /* neutral greys, from the darkest well (code and data) up to the dialogs */
+  --md-well: #171717;
+  --md-surface: #1f1f1f;
+  --md-surface-low: #242424;
+  --md-surface-mid: #2b2b2b;
+  --md-surface-high: #333333;
+  --md-surface-highest: #3c3c3c;
+  --md-on-surface: #e6e6e6;
+  --md-on-surface-variant: #a8a8a8;
+  --md-outline: #8c8c8c;
+  --md-outline-variant: #444444;
+  --md-scrim: rgba(0, 0, 0, 0.6);
+  --link: #8ab4f8;
+  /* green: on, and done */
+  --on: #3ddc63;
+  --on-container: #1d4a2a;
+  /* blue: the story, and the asides */
+  --story: #8db9f2;
+  --story-container: #1d2f47;
+  /* red: refused for a fault; amber-brown: refused, with why */
+  --md-error: #ff8a80;
+  --md-error-container: #5a2323;
+  --warn-container: #5a4a1a;
+  --on-warn-container: #ffd98a;
+  /* the stage behind the machine, in 2D and 3D: a dark blue glow */
+  --stage-glow: radial-gradient(ellipse at 50% 42%, #2e3646 0%, #1d222b 55%, #15181e 100%);
+  --state-hover: 0.08;
+  --state-press: 0.14;
+
+  /* the screen */
+  --phosphor: #e4ecff;
+  --glass-off: #4b5856;
+  /* lit, the glass reads as a deep green, the off glass's own hue: the eye adapts to the phosphor (js/flat/painter.js) */
+  --glass-on: #2a3d39;
+  --tube-black: #0b0d0c;
+  /* the machine's finishes, as the 3D model's materials look on screen */
+  --case-silver: #959590;
+  --case-silver-dark: #85857f;
+  --monitor-brown: #241f1b;
+  --panel-brown: #2d2722;
+  --ink-silver: #cfcfcb;
+  --chrome: #c6c8cb;
+  --key-black: #1c1c1c;
+  --key-cream: #d9cfb2;
+  --key-legend: #f2f2ee;
+  --bezel-black: #0d0d0d;
+  --recorder-black: #1a1a1a;
+  --led-off: #3a0d0a;
+  --led-on: #ff3b24;
+  /* the chips, lit (a view the real machine never had) */
+  --glow-cpu: #ff8a3d;
+  --glow-rom: #55d18a;
+  --glow-ram: #d16cff;
+  --glow-video: #4a7dff;
+
+  --font: "Roboto Flex", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --radius-xs: 4px;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+  --bar-h: 52px;
+  --status-h: 30px;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}

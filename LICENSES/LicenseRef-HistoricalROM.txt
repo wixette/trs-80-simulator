@@ -1,0 +1,8 @@
+Historical ROM images, not licensed to anyone.
+
+The copyright in these files belongs to their original owners (for the TRS-80 Model I's
+Level II BASIC: Microsoft and Tandy Corporation). They were never formally released, and
+no licence to redistribute them has been granted. They are carried here, as by other open
+emulators and preservation archives, as historical artifacts for study and for running on a
+simulator of the machine they were written for, with an offer to remove them on request.
+The NOTICE file beside them says where each came from, its size and its hashes.

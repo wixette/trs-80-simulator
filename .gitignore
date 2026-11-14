@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+coverage/
+*.log
+__pycache__/
+*.pyc
+
+# Fetched by the opt-in ZEXDOC test (GPL, not committed)
+tests/.cache/
+# The model's check renders (pnpm build:model writes them)
+model/blender/out/
+# Release media (pnpm shots writes outside the repository by default)
+shots/
+.claude/

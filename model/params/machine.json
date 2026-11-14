@@ -1,0 +1,1983 @@
+{
+  "_schema": "Every numeric entry is {v, unit, conf, src, note?}. Units: mm and deg, in the machine frame of the keyboard unit (Blender, Z up): origin at the centre of the case footprint on its bottom face, +X left to right as the operator sees the keyboard, +Y toward the back, +Z up. conf: doc = stated in a document or museum record; model = read off RetroStack's reconstruction (case STL or KiCad board, research/tools/), which its author compared with an original; photo = scaled from a photo; est = estimate, to be checked; design = our own choice where sources are silent. Source keys are in research/bibliography.md. Positions read off the case STL convert as X = x_stl + 215, Y = -(z_stl + 102.5), Z = y_stl. keyboard.json and board.json are generated from this file and the KiCad part lists by tools/kicad_to_params.py; never edit them by hand.",
+  "version": "0.2.0",
+  "fidelity_target": "B",
+  "reference_machine": "TRS-80 Model I keyboard unit, Level II 16 KB, 1979: main board revision G, ALPS keyboard with the 12-key numeric keypad (design/decisions/0001-which-machine.md)",
+  "case": {
+    "width": {
+      "v": 424.0,
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts Original_Top.stl, Original_Bottom.stl",
+      "note": "museums: 16.5 in = 419 mm (radiomuseum, CHM-102626722 for 26-1006)"
+    },
+    "depth": {
+      "v": 205.0,
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts",
+      "note": "museums: 8 in = 203 mm (radiomuseum), 8.5 in = 216 mm (CHM-102626722)"
+    },
+    "shell_height": {
+      "v": 73.3,
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts Original_Top.stl, top of the rear ridge",
+      "note": "OPEN O1: museums give 3.5-3.75 in (89-95 mm) overall; the difference is not explained by the keys alone (feet? the ridge? a measurement with keys?). Settle from side photos before building"
+    },
+    "seam_z": {
+      "v": 22.0,
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts: the top half's lowest edge (22.1 mm) over the bottom's wall"
+    },
+    "bottom_wall_height": {
+      "v": 24.0,
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts Original_Bottom.stl section at mid-width"
+    },
+    "floor_thickness": {
+      "v": 3.0,
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts Original_Bottom.stl section"
+    },
+    "wall_thickness": {
+      "v": 3.0,
+      "unit": "mm",
+      "conf": "est",
+      "src": "rs-parts sections, to read precisely"
+    },
+    "top_profile": {
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts Main_Enclosure/Original_Top.stl, top-surface heights sampled every 1-5 mm along the side rim (x_stl -415) and across the case, 2026-11-12; Y = -z_stl - 102.5",
+      "note": "Outer top surface of the top half, front to back, as [Y, Z]: the rounded front edge, then ONE straight slope (8.8 deg, the key surface's plane) up to the ridge (73.2 mm, 46 mm from the rear), a steep slope (55 deg) back down to a flat rear ledge at 48.6 mm, and the ledge's rounded rear edge, where the vents are. The front face below 37.5 mm runs straight down to the seam. Replaces v0.2's profile, which sagged up to 8 mm in the middle (it was read from sparse section points)",
+      "v": [
+        [
+          -102.5,
+          22.0
+        ],
+        [
+          -102.5,
+          37.5
+        ],
+        [
+          -101.5,
+          42.4
+        ],
+        [
+          -100.5,
+          44.4
+        ],
+        [
+          -99.5,
+          45.7
+        ],
+        [
+          -98.5,
+          46.8
+        ],
+        [
+          -97.5,
+          47.7
+        ],
+        [
+          -96.5,
+          48.4
+        ],
+        [
+          -95.5,
+          49.0
+        ],
+        [
+          -94.5,
+          49.5
+        ],
+        [
+          -92.5,
+          50.1
+        ],
+        [
+          -89.5,
+          50.6
+        ],
+        [
+          -87.5,
+          50.9
+        ],
+        [
+          57.0,
+          73.2
+        ],
+        [
+          73.5,
+          49.6
+        ],
+        [
+          74.5,
+          48.6
+        ],
+        [
+          89.5,
+          48.6
+        ],
+        [
+          90.5,
+          48.4
+        ],
+        [
+          92.5,
+          47.9
+        ],
+        [
+          94.5,
+          47.1
+        ],
+        [
+          95.5,
+          46.5
+        ],
+        [
+          96.5,
+          45.8
+        ],
+        [
+          97.5,
+          45.0
+        ],
+        [
+          98.5,
+          43.9
+        ],
+        [
+          99.5,
+          42.5
+        ],
+        [
+          100.5,
+          40.6
+        ],
+        [
+          101.5,
+          38.6
+        ],
+        [
+          102.5,
+          35.6
+        ]
+      ]
+    },
+    "colour_top": {
+      "v": "#959590",
+      "unit": "srgb",
+      "conf": "photo",
+      "src": "COMMONS Binarysequence, Rama, TCMI",
+      "note": "painted metallic silver-grey"
+    },
+    "colour_bottom": {
+      "v": "#959590",
+      "unit": "srgb",
+      "conf": "photo",
+      "src": "COMMONS Binarysequence, Rama, TCMI",
+      "note": "painted metallic silver-grey"
+    },
+    "bottom_profile": {
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-parts Original_Bottom.stl, section at x_stl = -410",
+      "note": "Outer section of the bottom half, [Y, Z], front to back along the bottom; closed by the seam at seam_z",
+      "v": [
+        [
+          -102.5,
+          22.0
+        ],
+        [
+          -102.5,
+          9.0
+        ],
+        [
+          -101.3,
+          5.5
+        ],
+        [
+          -99.6,
+          2.6
+        ],
+        [
+          -97.0,
+          0.7
+        ],
+        [
+          -94.5,
+          0.0
+        ],
+        [
+          94.5,
+          0.0
+        ],
+        [
+          97.0,
+          0.7
+        ],
+        [
+          99.6,
+          2.6
+        ],
+        [
+          101.3,
+          5.5
+        ],
+        [
+          102.5,
+          9.0
+        ],
+        [
+          102.5,
+          22.0
+        ]
+      ]
+    },
+    "plan_corner_radius": {
+      "v": 10.0,
+      "unit": "mm",
+      "conf": "photo",
+      "src": "COMMONS Rama IMG_7161, Binarysequence front three-quarter"
+    },
+    "well_opening": {
+      "x": {
+        "v": [
+          -194.0,
+          194.0
+        ],
+        "unit": "mm",
+        "conf": "model",
+        "src": "rs-parts Main_Enclosure/Original_Top.stl, top-surface heights sampled every 1-5 mm along the side rim (x_stl -415) and across the case, 2026-11-12; Y = -z_stl - 102.5: the rim's inner edge at x_stl -409; the bezel is 388 mm (rs-parts Bezel_Alpha_Original.stl)"
+      },
+      "y": {
+        "v": [
+          -87.5,
+          44.5
+        ],
+        "unit": "mm",
+        "conf": "model",
+        "src": "rs-parts Main_Enclosure/Original_Top.stl, top-surface heights sampled every 1-5 mm along the side rim (x_stl -415) and across the case, 2026-11-12; Y = -z_stl - 102.5: the front rim ends at z_stl -15, the rear at -147"
+      },
+      "corner_radius": {
+        "v": 12.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "COMMONS Rama IMG_7161"
+      },
+      "ledge_drop": {
+        "v": 6.3,
+        "unit": "mm",
+        "conf": "model",
+        "src": "rs-parts Main_Enclosure/Original_Top.stl, top-surface heights sampled every 1-5 mm along the side rim (x_stl -415) and across the case, 2026-11-12; Y = -z_stl - 102.5: inside the rim a ledge 6.3 mm lower and 14 mm wide carries the bezel, on the same slope"
+      }
+    },
+    "feet": {
+      "v": [
+        [
+          -140.0,
+          0.0
+        ],
+        [
+          140.0,
+          0.0
+        ]
+      ],
+      "size": [
+        70.0,
+        150.0,
+        4.0
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "src": "COMMONS Binarysequence rear panel photo: two flat pads near the ends",
+      "note": "[X, Y] centres; size w, d, h. Feet add 4 mm to the height (O1)"
+    },
+    "vents": {
+      "x": {
+        "v": [
+          -108.0,
+          108.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "COMMONS Binarysequence rear panel, scaled by the case width"
+      },
+      "z": {
+        "v": [
+          24.0,
+          48.6
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "same"
+      },
+      "pitch": {
+        "v": 4.8,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "about 45 slots over 216 mm"
+      },
+      "slot": {
+        "v": 2.4,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "same"
+      },
+      "note": "The slots wrap over the rear ledge's rounded edge: up the rear face from z, over the rounding, and onto the ledge's top as far as y_top (photos from above and behind)",
+      "y_top": {
+        "v": 82.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a top-down reference photo of the keypad, 2026-11-12: the slots show on the ledge's top behind the ridge"
+      }
+    },
+    "din_recess": {
+      "x": {
+        "v": [
+          104.0,
+          206.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "COMMONS Binarysequence and TCMI rear photos: at the right seen from the front"
+      },
+      "z": {
+        "v": [
+          9.0,
+          34.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "same"
+      },
+      "depth": {
+        "v": 6.0,
+        "unit": "mm",
+        "conf": "est",
+        "src": "photos"
+      }
+    },
+    "expansion_opening": {
+      "x": {
+        "v": [
+          -199.0,
+          -109.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "COMMONS Binarysequence rear panel: at the left seen from the front, the edge connector and the reset button inside"
+      },
+      "z": {
+        "v": [
+          10.0,
+          36.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "same"
+      }
+    },
+    "housing": {
+      "note": "Seen from the side, as [Y, Z] corners with fillet radii: front bottom, front top (where the base's front face meets the key slope extended), ridge, the foot of the rear slope on the base's top, rear top, rear bottom. Every rounding has its arc in the side plane only; the side faces are flat and the vertical corners square, like the monitor's outer shell (a description of the reference photos, 2026-11-12)",
+      "corners": {
+        "v": [
+          [
+            -102.5,
+            0.0
+          ],
+          [
+            -102.5,
+            48.6
+          ],
+          [
+            57.0,
+            73.3
+          ],
+          [
+            74.5,
+            48.6
+          ],
+          [
+            102.5,
+            48.6
+          ],
+          [
+            102.5,
+            0.0
+          ]
+        ],
+        "unit": "mm",
+        "conf": "model",
+        "src": "rs-parts Original_Top.stl / Original_Bottom.stl sampled 2026-11-12: the key slope through (-87.5, 50.9) and (57, 73.3), 8.8 deg; the rear slope down to the 48.6 mm ledge at 74.5; the base 205 mm deep"
+      },
+      "radii": {
+        "v": [
+          9.0,
+          12.0,
+          5.0,
+          2.0,
+          13.0,
+          9.0
+        ],
+        "unit": "mm",
+        "conf": "model",
+        "src": "rs-parts Original_Top.stl / Original_Bottom.stl sampled 2026-11-12: front and rear top roundings about 12-13 mm, bottom 9 mm; the ridge a small transition (a description of the reference photos, 2026-11-12), est 5 mm"
+      },
+      "base_top": {
+        "v": 48.6,
+        "unit": "mm",
+        "conf": "model",
+        "src": "rs-parts Original_Top.stl / Original_Bottom.stl sampled 2026-11-12: the rear ledge; the key slope extended meets the front face at the same height"
+      },
+      "wedge_side_x": {
+        "v": 210.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a description of the reference photos, 2026-11-12: the base's sides stand about 2 mm out from the wedge's sides (the STL gives 3)"
+      },
+      "side_panel": {
+        "proud": {
+          "v": 2.0,
+          "unit": "mm",
+          "conf": "photo"
+        },
+        "border": {
+          "v": 1.0,
+          "unit": "mm",
+          "conf": "photo"
+        },
+        "src": "a description of the reference photos, 2026-11-12: the base's side is a raised panel, its outline the base's rounded rectangle inset by a 1 mm border level with the wedge's sides"
+      },
+      "groove": {
+        "z": {
+          "v": 22.0,
+          "unit": "mm",
+          "conf": "model",
+          "src": "the seam between the halves (seam_z)"
+        },
+        "width": {
+          "v": 2.0,
+          "unit": "mm",
+          "conf": "photo"
+        },
+        "depth": {
+          "v": 2.0,
+          "unit": "mm",
+          "conf": "photo"
+        },
+        "src": "a description of the reference photos, 2026-11-12: a narrow groove round the base's whole perimeter at mid-height; the top and bottom halves part inside it"
+      }
+    }
+  },
+  "keyboard_pcb": {
+    "outline": {
+      "v": [
+        378.0,
+        122.0
+      ],
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-kicad TRS80_Model_I_Keyboard_ALPS_E1.kicad_pcb, Edge.Cuts"
+    },
+    "origin_x": {
+      "v": -206.55,
+      "unit": "mm",
+      "conf": "est",
+      "src": "design: the key centres' bounding box (KiCad x 40.0-369.1, y 12.6-89.5) centred on the keyboard opening",
+      "note": "X of the PCB's KiCad (0, 0) corner, its rear-left"
+    },
+    "origin_y": {
+      "v": 33.55,
+      "unit": "mm",
+      "conf": "est",
+      "src": "design, as origin_x"
+    },
+    "pcb_z": {
+      "v": 33.0,
+      "unit": "mm",
+      "conf": "est",
+      "src": "design: above the upside-down main board (board top 31.6 mm) with 1.4 mm for its solder side",
+      "note": "bottom face of the keyboard PCB"
+    },
+    "thickness": {
+      "v": 1.6,
+      "unit": "mm",
+      "conf": "est",
+      "src": "standard FR-4"
+    },
+    "key_pitch": {
+      "v": 19.1,
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-kicad: column spacing 19.0-19.2 mm, row spacing 19.2 mm"
+    },
+    "keycap_size_1u": {
+      "v": [
+        18.0,
+        18.0
+      ],
+      "unit": "mm",
+      "conf": "est",
+      "src": "19.1 mm pitch less 1.1 mm gap; top face 13 x 14 mm"
+    },
+    "key_travel": {
+      "v": 3.5,
+      "unit": "mm",
+      "conf": "est",
+      "src": "typical ALPS travel"
+    },
+    "keycap_colour": {
+      "v": "#1f1e1d",
+      "unit": "srgb",
+      "conf": "photo",
+      "src": "COMMONS photos",
+      "note": "black caps, white legends; check grey caps for any keys"
+    },
+    "legend_colour": {
+      "v": "#e8e6e0",
+      "unit": "srgb",
+      "conf": "photo",
+      "src": "COMMONS photos"
+    },
+    "switch_height": {
+      "v": 7.4,
+      "unit": "mm",
+      "conf": "est",
+      "src": "ALPS SKCC housing above the PCB, est"
+    },
+    "switch_size": {
+      "v": 14.0,
+      "unit": "mm",
+      "conf": "est",
+      "src": "ALPS housing, est"
+    },
+    "keycap_bottom_z": {
+      "v": 41.0,
+      "unit": "mm",
+      "conf": "est",
+      "src": "design: the skirt around the switch housing's top at rest"
+    },
+    "keycap_height": {
+      "v": 12.0,
+      "unit": "mm",
+      "conf": "est",
+      "src": "snuci's cap profile photo, est; caps are uniform here, the real ones are sculpted by row",
+      "note": "superseded by keycap_rows: the caps are sculpted by row"
+    },
+    "bezel": {
+      "deck_z": {
+        "v": [
+          42.0,
+          45.0
+        ],
+        "unit": "mm",
+        "conf": "est",
+        "src": "design: under the top's front rim (inner surface about 45.5 mm)"
+      },
+      "frame_top_z": {
+        "v": 47.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "COMMONS Rama IMG_7161: a raised, bevelled border round the key area"
+      },
+      "frame_width": {
+        "v": 10.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "same"
+      },
+      "hole_clearance": {
+        "v": 0.2,
+        "unit": "mm",
+        "conf": "design",
+        "src": "design: 0.4 left slivers of deck 0.2-0.3 mm wide between neighbouring holes, and the light PCB showed through as lines (2026-11-12); 0.2 leaves 0.6-0.7 mm"
+      },
+      "src_part": "rs-parts Keyboard_Bezel/Bezel_Alpha_Original.stl (388 x 135.5 x 13 mm) and Bezel_NumPad_Original.stl"
+    },
+    "nameplate": {
+      "x": {
+        "v": [
+          -52.0,
+          46.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "COMMONS Dave Jones system photo (Commons) and Rama IMG_7161, scaled by the well"
+      },
+      "y": {
+        "v": [
+          33.5,
+          43.5
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a top-down reference photo of the keypad, 2026-11-12: the plate lies on the bezel's rear border, behind the number row"
+      },
+      "z": {
+        "v": [
+          47.3,
+          47.3
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "same: flat on the bezel's frame (frame_top_z), in the tilted keyboard's frame"
+      },
+      "sections": [
+        "Radio Shack",
+        "TRS-80",
+        "MICROCOMPUTER SYSTEM"
+      ],
+      "src_text": "photos"
+    },
+    "tilt": {
+      "v": 8.8,
+      "unit": "deg",
+      "conf": "model",
+      "src": "rs-parts Main_Enclosure/Original_Top.stl, top-surface heights sampled every 1-5 mm along the side rim (x_stl -415) and across the case, 2026-11-12; Y = -z_stl - 102.5: the case's key-surface slope (22.3 mm over 144 mm) and the ledge under the bezel share it; rs-parts' bezel is a flat plate, so the keyboard assembly lies on the slope",
+      "pivot": {
+        "v": [
+          -87.5,
+          47.0
+        ],
+        "unit": "mm",
+        "conf": "design",
+        "note": "[Y, Z] the assembly turns about: the bezel frame's front edge, so the front keeps its height"
+      },
+      "note": "The whole keyboard (PCB, switches, caps, bezel, name plate, LED) is built flat, then tilted rear-up by this angle; keys travel along the tilted normal"
+    },
+    "keycap_rows": {
+      "v": [
+        [
+          13.0,
+          10.0
+        ],
+        [
+          11.6,
+          5.0
+        ],
+        [
+          11.0,
+          0.0
+        ],
+        [
+          11.6,
+          -6.0
+        ],
+        [
+          11.6,
+          -6.0
+        ]
+      ],
+      "unit": "[mm, deg]",
+      "conf": "est",
+      "src": "COMMONS TRS-80_1_Alps_key_switches_and_cap_profile.jpg (snuci): the number row's caps visibly taller, their tops sloping to the operator; a common sculpted (row-profiled) set, est",
+      "note": "[height at the cap's centre above its skirt's foot, tilt of the top face] for rows 0 (numbers) to 4 (space bar), top to bottom; the keypad's four rows take rows 0-3. Positive tilt: the face's rear edge higher, so it faces the operator"
+    },
+    "keycap_top": {
+      "inset": {
+        "v": [
+          2.3,
+          2.0
+        ],
+        "unit": "mm",
+        "conf": "est",
+        "src": "snuci's photo: the top face about 13.5 x 14 mm on an 18 mm cap"
+      },
+      "corner_radius": {
+        "v": 1.8,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review, 2026-11-12, and snuci's photo: the top face's corners rounded in its own plane"
+      }
+    },
+    "legends": {
+      "letter_size": {
+        "v": 5.4,
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "pair_size": {
+        "v": 4.0,
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "word_size": {
+        "v": 2.9,
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "bold": {
+        "v": 0.22,
+        "unit": "mm",
+        "conf": "photo",
+        "note": "outline offset that thickens the strokes"
+      },
+      "arrow": {
+        "length": {
+          "v": 8.0,
+          "unit": "mm"
+        },
+        "stem": {
+          "v": 0.7,
+          "unit": "mm"
+        },
+        "head": [
+          4.4,
+          3.2
+        ],
+        "conf": "photo",
+        "note": "a hairline stem with a large solid head [width, length]"
+      },
+      "src": "COMMONS Binarysequence keyboard photo and snuci's close-up: bold white sans legends filling about a third of the top face; review, 2026-11-12: bigger and bolder",
+      "word_bold": {
+        "v": 0.1,
+        "unit": "mm",
+        "conf": "photo",
+        "note": "lighter than the single characters: at 2.9 mm the full bold closes the gaps"
+      },
+      "word_spacing": {
+        "v": 1.15,
+        "unit": "",
+        "conf": "photo"
+      }
+    }
+  },
+  "power_led": {
+    "part": "HP 5082-4850 red LED, CR1 on the keyboard PCB, on a flying lead",
+    "src": "tm-1978 Fig. 17 sheet 1; rs-info keyboard (CR1, red 5 mm)",
+    "position": {
+      "v": [
+        92.25,
+        -43.0
+      ],
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-kicad ALPS keyboard CR1 at (298.8, 76.56), placed with keyboard_pcb origin; agrees with the Dave Jones system photo (Commons) (about 84, -46)"
+    }
+  },
+  "main_board": {
+    "outline": {
+      "v": [
+        407.0,
+        184.0
+      ],
+      "unit": "mm",
+      "conf": "model",
+      "src": "rs-kicad TRS80_Model_I_G_E1.kicad_pcb, Edge.Cuts"
+    },
+    "origin_x": {
+      "v": 203.5,
+      "unit": "mm",
+      "conf": "est",
+      "src": "design: centred in X; mirrored, so X = origin_x - x_kicad",
+      "note": "X of the board's KiCad (0, 0) corner"
+    },
+    "origin_y": {
+      "v": 99.5,
+      "unit": "mm",
+      "conf": "est",
+      "src": "design: rear edge against the rear wall (wall_thickness), so the DIN sockets meet the rear panel"
+    },
+    "board_z": {
+      "v": 30.0,
+      "unit": "mm",
+      "conf": "photo",
+      "src": "from the DIN sockets' centres at about 21 mm in the rear photos, hanging about 9 mm under the board",
+      "note": "the component side, facing down; the solder side is at board_z + thickness"
+    },
+    "thickness": {
+      "v": 1.6,
+      "unit": "mm",
+      "conf": "est",
+      "src": "standard FR-4"
+    },
+    "colour": {
+      "v": "#3d6b3a",
+      "unit": "srgb",
+      "conf": "photo",
+      "src": "COMMONS Binarysequence PCB photo, to sample"
+    },
+    "labelled_parts": {
+      "Z40": "Z80 CPU",
+      "Z29": "MCM6670 character generator",
+      "Z33": "ROM A: Level II BASIC, 0000H-1FFFH (8 KB)",
+      "Z34": "ROM B: Level II BASIC, 2000H-2FFFH (4 KB)",
+      "Z13": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Z14": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Z15": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Z16": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Z17": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Z18": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Z19": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Z20": "RAM (4116): one bit of every byte at 4000H-7FFFH",
+      "Y1": "10.6445 MHz crystal",
+      "S1": "power switch",
+      "S2": "reset",
+      "J1": "power in (DIN)",
+      "J2": "video out (DIN)",
+      "J3": "cassette (DIN)",
+      "J4": "expansion edge connector: the Expansion Interface (26-1140) plugged in here for more memory, disks and a printer; not modelled here (design/decisions.md, D6)",
+      "J100": "keyboard connector",
+      "src": "rs-kicad values and references; tm-1978 (Y1, S2); rs-info video (Z29; video RAM chips Z45-Z48, Z61-Z63)"
+    },
+    "video_ram_refs": [
+      "Z45",
+      "Z46",
+      "Z47",
+      "Z48",
+      "Z61",
+      "Z62",
+      "Z63"
+    ],
+    "mounting": {
+      "v": "components down",
+      "conf": "photo",
+      "src": "COMMONS Binarysequence PCB and rear panel photos, TCMI rear: the DIN sockets are at the rear right seen from the front, where the KiCad drawing (component side) has them at the left; so the board is mounted upside down and mirrored left to right"
+    },
+    "packages": {
+      "note": "height of each package below the board (mm), est from standard parts and the PCB photo; DIP width by standard",
+      "conf": "est",
+      "DIP8": [
+        6.4,
+        4.5
+      ],
+      "DIP14": [
+        6.4,
+        4.5
+      ],
+      "DIP16": [
+        6.4,
+        4.5
+      ],
+      "DIP18": [
+        6.4,
+        4.5
+      ],
+      "DIP24": [
+        15.2,
+        5.0
+      ],
+      "DIP40": [
+        15.2,
+        5.0
+      ],
+      "R_0.25W": [
+        0,
+        2.4
+      ],
+      "R_0.5W": [
+        0,
+        3.5
+      ],
+      "R_2W": [
+        0,
+        6.0
+      ],
+      "R_3W": [
+        0,
+        7.0
+      ],
+      "D": [
+        0,
+        2.4
+      ],
+      "R_Pot": [
+        0,
+        8.0
+      ],
+      "C_Disc_9.5L_4W_6P_Small": [
+        0,
+        9.0
+      ],
+      "C_Disc_18.5L_4W_8.5P_Large": [
+        0,
+        12.0
+      ],
+      "C_Box_7.5L_5W_4.5P_Small": [
+        0,
+        6.0
+      ],
+      "C_Box_11L_5W_6P_Large": [
+        0,
+        8.0
+      ],
+      "C_Pol_Radial_5D_2.5P": [
+        0,
+        11.0
+      ],
+      "C_Pol_Radial_6.3D_2.5P": [
+        0,
+        11.0
+      ],
+      "C_Pol_Radial_10D_5P": [
+        0,
+        16.0
+      ],
+      "C_Pol_Axial_21L_9W_29P": [
+        0,
+        9.0
+      ],
+      "C_Pol_Axial_41L_19W_48P": [
+        0,
+        19.0
+      ],
+      "C_Pol_Axial_63L_25W_71P": [
+        0,
+        24.0
+      ],
+      "Q_Circle_EBC": [
+        0,
+        5.0
+      ],
+      "Q_Box_BCE": [
+        0,
+        9.0
+      ],
+      "Q_Heatsink_Large_BEC": [
+        0,
+        24.0
+      ],
+      "Q_Heatsink_Small_BCE": [
+        0,
+        18.0
+      ],
+      "D_Bridge": [
+        0,
+        6.0
+      ],
+      "Crystal": [
+        0,
+        4.0
+      ],
+      "Relay": [
+        0,
+        10.0
+      ],
+      "Sw_Small": [
+        0,
+        10.0
+      ],
+      "Sw_Large": [
+        0,
+        14.0
+      ],
+      "DIN5": [
+        0,
+        18.0
+      ],
+      "Keyboard_Connector": [
+        0,
+        0
+      ],
+      "Edge_Connector": [
+        0,
+        0
+      ]
+    }
+  },
+  "rear_panel": {
+    "note": "Positions follow from the board (board.json, mirrored). Seen from the front, left to right: the expansion opening with the edge connector J4 and the reset button S2; the vents; the power switch S1, power J1, video J2 and cassette J3 in the DIN recess at the right",
+    "src": "rs-kicad positions",
+    "conf": "model"
+  },
+  "take_apart": {
+    "conf": "est",
+    "src": "Open: the 1978 Technical Manual has no disassembly section; a service-manual excerpt of unclear model (manualshive) and trs-80.com's modification notes suggest the order below. Confirm from the Model I service manual or photos",
+    "order": [
+      {
+        "unit": "cables",
+        "path": "each plug back 60 mm out of its socket",
+        "requires": []
+      },
+      {
+        "unit": "case.top",
+        "path": "up 140 mm, after four screws from the underside",
+        "requires": [
+          "cables"
+        ]
+      },
+      {
+        "unit": "keyboard",
+        "path": "up 90 mm; its flat cable to J100 limits the travel",
+        "requires": [
+          "case.top"
+        ]
+      },
+      {
+        "unit": "board.main",
+        "path": "up 45 mm so the DIN sockets clear the rear panel, then 250 mm forward, where it turns over to show its parts",
+        "requires": [
+          "case.top",
+          "keyboard",
+          "cables"
+        ]
+      }
+    ]
+  },
+  "video_display": {
+    "src": "COMMONS Dave Jones 'Radio Shack Tandy TRS-80 Model I System' (front, the main reference), 'TRS-80 Model I with Drives' (Shiny Things); chm-102667566, chm-102766382 (dimensions)",
+    "note": "Its own frame: origin at the centre of the footprint's front edge on the bottom face, +X right, +Y back, +Z up. Front positions scaled from the front photo by the width (0.277 mm/px) and the height (0.303 mm/px)",
+    "width": {
+      "v": 413.0,
+      "unit": "mm",
+      "conf": "doc",
+      "src": "chm-102667566 (16 1/4 in); chm-102766382 has 16 1/2 in"
+    },
+    "height": {
+      "v": 304.8,
+      "unit": "mm",
+      "conf": "doc",
+      "src": "chm (12 in)",
+      "note": "overall, base included (review, 2026-11-12: fit everything within 12 in); the body above the base is height - base.height = 289.8 mm"
+    },
+    "depth": {
+      "v": 330.2,
+      "unit": "mm",
+      "conf": "doc",
+      "src": "chm (13 in)"
+    },
+    "screen_opening": {
+      "x": {
+        "v": [
+          -176.8,
+          90.6
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "note": "left edge 9.7 mm in from the inner shell's side (front photo: 35 px at 0.277 mm/px)"
+      },
+      "z": {
+        "v": [
+          61.3,
+          267.4
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "note": "re-mapped 2026-11-12 from the first fit (inner front 42-304.8 mm) to the 12 in fit (inner front 50-289.8 mm), linearly"
+      },
+      "corner_radius": {
+        "v": 28.0,
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "src": "front photo"
+    },
+    "tube_face": {
+      "x": {
+        "v": [
+          -167.0,
+          82.3
+        ],
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "z": {
+        "v": [
+          73.7,
+          256.2
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "note": "re-mapped 2026-11-12 from the first fit (inner front 42-304.8 mm) to the 12 in fit (inner front 50-289.8 mm), linearly"
+      },
+      "corner_radius": {
+        "v": 38.0,
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "src": "front photo",
+      "sphere_radius": {
+        "v": 450.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review, 2026-11-12: the glass's curves and bulge should be larger (the dark case meets it on a strongly curved line in the photo); was 650 mm",
+        "note": "the glass stands about 22 mm proud of its corners, 17 mm of its sides and 9 mm of its top and bottom"
+      },
+      "apex_y": {
+        "v": 0.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review, 2026-11-12: move the glass forward; compared 2026-11-12 in renders from the the reference photo's angle at apex 14, 6 and 0 mm and two sets of bows (blender/out/previews/d15_*, d16_*): at 0 mm the glass fills the opening as in the photo",
+        "note": "the apex level with the dark front's surface; the rim lies about 10-19 mm back"
+      },
+      "outline_bow": {
+        "top_bottom": {
+          "v": 9.0,
+          "unit": "mm",
+          "conf": "photo",
+          "src": "the reference photo: the bottom edge drops about 6.6 % of the glass's height from corner to middle; compared 2026-11-12 in renders from the the reference photo's angle at apex 14, 6 and 0 mm and two sets of bows (blender/out/previews/d15_*, d16_*)"
+        },
+        "sides": {
+          "v": 6.0,
+          "unit": "mm",
+          "conf": "photo",
+          "src": "the reference photo: the left edge bulges about 30 px (9 mm) between corner and middle, part of it the corner's radius; compared 2026-11-12 in renders from the the reference photo's angle at apex 14, 6 and 0 mm and two sets of bows (blender/out/previews/d15_*, d16_*)"
+        },
+        "note": "the glass's outline is not a rectangle: each edge bows outward, most at its middle, none at the corners"
+      },
+      "rim": {
+        "width": {
+          "v": 3.5,
+          "unit": "mm",
+          "conf": "photo",
+          "src": "review, 2026-11-12: most CRT faces show a dark rim round the glass, about 3-4 mm wide"
+        },
+        "note": "a black band on the glass, just inside its outline, following the bowed edge"
+      }
+    },
+    "picture": {
+      "aspect": "384 x 192 dots at about 2:1 pixel aspect, shown on a 4:3 raster",
+      "conf": "design",
+      "note": "the page maps its canvas onto tube_face's UVs"
+    },
+    "right_panel": {
+      "note": "From top to bottom: the silver word 'Power', the red power button in a silver ring and a raised ring of the casing, then a raised rectangular platform of the casing carrying the name plate. A dealer's sticker under the name plate in one photo is not modelled (not on most units)",
+      "x": {
+        "v": [
+          101.7,
+          176.6
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "Dave Jones front photo"
+      },
+      "z": {
+        "v": [
+          58.6,
+          231.8
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of a 26-1201's right-hand side and notes, 2026-11-12; scaled by the platform's width (74.9 mm, about 0.27 mm/px): the platform's top about 15 mm below the button's centre; its bottom kept from the first fit"
+      },
+      "height": {
+        "v": 4.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review: 3-5 mm proud of the casing"
+      },
+      "corner_radius": {
+        "v": 3.0,
+        "unit": "mm",
+        "conf": "est",
+        "src": "photo"
+      },
+      "material": {
+        "v": "casing",
+        "conf": "photo",
+        "src": "review: the platform is part of the dark casing and its colour; its shade varies between photos"
+      }
+    },
+    "power_button": {
+      "v": [
+        137.8,
+        246.5
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "src": "Dave Jones front photo (X), the re-mapping to the 12 in fit (Z)",
+      "note": "[X, Z] of the button's centre; red",
+      "radius": {
+        "v": 5.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of a 26-1201's right-hand side and notes, 2026-11-12; scaled by the platform's width (74.9 mm, about 0.27 mm/px) (review: about 5 mm)"
+      },
+      "height": {
+        "v": 2.5,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review: 2-3 mm"
+      },
+      "silver_ring": {
+        "v": [
+          5.0,
+          6.2
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of a 26-1201's right-hand side and notes, 2026-11-12; scaled by the platform's width (74.9 mm, about 0.27 mm/px): inner and outer radius"
+      },
+      "casing_ring": {
+        "v": [
+          6.2,
+          7.4
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review, 2026-11-12: as wide as the silver ring (1.2 mm); was 6.2-9",
+        "note": "inner and outer radius; the finished edge of the casing's opening, raised as much as the silver ring"
+      },
+      "ring_height": {
+        "v": 1.0,
+        "unit": "mm",
+        "conf": "est",
+        "src": "photo"
+      }
+    },
+    "nameplate": {
+      "x": {
+        "v": [
+          111.5,
+          168.3
+        ],
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "z": {
+        "v": [
+          143.1,
+          218.8
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "note": "re-mapped 2026-11-12 from the first fit (inner front 42-304.8 mm) to the 12 in fit (inner front 50-289.8 mm), linearly"
+      },
+      "sections": [
+        "Radio Shack",
+        "TRS-80",
+        "VIDEO\nDISPLAY"
+      ],
+      "src": "front photo"
+    },
+    "vent_grille": {
+      "x": {
+        "v": [
+          -140.8,
+          57.4
+        ],
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "z": {
+        "v": [
+          0.0,
+          37.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review: about 3 mm under the band's top edge (40 mm); the Dave Jones photo gives 4-6 mm; the slots run down, round the edge and onto the bottom"
+      },
+      "pitch": {
+        "v": 6.394,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "32 slots spread over the photo's span x",
+        "note": "derived: (x1 - x0) / 31"
+      },
+      "src": "front photo",
+      "wrap_y": {
+        "v": 14.0,
+        "unit": "mm",
+        "conf": "est",
+        "src": "how far back under the bottom the slots run, est"
+      },
+      "depth": {
+        "v": 3.0,
+        "unit": "mm",
+        "conf": "est",
+        "src": "est"
+      },
+      "count": {
+        "v": 32,
+        "unit": "",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12: exactly 32 slots"
+      },
+      "width": {
+        "v": 2.4,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "Shiny Things photo: about 4-5 px at 0.49 mm/px"
+      },
+      "end_radius": {
+        "v": 1.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review, 2026-11-12: the slots' corners are small curves, not sharp"
+      }
+    },
+    "knobs": {
+      "v": [
+        [
+          112.3,
+          20.5
+        ],
+        [
+          137.8,
+          20.5
+        ],
+        [
+          162.7,
+          20.5
+        ]
+      ],
+      "radius": 7.5,
+      "unit": "mm",
+      "conf": "photo",
+      "src": "Dave Jones front photo (X); measured 2026-11-12 on Shiny Things 'TRS-80 Model I with Drives': the lower band is 87 px of the body's 625 px (13.9 %); the knobs sit at 49 % of the band from its top (Z)",
+      "note": "[X, Z] of the three openings under the letters C, B, V: contrast and brightness controls, and the video cable's entry"
+    },
+    "colour_front": {
+      "v": "#241f1b",
+      "unit": "srgb",
+      "conf": "photo",
+      "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives')"
+    },
+    "enclosure": {
+      "note": "Two shells. The outer, silver shell is an open tray (a 'dustpan'): a floor, two side walls and a rear wall, with no top and no front. The inner, dark shell holds the tube and sits in it; its top and front are the monitor's top and front. A groove runs between them along both sides (on the top and on the front) and across the lower front, above the floor. Replaces the earlier tapered back (open item O9), which had no source.",
+      "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives')",
+      "outer_side_wall": {
+        "v": 10.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives')",
+        "note": "seen from above"
+      },
+      "outer_rear_wall": {
+        "v": 30.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives')",
+        "note": "seen from above"
+      },
+      "outer_floor_top": {
+        "v": 40.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "measured 2026-11-12 on Shiny Things 'TRS-80 Model I with Drives': the lower band is 87 px of the body's 625 px (13.9 %); the knobs sit at 49 % of the band from its top",
+        "note": "13.9 % of the 289.8 mm body; was 32"
+      },
+      "groove": {
+        "width": {
+          "v": 10.0,
+          "unit": "mm",
+          "conf": "photo",
+          "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives')"
+        },
+        "depth": {
+          "v": 10.0,
+          "unit": "mm",
+          "conf": "photo",
+          "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives')"
+        },
+        "corner_radius": {
+          "v": 3.0,
+          "unit": "mm",
+          "conf": "photo",
+          "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives'): a rounded-rectangle section"
+        },
+        "corner_note": "round the inner case's rounded bottom corners the groove keeps its width, so the outer shell's inner edge there is rounded 20 mm (10 mm + the groove's width), about the same centre"
+      },
+      "inner_front_y": {
+        "v": 0.0,
+        "unit": "mm",
+        "conf": "design",
+        "src": "flush with the outer shell's front edges, so the groove reads 10 mm deep from the front as from the top"
+      },
+      "inner_edge_radius": {
+        "v": 10.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12; measured on Shiny Things 'TRS-80 Model I with Drives' (0.467 mm/px) and Dave Jones's front photo (0.277 mm/px)",
+        "note": "the inner shell's edge between its front and top; matches the side walls' front-top corner"
+      },
+      "colour_outer": {
+        "v": "#959590",
+        "unit": "srgb",
+        "conf": "photo",
+        "src": "as the keyboard unit's case"
+      },
+      "colour_inner": {
+        "v": "#241f1b",
+        "unit": "srgb",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12 (Dave Jones front photo; Shiny Things 'with Drives'): darker than the first model's brown"
+      },
+      "outer_side_front_top_corner_radius": {
+        "v": 10.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12; measured on Shiny Things 'TRS-80 Model I with Drives' (0.467 mm/px) and Dave Jones's front photo (0.277 mm/px)",
+        "note": "each side wall's corner between its front and top edges, in the side plane; the same curve as the inner shell's front-top edge and the front-bottom edge"
+      },
+      "outer_front_view": {
+        "v": "U with rounded bottom corners",
+        "conf": "photo",
+        "src": "review, 2026-11-12: the U's two bottom corners are rounded with the top corners' radius (in the front plane; the top corners' curve is in the side plane); the sides stay straight"
+      },
+      "outer_front_bottom_edge_radius": {
+        "v": 10.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12",
+        "note": "the edge between the outer shell's front and bottom, rounded front to back (in the side plane) across the whole width, the same curve as the side walls' front-top corners"
+      },
+      "outer_rear_corners": {
+        "v": "as the front",
+        "conf": "est",
+        "src": "a reading of the reference photos, 2026-11-12: no clear photo of the rear corners; very likely symmetrical to the front",
+        "note": "the rear-top corners of the side walls and the rear-bottom edge rounded in the side planes with the same radii as the front (outer_side_front_top_corner_radius, outer_front_bottom_edge_radius)"
+      },
+      "outer_front_bottom_corner_radius": {
+        "v": 10.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review, 2026-11-12: as outer_side_front_top_corner_radius"
+      },
+      "inner_front_bottom_corner_radius": {
+        "v": 10.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "review, 2026-11-12: the dark inner case's two bottom corners, seen from the front, rounded as the outer shell's"
+      }
+    },
+    "base": {
+      "note": "A plinth under the whole monitor, part of the outer silver shell; no feet under it. The monitor's body stands on it, so the body's front features keep their heights above the body's bottom and everything rises by the base's height",
+      "height": {
+        "v": 15.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12"
+      },
+      "inset": {
+        "v": 30.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a reading of the reference photos, 2026-11-12: about 3 cm in from the outer shell's edges, all round"
+      },
+      "taper": {
+        "v": 2.0,
+        "unit": "mm",
+        "conf": "est",
+        "src": "a reading of the reference photos, 2026-11-12: the top slightly larger than the bottom; 2 mm per side est"
+      },
+      "open": "settled: the 12 in includes the base (review, 2026-11-12)"
+    },
+    "power_label": {
+      "text": "Power",
+      "height": {
+        "v": 3.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of a 26-1201's right-hand side and notes, 2026-11-12; scaled by the platform's width (74.9 mm, about 0.27 mm/px)"
+      },
+      "z_above_button": {
+        "v": 21.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of a 26-1201's right-hand side and notes, 2026-11-12; scaled by the platform's width (74.9 mm, about 0.27 mm/px)"
+      },
+      "material": "silver"
+    },
+    "front_controls": {
+      "note": "C and B are control shafts recessed in silver bushings, turned by a fingertip or screwdriver; V is where the video cable leaves the cabinet (no rim). Not jacks: the video cable goes to the keyboard unit's VIDEO socket",
+      "src": "Radio Shack TRS-80 manual (manualshive excerpt): 'Adjust C (contrast) and B (brightness) controls on the front of the monitor ... Set Brightness so the background is gray and the words are white'; a cropped reference photo of the lower right front, 2026-11-12, measured at 0.28 mm/px (25.5 mm between C and B = ~91 px)",
+      "bushing_radius": {
+        "v": [
+          3.4,
+          5.0
+        ],
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of the lower right front (410x182 px), measured 2026-11-12 at 0.28 mm/px (25.5 mm between C and B = ~91 px): the bright front ring 36 px across, its dark bore 20 px; the wall 1.6 mm (review, 2026-11-12: thinner than 2.2): a 3/8 in threaded bushing round a 1/4 in shaft, the photo's bright rim 4-5 px (1.1-1.4 mm) on its far side"
+      },
+      "bushing_proud": {
+        "v": 5.0,
+        "unit": "mm",
+        "conf": "est",
+        "src": "review, 2026-11-12: about 0.5 cm; the photo shows the bushing's side above its face, ~12 px (3.4 mm) shifted at an unknown camera angle, so it cannot pin the length; a 3/8 in pot bushing through a ~3 mm panel stands 5-6 mm proud"
+      },
+      "shaft": {
+        "radius": {
+          "v": 3.1,
+          "unit": "mm",
+          "conf": "est",
+          "src": "a 1/4 in (6.35 mm) potentiometer shaft, the size a 3/8 in bushing carries"
+        },
+        "recess": {
+          "v": 2.5,
+          "unit": "mm",
+          "conf": "est",
+          "note": "behind the bushing's front face"
+        },
+        "src": "photo: a dark shaft inside the bushing"
+      },
+      "cable_entry_radius": {
+        "v": 5.2,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of the lower right front (410x182 px), measured 2026-11-12 at 0.28 mm/px (25.5 mm between C and B = ~91 px): the dark opening 37-38 px across, 36 px tall"
+      },
+      "cable_radius": {
+        "v": 2.0,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a cropped reference photo of the lower right front (410x182 px), measured 2026-11-12 at 0.28 mm/px (25.5 mm between C and B = ~91 px): 16-18 px tall where it runs down at ~35 deg, so ~14 px (4 mm) thick"
+      },
+      "letters": {
+        "v": [
+          "C",
+          "B",
+          "V"
+        ],
+        "height": {
+          "v": 2.5,
+          "unit": "mm",
+          "conf": "photo"
+        },
+        "z_above": {
+          "v": 11.0,
+          "unit": "mm",
+          "conf": "photo"
+        },
+        "src": "a cropped reference photo of the lower right front (410x182 px), measured 2026-11-12 at 0.28 mm/px (25.5 mm between C and B = ~91 px): letter centres 39 px above the openings' centres, 6-9 px tall (blurred), centred over each opening"
+      },
+      "panel_hole_radius": {
+        "v": 5.8,
+        "unit": "mm",
+        "conf": "est",
+        "src": "a cropped reference photo of the lower right front (410x182 px), measured 2026-11-12 at 0.28 mm/px (25.5 mm between C and B = ~91 px): a dark shadowed gap round each bushing's root"
+      }
+    }
+  },
+  "recorder": {
+    "name": "Realistic CTR-80 (26-1205)",
+    "decision": "design/decisions/0004-recorder-ctr-80.md",
+    "conf": "photo",
+    "src": "reference photos (ctr80_01-03, ctr80a_01-08; web images, not in the repo), 2026-11-12; the CTR-80A (26-1206) has the same body with another badge, so its photos count for the shape",
+    "frame": "origin at the centre of the footprint, bottom face; +X right, +Y back (the speaker grille), the keys at the front (-Y)",
+    "size": {
+      "v": [
+        134.0,
+        240.0,
+        46.0
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "src": "reference photos (ctr80_01-03, ctr80a_01-08; web images, not in the repo), 2026-11-12: width and length from ctr80a_03 (straight down), scaled by the cassette's hub holes in the window, 42.5 mm apart (64 px: 0.66 mm/px); ctr80a_02's spindles agree within 4% (205 x 367 px); height from the right side ctr80a_05 (102 px at 0.485 mm/px, corrected for its 19 deg camera elevation); height lowered to 46 mm (review, 2026-11-12: the top part was clearly taller than the two strips below it, and the keys stood too high; the 52 mm read from ctr80a_05 included some of the top's edge)"
+    },
+    "plan_corner_radius": {
+      "v": 0.0,
+      "unit": "mm",
+      "conf": "photo",
+      "src": "review, 2026-11-12: the vertical corners square; every rounding's arc lies in the side plane, as on the keyboard unit"
+    },
+    "top_edge_radius": {
+      "v": 3.0,
+      "unit": "mm",
+      "conf": "photo",
+      "src": "review, 2026-11-12: only the top's front and rear edges are rounded (arc in the side plane)"
+    },
+    "bands": {
+      "note": "along Y, front to back, from ctr80a_03 (straight down), scaled by the cassette's hub holes in the window, 42.5 mm apart (64 px: 0.66 mm/px); ctr80a_02's spindles agree within 4%",
+      "keys": {
+        "v": [
+          -120.0,
+          -90.0
+        ],
+        "unit": "mm"
+      },
+      "key_labels": {
+        "v": [
+          -88.5,
+          -83.0
+        ],
+        "unit": "mm"
+      },
+      "label_panel": {
+        "v": [
+          -81.0,
+          -57.0
+        ],
+        "unit": "mm"
+      },
+      "door": {
+        "v": [
+          -54.0,
+          18.0
+        ],
+        "unit": "mm",
+        "note": "between two silver lines; its window shows the cassette"
+      },
+      "grille": {
+        "v": [
+          23.0,
+          118.0
+        ],
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "reference photos (ctr80_01-03, ctr80a_01-08; web images, not in the repo), 2026-11-12"
+    },
+    "keys": {
+      "v": [
+        "RECORD",
+        "REWIND",
+        "PLAY",
+        "FAST-F",
+        "STOP",
+        "EJECT"
+      ],
+      "pitch": {
+        "v": 18.4,
+        "unit": "mm"
+      },
+      "width": {
+        "v": 17.2,
+        "unit": "mm"
+      },
+      "x0": {
+        "v": -46.0,
+        "unit": "mm",
+        "note": "centre of the first (RECORD) key"
+      },
+      "bottom_z": {
+        "v": 31.5,
+        "unit": "mm",
+        "conf": "photo",
+        "src": "a side-by-side comparison with the photos, 2026-11-12: the keys' front faces fill only the upper part, above the silver strip; a dark lip of the key well between them"
+      },
+      "travel": {
+        "v": 3.0,
+        "unit": "mm",
+        "conf": "est"
+      },
+      "conf": "photo",
+      "src": "reference photos (ctr80_01-03, ctr80a_01-08; web images, not in the repo), 2026-11-12: six piano keys across the front (ctr80a_03 (straight down), scaled by the cassette's hub holes in the window, 42.5 mm apart (64 px: 0.66 mm/px); ctr80a_02's spindles agree within 4%: 169 px for six), RECORD red, the tops with a raised grid; their front faces stand above the silver front strip (ctr80a_04)",
+      "well_floor_z": {
+        "v": 30.0,
+        "unit": "mm",
+        "conf": "photo"
+      },
+      "top_slab": {
+        "thickness": {
+          "v": 1.5,
+          "unit": "mm"
+        },
+        "overhang": {
+          "v": 2.0,
+          "unit": "mm"
+        },
+        "front_setback": {
+          "v": 0.3,
+          "unit": "mm"
+        },
+        "conf": "photo",
+        "src": "review, 2026-11-12: each key's top is a slab 1-2 mm thick standing about 2 mm out over the key's front face, and the key's front sits 1-2 mm back from the recorder's front"
+      }
+    },
+    "front_strip": {
+      "z": {
+        "v": [
+          12.5,
+          30.0
+        ],
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "review, 2026-11-12: the silver strip lines up, top and bottom, with the side's ribbed middle part; below it the front is black, as tall as the side's lower part"
+    },
+    "mic_grille": {
+      "x": {
+        "v": [
+          -54.0,
+          -35.0
+        ],
+        "unit": "mm"
+      },
+      "y": {
+        "v": [
+          -79.0,
+          -60.0
+        ],
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "ctr80a_03 (straight down), scaled by the cassette's hub holes in the window, 42.5 mm apart (64 px: 0.66 mm/px); ctr80a_02's spindles agree within 4%"
+    },
+    "led": {
+      "v": [
+        49.0,
+        -66.0
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "src": "ctr80a_03 (straight down), scaled by the cassette's hub holes in the window, 42.5 mm apart (64 px: 0.66 mm/px); ctr80a_02's spindles agree within 4%: the RECORD/BATTERY lamp"
+    },
+    "counter": {
+      "x": {
+        "v": [
+          3.0,
+          26.0
+        ],
+        "unit": "mm"
+      },
+      "y": {
+        "v": [
+          34.0,
+          44.0
+        ],
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "ctr80a_03 (straight down), scaled by the cassette's hub holes in the window, 42.5 mm apart (64 px: 0.66 mm/px); ctr80a_02's spindles agree within 4%: the tape counter near the grille's front right, with its reset button"
+    },
+    "grille_holes": {
+      "pitch": {
+        "v": 4.0,
+        "unit": "mm"
+      },
+      "size": {
+        "v": 1.8,
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "ctr80a_03 (straight down), scaled by the cassette's hub holes in the window, 42.5 mm apart (64 px: 0.66 mm/px); ctr80a_02's spindles agree within 4%: about 30 holes across"
+    },
+    "side_jacks": {
+      "note": "left side (-X), [name, Y mm, Z mm, kind], from the rear",
+      "v": [
+        [
+          "AC IN",
+          45.0,
+          13.0,
+          "ac"
+        ],
+        [
+          "DC 6V",
+          25.0,
+          16.0,
+          "jack_small"
+        ],
+        [
+          "EAR",
+          14.5,
+          13.0,
+          "jack"
+        ],
+        [
+          "AUX",
+          -2.5,
+          13.0,
+          "jack"
+        ],
+        [
+          "REM",
+          -18.0,
+          13.0,
+          "jack_small"
+        ],
+        [
+          "MIC",
+          -27.0,
+          13.0,
+          "jack"
+        ],
+        [
+          "VOLUME",
+          -47.0,
+          13.0,
+          "wheel"
+        ]
+      ],
+      "conf": "photo",
+      "src": "ctr80a_06 (0.64 mm/px; heights est within about 3 mm); ctr80_03 agrees on the order"
+    },
+    "cable_jacks": {
+      "v": [
+        "EAR",
+        "AUX",
+        "REM"
+      ],
+      "src": "the TRS-80 cassette cable's three plugs: EAR (the recorder's output, read by the computer), AUX (the computer's output, recorded), REM (the motor, switched by the computer's relay)",
+      "conf": "doc"
+    },
+    "sides": {
+      "note": "seen from either side the body is three horizontal parts (a side-by-side comparison with the photos, 2026-11-12; review: the three parts differ only a little in height): a smooth upper part carrying the rounded top edge, a ribbed middle part standing a little proud of it, and a smooth lower part set in. The ribs stop short of a plain block at the front end and just short of the rear",
+      "lower": {
+        "v": [
+          0.0,
+          12.5
+        ],
+        "inset": 1.5,
+        "unit": "mm"
+      },
+      "middle": {
+        "v": [
+          12.5,
+          30.0
+        ],
+        "inset": 0.0,
+        "unit": "mm"
+      },
+      "upper": {
+        "v": [
+          30.0,
+          46.0
+        ],
+        "inset": 1.0,
+        "unit": "mm"
+      },
+      "rib_pitch": {
+        "v": 2.4,
+        "unit": "mm"
+      },
+      "ribs_y": {
+        "v": [
+          -101.0,
+          115.0
+        ],
+        "unit": "mm",
+        "note": "a plain block of about 19 mm at the front end, 5 mm at the rear (ctr80a_05)"
+      },
+      "conf": "photo",
+      "src": "ctr80a_05 re-measured by where the ribs' texture is (rows 212-247 of 168-271: upper 43 %, ribs 34 %, lower 23 %); review, 2026-11-12: a shorter ribbed part, a taller lower part"
+    },
+    "jack_panel": {
+      "y": {
+        "v": [
+          -68.0,
+          64.0
+        ],
+        "unit": "mm"
+      },
+      "z": {
+        "v": [
+          4.0,
+          22.0
+        ],
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "ctr80a_06, the left side straight on (375 px over 240 mm: 0.64 mm/px)"
+    },
+    "feet": {
+      "v": [
+        [
+          -55.0,
+          -105.0
+        ],
+        [
+          55.0,
+          -105.0
+        ],
+        [
+          -55.0,
+          105.0
+        ],
+        [
+          55.0,
+          105.0
+        ]
+      ],
+      "size": [
+        10.0,
+        6.0,
+        1.5
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "src": "ctr80a_08, the bottom"
+    },
+    "front_recess": {
+      "x": {
+        "v": [
+          -22.3,
+          22.3
+        ],
+        "unit": "mm"
+      },
+      "depth": {
+        "v": 2.5,
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "review, 2026-11-12: the black base under the silver strip is indented about 2-3 mm across its middle third"
+    }
+  },
+  "power_supply": {
+    "conf": "photo",
+    "src": "two reference photos of the whole system, 2026-11-12 (a colour photo with the CTR-80A and its box; a Radio Shack black-and-white publicity photo; web images, not in the repo); Computer History Museum catalogue 102728699 / 102786948 (a 2-wire mains cord and a separate cord with a 5-pin DIN plug); about 14 V AC out (Radio Shack technical reference)",
+    "note": "A small black transformer box, slightly tapered: the top a little smaller than the base, the vertical corners rounded, a plain raised panel on top, a groove round the sides near the bottom. Its DIN cord leaves the front, low down; the mains cord the back",
+    "size": {
+      "v": [
+        70.0,
+        70.0,
+        66.0
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "src": "two reference photos of the whole system, 2026-11-12 (a colour photo with the CTR-80A and its box; a Radio Shack black-and-white publicity photo; web images, not in the repo): about 70 px tall beside the recorder's 46 mm front (about 48 px) in the colour photo; est within about 10 %"
+    },
+    "top": {
+      "v": [
+        60.0,
+        60.0
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "src": "two reference photos of the whole system, 2026-11-12 (a colour photo with the CTR-80A and its box; a Radio Shack black-and-white publicity photo; web images, not in the repo): the top a little smaller than the base"
+    },
+    "corner_radius": {
+      "v": [
+        6.0,
+        5.0
+      ],
+      "unit": "mm",
+      "conf": "photo",
+      "note": "base, top"
+    },
+    "groove_z": {
+      "v": 8.0,
+      "unit": "mm",
+      "conf": "photo"
+    },
+    "top_panel": {
+      "inset": {
+        "v": 7.0,
+        "unit": "mm"
+      },
+      "height": {
+        "v": 2.0,
+        "unit": "mm"
+      },
+      "conf": "photo",
+      "src": "two reference photos of the whole system, 2026-11-12 (a colour photo with the CTR-80A and its box; a Radio Shack black-and-white publicity photo; web images, not in the repo); review, 2026-11-12: a plain raised surface; the lines across it in the photos are a sticker's print, not modelled"
+    }
+  },
+  "desk": {
+    "note": "Placement of each unit's frame origin on the desk, in the keyboard unit's frame (mm); design",
+    "conf": "design",
+    "video_display": {
+      "v": [
+        0.0,
+        190.0,
+        0.0
+      ],
+      "unit": "mm"
+    },
+    "recorder": {
+      "v": [
+        360.0,
+        40.0,
+        0.0
+      ],
+      "unit": "mm"
+    },
+    "power_supply": {
+      "v": [
+        300.0,
+        250.0,
+        0.0
+      ],
+      "unit": "mm"
+    }
+  }
+}

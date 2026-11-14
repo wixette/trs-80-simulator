@@ -1,0 +1,105 @@
+version = 1
+
+# Default: code is Apache-2.0; everything else of ours (docs, design and research notes,
+# parameters, research data, the 3D model, images) is CC-BY-SA-4.0. More specific
+# annotations override these defaults. Third-party material has its own annotations at
+# the end; the licence texts are in LICENSES/ (docs/licensing.md).
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 trs-80-simulator contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["**/*.js", "**/*.mjs", "**/*.py", "**/*.json", "**/*.toml", "**/*.yaml", "**/*.yml", "**/*.html", "**/*.css", "**/*.d.ts", ".gitattributes", ".gitignore", ".editorconfig", ".npmrc", "pnpm-lock.yaml", "**/*.webmanifest", ".github/**", "tsconfig.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 trs-80-simulator contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
+# Parameters and research data are content, not code.
+[[annotations]]
+path = ["model/params/**", "research/data/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 trs-80-simulator contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+# ---- Third-party material ----------------------------------------------------
+
+# Vendored libraries, copied unchanged from npm (pnpm vendor); each keeps its LICENSE.
+[[annotations]]
+path = "vendor/three/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2010-2026 three.js authors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "vendor/roboto-flex/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2017 The Roboto Flex Project Authors"
+SPDX-License-Identifier = "OFL-1.1"
+
+[[annotations]]
+path = "vendor/material-symbols/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Google LLC"
+SPDX-License-Identifier = "Apache-2.0"
+
+# The Z80 core (design/decisions.md, D3), MIT, with its LICENSE.md beside it.
+[[annotations]]
+path = "vendor/z80js/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Molly Howell and contributors"
+SPDX-License-Identifier = "MIT"
+
+# xtrs's character data and what is generated from it (D4), under xtrs's licence
+# (a Clarendon Hill notice and Tim Mann's MIT-style terms): vendor/xtrs/LICENSE.
+[[annotations]]
+path = ["vendor/xtrs/**", "js/sim/charset-data.js"]
+precedence = "override"
+SPDX-FileCopyrightText = ["1992 Clarendon Hill Software", "1996-2020 Timothy P. Mann"]
+SPDX-License-Identifier = "LicenseRef-xtrs"
+
+# Level II BASIC: not under the repository's licence (D2); roms/NOTICE says where it
+# came from and offers to remove it.
+[[annotations]]
+path = "roms/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Microsoft and Tandy Corporation"
+SPDX-License-Identifier = "LicenseRef-HistoricalROM"
+
+# Part lists extracted from RetroStack's KiCad reconstructions (MIT), and the params
+# generated from them (research/tools/kicad_parts.py, tools/kicad_to_params.py).
+[[annotations]]
+path = ["research/data/kicad_*_parts.json", "model/params/board.json", "model/params/keyboard.json"]
+precedence = "override"
+SPDX-FileCopyrightText = ["2024 Marcel Erz (RetroStack LLC)", "2026 trs-80-simulator contributors"]
+SPDX-License-Identifier = "MIT"
+
+# The Radio Shack and TRS-80 logos on the name plates: public domain (PD-textlogo) on
+# Wikimedia Commons; model/assets/logos/ATTRIBUTION.md.
+[[annotations]]
+path = "model/assets/logos/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Wikimedia Commons (public domain text logos)"
+SPDX-License-Identifier = "LicenseRef-PublicDomain"
+
+# Michroma, the name plates' lettering font, from google/fonts (ofl/michroma).
+[[annotations]]
+path = ["model/assets/fonts/**"]
+precedence = "override"
+SPDX-FileCopyrightText = "2011 The Michroma Project Authors"
+SPDX-License-Identifier = "OFL-1.1"
+
+# Photographs from Wikimedia Commons, each under its own licence: images/photos/CREDITS.md.
+[[annotations]]
+path = "images/photos/Radio_Shack_Tandy_TRS-80_Model_I_System.jpg"
+precedence = "override"
+SPDX-FileCopyrightText = "Dave Jones"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = "images/photos/Tandy_TRS-80_Model_I.jpg"
+precedence = "override"
+SPDX-FileCopyrightText = "Prolete"
+SPDX-License-Identifier = "CC0-1.0"
