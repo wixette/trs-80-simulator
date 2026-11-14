@@ -17,7 +17,7 @@ import { keyNamed } from "../sim/keymap.js";
 /**
  * @typedef {object} Show what "Show me" points at
  * @property {"3d" | "2d"} [mode]
- * @property {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "rear" | "inside"} [view] a 3D view
+ * @property {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "inside"} [view] a 3D view
  * @property {"everything" | "inside"} [show] the 3D Show
  * @property {"vram" | "keyboard" | "cassette" | "cpu"} [tool] a tool, beside the lesson
  * @property {number} [cell] the Video RAM tool's cell to pick
@@ -94,7 +94,7 @@ export const LESSONS = [
       { id: "recorder", show: { mode: "3d", view: "recorder" } },
       {
         id: "on",
-        show: { mode: "3d", view: "rear" },
+        show: { mode: "3d", view: "desk" },
         done: (s) => s.machine.powered && s.display.on && shows(s, /^MEMORY SIZE\?/),
         act: (s) => {
           s.power(true);

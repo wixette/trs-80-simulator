@@ -558,7 +558,7 @@ export class Flat {
     const m = s.machine;
     const d = s.deck;
     for (const k of this.keyEls) k.el.classList.toggle("down", (m.rows[k.row] & (1 << k.bit)) !== 0);
-    this.q(".flat-counter").textContent = String(d.counter).padStart(3, "0");
+    this.q(".flat-counter").textContent = String(d.counterAt(m.t)).padStart(3, "0");
     this.q(".flat-cassette").style.display = d.tape ? "" : "none";
     this.q(".flat-recled").setAttribute("fill", d.mode === "record" && d.running ? this.c.ledOn : this.c.ledOff);
     this.el.querySelector(".flat-led")?.setAttribute("fill", m.powered ? this.c.ledOn : this.c.ledOff);

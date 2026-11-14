@@ -151,6 +151,8 @@ export class Desk3D {
       return { o, rest: o.quaternion.clone(), axis: new THREE.Vector3(...(o.userData.axis ?? [0, 1, 0])).normalize(), angle: 0 };
     });
 
+    this.counter = this.counterFace(this.node("recorder.counter"));
+
     // the units that come out, and their paths (the model's extras: mm, in glTF's frame)
     /** @private @type {Map<THREE.Object3D, { base: THREE.Vector3, path: THREE.Vector3[], flip: boolean }>} */
     this.paths = new Map();
@@ -266,6 +268,7 @@ export class Desk3D {
   tickDeck(dt) {
     const d = this.system.deck;
     const mode = d.mode;
+    this.drawCounter(d.counterAt(this.system.machine.t));
     const down = new Set(mode === "record" ? ["record", "play"] : mode === "play" ? ["play"] : mode === "rewind" ? ["rewind"] : mode === "fast" ? ["fastf"] : []);
     if (performance.now() < this.tapped.until) down.add(this.tapped.id);
     for (const [id, k] of this.deckKeys) {
@@ -293,6 +296,48 @@ export class Desk3D {
       r.angle -= speed * (i ? 1.1 : 0.9) * 2 * Math.PI * dt;
       r.o.quaternion.copy(r.rest).multiply(new THREE.Quaternion().setFromAxisAngle(r.axis, r.angle));
     }
+  }
+
+  /**
+   * @private The tape counter's three digits, drawn on a face just over its window as the
+   * 2D view's are, so they count as the tape moves. @param {THREE.Object3D} win
+   */
+  counterFace(win) {
+    const mesh = /** @type {THREE.Mesh} */ (win);
+    mesh.geometry.computeBoundingBox();
+    const b = /** @type {THREE.Box3} */ (mesh.geometry.boundingBox);
+    const w = b.max.x - b.min.x;
+    const d = b.max.z - b.min.z;
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = Math.max(32, Math.round((256 * d) / w));
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 8;
+    const face = new THREE.Mesh(new THREE.PlaneGeometry(w, d), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
+    face.rotation.x = -Math.PI / 2;
+    face.position.set((b.min.x + b.max.x) / 2, b.max.y + 0.00005, (b.min.z + b.max.z) / 2);
+    face.renderOrder = 1;
+    face.raycast = () => {}; // a pick goes through it, to the window
+    win.add(face);
+    return { canvas, tex, shown: -1 };
+  }
+
+  /** @private Writes the counter's digits when they change. @param {number} n */
+  drawCounter(n) {
+    const c = this.counter;
+    if (n === c.shown) return;
+    c.shown = n;
+    const g = /** @type {CanvasRenderingContext2D} */ (c.canvas.getContext("2d"));
+    const { width: w, height: h } = c.canvas;
+    g.clearRect(0, 0, w, h);
+    g.fillStyle = "#e8e8e2";
+    g.font = `600 ${Math.round(h * 0.62)}px ui-monospace, Menlo, Consolas, monospace`;
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    const digits = String(n).padStart(3, "0");
+    for (const [i, ch] of [...digits].entries()) g.fillText(ch, w * (0.3 + i * 0.2), h * 0.54);
+    c.tex.needsUpdate = true;
   }
 
   /** @private the units where the system says they are */

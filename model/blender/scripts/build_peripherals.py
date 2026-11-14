@@ -101,9 +101,9 @@ def build_recorder(p, col, root):
                                    [(0, 1, 2, 3)], Matrix.Translation((0, 0, H + 0.82)), "hole_black")
             gy += hp
         gx += hp
-    deco.prism(rounded_rect(cx0, cy0, cx1, cy1, 0.8, 2), "XY", H + 0.8, H + 1.2, "smoke_window")
-    for i, dgt in enumerate("000"):
-        text_on(deco, dgt, 3.4, Matrix.Translation((cx0 + 5 + i * 6.5, (cy0 + cy1) / 2, H + 1.22)), "aluminium_brushed")
+    # the counter's window is its own part: the page writes the three digits on it as the tape moves
+    ctr = MeshBuilder()
+    ctr.prism(rounded_rect(cx0, cy0, cx1, cy1, 0.8, 2), "XY", H + 0.8, H + 1.2, "smoke_window")
     deco.prism(rounded_rect(cx1 + 1.0, cy0 + 1.5, cx1 + 4.5, cy1 - 1.5, 0.8, 2), "XY", H + 0.8, H + 1.8, "recorder_silver")  # its reset button
     # silver lines either side of the door, the label panel, the key labels' strip
     dy0, dy1 = b["door"]["v"]
@@ -150,6 +150,9 @@ def build_recorder(p, col, root):
     bl.set_labels(body, "Realistic CTR-80 cassette recorder (26-1205): the computer's storage, on audio tape. "
                         "The cable from the computer plugs into EAR, AUX and REM on its left side")
     bl.parent(body, root)
+    cto = ctr.build("recorder.counter", col)
+    bl.set_labels(cto, "Tape counter: three digits that count as the tape moves; its button sets it to 000")
+    bl.parent(cto, body)
     # --- the cassette door, hinged at its back edge (the page lifts it about X for EJECT
     # and for a tape going in): an open frame round a see-through window, so the cassette
     # held in it shows, its label and its two reels (which turn while the tape moves)

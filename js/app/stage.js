@@ -19,7 +19,7 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
 /** @typedef {import("../scene/viewer.js").Viewer} Viewer */
 /** @typedef {import("../scene/desk3d.js").Desk3D} Desk3D */
 /** @typedef {import("../flat/flat.js").Flat} Flat */
-/** @typedef {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "rear" | "inside"} ViewName */
+/** @typedef {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "inside"} ViewName */
 /** @typedef {"everything" | "inside"} ShowName */
 
 /**
@@ -36,19 +36,18 @@ export const VIEWS = /** @type {Record<ViewName, import("../scene/viewer.js").Po
   // straight on from the front and well above, as a typist looks down at the keys
   keyboard: { pos: [0, 0.42, 0.24], target: [0, 0.04, 0.02] },
   screen: { pos: [-0.04, 0.22, 0.32], target: [-0.04, 0.17, -0.21] },
-  recorder: { pos: [0.62, 0.38, 0.3], target: [0.36, 0.02, -0.1] },
-  rear: { pos: [0.62, 0.2, -0.32], target: [0.05, 0.03, -0.09] },
+  // as the keyboard: straight on from the front and well above, its keys and counter to hand
+  recorder: { pos: [0, 0.42, 0.24], target: [0, 0.04, 0.02] },
   inside: { pos: [0.2, -0.42, 0.3], target: [0.05, 0.015, -0.015] },
 });
-const VIEW_ORDER = /** @type {ViewName[]} */ (["desk", "angle", "keyboard", "screen", "recorder", "rear", "inside"]);
+const VIEW_ORDER = /** @type {ViewName[]} */ (["desk", "angle", "keyboard", "screen", "recorder", "inside"]);
 /** What each view frames: the model's nodes (model/README.md), and the share of the stage they fill. */
 const SUBJECTS = /** @type {Record<ViewName, { nodes: string[], fill: number }>} */ ({
   desk: { nodes: ["unit.keyboard", "unit.display", "unit.recorder"], fill: 0.94 },
   angle: { nodes: ["unit.keyboard", "unit.display", "unit.recorder", "unit.psu"], fill: 0.92 },
   keyboard: { nodes: ["keyboard"], fill: 0.96 },
   screen: { nodes: ["display.screen"], fill: 0.96 },
-  recorder: { nodes: ["unit.recorder"], fill: 0.85 },
-  rear: { nodes: ["unit.keyboard"], fill: 0.9 },
+  recorder: { nodes: ["unit.recorder"], fill: 0.9 },
   inside: { nodes: ["board.main"], fill: 0.92 },
 });
 /** What a framed view keeps clear of the stage's edges, px. */

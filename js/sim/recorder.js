@@ -60,9 +60,9 @@ export class Recorder {
     return !!this.rec;
   }
 
-  /** The counter's three digits. */
-  get counter() {
-    return Math.floor((this.pos / CLOCK_HZ) * COUNTS_PER_S) % 1000;
+  /** The counter's three digits at machine time t: it counts while the tape plays or winds. @param {number} t */
+  counterAt(t) {
+    return Math.floor((this.at(t) / CLOCK_HZ) * COUNTS_PER_S) % 1000;
   }
 
   /** Position now, at machine time t. @param {number} t */

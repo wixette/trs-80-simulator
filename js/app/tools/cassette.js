@@ -133,7 +133,7 @@ export class CassetteTool {
     const info = s.tapeInfo();
     this.what.textContent = !tape ? t("tape.none.how") : !info ? t("tape.blank.how") : info.kind === "basic" ? t("tape.basic.how", { letter: info.name }) : info.kind === "system" ? t("tape.system.how", { program: info.name, blocks: info.blocks.length, entry: `${hex(info.entry, 4)}H`, bad: info.bad.length ? t("tape.badBlocks", { n: info.bad.length }) : "" }) : t("tape.unknown.how");
     const mode = d.mode === "record" ? "RECORD + PLAY" : d.mode === "fast" ? "FAST-F" : d.mode.toUpperCase();
-    this.where.textContent = tape ? t("tape.where", { pos: mmss(d.at(s.machine.t)), length: mmss(d.length), counter: String(d.counter).padStart(3, "0"), mode, motor: t(d.relay ? "tape.motorOn" : "tape.motorOff") }) : "";
+    this.where.textContent = tape ? t("tape.where", { pos: mmss(d.at(s.machine.t)), length: mmss(d.length), counter: String(d.counterAt(s.machine.t)).padStart(3, "0"), mode, motor: t(d.relay ? "tape.motorOn" : "tape.motorOff") }) : "";
     this.draw();
   }
 
