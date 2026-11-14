@@ -110,18 +110,18 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .brand { display: flex; align-items: center; gap: 10px; margin-right: 12px; min-width: 0; }
 .brand-mark { width: 30px; height: 30px; }
 .brand-name { font-size: 17px; font-weight: 650; letter-spacing: 0.01em; white-space: nowrap; }
-.brand-tag { color: var(--md-on-surface-variant); font-size: 13px; white-space: nowrap; }
 
 /* ---- the stage ---- */
 /* the stage: its band, a row of its own, then the machine in a card under it (U1) */
 #stage { display: flex; flex-direction: column; overflow: hidden; min-height: 0; padding: 0 12px 10px; background: var(--md-surface); }
 #stage-view { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; border-radius: var(--radius-m); background: var(--md-surface-low); }
-/* the 3D view draws on a clear canvas over a dark blue glow: no floor, nothing brighter than the machine */
-#view3d { background: radial-gradient(ellipse at 50% 42%, #2e3646 0%, #1d222b 55%, #15181e 100%); }
+/* both views on one dark blue glow: the 3D view draws on a clear canvas over it, with no floor,
+   so nothing is brighter than the machine; the 2D view's drawings sit on the same */
+#view3d, #view2d { background: var(--stage-glow); }
 #view3d, #view2d { position: absolute; inset: 0; }
 #view3d canvas { display: block; width: 100%; height: 100%; touch-action: none; outline: none; }
 #view3d canvas:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -3px; }
-#view2d { opacity: 0; transition: opacity 260ms var(--ease); background: var(--md-surface-low); }
+#view2d { opacity: 0; transition: opacity 260ms var(--ease); }
 #view2d.shown { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { #view2d { transition: none; } }
 
@@ -135,8 +135,28 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .menu-btn.active { color: var(--md-primary-text); }
 .segmented.mode { flex: none; height: 32px; }
 .key-legend { margin: 0; color: var(--md-on-surface-variant); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-#stage[data-mode="3d"] .key-legend, #stage[data-mode="3d"] .drawers, #stage[data-mode="2d"] .helpers, #stage[data-mode="2d"] .tools3d { display: none; }
+#stage[data-mode="3d"] .key-legend, #stage[data-mode="3d"] .drawers, #stage[data-mode="2d"] .tools3d { display: none; }
 .drawer-rec { display: none; }
+
+/* the helper strip (U4): the controls that are hard to reach on the machine, in a strip at the
+   stage's foot, centred; a tab on its top edge folds it away, leaving the tab */
+#helper-strip { flex: none; display: flex; flex-direction: column; align-items: center; max-width: 100%; margin-top: 6px; }
+.strip-tab { display: flex; align-items: center; justify-content: center; width: 44px; height: 14px; padding: 0; border: 1px solid var(--md-outline-variant); border-bottom: 0; border-radius: var(--radius-s) var(--radius-s) 0 0; background: var(--md-surface-mid); color: var(--md-on-surface-variant); cursor: pointer; }
+.strip-tab:hover { background: var(--md-surface-high); color: var(--md-on-surface); }
+.strip-tab .icon { width: 18px; height: 18px; transition: transform 150ms var(--ease); }
+#helper-strip.folded .strip-tab { border-bottom: 1px solid var(--md-outline-variant); border-radius: var(--radius-s); }
+#helper-strip.folded .strip-tab .icon { transform: rotate(180deg); }
+#helper-strip.folded .strip-body { display: none; }
+.strip-body { display: flex; align-items: center; gap: 12px; max-width: 100%; padding: 6px 10px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-l); background: var(--md-surface-mid); }
+.strip-body::-webkit-scrollbar { display: none; }
+/* a group: Material's connected buttons, round at the ends, nearly square where they meet */
+.strip-group { flex: none; display: flex; gap: 2px; }
+.strip-group .btn:not(:first-child) { border-top-left-radius: var(--radius-xs); border-bottom-left-radius: var(--radius-xs); }
+.strip-group .btn:not(:last-child) { border-top-right-radius: var(--radius-xs); border-bottom-right-radius: var(--radius-xs); }
+.strip-divider { flex: none; align-self: stretch; width: 1px; background: var(--md-outline-variant); }
+.deck-key { letter-spacing: 0.02em; }
+.deck-key.rec .icon { color: #ff5a46; }
+.deck-key[aria-pressed="true"] { background: var(--md-primary-container); color: var(--md-on-primary-container); box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.35); }
 
 /* a part's label (U2) */
 .part-label { position: absolute; z-index: 6; max-width: 320px; padding: 8px 12px; border-radius: var(--radius-s); background: var(--md-surface-highest); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45); pointer-events: none; display: flex; flex-direction: column; gap: 2px; }
@@ -393,7 +413,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 
 /* ---- narrower windows ---- */
 @media (max-width: 1100px) {
-  .brand-tag { display: none; }
   .cpu-grid { grid-template-columns: 1fr; }
   .tool { flex-wrap: wrap; }
   .lesson-companion { flex-basis: 420px; }
@@ -402,8 +421,10 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   .key-legend { display: none; }
 }
 @media (max-width: 860px) {
-  .helpers .btn span, .show-btn > span { display: none; }
-  .helpers .btn.has-icon { padding: 0 8px; }
+  .show-btn > span { display: none; }
+  .strip-label { display: none; }
+  .strip-body { gap: 6px; padding: 4px 6px; }
+  .strip-body .btn.small.has-icon { padding: 0 9px; }
   .lesson-body { flex-direction: column-reverse; }
   .lesson-companion { position: static; width: 100%; flex: none; max-height: none; }
   .dock-tab span:not(.dot) { display: none; }

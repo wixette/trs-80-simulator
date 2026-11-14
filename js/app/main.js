@@ -20,6 +20,7 @@ import { Dock } from "./dock.js";
 import { LessonsTool } from "./lessons.js";
 import { readLink, writeLink } from "./link.js";
 import { Stage, VIEWS } from "./stage.js";
+import { HelperStrip } from "./strip.js";
 import { CassetteTool } from "./tools/cassette.js";
 import { CpuTool } from "./tools/cpu.js";
 import { KeyboardTool } from "./tools/keyboard.js";
@@ -119,7 +120,7 @@ const stage = new Stage(system, {
 });
 
 // ---- the dock and its tools (P3, U6) ---------------------------------------------------------------
-const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.4) : 240));
+const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.4) : 300));
 dock.onResize = fitStatus;
 const sound = new TapeSound();
 const lessons = new LessonsTool($("pane-lessons"), system, (s) => showMe(s));
@@ -195,6 +196,9 @@ if (viewer) {
       say(`${t("stage.no3d")} (${err instanceof Error ? err.message : err})`, "error");
     });
 }
+
+// ---- the helper strip (U4) ----------------------------------------------------------------------
+const strip = new HelperStrip($("helper-strip"), system, () => desk);
 
 // ---- the top bar ---------------------------------------------------------------------------------
 new TopBar(system, { rom: () => romResult.rom, about: () => aboutBody(asset("package.json")) });
@@ -324,6 +328,7 @@ function frame() {
     if (companion && !lessons.companion.hidden) companion.tick(dt);
   }
   stage.refresh();
+  strip.refresh();
 }
 requestAnimationFrame(frame);
 

@@ -60,6 +60,7 @@ export const ICONS = [
   "error",
   "fast_forward",
   "fast_rewind",
+  "fiber_manual_record",
   "grid_on",
   "home",
   "info",

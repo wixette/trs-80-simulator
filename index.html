@@ -27,6 +27,7 @@
         "./js/app/main.js": "./js/app/main.js?v=0.0.1",
         "./js/app/selftest.js": "./js/app/selftest.js?v=0.0.1",
         "./js/app/stage.js": "./js/app/stage.js?v=0.0.1",
+        "./js/app/strip.js": "./js/app/strip.js?v=0.0.1",
         "./js/app/tools/cassette.js": "./js/app/tools/cassette.js?v=0.0.1",
         "./js/app/tools/cpu.js": "./js/app/tools/cpu.js?v=0.0.1",
         "./js/app/tools/keyboard.js": "./js/app/tools/keyboard.js?v=0.0.1",
@@ -82,7 +83,6 @@
       <div class="brand">
         <img class="brand-mark" src="images/logo.svg?v=0.0.1" alt="">
         <span class="brand-name" data-l10n="app.name">TRS-80 Simulator</span>
-        <span class="brand-tag" data-l10n="app.tagline"></span>
       </div>
       <button id="tapes" class="btn tool-btn has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="voicemail"></i><span class="label" data-l10n="bar.tapes"></span><i data-icon="keyboard_arrow_down"></i></button>
       <button id="programs" class="btn tool-btn has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="play_arrow"></i><span class="label" data-l10n="bar.programs"></span><i data-icon="keyboard_arrow_down"></i></button>
@@ -96,6 +96,7 @@
         <div id="view3d"></div>
         <div id="view2d" hidden></div>
       </div>
+      <div id="helper-strip"></div>
     </main>
 
     <div id="dock-handle" role="separator" aria-orientation="horizontal" tabindex="0" data-l10n-tip="dock.resize"></div>

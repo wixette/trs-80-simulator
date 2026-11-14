@@ -12,7 +12,6 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 Simulator",
-  "app.tagline": "the Model I in 3D",
   "bar.tapes": "Tapes",
   "bar.tapes.tip": "Put a tape in the recorder, open your own, or save the one in it",
   "bar.programs": "Programs",
@@ -52,6 +51,9 @@ export default {
   "stage.drawer.recorder.tip": "Show or hide the recorder",
   "stage.legend": "Your keyboard: Esc is BREAK · Delete is CLEAR · Backspace is ← · Enter is ENTER",
   "stage.putBack": "Put it all back",
+  "strip.label": "Helpers: the machine's controls that are hard to reach on it",
+  "strip.fold": "Hide the helpers",
+  "strip.unfold": "Show the helpers",
   "stage.loading": "Loading the machine in 3D…",
   "stage.no3d": "The 3D view needs WebGL, which this browser does not offer. The 2D view has every control.",
   "view.desk": "Desk",

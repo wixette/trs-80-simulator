@@ -22,7 +22,7 @@ If a control is wanted somewhere else, move it, or make both places visible at o
 
 *Not copies:*
 - keyboard shortcuts, which take no room;
-- the stage band's **helper buttons** for POWER and RESET in 3D (U4). On the machine both are on the keyboard unit's rear, hard to find and to click in 3D. The helpers are another way to reach the same controls, as the 8800's Switch Board Helper is, and they are shown only in 3D. In 2D the flat drawings carry the controls themselves.
+- the **helper strip** at the stage's foot (U4): the computer's POWER and RESET, the display's POWER and the recorder's six keys. On the machine they are at the keyboard unit's rear, or small, and hard to find and to click in 3D. The helpers are another way to reach the same controls, as the 8800's Switch Board Helper is, in both views.
 
 ### P3. Tools live in one dock, one at a time
 
@@ -86,10 +86,12 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 ```
 ┌ [logo] TRS-80 Simulator   [▤ Tapes ▾] [▶ Programs ▾]                                [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│ [⏻ Computer] [⏻ Display] [↺ Reset]       [⌂] [− +] [Desk ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
-│                                                                                         │
-│                    THE STAGE: the desk in 3D, or the flat views in 2D                   │
-│                                                                    [Put it all back]    │
+│                                          [⌂] [− +] [Desk ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
+│ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
+│ │                  THE STAGE: the desk in 3D, or the flat views in 2D                 │ │
+│ │                                                                  [Put it all back]  │ │
+│ ╰─────────────────────────────────────────────────────────────────────────────────────╯ │
+│        [⏻ Computer|↺ Reset] [⏻ Display] │ [● RECORD|◀◀|▶ PLAY|▶▶|■ STOP|⏏ EJECT]          │  helper strip
 ├══════════════════════════════════════ drag ═════════════════════════════════════════════┤
 │ Lessons   Video RAM   Keyboard   Cassette   CPU & Memory                              ▾ │  dock
 │ …                                                                                       │
@@ -112,7 +114,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 - **Going to 2D, the camera flies** to face the screen, then the flat views cross-fade in (as AGT-30's Screen). Going back, they fade out and the camera flies back to where it was. With `prefers-reduced-motion`, both are a cut.
 - **A double-click on the CRT in 3D** goes to 2D. A single click does nothing there, so that clicks and drags turn the camera.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
-- **The 3D view's own tools** (⌂, zoom, Views, Show, Put it all back) show only in 3D. The helper buttons (U4) show only in 3D too. Elsewhere the band holds nothing but the toggle.
+- **The 3D view's own tools** (⌂, zoom, Views, Show, Put it all back) show only in 3D. In 2D the band holds the key legend, the Keyboard drawer and the toggle. The helper strip (U4) is under the stage in both.
 
 *Rejected:* the toggle in the top bar, which is for occasional actions (P4) and is full on phones; the 2D view as a tool in the dock, which would put the machine in two places.
 
@@ -127,9 +129,14 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 
 With the computer off, a click on a unit takes it out along its path. Anything in its way comes out first, in order: the cables, the case top, the keyboard, then the main board, which lifts, comes forward and turns over. A second click puts it back. **Put it all back** stands on the stage whenever anything is out. POWER refuses while anything is out, and names it. Going to 2D puts the machine back together first and says so (D11).
 
-### U4. POWER, RESET and the display, in 3D
+### U4. The helper strip
 
-The machine's controls are clickable where they are: the computer's POWER switch on the rear, RESET inside the expansion opening, and the display's POWER button, C and B on its front. The stage band's left holds **helpers** for the three that are hard to reach in 3D: *Computer* (POWER, lit green while on), *Display* (its POWER) and *Reset*. They are the same operations as clicking the model (P2).
+The machine's controls that are hard to reach are clickable where they are: the computer's POWER switch on the rear, RESET inside the expansion opening, the display's POWER button, C and B on its front, and the recorder's six keys. The **helper strip** reaches the ones that are hard to find or to hit, in 3D and in 2D: *Computer* (POWER, lit green while on) and *Reset*, *Display* (its POWER), and the recorder's RECORD, REWIND, PLAY, FAST-F, STOP and EJECT, latched down as the machine latches them. They are the same operations as clicking the machine (P2).
+
+- **Where:** a strip of its own, centred at the stage's foot, just above the dock, as the 8800's Switch Board Helper is. It is in the layout, not over the machine, so it never covers a drawing.
+- **Not parts of the machine:** the strip is the instrument's, so it is not in the band (which is the view's) nor in the top bar (which is for occasional actions, P4), where it read as one level with Tapes and Programs.
+- **Folding:** a tab on its top edge folds it away, leaving the tab, and the choice is remembered.
+- **Narrow windows:** the buttons keep their icons and lose their names, which stay as tooltips and for screen readers.
 
 ### U5. Typing
 

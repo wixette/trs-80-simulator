@@ -5,9 +5,9 @@
 // - `[2D | 3D]` at the band's right. Going to 2D, the camera flies to the screen and the flat
 //   views cross-fade in; going back, they fade out and the camera flies back to where it was.
 //   The 3D scene stops rendering under 2D. Going to 2D puts the machine back together (U3).
-// - In 3D the band also holds ⌂, zoom, the Views and Show menus, and at its left the helpers
-//   for the computer's POWER, the display's POWER and RESET (U4); Put it all back stands on
-//   the stage while anything is out.
+// - In 3D the band also holds ⌂, zoom, the Views and Show menus; Put it all back stands on the
+//   stage while anything is out. The helpers for the controls that are hard to reach are in
+//   their own strip at the stage's foot, in both views (js/app/strip.js, U4).
 // - A part's label shows after the pointer rests on it, beside the pointer.
 
 import { t } from "../l10n/l10n.js";
@@ -80,25 +80,7 @@ export class Stage {
     this.fittedBefore = /** @type {ViewName | null} */ (null);
     this.view3d = /** @type {HTMLElement} */ (document.getElementById("view3d"));
     this.view2d = /** @type {HTMLElement} */ (document.getElementById("view2d"));
-    const s = this.system;
     const band = /** @type {HTMLElement} */ (document.getElementById("band"));
-    // the helpers (U4): in 3D only; the flat views carry the controls themselves in 2D
-    this.powerBtn = el("button", { class: "btn tonal small has-icon helper", type: "button" }, [icon("power_settings_new"), el("span", { text: t("stage.computer") })]);
-    setTip(this.powerBtn, t("stage.computer.tip"));
-    this.powerBtn.setAttribute("data-tip-describes", "");
-    this.powerBtn.addEventListener("click", () => s.power(!s.machine.powered));
-    this.displayBtn = el("button", { class: "btn tonal small has-icon helper", type: "button" }, [icon("desktop_windows"), el("span", { text: t("stage.display") })]);
-    setTip(this.displayBtn, t("stage.display.tip"));
-    this.displayBtn.setAttribute("data-tip-describes", "");
-    this.displayBtn.addEventListener("click", () => s.displayPower(!s.display.on));
-    this.resetBtn = el("button", { class: "btn tonal small has-icon helper", type: "button" }, [icon("restart_alt"), el("span", { text: t("stage.reset") })]);
-    setTip(this.resetBtn, t("stage.reset.tip"));
-    this.resetBtn.setAttribute("data-tip-describes", "");
-    this.resetBtn.addEventListener("click", () => {
-      this.desk?.pressReset();
-      s.reset();
-    });
-    this.helpers = el("div", { class: "band-group helpers" }, [this.powerBtn, this.displayBtn, this.resetBtn]);
     // the 3D tools
     const home = el("button", { class: "btn icon-only home-btn", type: "button" }, [icon("home")]);
     setTip(home, t("stage.home"));
@@ -147,7 +129,7 @@ export class Stage {
       this.drawers.append(b);
     }
     this.legend = el("p", { class: "key-legend", text: t("stage.legend") });
-    band.append(this.helpers, this.legend, el("span", { class: "spacer" }), this.drawers, this.tools3d, this.toggle);
+    band.append(this.legend, el("span", { class: "spacer" }), this.drawers, this.tools3d, this.toggle);
     // Put it all back (U3)
     this.putBack = el("button", { class: "btn filled has-icon put-back", type: "button", hidden: true }, [icon("construction"), el("span", { text: t("stage.putBack") })]);
     this.putBack.addEventListener("click", () => this.system.putAllBack());
@@ -205,14 +187,9 @@ export class Stage {
   /** The state shown on the band's buttons: called each frame, and does the work only on a change. */
   refresh() {
     const s = this.system;
-    const key = `${s.machine.powered}${s.display.on}${s.whole}${this.mode}${this.view}${this.show}`;
+    const key = `${s.whole}${this.mode}${this.view}${this.show}`;
     if (key === this.shownKey) return;
     this.shownKey = key;
-    this.powerBtn.classList.toggle("lit", s.machine.powered);
-    this.powerBtn.setAttribute("aria-pressed", String(s.machine.powered));
-    this.displayBtn.classList.toggle("lit", s.display.on);
-    this.displayBtn.setAttribute("aria-pressed", String(s.display.on));
-    this.resetBtn.setAttribute("aria-disabled", String(!s.machine.powered));
     this.putBack.hidden = this.mode !== "3d" || s.whole;
     this.viewsBtn.replaceChildren(el("span", { text: t(`view.${this.view}`) }), icon("keyboard_arrow_down"));
     this.showBtn.replaceChildren(icon("visibility"), el("span", { text: t(`show.${this.show}`) }), icon("keyboard_arrow_down"));

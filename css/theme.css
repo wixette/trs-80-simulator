@@ -40,6 +40,8 @@
   --md-error-container: #5a2323;
   --warn-container: #5a4a1a;
   --on-warn-container: #ffd98a;
+  /* the stage behind the machine, in 2D and 3D: a dark blue glow */
+  --stage-glow: radial-gradient(ellipse at 50% 42%, #2e3646 0%, #1d222b 55%, #15181e 100%);
   --state-hover: 0.08;
   --state-press: 0.14;
 
