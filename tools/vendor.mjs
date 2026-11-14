@@ -54,7 +54,6 @@ export const ICONS = [
   "chevron_right",
   "close",
   "construction",
-  "desktop_windows",
   "download",
   "eject",
   "error",

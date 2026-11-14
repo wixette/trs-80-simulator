@@ -57,7 +57,7 @@ export class HelperStrip {
       this.desk()?.pressReset();
       s.reset();
     });
-    this.displayBtn = button("", "desktop_windows", t("stage.display"), t("stage.display.tip"), () => s.displayPower(!s.display.on));
+    this.displayBtn = button("", "power_settings_new", t("stage.display"), t("stage.display.tip"), () => s.displayPower(!s.display.on));
     /** @type {Map<DeckKey, HTMLElement>} */
     this.deckBtns = new Map();
     for (const k of DECK) {
