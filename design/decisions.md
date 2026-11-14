@@ -89,3 +89,37 @@ How they are drawn:
 ## D11. Taking it apart needs the computer off
 
 As in the Altair 8800 simulator: nothing comes out while the computer is on, and POWER refuses while anything is out, saying what. A machine whose board is out of its case is not a machine that can run. To watch it run inside, **See inside** turns the case to glass and leaves the machine running.
+
+## D12. Memory starts cleared at power on
+
+A real Model I's RAM comes up holding whatever its 4116s settle to. Level II sizes the memory and clears what it uses, and clears the screen, before anything is shown, so a visitor cannot tell. The simulator clears the RAM and the video RAM at power on, so that every start is the same and the tests are deterministic.
+
+*Rejected:* random bytes at power on, as the Altair 8800 simulator does. There the front panel shows memory before any program has run; here the ROM runs first and nothing shows it.
+
+## D13. A tape pulse lasts 454 T-states, and holds the input set while it is under the head
+
+Level II makes each pulse with three writes to port FFH: up (+0.85 V), down (0 V) about 227 T-states later, then rest (0.46 V) 227 later [rs-info cassette]. Reading, the input's comparator holds the flip-flop's set input for as long as the pulse lasts, so a write to port FFH clears the flip-flop only when no pulse is under the head.
+
+- **Why it matters:** after the sync byte the ROM clears the flip-flop about 10 T-states after the next data pulse begins. With a pulse taken as an instant, that bit is lost and every `CLOAD` fails.
+- **Level II's timing, measured from its own `CSAVE`:** cells of 3,570 T-states within a byte, 3,700–3,774 at a byte's end, and 5,594 after the sync byte; the data pulse comes 1,777–1,780 after its clock pulse.
+- **`.cas` files are encoded with those timings,** with margin where the ROM's own vary: 3,800 at a byte's end, and 5,700 after the sync byte.
+
+## D14. Ghost keys are modelled
+
+The Model I's keyboard matrix has no diodes [rs-info keyboard]. With three keys down at three corners of a rectangle of rows and columns, current runs from the selected row through the three switches, and the fourth corner reads as down. `Machine.matrix()` follows every path from the selected rows through closed switches. Two keys never ghost, and neither do keys on one row (the arrows and SPACE, as games use them), so play is unaffected. Lesson 4 can show the effect.
+
+## D15. Typed keys wait for the program to read the keyboard
+
+Typed text ("Type it", the Programs menu) is typed at a person's pace, 70 ms down and 70 ms up, in machine time (Level II debounces for 18.8 ms and 51.3 ms [rs-info keyboard]). A queued keystroke starts only once the keyboard has been read since it fell due: row 0, which the ROM scans while waiting for a key, or the key's own row, which a game reads itself.
+- If the program reads only other rows, the key waits at most 0.5 s.
+- If it reads no keys at all (BASIC sizing the memory after `MEMORY SIZE?`, storing a line, running a loop), the key waits up to 10 s, as a person watching the screen would.
+
+The visitor's own keys are not gated: pressed while nothing reads the keys, they are missed, as on the real machine.
+
+*Found while building:* without the gate, the first digits of a program typed straight after `MEMORY SIZE?` were lost.
+
+## D16. REWIND and FAST-F wind whatever the motor relay says
+
+On the CTR-80 the computer's REM plug stops the motor whenever the computer has not started it, so owners pulled the plug to wind the tape. Here REWIND and FAST-F wind regardless of the relay, and the Cassette tool says so the first time. PLAY and RECORD still move the tape only while the computer closes the relay.
+
+**Fast tape** (on by default) runs the machine 32 times faster while the tape moves, and winds 32 times faster too. A 9 KB game that takes 2 minutes 42 seconds to load at the real speed takes about 5 seconds. Untick it for the real speed and the tape's sound.
