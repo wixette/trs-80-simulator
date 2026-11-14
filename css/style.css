@@ -193,10 +193,12 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .flat-deckkey { position: absolute; display: flex; align-items: flex-end; justify-content: center; padding: 0 0 6%; border: 1px solid #000; border-radius: 3px; background: linear-gradient(#3b3b3b, #232323); color: #d8d8d2; font-size: 3cqw; font-weight: 650; letter-spacing: -0.03em; white-space: nowrap; overflow: hidden; cursor: pointer; box-shadow: 0 2px 0 #090909; }
 .flat-deckkey.rec { color: #ff7a63; }
 .flat-deckkey.latched { transform: translateY(2px); box-shadow: none; background: linear-gradient(#2a2a2a, #1a1a1a); }
-.flat-key { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 0; border: 0; border-radius: 3px; background: linear-gradient(#2a2a2a, var(--key-black)); color: var(--key-legend); font-family: var(--font); font-weight: 600; font-size: min(1.55cqw, var(--fit, 1.55cqw)); overflow: hidden; white-space: nowrap; line-height: 1.05; cursor: pointer; box-shadow: 0 2px 0 #050505, inset 0 1px 0 rgba(255, 255, 255, 0.07); touch-action: none; }
+.flat-key { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 0; border: 0; border-radius: 3px; background: linear-gradient(#2a2a2a, var(--key-black)); color: var(--key-legend); font-family: var(--font); font-weight: 600; font-size: min(1.55cqw, var(--fit, 1.55cqw)); overflow: hidden; white-space: nowrap; line-height: 1.05; cursor: pointer; box-shadow: 0 0.2cqw 0 #050505, inset 0 1px 0 rgba(255, 255, 255, 0.07); touch-action: none; }
 .flat-key small { font-size: 0.72em; opacity: 0.85; }
 .flat-key.enter { background: linear-gradient(#e6dcbe, var(--key-cream)); color: #1d1a14; }
-.flat-key.down { transform: translateY(2px); box-shadow: none; filter: brightness(0.82); }
+/* the key's edge and its travel scale with the drawing: a fixed 2px filled the gaps between
+   the keys on a phone, where the keys are about 2px apart, and they seemed to run together */
+.flat-key.down { transform: translateY(0.2cqw); box-shadow: none; filter: brightness(0.82); }
 .flat-rear { position: absolute; display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 0 4px; border: 0; border-radius: var(--radius-xs); background: #2a2a2a; color: #dcdcd6; font-size: 1.15cqw; font-weight: 650; cursor: pointer; }
 .flat-rear .icon { width: 1.4em; height: 1.4em; }
 .flat-rear.on .icon { color: var(--on); }
