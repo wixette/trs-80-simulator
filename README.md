@@ -12,7 +12,7 @@ The **TRS-80 Model I** (1977) in 3D in your browser: switch it on, type Level II
 
 ## What you can do
 
-- **Look round the whole system in 3D:** the keyboard unit with the computer inside, the Video Display, the CTR-80 cassette recorder, the power supply and the cables. **See inside** turns the case to glass: the main board hangs upside down under the keys, and its chips light up as the machine works.
+- **Look round the whole system in 3D:** the keyboard unit with the computer inside, the Video Display, the CTR-80 cassette recorder, the power supply and the cables. The **Inside, from below** view turns the case to glass: the main board hangs upside down under the keys, and its chips light up as the machine works.
 - **Switch to 2D:** the machine's own faces, flat. The screen at full size, the recorder's keys, and the keyboard. On a phone, this is where you type.
 - **Use Level II BASIC,** Microsoft's 12 KB BASIC, running on an emulated Z80 at the Model I's 1.77 MHz. Type on your own keyboard (Esc is BREAK, Enter is ENTER). Held keys work, so games play.
 - **Save and load programs on tape:** `CSAVE` and `CLOAD`, `SYSTEM` for machine code. The recorder's motor is run by the computer, as it was. Open your own `.cas` or `.wav` files, and save any tape as either.

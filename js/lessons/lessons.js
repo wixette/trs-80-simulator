@@ -17,8 +17,7 @@ import { keyNamed } from "../sim/keymap.js";
 /**
  * @typedef {object} Show what "Show me" points at
  * @property {"3d" | "2d"} [mode]
- * @property {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "inside"} [view] a 3D view
- * @property {"everything" | "inside"} [show] the 3D Show
+ * @property {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "inside" | "apart"} [view] a 3D view
  * @property {"vram" | "keyboard" | "cassette" | "cpu"} [tool] a tool, beside the lesson
  * @property {number} [cell] the Video RAM tool's cell to pick
  * @property {number} [address] the CPU & Memory tool's dump to show, and its Run to field
@@ -89,7 +88,7 @@ export const LESSONS = [
         photo: { src: "images/photos/Radio_Shack_Tandy_TRS-80_Model_I_System.jpg", credit: "photo.system.credit", href: "https://commons.wikimedia.org/wiki/File:Radio_Shack_Tandy_TRS-80_Model_I_System.JPG" },
       },
       { id: "computer", show: { mode: "3d", view: "keyboard" } },
-      { id: "inside", show: { mode: "3d", view: "inside", show: "inside" }, more: true },
+      { id: "inside", show: { mode: "3d", view: "inside" }, more: true },
       { id: "display", show: { mode: "3d", view: "screen" } },
       { id: "recorder", show: { mode: "3d", view: "recorder" } },
       {
@@ -246,7 +245,7 @@ export const LESSONS = [
           s.clock.step(0.5);
         },
       },
-      { id: "chips", type: "X=USR(0)\n", show: { mode: "3d", view: "inside", show: "inside" }, more: true },
+      { id: "chips", type: "X=USR(0)\n", show: { mode: "3d", view: "inside" }, more: true },
     ],
   },
 ];

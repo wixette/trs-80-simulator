@@ -114,14 +114,15 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 - **Going to 2D, the camera flies** to face the screen, then the flat views cross-fade in (as AGT-30's Screen). Going back, they fade out and the camera flies back to where it was. With `prefers-reduced-motion`, both are a cut.
 - **A double-click on the CRT in 3D** goes to 2D. A single click does nothing there, so that clicks and drags turn the camera.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
-- **The 3D view's own tools** (⌂, zoom, Views, Show, Put it all back) show only in 3D. In 2D the band holds the Recorder and Keyboard toggles and the 2D | 3D toggle. The helper strip (U4) is under the stage in both.
+- **The 3D view's own tools** (⌂, zoom, Views, Put it all back) show only in 3D. In 2D the band holds the Recorder and Keyboard toggles and the 2D | 3D toggle. The helper strip (U4) is under the stage in both.
 
 *Rejected:* the toggle in the top bar, which is for occasional actions (P4) and is full on phones; the 2D view as a tool in the dock, which would put the machine in two places.
 
 ### U2. The 3D views and Show
 
-- **Views** (a menu naming the view on show): Desk (the way in: from the front, a little above the desk, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), Inside. ⌂ goes to Desk, with everything shown and every part back.
-- **Show** (a menu, its button the chosen preset's icon, amber when not Everything): **Everything**, or **See inside**. See inside turns the keyboard unit's case to outlined glass, and the camera looks up from below, where the main board's parts hang (it is mounted upside down). The ROM and RAM chips glow by their share of the memory traffic, and the video RAM chips flash on writes. The machine keeps running under any Show.
+- **Views** (a menu naming the view on show): Desk (the way in: from the front, a little above the desk, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), **Inside, from below** and **Taken apart**. ⌂ goes to Desk, with every part back.
+- **Inside, from below** turns the keyboard unit's case to outlined glass, and the camera looks up from below, where the main board's parts hang (it is mounted upside down). The ROM and RAM chips glow by their share of the memory traffic, and the video RAM chips flash on writes. The machine keeps running. Leaving the view makes the case solid again. (There is no separate Show menu: only the computer's case can be seen into, so the view is enough.)
+- **Taken apart** takes the computer apart (the cables, the case top, the keyboard, the board, in the real order) and frames the parts as they will lie. A running machine stays closed: the view is refused while the computer is on, and says to switch it off, or to look Inside instead. Choosing another view puts it back together; clicking a part with the power off still takes it out or puts it back on its own (U3).
 - **The camera:** drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and limited, so the machine can't be lost. The 3D view's focus has two states: reached by Tab, it shows the amber focus ring, and the arrows orbit, + and − zoom and Home resets; otherwise it has no focus, and every key is the machine's. A click or a tap on the view never focuses it, and lets go of whatever had the focus: pressing the machine is typing at it. (A click then a key used to light the ring as `:focus-visible` and take + − and the arrows from BASIC.)
 - **Labels:** hovering a part (or tapping it on a phone) shows its name and one line on what it does, after 400 ms, beside the pointer.
 
@@ -140,7 +141,7 @@ The machine's controls that are hard to reach are clickable where they are: the 
 
 ### U5. Typing
 
-- **The machine starts switched on**, the computer and the display, waiting at `MEMORY SIZE?`: a first visit opens on a live machine, not on one to work out how to start, and See inside shows its chips at work. After that both are as the visitor left them. Switching off and on is lesson 1's step, and taking the machine apart still needs it off (U3), which a refusal says.
+- **The machine starts switched on**, the computer and the display, waiting at `MEMORY SIZE?`: a first visit opens on a live machine, not on one to work out how to start, and Inside, from below shows its chips at work. After that both are as the visitor left them. Switching off and on is lesson 1's step, and taking the machine apart still needs it off (U3), which a refusal says.
 
 - **The visitor's keyboard is the Model I's** whenever the stage has the focus, which it has by default. Not while a menu, a dialog or a text box has it.
 - **A held key holds the Model I's key,** so games that poll the keys play. Several keys at once work.

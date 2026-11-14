@@ -154,7 +154,6 @@ dock.start();
 function showMe(s) {
   if (s.mode) stage.setMode(s.mode);
   if (s.view) stage.goTo(s.view);
-  if (s.show) stage.setShow(s.show);
   if (s.tool) {
     const host = el("div", { class: "companion-tool" });
     if (s.tool === "vram") {

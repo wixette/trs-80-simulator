@@ -227,7 +227,7 @@ export class System {
     return true;
   }
 
-  /** Takes every unit out, in order (the 3D view's "Taken apart"). */
+  /** Takes every unit out, in order (the 3D Taken apart view). */
   takeAllApart() {
     if (this.machine.powered) {
       this.say({ key: "apart.poweredOn" });

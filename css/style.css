@@ -448,7 +448,6 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   .lesson-companion { flex-basis: 420px; }
 }
 @media (max-width: 860px) {
-  .show-btn > span { display: none; }
   .strip-label { display: none; }
   .strip-body { gap: 6px; padding: 4px 6px; }
   .strip-body .btn.small.has-icon { padding: 0 9px; }

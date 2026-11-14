@@ -22,7 +22,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 |---|---|---|---|
 | The whole system | 5 min | A photo, then the desk in 3D | Radio Shack showed it on 3 August 1977. The complete system was $599.95 `[reed-m1]`. Compare the Altair 8800 of 1975: a kit, with switches and lamps and no screen. |
 | The keyboard is the computer | 3 min | The keyboard unit | One board, under the keys. Ask: where is the computer in a laptop? In a phone? |
-| Look inside | 5 min | See inside, from below | The board hangs upside down. Hover over the chips: the Z80, the ROMs, the RAM. With the power off, students can take it apart: it comes apart in the real order. |
+| Look inside | 5 min | Views ▸ Inside, from below | The board hangs upside down. Hover over the chips: the Z80, the ROMs, the RAM. With the power off, students can take it apart (Views ▸ Taken apart, or click a part): it comes apart in the real order. |
 | The Video Display | 2 min | The display | A television without a tuner. 64 × 16 capital letters. |
 | The cassette recorder | 2 min | The recorder | No disk: programs went onto audio tape. |
 | Switch it off and on | 3 min | `MEMORY SIZE?` | The page opens with the machine on. Two POWER buttons: the computer's, and the display's. Off, the memory is gone; on again, the ROM starts BASIC at once. |
@@ -118,7 +118,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | Stop at the start | 3 min | Run to 7D00, then `X=USR(0)` | |
 | **One instruction at a time** | 10 min | Step | Students predict each register before they press Step. `LDIR` copies one byte per step: HL and DE go up, BC down. |
 | Full speed | 3 min | Run | 1,023 bytes in about 12 ms. |
-| Watch the chips | 5 min | See inside, `X=USR(0)` | ROM A glows while BASIC runs; the RAM chips while the program runs from them. |
+| Watch the chips | 5 min | Inside, from below, `X=USR(0)` | ROM A glows while BASIC runs; the RAM chips while the program runs from them. |
 
 *Going further:* why can the same bytes be both data and instructions? This is the stored-program idea. Compare the Altair 8800, where a program went in through the switches one byte at a time.
 

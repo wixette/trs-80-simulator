@@ -5,8 +5,9 @@
 // - `[2D | 3D]` at the band's right. Going to 2D, the camera flies to the screen and the flat
 //   views cross-fade in; going back, they fade out and the camera flies back to where it was.
 //   The 3D scene stops rendering under 2D. Going to 2D puts the machine back together (U3).
-// - In 3D the band also holds ⌂, zoom, the Views and Show menus; Put it all back stands on the
-//   stage while anything is out. The helpers for the controls that are hard to reach are in
+// - In 3D the band also holds ⌂, zoom and the Views menu; Put it all back stands on the stage
+//   while anything is out. The Inside view turns the case to glass; Taken apart takes the
+//   computer apart, and choosing another view puts it back. The helpers for the controls that are hard to reach are in
 //   their own strip at the stage's foot, in both views (js/app/strip.js, U4).
 // - A part's label shows after the pointer rests on it, beside the pointer.
 
@@ -19,8 +20,7 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
 /** @typedef {import("../scene/viewer.js").Viewer} Viewer */
 /** @typedef {import("../scene/desk3d.js").Desk3D} Desk3D */
 /** @typedef {import("../flat/flat.js").Flat} Flat */
-/** @typedef {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "inside"} ViewName */
-/** @typedef {"everything" | "inside"} ShowName */
+/** @typedef {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "inside" | "apart"} ViewName */
 
 /**
  * The camera's views, in metres: each looks from pos towards target. Once the model is in, a
@@ -39,8 +39,10 @@ export const VIEWS = /** @type {Record<ViewName, import("../scene/viewer.js").Po
   // as the keyboard: straight on from the front and well above, its keys and counter to hand
   recorder: { pos: [0, 0.42, 0.24], target: [0, 0.04, 0.02] },
   inside: { pos: [0.2, -0.42, 0.3], target: [0.05, 0.015, -0.015] },
+  // the computer's parts out, three-quarter on from the front left and above
+  apart: { pos: [-0.5, 0.55, 0.75], target: [0, 0.08, 0.1] },
 });
-const VIEW_ORDER = /** @type {ViewName[]} */ (["desk", "angle", "keyboard", "screen", "recorder", "inside"]);
+const VIEW_ORDER = /** @type {ViewName[]} */ (["desk", "angle", "keyboard", "screen", "recorder", "inside", "apart"]);
 /** What each view frames: the model's nodes (model/README.md), and the share of the stage they fill. */
 const SUBJECTS = /** @type {Record<ViewName, { nodes: string[], fill: number }>} */ ({
   desk: { nodes: ["unit.keyboard", "unit.display", "unit.recorder"], fill: 0.94 },
@@ -49,6 +51,7 @@ const SUBJECTS = /** @type {Record<ViewName, { nodes: string[], fill: number }>}
   screen: { nodes: ["display.screen"], fill: 0.96 },
   recorder: { nodes: ["unit.recorder"], fill: 0.9 },
   inside: { nodes: ["board.main"], fill: 0.92 },
+  apart: { nodes: ["unit.keyboard"], fill: 0.92 },
 });
 /** What a framed view keeps clear of the stage's edges, px. */
 const GAP = 8;
@@ -70,8 +73,8 @@ export class Stage {
     this.mode = "3d";
     /** @type {ViewName} */
     this.view = "desk";
-    /** @type {ShowName} */
-    this.show = "everything";
+    /** @private whether the case is glass (the Inside view) */
+    this.glass = false;
     /** @private the camera before a flight to 2D, to come back to */
     this.before = /** @type {import("../scene/viewer.js").Pose | null} */ (null);
     /** @private a move between 2D and 3D under way */
@@ -111,16 +114,7 @@ export class Stage {
         VIEW_ORDER.map((v) => ({ label: t(`view.${v}`), checked: this.view === v, run: () => this.goTo(v) })),
       ),
     );
-    this.showBtn = el("button", { class: "btn small menu-btn show-btn", type: "button", "aria-haspopup": "menu", "aria-expanded": "false" });
-    setTip(this.showBtn, t("stage.show.tip"));
-    this.showBtn.setAttribute("data-tip-describes", "");
-    this.showBtn.addEventListener("click", () =>
-      showMenu(this.showBtn, [
-        { label: t("show.everything"), checked: this.show === "everything", run: () => this.setShow("everything") },
-        { label: t("show.inside"), checked: this.show === "inside", run: () => this.setShow("inside") },
-      ]),
-    );
-    this.tools3d = el("div", { class: "band-group tools3d" }, [home, el("span", { class: "joined" }, [zoomOut, zoomIn]), this.viewsBtn, this.showBtn]);
+    this.tools3d = el("div", { class: "band-group tools3d" }, [home, el("span", { class: "joined" }, [zoomOut, zoomIn]), this.viewsBtn]);
     // the toggle (U1)
     this.toggle = el("div", { class: "segmented mode", role: "radiogroup", "aria-label": t("stage.mode") });
     for (const m of /** @type {const} */ (["2d", "3d"])) {
@@ -160,8 +154,6 @@ export class Stage {
         if (this.fitted && this.mode === "3d" && !this.moving && !v.isFlying()) v.jumpTo(this.framed(this.fitted));
       });
     }
-    /** @private whether See inside came with the Inside view, not by the visitor's choice */
-    this.insideChosenByView = false;
     /** @private @type {ReturnType<typeof setTimeout> | undefined} */
     this.labelTimer = undefined;
     /** @private what the band showed last */
@@ -177,7 +169,7 @@ export class Stage {
     d.on.hover = (h, x, y) => this.hover(h, x, y);
     d.on.info = (node) => this.system.say({ key: "part.said", params: { name: `${partName(node, "")}${partRole(node) ? `: ${partRole(node)}` : ""}` } });
     d.on.screenDoubleClick = () => this.setMode("2d");
-    if (this.show === "inside") d.setSeeInside(true);
+    if (this.view === "inside") d.setSeeInside(true);
     if (this.fitted && this.mode === "3d" && this.viewer) this.viewer.jumpTo(this.framed(this.fitted));
   }
 
@@ -193,7 +185,9 @@ export class Stage {
     if (!this.desk) return viewer.fit(pose);
     const { width, height } = viewer.size();
     const dir = /** @type {[number, number, number]} */ (pose.pos.map((p, i) => p - pose.target[i]));
-    const boxes = SUBJECTS[v].nodes.map((n) => /** @type {Desk3D} */ (this.desk).box(n));
+    const desk = /** @type {Desk3D} */ (this.desk);
+    // the parts where they are going: taken apart, put back
+    const boxes = desk.boxSettled(SUBJECTS[v].nodes);
     return frame(corners(boxes), dir, FOV, width, height, { top: GAP, right: GAP, bottom: GAP, left: GAP }, SUBJECTS[v].fill);
   }
 
@@ -202,15 +196,13 @@ export class Stage {
     const s = this.system;
     const rec = this.flat.drawerOpen("rec");
     const kbd = this.flat.drawerOpen("kbd");
-    const key = `${s.whole}${this.mode}${this.view}${this.show}${rec}${kbd}`;
+    const key = `${s.whole}${this.mode}${this.view}${rec}${kbd}`;
     if (key === this.shownKey) return;
     // the drawers' toggles say what the drawing shows, however a drawer was opened
     for (const b of /** @type {NodeListOf<HTMLElement>} */ (this.drawers.querySelectorAll("[data-drawer]"))) b.setAttribute("aria-pressed", String(b.dataset.drawer === "rec" ? rec : kbd));
     this.shownKey = key;
     this.putBack.hidden = this.mode !== "3d" || s.whole;
     this.viewsBtn.replaceChildren(el("span", { text: t(`view.${this.view}`) }), icon("keyboard_arrow_down"));
-    this.showBtn.replaceChildren(icon("visibility"), el("span", { text: t(`show.${this.show}`) }), icon("keyboard_arrow_down"));
-    this.showBtn.classList.toggle("active", this.show !== "everything");
     for (const b of this.toggle.children) b.setAttribute("aria-checked", String(/** @type {HTMLElement} */ (b).dataset.mode === this.mode));
     this.el.dataset.mode = this.mode;
   }
@@ -221,9 +213,8 @@ export class Stage {
     if (f !== null) /** @type {HTMLElement} */ (this.loading.querySelector("span")).style.width = `${Math.round(f * 100)}%`;
   }
 
-  /** ⌂: the desk, everything shown, every part back. */
+  /** ⌂: the desk, every part back. */
   home() {
-    this.setShow("everything");
     if (!this.system.whole) this.system.putAllBack();
     this.goTo("desk");
   }
@@ -231,27 +222,23 @@ export class Stage {
   /** A view: the camera flies there. @param {ViewName} v */
   goTo(v) {
     if (!this.viewer) return;
+    // a running machine stays closed: Taken apart is refused, and says how to see inside
+    if (v === "apart" && !this.system.takeAllApart()) return;
     if (this.mode === "2d") this.setMode("3d");
+    if (this.view === "apart" && v !== "apart" && !this.system.whole) this.system.putAllBack();
     this.view = v;
-    if (v === "inside" && this.show === "everything") this.setShow("inside", true);
-    else if (v !== "inside" && this.insideChosenByView) this.setShow("everything");
+    this.seeInside(v === "inside");
     this.fitted = v;
     this.viewer.flyTo(this.framed(v));
     this.refresh();
   }
 
-  /**
-   * A Show. Choosing the Inside view brings See inside with it, and leaving it takes it away
-   * again unless the visitor chose it (as the 8800 simulator's Inside does).
-   * @param {ShowName} s
-   * @param {boolean} [byView]
-   */
-  setShow(s, byView = false) {
-    this.show = s;
-    this.insideChosenByView = byView && s === "inside";
-    this.desk?.setSeeInside(s === "inside");
-    if (s === "inside") this.system.say({ key: this.system.machine.powered ? "show.inside.on" : "show.inside.off" });
-    this.refresh();
+  /** @private The Inside view's glass case, and what it shows. @param {boolean} on */
+  seeInside(on) {
+    if (on === this.glass) return;
+    this.glass = on;
+    this.desk?.setSeeInside(on);
+    if (on) this.system.say({ key: this.system.machine.powered ? "view.inside.on" : "view.inside.off" });
   }
 
   /**

@@ -84,7 +84,7 @@ export class Viewer {
     this.controls.enableDamping = true;
     this.controls.minDistance = MIN_DISTANCE;
     this.controls.maxDistance = MAX_DISTANCE;
-    // the whole sphere, so the undersides can be seen (See inside looks up from below)
+    // the whole sphere, so the undersides can be seen (the Inside view looks up from below)
     this.controls.maxPolarAngle = Math.PI;
     this.controls.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
     this.controls.listenToKeyEvents(this.canvas);

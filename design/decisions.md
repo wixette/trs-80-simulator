@@ -88,7 +88,7 @@ How they are drawn:
 
 ## D11. Taking it apart needs the computer off
 
-As in the Altair 8800 simulator: nothing comes out while the computer is on, and POWER refuses while anything is out, saying what. A machine whose board is out of its case is not a machine that can run. To watch it run inside, **See inside** turns the case to glass and leaves the machine running.
+As in the Altair 8800 simulator: nothing comes out while the computer is on, and POWER refuses while anything is out, saying what. A machine whose board is out of its case is not a machine that can run. To watch it run inside, the view **Inside, from below** turns the case to glass and leaves the machine running.
 
 ## D12. Memory starts cleared at power on
 

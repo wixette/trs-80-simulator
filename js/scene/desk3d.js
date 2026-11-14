@@ -13,7 +13,7 @@
 // - Taking it apart: a click on a unit with the computer off (U3); the units move as the
 //   system says they are (System.motion), the main board lifting, coming forward and turning
 //   over.
-// - See inside: the case as glass; the chips lit by their share of the memory traffic (U2), a
+// - Inside, from below: the case as glass; the chips lit by their share of the memory traffic (U2), a
 //   view the real machine never had.
 
 import * as THREE from "three";
@@ -33,7 +33,7 @@ const MOVERS = /** @type {Record<string, string[]>} */ ({
   keyboard: ["keyboard"],
   "board.main": ["board.main"],
 });
-/** The case, turned to glass by See inside. */
+/** The case, turned to glass in the Inside view. */
 const GHOSTED = ["case.top", "case.bottom", "case.feet", "case.din_panel"];
 /** The deck's keys, by the System's names. @type {DeckKey[]} */
 const DECK_KEYS = ["record", "rewind", "play", "fastf", "stop", "eject"];
@@ -183,7 +183,7 @@ export class Desk3D {
     /** @private eased glow levels */
     this.levels = { romA: 0, romB: 0, ram: 0, video: 0 };
 
-    /** See inside: the case as glass. */
+    /** The Inside view's: the case as glass. */
     this.seeInside = false;
     /** @private @type {Map<THREE.Mesh, THREE.Material | THREE.Material[]>} */
     this.solid = new Map();
@@ -348,9 +348,27 @@ export class Desk3D {
 
   /** @private the units where the system says they are */
   tickApart() {
+    this.placeApart((unit) => this.system.motion.get(unit)?.f ?? 0);
+    const mo = this.system.motion;
+    this.ribbon.visible = (mo.get("keyboard")?.f ?? 0) < 0.02 && (mo.get("board.main")?.f ?? 0) < 0.02;
+  }
+
+  /**
+   * Parts' boxes as box() gives them, but where they are going: each unit at the end of its
+   * move, out or in (a view frames the machine as it will be, not as it is mid-move).
+   * @param {string[]} names
+   */
+  boxSettled(names) {
+    this.placeApart((unit) => this.system.motion.get(unit)?.target ?? 0);
+    const boxes = names.map((n) => this.box(n));
+    this.tickApart();
+    return boxes;
+  }
+
+  /** @private Each unit out by its share, 0 in .. 1 out. @param {(unit: string) => number} fOf */
+  placeApart(fOf) {
     for (const [o, p] of this.paths) {
-      const unit = /** @type {string} */ (this.unitOf.get(o));
-      const f = this.system.motion.get(unit)?.f ?? 0;
+      const f = fOf(/** @type {string} */ (this.unitOf.get(o)));
       const e = f * f * (3 - 2 * f);
       const lift = p.flip ? Math.min(1, e / 0.6) : e;
       const pos = p.base.clone().add(along(p.path, lift));
@@ -362,8 +380,6 @@ export class Desk3D {
       }
       o.position.copy(pos);
     }
-    const mo = this.system.motion;
-    this.ribbon.visible = (mo.get("keyboard")?.f ?? 0) < 0.02 && (mo.get("board.main")?.f ?? 0) < 0.02;
   }
 
   /** @private The chips by their share of the memory traffic: ROM A while BASIC runs, the RAM while a program does. @param {number} dt */
@@ -399,7 +415,7 @@ export class Desk3D {
     this.tapped = { id, until: performance.now() + 180 };
   }
 
-  /** See inside: the case as glass (true), or solid. @param {boolean} on */
+  /** The case as glass (true, the Inside view), or solid. @param {boolean} on */
   setSeeInside(on) {
     if (on === this.seeInside) return;
     this.seeInside = on;
@@ -440,7 +456,7 @@ export class Desk3D {
         if (!h.object.visible) return false;
         const mat = /** @type {THREE.Mesh} */ (h.object).material;
         const first = Array.isArray(mat) ? mat[0] : mat;
-        // clicks pass through glass: See inside's case, the door's window
+        // clicks pass through glass: the Inside view's case, the door's window
         return !(first && first.transparent && first.opacity < 0.5);
       }) ?? null
     );
