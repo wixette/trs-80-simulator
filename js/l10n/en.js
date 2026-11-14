@@ -57,6 +57,7 @@ export default {
   "stage.loading": "Loading the machine in 3D…",
   "stage.no3d": "The 3D view needs WebGL, which this browser does not offer. The 2D view has every control.",
   "view.desk": "Desk",
+  "view.angle": "Three-quarter",
   "view.keyboard": "Keyboard",
   "view.screen": "Screen",
   "view.recorder": "Recorder",

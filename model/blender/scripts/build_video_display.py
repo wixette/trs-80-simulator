@@ -224,17 +224,22 @@ def build(p, col, root):
     scr["motion"] = "screen"
 
     # --- the dark rim round the glass: a band on the glass, just inside its outline -------
+    # It also reaches RIM_OVER mm past the outline, over the glass's own edge and the seam to the
+    # opening, which otherwise showed as thin light lines round the rim seen close and head on.
+    RIM_OVER = 2.0
     rw = tf["rim"]["width"]["v"]
-    outer_rim = [bowed(x, z) for x, z in shapes.densify(rounded_rect(tx0, tz0, tx1, tz1, tr, 16), 3.0)]
-    nr = len(outer_rim)
+    outline = [bowed(x, z) for x, z in shapes.densify(rounded_rect(tx0, tz0, tx1, tz1, tr, 16), 3.0)]
+    nr = len(outline)
+    outer_rim = []
     inner_rim = []
     for i in range(nr):
-        (ax, az), (bx_, bz_) = outer_rim[i - 1], outer_rim[(i + 1) % nr]
+        (ax, az), (bx_, bz_) = outline[i - 1], outline[(i + 1) % nr]
         tx_, tz_ = bx_ - ax, bz_ - az
         L = math.hypot(tx_, tz_) or 1.0
         # the outline runs counter-clockwise (seen from the front), so inward is to the left
         nx_, nz_ = -tz_ / L, tx_ / L
-        x, z = outer_rim[i]
+        x, z = outline[i]
+        outer_rim.append((x - nx_ * RIM_OVER, z - nz_ * RIM_OVER))
         inner_rim.append((x + nx_ * rw, z + nz_ * rw))
     rb_ = MeshBuilder()
     mi_ = rb_._mat("crt_rim")

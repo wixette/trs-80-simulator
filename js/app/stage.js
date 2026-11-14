@@ -19,7 +19,7 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
 /** @typedef {import("../scene/viewer.js").Viewer} Viewer */
 /** @typedef {import("../scene/desk3d.js").Desk3D} Desk3D */
 /** @typedef {import("../flat/flat.js").Flat} Flat */
-/** @typedef {"desk" | "keyboard" | "screen" | "recorder" | "rear" | "inside"} ViewName */
+/** @typedef {"desk" | "angle" | "keyboard" | "screen" | "recorder" | "rear" | "inside"} ViewName */
 /** @typedef {"everything" | "inside"} ShowName */
 
 /**
@@ -28,17 +28,22 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
  * (js/scene/framing.js); the poses themselves are for before then.
  */
 export const VIEWS = /** @type {Record<ViewName, import("../scene/viewer.js").Pose>} */ ({
-  desk: { pos: [-0.55, 0.62, 0.95], target: [0.05, 0.1, -0.12] },
+  // the way in: from the front, a little above the desk, the screen face on enough to read and
+  // the keyboard under it to type at, the recorder beside them
+  desk: { pos: [0.08, 0.5, 1.05], target: [0.08, 0.12, -0.05] },
+  // the whole system three-quarter on, from the left
+  angle: { pos: [-0.55, 0.62, 0.95], target: [0.05, 0.1, -0.12] },
   keyboard: { pos: [-0.05, 0.42, 0.4], target: [0.0, 0.04, -0.01] },
   screen: { pos: [-0.04, 0.22, 0.32], target: [-0.04, 0.17, -0.21] },
   recorder: { pos: [0.62, 0.38, 0.3], target: [0.36, 0.02, -0.1] },
   rear: { pos: [0.62, 0.2, -0.32], target: [0.05, 0.03, -0.09] },
   inside: { pos: [0.2, -0.42, 0.3], target: [0.05, 0.015, -0.015] },
 });
-const VIEW_ORDER = /** @type {ViewName[]} */ (["desk", "keyboard", "screen", "recorder", "rear", "inside"]);
+const VIEW_ORDER = /** @type {ViewName[]} */ (["desk", "angle", "keyboard", "screen", "recorder", "rear", "inside"]);
 /** What each view frames: the model's nodes (model/README.md), and the share of the stage they fill. */
 const SUBJECTS = /** @type {Record<ViewName, { nodes: string[], fill: number }>} */ ({
-  desk: { nodes: ["unit.keyboard", "unit.display", "unit.recorder", "unit.psu"], fill: 0.92 },
+  desk: { nodes: ["unit.keyboard", "unit.display", "unit.recorder"], fill: 0.94 },
+  angle: { nodes: ["unit.keyboard", "unit.display", "unit.recorder", "unit.psu"], fill: 0.92 },
   keyboard: { nodes: ["unit.keyboard"], fill: 0.9 },
   screen: { nodes: ["display.screen"], fill: 0.96 },
   recorder: { nodes: ["unit.recorder"], fill: 0.85 },
