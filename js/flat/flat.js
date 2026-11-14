@@ -16,8 +16,9 @@
 // keyboard under them. The recorder and the keyboard are drawers, each shown only while it is
 // open, at any width, and remembered as the visitor left them (docs/ui-design.md, U10); with
 // both closed, the display has the stage. On an upright phone the keypad is cropped (every
-// digit is on the main keys) and the recorder, which has no room beside the display, opens over
-// it; on a phone on its side, the keyboard opens over the display. Nothing in the drawings can be
+// digit is on the main keys), and the recorder, opened, stands beside the display there too,
+// both smaller; on a phone on its side, the keyboard opens over the display. Each key's legend
+// is sized to fit its cap. Nothing in the drawings can be
 // selected or dragged.
 
 import { t } from "../l10n/l10n.js";
@@ -105,7 +106,7 @@ export class Flat {
     this.dirty = true;
     /** @private */
     this.reelAngle = 0;
-    /** @private @type {{ el: HTMLElement, row: number, bit: number, keypad: boolean, cap: KeyCap["cap"] }[]} */
+    /** @private each key, and how wide its legend is, in characters @type {{ el: HTMLElement, row: number, bit: number, keypad: boolean, cap: KeyCap["cap"], chars: number }[]} */
     this.keyEls = [];
     /** @private @type {{ el: HTMLButtonElement, kind: "power" | "reset" }[]} */
     this.rear = [];
@@ -427,7 +428,9 @@ export class Flat {
       b.addEventListener("pointerup", up);
       b.addEventListener("pointercancel", up);
       box.appendChild(b);
-      this.keyEls.push({ el: b, row: k.matrix_row, bit: k.matrix_bit, keypad: k.keypad, cap: k.cap });
+      // the shifted legend is drawn at 0.72 of the size (css/style.css)
+      const chars = Math.max([...legend].length, [...(k.shift_legend ?? "")].length * 0.72);
+      this.keyEls.push({ el: b, row: k.matrix_row, bit: k.matrix_bit, keypad: k.keypad, cap: k.cap, chars });
     }
   }
 
@@ -462,6 +465,10 @@ export class Flat {
       const c = k.cap;
       k.el.hidden = compact && k.keypad;
       placeIn(k.el, { x0: c.x - c.w / 2, x1: c.x + c.w / 2, y0: -(c.y + c.d / 2), y1: -(c.y - c.d / 2) }, fr);
+      // the largest type its legend fits its cap at, in the drawing's own units (cqw): a bold
+      // capital is about 0.68 em wide, and the legend keeps a tenth of the cap clear each side
+      const capCqw = (c.w / (fr.x1 - fr.x0)) * 100;
+      if (k.chars) k.el.style.setProperty("--fit", `${((capCqw * 0.8) / (k.chars * 0.68)).toFixed(3)}cqw`);
     }
     for (const [i, r] of this.rear.entries()) {
       const x0 = bz.x0 + i * 40;

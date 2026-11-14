@@ -190,7 +190,8 @@ A dialog holding:
 - **Their toggles**, *Recorder* and *Keyboard* on the band, are Material's tonal toggle buttons: grey while closed, filled amber (primary container) while open, as the selected half of 2D | 3D is. They are always there, so they always say which state each drawer is in. On a phone, their icons alone.
 - **Each is remembered** as the visitor left it.
 - **At first** the keyboard is open only where the visitor has no keyboard of their own and the screen is upright (a phone held upright, a tablet); the recorder is closed, as its keys are on the helper strip.
-- **On an upright phone** the recorder, opened, lies over the display. On a phone on its side, the keyboard, opened, rises over the display.
+- **On an upright phone** the recorder, opened, stands beside the display as on a desktop, both smaller: laid over the display, it hid the display's own controls. On a phone on its side, the keyboard, opened, rises over the display.
+- **Each key's legend is sized to fit its cap**, so BREAK, CLEAR and ENTER stay on their keys at any size.
 - **The key legend** (Esc is BREAK, Delete is CLEAR…) is not on the band, where it took the stage's top left: the status line says it as the 2D view opens, and the Keyboard tool keeps it.
 
 *Rejected:* a smaller default dock, which would take the lessons' room for a picture that would still be too small; showing the keyboard by the window's width alone, which made it appear on its own as a window narrowed, with a toggle that did nothing there.
