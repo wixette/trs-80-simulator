@@ -11,7 +11,7 @@ import { t } from "../l10n/l10n.js";
 import { casFromTape, Tape, tapeFromCas } from "../sim/cassette.js";
 import { recordSampleTape } from "../sim/sample-tapes.js";
 import { typeKeys } from "../lessons/lessons.js";
-import { SAMPLES } from "../sim/samples.js";
+import { SAMPLES, typeIn } from "../sim/samples.js";
 import { screenProgramCas } from "../sim/system-samples.js";
 import { parseWav, pulsesFromSound, wavFromPulses } from "../sim/wav.js";
 import { el, icon, setTip, showDialog, showMenu } from "../ui/components.js";
@@ -139,7 +139,7 @@ export class TopBar {
         choice: true,
         icon: "keyboard",
         disabled: off,
-        run: () => this.typeIn(sm, title),
+        run: () => this.typeProgram(sm, title),
       },
       tape,
     ]);
@@ -152,12 +152,11 @@ export class TopBar {
    * listing, and RUN.
    * @private @param {import("../sim/samples.js").Sample} sm @param {string} title
    */
-  typeIn(sm, title) {
+  typeProgram(sm, title) {
     const s = this.system;
     if (!s.machine.powered) return void s.say({ key: "type.off" });
-    const lines = s.machine.screenText().filter((l) => l.trim());
-    const asking = /^MEMORY SIZE\?/.test(lines.at(-1) ?? "");
-    typeKeys(s, `${asking ? "{ENTER}" : "{BREAK}"}NEW\n${sm.text}`);
+    const { asking, keys } = typeIn(s.machine.screenText(), sm.text);
+    typeKeys(s, keys);
     s.say({ key: asking ? "program.typingMemory" : "program.typing", params: { title } });
   }
 

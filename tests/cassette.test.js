@@ -196,6 +196,24 @@ describe("TAP: the recorder", () => {
     assert.equal(deck.tape, null);
   });
 
+  it("TAP-13: the counter counts as the tape moves, playing or winding, not only when it stops", () => {
+    const deck = new Recorder();
+    deck.insert(new Tape("t"));
+    deck.press("play", 0);
+    deck.setRelay(true, 0);
+    // while the tape plays its position is read at the moment asked (at(t)), never settled
+    assert.equal(deck.counterAt(0), 0);
+    assert.ok(deck.counterAt(10 * CLOCK_HZ) > 0, "ten seconds in, it has counted");
+    assert.ok(deck.counterAt(20 * CLOCK_HZ) > deck.counterAt(10 * CLOCK_HZ), "and goes on counting");
+    deck.stop(20 * CLOCK_HZ);
+    const at = deck.counterAt(20 * CLOCK_HZ);
+    assert.equal(deck.counterAt(40 * CLOCK_HZ), at, "stopped, it stands");
+    deck.press("rewind", 40 * CLOCK_HZ);
+    for (let i = 0; i < 100 && deck.mode === "rewind"; i++) deck.wind(1, 40 * CLOCK_HZ);
+    assert.equal(deck.counterAt(40 * CLOCK_HZ), 0, "rewound, it is back at 000");
+    assert.ok(deck.counterAt(0) < 1000, "three digits");
+  });
+
   it("TAP-12: PLAY with no tape stays up", () => {
     const deck = new Recorder();
     deck.press("play", 0);

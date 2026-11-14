@@ -69,3 +69,17 @@ export const SAMPLES = [
 
 /** A sample's listing without its RUN, as it is stored. @param {Sample} s */
 export const program = (s) => s.text.replace(/RUN\n$/, "");
+
+/**
+ * What Type it in types (docs/ui-design.md, U8), as an owner did: ENTER first if the machine
+ * still asks MEMORY SIZE? (it reads its line as a number, and throws anything else away as it
+ * asks again), else BREAK to stop whatever runs; then NEW, so no old line is left in, and the
+ * listing, which ends with RUN. Keys between braces are keys ({ENTER}, {BREAK}).
+ * @param {string[]} screen the screen's lines
+ * @param {string} listing
+ * @returns {{ asking: boolean, keys: string }}
+ */
+export function typeIn(screen, listing) {
+  const asking = /^MEMORY SIZE\?/.test(screen.filter((l) => l.trim()).at(-1) ?? "");
+  return { asking, keys: `${asking ? "{ENTER}" : "{BREAK}"}NEW\n${listing}` };
+}
