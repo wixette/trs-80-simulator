@@ -79,6 +79,8 @@ export const ICONS = [
   "view_in_ar",
   "visibility",
   "voicemail",
+  "volume_off",
+  "volume_up",
   "web_asset",
   "zoom_in",
   "zoom_out",

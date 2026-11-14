@@ -134,7 +134,7 @@ const vram = new VramTool($("pane-vram"), system, (cell) => {
   flat.invalidate();
 });
 const keyboard = new KeyboardTool($("pane-keyboard"), system);
-const cassette = new CassetteTool($("pane-cassette"), system, sound);
+const cassette = new CassetteTool($("pane-cassette"), system);
 const cpu = new CpuTool($("pane-cpu"), system);
 new ReferencesTool($("pane-refs"));
 /** The tool Show me put beside the lesson, if any. @type {{ tick: (dt: number) => void } | null} */
@@ -170,7 +170,7 @@ function showMe(s) {
     } else if (s.tool === "keyboard") {
       companionKeys = new KeyboardTool(host, system);
       companion = companionKeys;
-    } else if (s.tool === "cassette") companion = new CassetteTool(host, system, sound);
+    } else if (s.tool === "cassette") companion = new CassetteTool(host, system);
     else {
       const cp = new CpuTool(host, system);
       if (s.address !== undefined) {
@@ -206,7 +206,7 @@ if (viewer) {
 const strip = new HelperStrip($("helper-strip"), system, () => desk);
 
 // ---- the top bar ---------------------------------------------------------------------------------
-new TopBar(system, { rom: () => romResult.rom, about: () => aboutBody(asset("package.json")), references: () => dock.show("refs") });
+new TopBar(system, { rom: () => romResult.rom, about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound });
 
 // ---- the machine's events -------------------------------------------------------------------------
 system.machine.on.video = (addr) => {

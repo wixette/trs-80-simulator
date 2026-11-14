@@ -84,7 +84,7 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 ## Part 2. The layout
 
 ```
-┌ [logo] TRS-80 Simulator   [▤ Tapes ▾] [▶ Programs ▾]                                [ⓘ] ┐  top bar
+┌ [logo] TRS-80 Simulator   [▤ Tapes ▾] [▶ Programs ▾]                            [🔊] [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
 │                                          [⌂] [− +] [Desk ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
 │ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
@@ -118,7 +118,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 
 *Rejected:* the toggle in the top bar, which is for occasional actions (P4) and is full on phones; the 2D view as a tool in the dock, which would put the machine in two places.
 
-### U2. The 3D views and Show
+### U2. The 3D views
 
 - **Views** (a menu naming the view on show): Desk (the way in: from the front, a little above the desk, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), **Inside, from below** and **Taken apart**. ⌂ goes to Desk, with every part back.
 - **Inside, from below** turns the keyboard unit's case to outlined glass, and the camera looks up from below, where the main board's parts hang (it is mounted upside down). The ROM and RAM chips glow by their share of the memory traffic, and the video RAM chips flash on writes. The machine keeps running. Leaving the view makes the case solid again. (There is no separate Show menu: only the computer's case can be seen into, so the view is enough.)
@@ -175,7 +175,7 @@ The design follows the 8800's U11.
 ### U8. The top bar
 
 - **Left (the machine):** the logo and title; **Tapes** (insert a blank tape; our sample tapes; open a `.cas` or `.wav` file…; eject; save the tape as `.cas` or `.wav`); **Programs** (our sample BASIC programs, typed in for you on the Model I's keys).
-- **Right (the app):** About.
+- **Right (the app):** **Sound** (an icon button, a speaker, crossed out while off; remembered), then About. Sound is the page's, not the tape's: it is the only sound yet, but it is switched where any later one would be.
 - On a phone the menus keep their icons and lose their names.
 
 ### U9. About

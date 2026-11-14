@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // The Cassette tool (docs/ui-design.md, U6): the tape in the recorder, what it holds and how
-// to load it (D7), its position and length, Fast tape and the tape's sound (D16); and the
+// to load it (D7), its position and length, and Fast tape (D16; the sound's switch is on the top bar); and the
 // tape under the head: pulses, bits, bytes, and what each byte is in the recording (a view
 // the real machine never had). A strip about five bytes long around the head: each pulse as
 // the port made it, the bit cells (a clock pulse, and a data pulse half a cell later for a 1)
@@ -54,9 +54,8 @@ export class CassetteTool {
   /**
    * @param {HTMLElement} host
    * @param {System} system
-   * @param {{ setMuted: (m: boolean) => void, muted: boolean }} sound
    */
-  constructor(host, system, sound) {
+  constructor(host, system) {
     this.system = system;
     this.name = el("strong", { class: "tape-name" });
     this.what = el("p", { class: "tape-what" });
@@ -67,15 +66,12 @@ export class CassetteTool {
     });
     setTip(fast, t("tape.fast.tip"));
     fast.setAttribute("data-tip-describes", "");
-    const mute = toggle(t("tape.sound"), !sound.muted, (on) => sound.setMuted(!on));
-    setTip(mute, t("tape.sound.tip"));
-    mute.setAttribute("data-tip-describes", "");
     this.canvas = /** @type {HTMLCanvasElement} */ (el("canvas", { width: String(W), height: String(H), class: "tape-strip", "aria-label": t("tape.strip") }));
     this.ctx = /** @type {CanvasRenderingContext2D} */ (this.canvas.getContext("2d"));
     this.now = el("p", { class: "tape-now", "aria-live": "off" });
     host.append(
       el("div", { class: "tool tape-tool" }, [
-        el("div", { class: "tool-side" }, [this.name, this.what, this.where, el("div", { class: "tool-actions" }, [fast, mute])]),
+        el("div", { class: "tool-side" }, [this.name, this.what, this.where, el("div", { class: "tool-actions" }, [fast])]),
         el("div", { class: "tool-main" }, [el("h3", { text: t("tape.under") }), this.canvas, this.now]),
       ]),
     );

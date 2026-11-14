@@ -11,7 +11,7 @@ import { recordSampleTape } from "../sim/sample-tapes.js";
 import { SAMPLES } from "../sim/samples.js";
 import { screenProgramCas } from "../sim/system-samples.js";
 import { parseWav, pulsesFromSound, wavFromPulses } from "../sim/wav.js";
-import { el, setTip, showDialog, showMenu } from "../ui/components.js";
+import { el, icon, setTip, showDialog, showMenu } from "../ui/components.js";
 
 /** @typedef {import("../sim/system.js").System} System */
 
@@ -27,10 +27,13 @@ function download(bytes, name, type) {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
+/** Where Sound on or off is remembered. */
+const SOUND_STORE = "trs80.sound";
+
 export class TopBar {
   /**
    * @param {System} system
-   * @param {{ rom: () => Uint8Array | null, about: () => Node[], references: () => void }} o
+   * @param {{ rom: () => Uint8Array | null, about: () => Node[], references: () => void, sound: { muted: boolean, setMuted: (m: boolean) => void } }} o
    */
   constructor(system, o) {
     this.system = system;
@@ -53,6 +56,31 @@ export class TopBar {
     setTip(tapes, t("bar.tapes.tip"));
     setTip(programs, t("bar.programs.tip"));
     setTip(about, t("bar.about"));
+    // Sound, for the whole page (the tape's sound is all there is yet): on or off, remembered
+    const sound = /** @type {HTMLButtonElement} */ (document.getElementById("sound"));
+    const showSound = () => {
+      const on = !this.o.sound.muted;
+      sound.replaceChildren(icon(on ? "volume_up" : "volume_off"));
+      sound.setAttribute("aria-pressed", String(on));
+      setTip(sound, t(on ? "bar.sound.on" : "bar.sound.off"));
+    };
+    try {
+      if (localStorage.getItem(SOUND_STORE) === "off") this.o.sound.setMuted(true);
+    } catch {
+      // private browsing: sound starts on
+    }
+    sound.addEventListener("click", () => {
+      const on = this.o.sound.muted;
+      this.o.sound.setMuted(!on);
+      try {
+        localStorage.setItem(SOUND_STORE, on ? "on" : "off");
+      } catch {
+        // not remembered
+      }
+      system.say({ key: on ? "sound.on" : "sound.off" });
+      showSound();
+    });
+    showSound();
   }
 
   /** @private @returns {import("../ui/components.js").MenuItem[]} */
