@@ -1,0 +1,52 @@
+// SPDX-License-Identifier: Apache-2.0
+//
+// The 3D views (U2, U3): each in the Views menu flies there; Inside, from below turns the case
+// to glass and leaving it makes it solid; Taken apart is greyed while the computer runs, and
+// refused, then takes it apart once off; another view puts it back. C and B turn and a
+// double-click puts them back to the middle.
+
+const VIEWS = ["Desk", "Three-quarter", "Keyboard", "Screen", "Recorder", "Inside, from below", "Taken apart"];
+
+/** @param {import("./harness.mjs").Harness} h */
+export default async function (h) {
+  await h.viewport(1440, 900);
+  await h.open();
+  h.verify("the 3D model loads", await h.until("app.desk() !== null", 30000));
+  await h.press("#band .menu-btn");
+  const items = await h.js("[...document.querySelectorAll('.menu [role^=menuitem]')].map((b) => b.textContent)");
+  h.verify("Views lists the seven views", JSON.stringify(items?.map((/** @type {string} */ x) => x.replace(/switch off first$/, ""))) === JSON.stringify(VIEWS), items);
+  h.verify("Taken apart is greyed while the computer is on, saying why", /switch off first$/.test(items?.[6] ?? ""));
+  await h.key("Escape");
+  h.verify("there is no Show menu", !(await h.js("document.querySelector('.show-btn')")));
+
+  for (const v of VIEWS.slice(0, 5)) {
+    await h.choose("#band .menu-btn", v);
+    await h.until("!app.viewer.isFlying()", 5000);
+    h.verify(`${v}: the band names it`, (await h.js("document.querySelector('#band .menu-btn').textContent")) === v);
+  }
+  await h.choose("#band .menu-btn", "Inside, from below");
+  h.verify("Inside, from below turns the case to glass", (await h.js("app.stage.glass")) === true);
+  await h.choose("#band .menu-btn", "Taken apart");
+  h.verify("Taken apart, chosen while on, is refused, and says why", (await h.js("app.stage.view")) === "inside" && /Switch the computer off first/.test(await h.status()));
+  await h.choose("#band .menu-btn", "Desk");
+  h.verify("leaving Inside makes the case solid", (await h.js("app.stage.glass")) === false);
+
+  await h.pressText("#helper-strip button", "Computer");
+  await h.choose("#band .menu-btn", "Taken apart");
+  h.verify("off, Taken apart takes the computer apart", await h.until("[...trs80.motion.values()].every((m) => m.f === 1)", 15000));
+  h.verify("Put it all back shows while anything is out", !(await h.js("document.querySelector('.put-back').hidden")));
+  await h.pressText("#helper-strip button", "Computer");
+  h.verify("POWER is refused while it is apart", !(await h.js("trs80.machine.powered")) && /Put the machine back together/.test(await h.status()));
+  await h.choose("#band .menu-btn", "Inside, from below");
+  h.verify("another view puts it back together", await h.until("trs80.whole && [...trs80.motion.values()].every((m) => m.f === 0)", 10000));
+
+  // C and B: the wheel turns C; a double-click puts it back to the middle
+  await h.js("trs80.setControl('contrast', 0.9)");
+  // the Desk view: the Screen view frames the glass, and leaves the knobs under it out
+  await h.choose("#band .menu-btn", "Desk");
+  await h.until("!app.viewer.isFlying()", 5000);
+  const c = await h.js(`(() => { const k = app.desk().knobs.contrast; const p = k.getWorldPosition(k.position.clone()).project(app.viewer.camera);
+    const r = app.viewer.canvas.getBoundingClientRect(); return { x: r.left + ((p.x + 1) / 2) * r.width, y: r.top + ((1 - p.y) / 2) * r.height }; })()`);
+  await h.clickAt(c.x, c.y, 2);
+  h.verify("a double-click on C puts it back to the middle", (await h.js("trs80.display.contrast")) === 0.5);
+}
