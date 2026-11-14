@@ -187,7 +187,11 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .flat-keyboard { width: min(100cqw, 100cqh * var(--ar)); }
 .flat-screen { position: absolute; display: block; cursor: crosshair; image-rendering: auto; }
 .flat-dpower { position: absolute; border: 0; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ff6a4d, #c8301c 70%); box-shadow: 0 2px 0 #5a1208, inset 0 -2px 3px rgba(0, 0, 0, 0.3); cursor: pointer; padding: 0; }
-.flat-dpower[aria-pressed="true"] { background: radial-gradient(circle at 40% 35%, #b03a28, #7d1f12 70%); box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.5); }
+/* the display's POWER is a push button, not a lamp: the same red in or out, as on the machine.
+   Pushed in (on), it sits lower in its ring, its drop shadow gone and shaded from above; only the
+   keyboard's LED lights for on, and the screen says the display is on */
+.flat-dpower { transition: transform 80ms var(--ease), box-shadow 80ms var(--ease); }
+.flat-dpower[aria-pressed="true"] { transform: scale(0.9); box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.45); }
 .flat-knob { position: absolute; border: 0; border-radius: 50%; background: transparent; cursor: ew-resize; padding: 0; touch-action: none; }
 .flat-knob:hover { background: color-mix(in srgb, var(--md-primary) 18%, transparent); }
 .flat-deckkey { position: absolute; display: flex; align-items: flex-end; justify-content: center; padding: 0 0 6%; border: 1px solid #000; border-radius: 3px; background: linear-gradient(#3b3b3b, #232323); color: #d8d8d2; font-size: 3cqw; font-weight: 650; letter-spacing: -0.03em; white-space: nowrap; overflow: hidden; cursor: pointer; box-shadow: 0 2px 0 #090909; }
