@@ -115,6 +115,8 @@ export class Desk3D {
     this.shiftLatched = false;
 
     this.led = this.ownMaterial(this.node("led.power"));
+    /** The recorder's RECORD/BATTERY lamp. */
+    this.recLamp = this.ownMaterial(this.node("recorder.lamp"));
     /** @private @type {{ obj: THREE.Object3D, base: THREE.Vector3, axis: THREE.Vector3, travel: number }[]} */
     this.pushers = ["button.power", "display.power_button"].map((n) => {
       const obj = this.node(n);
@@ -269,6 +271,10 @@ export class Desk3D {
     const d = this.system.deck;
     const mode = d.mode;
     this.drawCounter(d.counterAt(this.system.machine.t));
+    // the RECORD/BATTERY lamp: lit while it records, as the 2D view's
+    const rec = mode === "record" && d.running;
+    this.recLamp.emissive.set(rec ? 0xff2a10 : 0x000000);
+    this.recLamp.emissiveIntensity = rec ? 2.5 : 0;
     const down = new Set(mode === "record" ? ["record", "play"] : mode === "play" ? ["play"] : mode === "rewind" ? ["rewind"] : mode === "fast" ? ["fastf"] : []);
     if (performance.now() < this.tapped.until) down.add(this.tapped.id);
     for (const [id, k] of this.deckKeys) {

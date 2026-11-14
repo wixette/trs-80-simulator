@@ -433,7 +433,9 @@ export class Flat {
         <rect x="${mx0}" y="${-my1}" width="${mx1 - mx0}" height="${my1 - my0}" rx="1" fill="#a7a7a2"/>
         <text x="-6" y="${f(lp.y + 9)}" font-size="4.2" fill="#c9c9c4" font-style="italic" font-weight="700" font-family="var(--font)">REALISTIC</text>
         <text x="22" y="${f(lp.y + 9)}" font-size="2.8" fill="#c9c9c4" font-family="var(--font)">CTR-80</text>
-        <circle class="flat-recled" cx="${lx}" cy="${-ly}" r="1.4" fill="${this.c.ledOff}"/>
+        <text x="${f(lx - 2)}" y="${f(-ly - 3.4)}" font-size="1.5" fill="#bdbdb8" font-family="var(--font)">RECORD/BATTERY</text>
+        <circle cx="${lx}" cy="${-ly}" r="2.1" fill="#141414"/>
+        <circle class="flat-recled" cx="${lx}" cy="${-ly}" r="1.5" fill="${this.c.ledOff}"/>
       </svg>`;
     // the six keys, larger than the deck's own (D10: clearest first): the whole width, and
     // deeper, over the strip that carries their names on the machine
@@ -560,7 +562,10 @@ export class Flat {
     for (const k of this.keyEls) k.el.classList.toggle("down", (m.rows[k.row] & (1 << k.bit)) !== 0);
     this.q(".flat-counter").textContent = String(d.counterAt(m.t)).padStart(3, "0");
     this.q(".flat-cassette").style.display = d.tape ? "" : "none";
-    this.q(".flat-recled").setAttribute("fill", d.mode === "record" && d.running ? this.c.ledOn : this.c.ledOff);
+    const recording = d.mode === "record" && d.running;
+    const lamp = this.q(".flat-recled");
+    lamp.setAttribute("fill", recording ? this.c.ledOn : this.c.ledOff);
+    lamp.classList.toggle("on", recording);
     this.el.querySelector(".flat-led")?.setAttribute("fill", m.powered ? this.c.ledOn : this.c.ledOff);
     for (const r of this.rear) if (r.kind === "power") r.el.classList.toggle("on", m.powered);
     for (const b of this.el.querySelectorAll(".flat-deckkey")) {

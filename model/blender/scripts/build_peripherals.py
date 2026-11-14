@@ -122,7 +122,9 @@ def build_recorder(p, col, root):
     text_on(deco, "CTR-80", 2.3, Matrix.Translation((22.0, ym + 3.0, H + 0.05)), "aluminium_brushed")
     text_on(deco, "AC/BATTERY CASSETTE RECORDER", 1.9, Matrix.Translation((6.0, ym - 3.5, H + 0.05)), "aluminium_brushed")
     lx, ly = r["led"]["v"]
-    cyl(deco, lx, ly, H + 0.3, 1.3, "Z", 1.0, "led_red", 12)
+    # the lamp is its own part: the page lights it while the deck records
+    lamp = MeshBuilder()
+    cyl(lamp, lx, ly, H + 0.3, 1.3, "Z", 1.0, "led_red", 12)
     text_on(deco, "RECORD/BATTERY", 1.1, Matrix.Translation((lx - 2.0, ly + 4.0, H + 0.05)), "aluminium_brushed")
     kl0, kl1 = b["key_labels"]["v"]
     deco.prism([(kxa, kl0), (kxb, kl0), (kxb, kl1), (kxa, kl1)], "XY", H - 0.3, H + 0.3, "aluminium_brushed")
@@ -150,6 +152,10 @@ def build_recorder(p, col, root):
     bl.set_labels(body, "Realistic CTR-80 cassette recorder (26-1205): the computer's storage, on audio tape. "
                         "The cable from the computer plugs into EAR, AUX and REM on its left side")
     bl.parent(body, root)
+    lmo = lamp.build("recorder.lamp", col)
+    bl.set_labels(lmo, "RECORD/BATTERY lamp: lit while the deck records, dimmer as the batteries run down")
+    lmo["motion"] = "light"
+    bl.parent(lmo, body)
     cto = ctr.build("recorder.counter", col)
     bl.set_labels(cto, "Tape counter: three digits that count as the tape moves; its button sets it to 000")
     bl.parent(cto, body)

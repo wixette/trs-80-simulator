@@ -375,6 +375,8 @@ export default {
   "part.recorder.door.role": "The tape sits behind its window",
   "part.recorder.counter.name": "Tape counter",
   "part.recorder.counter.role": "Counts as the tape moves, to find a place on it again",
+  "part.recorder.lamp.name": "RECORD/BATTERY lamp",
+  "part.recorder.lamp.role": "Lit while the recorder records",
   "part.recorder.cassette.name": "A cassette",
   "part.recorder.cassette.role": "Programs are on its tape as sound",
   "part.psu.body.name": "Power supply",

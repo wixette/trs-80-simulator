@@ -34,6 +34,7 @@ The page finds parts by name, `<unit>.<part>[.<index>]`. `tests/model.test.js` h
 | `display.power_button`, `display.control.*` | The Video Display's POWER button, C and B | `translate` |
 | `recorder.key.*`, `recorder.door`, `recorder.cassette`, `recorder.reel.*` | The CTR-80's six keys, its door, a cassette and its reels | `translate`, `rotate` |
 | `recorder.counter` | The tape counter's window; the page writes its three digits on it | |
+| `recorder.lamp` | The RECORD/BATTERY lamp | `light` |
 
 Each node also carries `label_en`, a short English description used while building. The page's labels are messages (`js/l10n/en.js`).
 
