@@ -8,25 +8,34 @@ The **TRS-80 Model I** (1977) in 3D in your browser: switch it on, type Level II
 
 **[▶ Try it online](https://wixette.github.io/trs-80-simulator/)**: nothing to install, on a desktop or a phone.
 
-> **v0.0.1 is a pre-release.** Everything below works, and the lessons are complete. The layout and the link format may still change before 1.0.0.
+> **v0.0.1 is a pre-release.** Everything below works, and the six lessons are complete. The layout may still change before 1.0.0; more languages and more sample programs come first ([design/roadmap.md](design/roadmap.md)).
+
+![The simulator: the TRS-80 Model I in 3D on a desk, its screen showing a frame and a diagonal drawn with SET, the helper strip under it, and the first lesson, Meet the TRS-80, in the dock below](./screenshots/app.jpg)
 
 ## What you can do
 
-- **Look round the whole system in 3D:** the keyboard unit with the computer inside, the Video Display, the CTR-80 cassette recorder, the power supply and the cables. The **Inside, from below** view turns the case to glass: the main board hangs upside down under the keys, and its chips light up as the machine works.
-- **Switch to 2D:** the machine's own faces, flat. The screen at full size, the recorder's keys, and the keyboard. On a phone, this is where you type.
-- **Use Level II BASIC,** Microsoft's 12 KB BASIC, running on an emulated Z80 at the Model I's 1.77 MHz. Type on your own keyboard (Esc is BREAK, Enter is ENTER). Held keys work, so games play.
-- **Save and load programs on tape:** `CSAVE` and `CLOAD`, `SYSTEM` for machine code. The recorder's motor is run by the computer, as it was. Open your own `.cas` or `.wav` files, and save any tape as either.
-- **Take it apart,** with the power off, in the order the real one comes apart.
-- **Watch the machine's idea at work,** in five tools under the stage:
-  - **Lessons:** six of them, below.
-  - **Video RAM:** the screen as 1,024 bytes, live. Pick one to see its bits become dots or blocks.
-  - **Keyboard:** the 8 × 8 matrix of switches, and the program reading it row by row.
-  - **Cassette:** the tape under the head, as pulses, bits and bytes, and what each byte is.
-  - **CPU & Memory:** the Z80's registers, the next instructions, the memory map and a memory dump. Pause, step one instruction at a time, run to an address, or slow the clock down a thousand times.
+<table>
+<tr>
+<td width="50%"><b>Switch to 2D</b><br>The machine's own faces, flat: the screen, the recorder, the keyboard. On a phone, this is where you type.<br><img src="./screenshots/2d.jpg" alt="The 2D view: the Video Display with a frame and a diagonal on its screen, the CTR-80 recorder beside it from above, and the keyboard below"></td>
+<td width="50%"><b>Look inside while it runs</b><br>The case turns to glass; the board's chips light up as they work.<br><img src="./screenshots/inside.jpg" alt="The Inside, from below view: the keyboard unit's case as glass, and under it the main board's chips, seen from below"></td>
+</tr>
+<tr>
+<td><b>Take it apart</b><br>With the power off, in the order the real one comes apart.<br><img src="./screenshots/apart.jpg" alt="The computer taken apart in 3D: the case top lifted, the keyboard raised, the main board out in front and turned over"></td>
+<td><b>See the screen as memory</b><br>1,024 bytes, live; pick one to see its bits become dots.<br><img src="./screenshots/vram.jpg" alt="The Video RAM tool: the 64 by 16 grid of bytes, one picked, and beside it the letter H drawn by the character generator, row by row"></td>
+</tr>
+<tr>
+<td><b>Save and load programs on tape</b><br>The tape under the head, as pulses, bits and bytes.<br><img src="./screenshots/tape.jpg" alt="The Cassette tool while a machine-code tape loads: the pulses under the head, the bits they make, and the bytes, each named"></td>
+<td><b>Watch the CPU work</b><br>Registers, the next instructions and memory, a step at a time.<br><img src="./screenshots/cpu.jpg" alt="The CPU and Memory tool, paused: the Z80's registers and flags, the next instructions disassembled, and the memory map"></td>
+</tr>
+</table>
+
+- **Use Level II BASIC,** Microsoft's 12 KB BASIC, on an emulated Z80 at the Model I's 1.77 MHz. Type on your own keyboard (Esc is BREAK, Enter is ENTER); held keys work, so games play.
+- **Programs:** a few of ours, typed in for you on the Model I's keys, or loaded from their tapes. Open your own `.cas` or `.wav` files, and save any tape as either.
+- **Six lessons** for a middle-school class or a first course in computer science, below.
 
 ## The lessons
 
-For a middle-school class, or a first course in computer science. Every step can be typed for you, and ticks itself when the machine shows it done.
+Every step can be typed for you, and ticks itself when the machine shows it done.
 
 1. **Meet the TRS-80:** a computer you could buy in a shop in 1977, and its parts.
 2. **Talk to BASIC:** `PRINT`, a first program, a loop, `INPUT`.
@@ -39,12 +48,10 @@ Teacher notes, with timings and the questions students ask: [lessons/teacher-not
 
 ## Try it in a minute
 
-1. Open the simulator.
-2. Press **Computer** and **Display** at the top left of the stage.
-3. At `MEMORY SIZE?` press Enter.
-4. Type `PRINT "HELLO"` and press Enter.
-
-Then open **Programs** for a few of ours: type one in, or load it from its tape.
+1. Open the simulator. The machine is already on, asking `MEMORY SIZE?`.
+2. Press Enter, for all the memory.
+3. Type `PRINT "HELLO"` and press Enter.
+4. Open **Programs**, choose one, and **Type it in**.
 
 ## Run it locally
 

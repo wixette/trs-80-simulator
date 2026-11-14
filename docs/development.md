@@ -55,6 +55,16 @@ pnpm test:browser boot tape    # just these
 
 `tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events: booting and typing, the keys going to BASIC after a click on the 3D view, Programs and its dialogs, the cassette end to end (CSAVE, REWIND, CLOAD), the 3D views and taking it apart, the 2D view and its drawers, the layout at every width and on phones, the dock, and the dialogs. They need Chrome (or `CHROME` set to its path) and a GPU for the 3D view, so they are **run by hand before a release**, not in CI, as the Altair 8800 simulator's are. Each check starts a fresh browser profile and opens the page with `?debug`, which gives it the handles `trs80` (the System) and `app` (the stage, dock, 2D view, viewer and lessons).
 
+## Screenshots
+
+```
+pnpm shots              # into ~/Downloads/trs-80-simulator-v<version>-media/shots/
+pnpm shots --readme     # and the README's pictures, into screenshots/ (needs ffmpeg)
+pnpm shots --only tape  # the shots whose names hold "tape"
+```
+
+`tools/shots.mjs` opens the page in a headless Chrome (the browser checks' harness), sets each shot up through the page as a visitor would leave it, and writes a JPEG, 1600 × 900 at twice the pixels. The shots, and which of them the README shows, are listed in the tool. Retake the README's before a release.
+
 ## The vendored files
 
 `pnpm vendor` copies three.js, the font and the icons from `node_modules`, and takes the Z80 core, xtrs's characters and the ROM at their pinned commits, refusing any file whose SHA-256 differs. Where GitHub cannot be reached, `pnpm vendor --from <folder>` takes the same files from a local folder, under the same check. Then it writes the generated files. `tests/vendor.test.js` fails while anything is out of date.

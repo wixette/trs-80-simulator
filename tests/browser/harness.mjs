@@ -222,9 +222,9 @@ export async function start(chromePath, base) {
     }
     return false;
   };
-  /** The window's size; a phone is touch, at three times the pixels. @param {number} width @param {number} height @param {boolean} [phone] */
-  const viewport = async (width, height, phone = false) => {
-    await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: phone ? 3 : 1, mobile: phone });
+  /** The window's size; a phone is touch, at three times the pixels. @param {number} width @param {number} height @param {boolean} [phone] @param {number} [scale] pixels per CSS pixel */
+  const viewport = async (width, height, phone = false, scale = phone ? 3 : 1) => {
+    await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: scale, mobile: phone });
     await send("Emulation.setTouchEmulationEnabled", { enabled: phone });
     await sleep(400);
   };
