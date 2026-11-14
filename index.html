@@ -41,6 +41,7 @@
         "./js/lessons/lessons.js": "./js/lessons/lessons.js?v=0.0.1",
         "./js/scene/crt.js": "./js/scene/crt.js?v=0.0.1",
         "./js/scene/desk3d.js": "./js/scene/desk3d.js?v=0.0.1",
+        "./js/scene/framing.js": "./js/scene/framing.js?v=0.0.1",
         "./js/scene/viewer.js": "./js/scene/viewer.js?v=0.0.1",
         "./js/sim/assembly.js": "./js/sim/assembly.js?v=0.0.1",
         "./js/sim/cassette.js": "./js/sim/cassette.js?v=0.0.1",
@@ -83,20 +84,22 @@
         <span class="brand-name" data-l10n="app.name">TRS-80 Simulator</span>
         <span class="brand-tag" data-l10n="app.tagline"></span>
       </div>
-      <button id="tapes" class="btn tonal has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="voicemail"></i><span class="label" data-l10n="bar.tapes"></span><i data-icon="keyboard_arrow_down"></i></button>
-      <button id="programs" class="btn tonal has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="play_arrow"></i><span class="label" data-l10n="bar.programs"></span><i data-icon="keyboard_arrow_down"></i></button>
+      <button id="tapes" class="btn tool-btn has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="voicemail"></i><span class="label" data-l10n="bar.tapes"></span><i data-icon="keyboard_arrow_down"></i></button>
+      <button id="programs" class="btn tool-btn has-icon" type="button" aria-haspopup="menu" aria-expanded="false" data-tip-describes><i data-icon="play_arrow"></i><span class="label" data-l10n="bar.programs"></span><i data-icon="keyboard_arrow_down"></i></button>
       <span class="spacer"></span>
       <button id="about" class="btn icon-only" type="button"><i data-icon="info"></i></button>
     </header>
 
     <main id="stage">
-      <div id="view3d"></div>
-      <div id="view2d" hidden></div>
       <nav id="band"></nav>
+      <div id="stage-view">
+        <div id="view3d"></div>
+        <div id="view2d" hidden></div>
+      </div>
     </main>
 
+    <div id="dock-handle" role="separator" aria-orientation="horizontal" tabindex="0" data-l10n-tip="dock.resize"></div>
     <section id="dock">
-      <div id="dock-handle" role="separator" aria-orientation="horizontal" tabindex="0" data-l10n-tip="dock.resize"></div>
       <div class="dock-bar">
         <div id="dock-tabs" role="tablist">
           <button id="tab-lessons" class="dock-tab" role="tab" aria-controls="pane-lessons" type="button"><i data-icon="school"></i><span data-l10n="dock.lessons"></span><span class="dot" hidden></span></button>
@@ -115,7 +118,7 @@
       <div id="pane-cpu" class="dock-pane" role="tabpanel" aria-labelledby="tab-cpu" hidden></div>
     </section>
 
-    <footer id="status" role="status" aria-live="polite"><span id="status-text"></span></footer>
+    <footer id="status"><span id="status-text" role="status" aria-live="polite"></span></footer>
     <script type="module" src="js/app/main.js?v=0.0.1"></script>
   </body>
 </html>

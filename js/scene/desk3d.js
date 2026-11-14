@@ -195,6 +195,17 @@ export class Desk3D {
     return o;
   }
 
+  /**
+   * A part's box in the world, where it is now, for framing a view (js/scene/framing.js).
+   * @param {string} name
+   * @returns {{ min: [number, number, number], max: [number, number, number] }}
+   */
+  box(name) {
+    this.root.updateMatrixWorld(true);
+    const b = new THREE.Box3().setFromObject(this.node(name));
+    return { min: [b.min.x, b.min.y, b.min.z], max: [b.max.x, b.max.y, b.max.z] };
+  }
+
   /** @private A mesh's material, cloned so that it can light on its own. @param {THREE.Object3D} o */
   ownMaterial(o) {
     const m = /** @type {THREE.Mesh} */ (o);

@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: Apache-2.0 */
-/* The simulator's page (docs/ui-design.md). A fixed frame: the top bar, the stage (the machine
-   in 3D or in 2D, its band floating over it), the dock below, the status line. The page never
+/* The simulator's page (docs/ui-design.md). A fixed frame: the top bar, the stage (its band,
+   then the machine in 3D or in 2D), the handle, the dock below, the status line. The page never
    scrolls. Every colour, corner and state is a token (css/theme.css, P11). */
 
 @import url("theme.css?v=0.0.1");
@@ -18,7 +18,7 @@
 html, body { margin: 0; height: 100%; overflow: hidden; background: var(--md-surface); }
 body {
   display: grid;
-  grid-template-rows: var(--bar-h) minmax(0, 1fr) auto var(--status-h);
+  grid-template-rows: var(--bar-h) minmax(0, 1fr) auto auto var(--status-h);
   height: 100dvh;
   user-select: none;
   -webkit-user-select: none;
@@ -76,6 +76,10 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .btn.tonal[aria-disabled="true"], .btn.filled[aria-disabled="true"] { background: color-mix(in srgb, var(--md-on-surface) 12%, transparent); }
 .btn[aria-disabled="true"]::before { display: none; }
 .btn.icon-only { width: 40px; padding: 0; color: var(--md-on-surface-variant); }
+/* a tool button: the top bar's and the band's menus, flat until pointed at; tinted while its menu is open */
+.btn.tool-btn { height: 36px; padding: 0 8px 0 10px; gap: 6px; color: var(--md-on-surface); font-weight: 500; }
+.btn.tool-btn > .icon:last-child, .menu-btn > .icon:last-child { width: 18px; height: 18px; margin-left: -2px; color: var(--md-on-surface-variant); }
+.btn[aria-expanded="true"]::before { opacity: var(--state-press); }
 .btn.lit { background: var(--on-container); color: var(--on); }
 
 /* a segmented button (2D | 3D, the clock's speed) */
@@ -109,24 +113,26 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .brand-tag { color: var(--md-on-surface-variant); font-size: 13px; white-space: nowrap; }
 
 /* ---- the stage ---- */
-#stage { position: relative; overflow: hidden; min-height: 0; background: var(--md-surface); }
+/* the stage: its band, a row of its own, then the machine in a card under it (U1) */
+#stage { display: flex; flex-direction: column; overflow: hidden; min-height: 0; padding: 0 12px 10px; background: var(--md-surface); }
+#stage-view { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; border-radius: var(--radius-m); background: var(--md-surface-low); }
 #view3d, #view2d { position: absolute; inset: 0; }
 #view3d canvas { display: block; width: 100%; height: 100%; touch-action: none; outline: none; }
 #view3d canvas:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -3px; }
-#view2d { opacity: 0; transition: opacity 260ms var(--ease); background: var(--md-surface); }
+#view2d { opacity: 0; transition: opacity 260ms var(--ease); background: var(--md-surface-low); }
 #view2d.shown { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { #view2d { transition: none; } }
 
-/* the band (U1, U4) */
-#band { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; pointer-events: none; z-index: 5; }
-#band > * { pointer-events: auto; }
-.band-group { display: flex; align-items: center; gap: 4px; padding: 3px; border-radius: var(--radius-full); background: color-mix(in srgb, var(--md-surface-high) 90%, transparent); }
+/* the band (U1, U4): a row of its own over the machine, not laid on it */
+#band { flex: none; display: flex; align-items: center; gap: 8px; height: 48px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+#band::-webkit-scrollbar { display: none; }
+.band-group { flex: none; display: flex; align-items: center; gap: 4px; }
 .band-group .btn.icon-only { width: 34px; height: 34px; }
 .joined { display: inline-flex; }
 .menu-btn { color: var(--md-on-surface); padding: 0 6px 0 12px; }
 .menu-btn.active { color: var(--md-primary); }
-.segmented.mode { background: color-mix(in srgb, var(--md-surface-high) 90%, transparent); height: 36px; }
-.key-legend { margin: 0; padding: 6px 12px; border-radius: var(--radius-full); background: color-mix(in srgb, var(--md-surface-high) 90%, transparent); color: var(--md-on-surface-variant); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.segmented.mode { flex: none; height: 32px; }
+.key-legend { margin: 0; color: var(--md-on-surface-variant); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 #stage[data-mode="3d"] .key-legend, #stage[data-mode="3d"] .drawers, #stage[data-mode="2d"] .helpers, #stage[data-mode="2d"] .tools3d { display: none; }
 .drawer-rec { display: none; }
 
@@ -135,7 +141,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .part-label strong { font-weight: 640; }
 .part-label span { color: var(--md-on-surface-variant); font-size: 13px; }
 .part-label em { color: var(--md-primary); font-style: normal; font-size: 12px; }
-.put-back { position: absolute; right: 16px; bottom: 16px; z-index: 5; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); height: 48px; border-radius: var(--radius-l); }
+.put-back { position: absolute; right: 12px; bottom: 12px; z-index: 5; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); height: 48px; border-radius: var(--radius-l); }
 .loading { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 5; width: min(320px, 80%); text-align: center; color: var(--md-on-surface-variant); font-size: 13px; }
 .loading-bar { height: 4px; border-radius: 2px; background: var(--md-surface-highest); overflow: hidden; }
 .loading-bar span { display: block; height: 100%; width: 0; background: var(--md-primary); transition: width 120ms linear; }
@@ -143,7 +149,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 /* ---- the 2D view: the machine's faces, flat (D10) ---- */
 /* on a desktop the drawn keyboard is a drawer, closed at first: the visitor types on their own,
    and the screen gets the stage's whole height (docs/ui-design.md, U10) */
-.flat { position: absolute; inset: 0; display: grid; grid-template-rows: minmax(0, 1fr); gap: 12px; padding: 54px 16px 12px; }
+.flat { position: absolute; inset: 0; display: grid; grid-template-rows: minmax(0, 1fr); gap: 12px; padding: 12px 16px; }
 .flat[data-kbd="open"] { grid-template-rows: minmax(0, 1.9fr) minmax(0, 1fr); }
 .flat:not([data-kbd="open"]) .flat-kbd { display: none; }
 /* each row is a container: a drawing takes the largest size its shape allows in it */
@@ -171,17 +177,25 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .flat-rear.on .icon { color: var(--on); }
 
 /* ---- the dock (P3, U6) ---- */
-#dock { display: flex; flex-direction: column; min-height: 0; background: var(--md-surface-low); border-top: 1px solid var(--md-outline-variant); }
-#dock-handle { height: 10px; margin-top: -5px; cursor: ns-resize; position: relative; z-index: 6; touch-action: none; }
-#dock-handle::after { content: ""; position: absolute; left: 50%; top: 4px; width: 36px; height: 4px; transform: translateX(-50%); border-radius: 2px; background: var(--md-outline-variant); }
-#dock-handle:hover::after, #dock-handle:focus-visible::after { background: var(--md-primary); }
-.dock-bar { display: flex; align-items: center; gap: 2px; padding: 0 8px 0 8px; height: 44px; flex: none; min-width: 0; }
+#dock { display: flex; flex-direction: column; min-height: 0; background: var(--md-surface-low); }
+/* the handle between the stage and the dock: a row of its own, lit while pointed at or dragged */
+#dock-handle { position: relative; height: 6px; cursor: ns-resize; touch-action: none; background: var(--md-well); }
+#dock-handle::after { content: ""; position: absolute; left: 50%; top: 2px; width: 40px; height: 2px; transform: translateX(-50%); border-radius: 1px; background: var(--md-outline-variant); }
+#dock-handle:hover, #dock-handle:focus-visible, #dock-handle.dragging { background: var(--md-primary); outline: none; }
+#dock-handle:hover::after, #dock-handle:focus-visible::after, #dock-handle.dragging::after { background: var(--md-on-primary); }
+.dock-bar { display: flex; align-items: stretch; gap: 2px; padding: 0 4px 0 8px; height: 40px; flex: none; min-width: 0; background: var(--md-surface-mid); border-bottom: 1px solid var(--md-well); }
+#dock.folded .dock-bar { border-bottom: 0; }
+#dock-fold { align-self: center; width: 36px; height: 36px; }
 #dock-tabs { display: flex; gap: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
-.dock-tab { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border: 0; background: none; color: var(--md-on-surface-variant); font-weight: 560; cursor: pointer; border-radius: var(--radius-s) var(--radius-s) 0 0; white-space: nowrap; }
+/* Material's primary tabs, dense: the open one amber, over an indicator with rounded ends */
+.dock-tab { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 6px; height: 100%; padding: 0 14px; border: 0; background: none; color: var(--md-on-surface-variant); font-weight: 560; cursor: pointer; border-radius: 0; white-space: nowrap; }
 .dock-tab .icon { width: 18px; height: 18px; }
-.dock-tab[aria-selected="true"] { color: var(--md-primary); box-shadow: inset 0 -3px 0 var(--md-primary); }
+.dock-tab:focus-visible { outline-offset: -2px; }
+.dock-tab[aria-selected="true"] { color: var(--md-primary); }
+.dock-tab[aria-selected="true"]::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--md-primary); }
 .dock-tab .dot { position: absolute; top: 9px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--md-primary); }
-.dock-pane { flex: 1; min-height: 0; overflow: auto; padding: 6px 16px 16px; }
+/* room below a pane's end for a status message risen over the dock's foot (P7) */
+.dock-pane { flex: 1; min-height: 0; overflow: auto; padding: 8px 16px calc(16px + var(--status-rise, 0px)); }
 #dock.folded .dock-pane { display: none; }
 
 /* a tool's layout: its main part, and a side */
@@ -278,50 +292,74 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .d-bytes .at-sp { outline: 1px solid var(--story); }
 .d-ascii { color: var(--md-outline); letter-spacing: 0.05em; }
 
-/* the lessons (U7) */
-.lessons { display: flex; flex-direction: column; gap: 6px; min-height: 100%; }
-.lesson-bar { position: sticky; top: -6px; z-index: 2; display: flex; gap: 4px; padding: 4px 0; background: var(--md-surface-low); overflow-x: auto; scrollbar-width: none; }
-.lesson-tab { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 4px; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-full); background: none; color: var(--md-on-surface-variant); cursor: pointer; white-space: nowrap; font-weight: 560; }
-.lesson-tab b { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--md-surface-high); font-size: 12px; }
-.lesson-tab[aria-selected="true"] { border-color: var(--md-primary); color: var(--md-primary); }
-.lesson-tab[aria-selected="true"] b { background: var(--md-primary); color: var(--md-on-primary); }
-.lesson-tab.complete b { background: var(--on-container); color: var(--on); }
-.lesson-body { display: flex; gap: 16px; align-items: flex-start; }
-.lesson { flex: 1 1 auto; max-width: 780px; margin: 0 auto; min-width: 0; }
-.lesson-of { margin: 6px 0 0; color: var(--md-outline); font-size: 12px; }
-.lesson h3 { margin: 2px 0 2px; font-size: 20px; font-weight: 650; }
-.lesson .lead { margin: 0 0 10px; color: var(--md-on-surface-variant); }
+/* the lessons (U7): a bar of numbered lessons across the top, full width and in sight as a
+   lesson scrolls, its tabs lined up with the lesson's column; then one lesson down the middle */
+#pane-lessons { padding-top: 0; container-type: inline-size; }
+.lessons { --reading: 780px; display: flex; flex-direction: column; min-height: 100%; line-height: 1.6; }
+.lesson-bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: 0 -16px; padding: 6px max(16px, calc((100% - var(--reading)) / 2 + 16px)) 0; background: var(--md-surface-low); border-bottom: 1px solid var(--md-outline-variant); overflow-x: auto; scrollbar-width: none; }
+.lesson-bar::-webkit-scrollbar { display: none; }
+.lesson-tab { flex: none; display: inline-flex; align-items: center; gap: 8px; margin-bottom: -1px; padding: 6px 10px 8px 4px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--md-on-surface-variant); cursor: pointer; white-space: nowrap; font-size: 13px; font-weight: 560; line-height: 1.45; }
+.lesson-tab:hover { color: var(--md-on-surface); }
+.lesson-tab:focus-visible { outline: none; }
+.lesson-tab:focus-visible b { box-shadow: 0 0 0 2px var(--md-primary); }
+.lesson-tab b { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1.5px solid currentColor; border-radius: 50%; font-size: 12px; }
+.lesson-tab[aria-selected="true"] { color: var(--md-on-surface); border-bottom-color: var(--md-primary); }
+.lesson-tab[aria-selected="true"] b { background: var(--md-primary); border-color: var(--md-primary); color: var(--md-on-primary); }
+.lesson-tab.complete:not([aria-selected="true"]) b { background: var(--on-container); border-color: var(--on); color: var(--on); }
+/* narrow, the other lessons are their numbers alone; their names are their tooltips */
+@container (max-width: 600px) {
+  .lesson-tab:not([aria-selected="true"]) span { display: none; }
+}
+.lesson-body { display: flex; gap: 16px; align-items: flex-start; padding-top: 14px; }
+.lesson { flex: 1 1 auto; max-width: var(--reading); margin: 0 auto; min-width: 0; }
+.lesson-of { margin: 0; color: var(--md-outline); font-size: 11px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
+.lesson h3 { margin: 2px 0 4px; font-size: 20px; font-weight: 650; line-height: 1.3; color: var(--md-on-surface); }
+.lesson .lead { margin: 0 0 18px; color: var(--md-on-surface-variant); }
+/* the steps: numbered down a thin line */
 .steps { list-style: none; margin: 0; padding: 0; }
-.step { position: relative; display: grid; grid-template-columns: 28px 1fr 28px; gap: 10px; padding: 10px 0 12px; border-top: 1px solid var(--md-outline-variant); }
-.step-n { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--md-outline); color: var(--md-on-surface-variant); font-size: 12px; }
-.step h4 { margin: 2px 0 4px; font-size: 15px; font-weight: 620; }
+.step { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) 24px; gap: 14px; padding: 0 0 18px; }
+.step:not(:last-child)::after { content: ""; position: absolute; left: 11px; top: 30px; bottom: 6px; width: 2px; border-radius: 1px; background: var(--md-outline-variant); }
+.step-n { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--md-outline); color: var(--md-on-surface-variant); font-size: 12px; font-weight: 650; }
+.step-body { min-width: 0; }
+.step h4 { margin: 0 0 2px; font-size: 15px; font-weight: 620; line-height: 24px; }
 .step-text { color: var(--md-on-surface); }
 .step-text code, .more code { padding: 0 4px; border-radius: var(--radius-xs); background: var(--md-well); font-size: 0.95em; }
 .photo { margin: 10px 0 4px; }
-.photo img { display: block; width: 100%; max-width: 560px; border-radius: var(--radius-m); }
-.photo figcaption { margin-top: 4px; font-size: 12px; color: var(--md-outline); }
+.photo img { display: block; width: 100%; max-width: 560px; border-radius: var(--radius-s); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+.photo figcaption { margin-top: 6px; font-size: 12px; color: var(--md-outline); }
 .photo figcaption a { color: inherit; }
-.listing { margin: 8px 0; padding: 8px 12px; border-radius: var(--radius-s); background: var(--md-well); color: var(--phosphor); font-size: 13px; overflow-x: auto; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.more { margin-top: 8px; padding: 0 12px; border-left: 3px solid var(--story); }
+.listing { margin: 8px 0; padding: 10px 14px; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-s); background: var(--md-well); color: var(--phosphor); font-size: 13px; line-height: 1.5; overflow-x: auto; }
+/* a step's chips: what to press, in amber (Material's assist chip) */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chip { border-color: var(--md-primary); background: color-mix(in srgb, var(--md-primary) 12%, transparent); color: var(--md-primary); }
+.chip .icon { color: inherit; }
+/* Going further: the story and the asides, in blue */
+.more { margin-top: 10px; padding: 4px 14px; border-left: 3px solid var(--story); border-radius: var(--radius-s); background: color-mix(in srgb, var(--story) 10%, transparent); }
 .more summary { cursor: pointer; color: var(--story); font-weight: 600; font-size: 13px; padding: 2px 0; }
 .more > div { padding: 4px 0 6px; color: var(--md-on-surface-variant); }
-.tick { color: var(--md-outline-variant); }
+.tick { color: var(--md-outline-variant); padding-top: 2px; }
 .step.done .tick { color: var(--on); }
-.step.done .step-n { border-color: var(--on); color: var(--on); }
-.next-lesson { margin: 12px 0 8px; }
-.lesson-companion { position: sticky; top: 36px; flex: 0 1 560px; min-width: 0; max-height: calc(100% - 8px); overflow: auto; padding: 8px 12px; border-radius: var(--radius-l); background: var(--md-surface-mid); border: 1px solid var(--md-outline-variant); }
-.companion-close { float: right; }
+.step.done .step-n { background: var(--on); border-color: var(--on); color: var(--on-container); }
+/* on to the next lesson: Material's outlined button, at the right */
+.btn.next-lesson { display: flex; margin: 8px 0 8px auto; background: none; border: 1px solid var(--md-outline); color: var(--md-on-surface); }
+.btn.next-lesson:hover { border-color: var(--md-primary); color: var(--md-primary); }
+.lessons .dim:last-child { margin-top: 8px; }
+/* the tool Show me opened, beside the lesson: the grids keep their size and scroll */
+.lesson-companion { position: sticky; top: 56px; flex: 0 1 560px; min-width: 0; max-height: calc(100% - 8px); overflow: auto; padding: 8px 12px; border-radius: var(--radius-l); background: var(--md-surface-mid); border: 1px solid var(--md-outline-variant); line-height: 1.45; }
+.companion-close { display: flex; margin: -2px -6px 4px auto; }
 .companion-tool .tool { flex-direction: column; }
-/* beside a lesson, the wide grids shrink to fit: the byte picked, or the row read, is the point */
-.companion-tool .vram-grid, .companion-tool .matrix { zoom: 0.62; }
-.companion-tool .tool-side, .companion-tool .vram-inspector { flex: none; min-width: 0; }
+.companion-tool .vram-grid, .companion-tool .matrix { max-width: 100%; overflow-x: auto; }
+.companion-tool .tool-side, .companion-tool .vram-inspector { flex: none; min-width: 0; max-width: none; }
 
 /* ---- the status line (P7) ---- */
-#status { position: relative; z-index: 7; display: flex; align-items: center; gap: 12px; padding: 0 16px; font-size: 13px; color: var(--md-on-surface-variant); background: var(--md-surface-low); border-top: 1px solid var(--md-outline-variant); min-width: 0; }
-#status-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#status:hover #status-text { white-space: normal; position: absolute; left: 0; right: 0; bottom: 0; padding: 6px 16px; background: var(--md-surface-low); border-top: 1px solid var(--md-outline-variant); }
-.rom-pick { margin-left: auto; flex: none; }
+/* one line's height in the page: a longer message rises over the foot of the dock (P7), which
+   gains as much room below its end (--status-rise); a refusal is amber, a fault red */
+#status { position: relative; z-index: 7; min-width: 0; font-size: 13px; color: var(--md-on-surface); background: var(--md-surface-mid); }
+#status-text { position: absolute; left: 0; right: 0; bottom: 0; min-height: var(--status-h); padding: 5px 16px 6px; line-height: 18px; background: inherit; color: inherit; border-top: 1px solid var(--md-well); }
+#status[data-level="warn"] { background: var(--warn-container); color: var(--md-on-primary-container); }
+#status[data-level="error"] { background: var(--md-error-container); color: var(--md-error); }
+#status:has(.rom-pick) #status-text { padding-right: 200px; }
+.rom-pick { position: absolute; right: 8px; bottom: 0; top: 0; margin: auto 0; z-index: 1; }
 
 /* ---- menus, tooltips, dialogs (P10) ---- */
 .menu { position: fixed; z-index: 50; width: max-content; min-width: 180px; max-width: calc(100vw - 16px); padding: 6px 0; border-radius: var(--radius-xs); background: var(--md-surface-highest); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5); }
@@ -374,20 +412,23 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   :root { --bar-h: 48px; }
   #topbar .label, .brand-name { display: none; }
   #topbar { padding: 0 4px 0 10px; }
-  #band { padding: 6px 8px; gap: 4px; }
+  #stage { padding: 0 6px 6px; }
+  #band { height: 44px; gap: 4px; }
   .tools3d .joined, .tools3d .home-btn { display: none; }
   .segmented.mode .icon { display: none; }
   .segmented.mode button { padding: 0 10px; }
   .drawer-rec { display: inline-flex; }
   .drawer-kbd { display: none; }
-  .flat, .flat[data-kbd="open"] { padding: 50px 6px 8px; gap: 8px; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+  .flat, .flat[data-kbd="open"] { padding: 8px 6px; gap: 8px; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
   .flat .flat-kbd, .flat:not([data-kbd="open"]) .flat-kbd { display: flex; }
   .flat-display { width: min(100cqw, 100cqh * var(--ar)); }
   .flat-recorder { display: none; }
   .flat[data-rec="open"] .flat-recorder { display: block; position: absolute; z-index: 3; right: 8px; top: 4cqh; width: min(46cqw, 90cqh * var(--ar)); filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6)); }
   .flat-key { font-size: 2.6cqw; }
   .tool-side, .vram-inspector { min-width: 0; flex-basis: 100%; }
-  .dock-pane { padding: 4px 10px 12px; }
+  .dock-pane { padding: 4px 10px calc(12px + var(--status-rise, 0px)); }
+  #pane-lessons { padding-top: 0; }
+  .lesson-bar { margin: 0 -10px; padding-left: 10px; padding-right: 10px; }
   .put-back span { display: none; }
   .put-back { width: 48px; padding: 0; }
 }
@@ -396,7 +437,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
   .drawer-rec { display: none; }
   .drawer-kbd { display: inline-flex; }
   .key-legend { display: none; }
-  .flat, .flat[data-kbd="open"] { padding-top: 48px; grid-template-rows: minmax(0, 1fr); }
+  .flat, .flat[data-kbd="open"] { padding-top: 8px; grid-template-rows: minmax(0, 1fr); }
   .flat .flat-kbd, .flat:not([data-kbd="open"]) .flat-kbd { display: none; }
   .flat[data-kbd="open"] .flat-kbd { display: flex; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 55%; z-index: 3; filter: drop-shadow(0 -6px 20px rgba(0, 0, 0, 0.6)); }
 }

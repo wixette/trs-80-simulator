@@ -11,6 +11,8 @@
 // - A part's label shows after the pointer rests on it, beside the pointer.
 
 import { t } from "../l10n/l10n.js";
+import { corners, frame } from "../scene/framing.js";
+import { FOV } from "../scene/viewer.js";
 import { el, icon, setTip, showMenu } from "../ui/components.js";
 
 /** @typedef {import("../sim/system.js").System} System */
@@ -20,7 +22,11 @@ import { el, icon, setTip, showMenu } from "../ui/components.js";
 /** @typedef {"desk" | "keyboard" | "screen" | "recorder" | "rear" | "inside"} ViewName */
 /** @typedef {"everything" | "inside"} ShowName */
 
-/** The camera's views, in metres, for a stage about 16:9 (the viewer stands back on narrower ones). */
+/**
+ * The camera's views, in metres: each looks from pos towards target. Once the model is in, a
+ * view keeps only its direction, and frames its parts (SUBJECTS) on the stage as it is now
+ * (js/scene/framing.js); the poses themselves are for before then.
+ */
 export const VIEWS = /** @type {Record<ViewName, import("../scene/viewer.js").Pose>} */ ({
   desk: { pos: [-0.55, 0.62, 0.95], target: [0.05, 0.1, -0.12] },
   keyboard: { pos: [-0.05, 0.42, 0.4], target: [0.0, 0.04, -0.01] },
@@ -30,6 +36,17 @@ export const VIEWS = /** @type {Record<ViewName, import("../scene/viewer.js").Po
   inside: { pos: [0.2, -0.42, 0.3], target: [0.05, 0.015, -0.015] },
 });
 const VIEW_ORDER = /** @type {ViewName[]} */ (["desk", "keyboard", "screen", "recorder", "rear", "inside"]);
+/** What each view frames: the model's nodes (model/README.md), and the share of the stage they fill. */
+const SUBJECTS = /** @type {Record<ViewName, { nodes: string[], fill: number }>} */ ({
+  desk: { nodes: ["unit.keyboard", "unit.display", "unit.recorder", "unit.psu"], fill: 0.92 },
+  keyboard: { nodes: ["unit.keyboard"], fill: 0.9 },
+  screen: { nodes: ["display.screen"], fill: 0.96 },
+  recorder: { nodes: ["unit.recorder"], fill: 0.85 },
+  rear: { nodes: ["unit.keyboard"], fill: 0.9 },
+  inside: { nodes: ["board.main"], fill: 0.92 },
+});
+/** What a framed view keeps clear of the stage's edges, px. */
+const GAP = 8;
 /** How long a label waits under a resting pointer, ms. */
 const LABEL_MS = 400;
 
@@ -55,6 +72,12 @@ export class Stage {
     /** @private a move between 2D and 3D under way */
     this.moving = false;
     this.el = /** @type {HTMLElement} */ (document.getElementById("stage"));
+    /** The stage under its band: the views, and what stands over them. */
+    this.area = /** @type {HTMLElement} */ (document.getElementById("stage-view"));
+    /** The view the camera was put on and has kept since, refitted as the stage changes size; null once the visitor moves it. @type {ViewName | null} */
+    this.fitted = "desk";
+    /** @private what was fitted when the camera flew to 2D, to come back to */
+    this.fittedBefore = /** @type {ViewName | null} */ (null);
     this.view3d = /** @type {HTMLElement} */ (document.getElementById("view3d"));
     this.view2d = /** @type {HTMLElement} */ (document.getElementById("view2d"));
     const s = this.system;
@@ -128,11 +151,18 @@ export class Stage {
     // Put it all back (U3)
     this.putBack = el("button", { class: "btn filled has-icon put-back", type: "button", hidden: true }, [icon("construction"), el("span", { text: t("stage.putBack") })]);
     this.putBack.addEventListener("click", () => this.system.putAllBack());
-    this.el.append(this.putBack);
+    this.area.append(this.putBack);
     this.loading = el("div", { class: "loading", hidden: true }, [el("div", { class: "loading-bar" }, [el("span")]), el("p", { text: t("stage.loading") })]);
-    this.el.append(this.loading);
+    this.area.append(this.loading);
     this.label = el("div", { class: "part-label", role: "tooltip", hidden: true });
-    this.el.append(this.label);
+    this.area.append(this.label);
+    if (this.viewer) {
+      const v = this.viewer;
+      v.onUserMove.push(() => (this.fitted = null));
+      v.onResize.push(() => {
+        if (this.fitted && this.mode === "3d" && !this.moving && !v.isFlying()) v.jumpTo(this.framed(this.fitted));
+      });
+    }
     /** @private whether See inside came with the Inside view, not by the visitor's choice */
     this.insideChosenByView = false;
     /** @private @type {ReturnType<typeof setTimeout> | undefined} */
@@ -151,6 +181,23 @@ export class Stage {
     d.on.info = (node) => this.system.say({ key: "part.said", params: { name: `${partName(node, "")}${partRole(node) ? `: ${partRole(node)}` : ""}` } });
     d.on.screenDoubleClick = () => this.setMode("2d");
     if (this.show === "inside") d.setSeeInside(true);
+    if (this.fitted && this.mode === "3d" && this.viewer) this.viewer.jumpTo(this.framed(this.fitted));
+  }
+
+  /**
+   * Where the camera goes for a view: its parts framed on the stage as it is now, seen from
+   * the view's direction; before the model is in, the view's own pose.
+   * @param {ViewName} v
+   * @returns {import("../scene/viewer.js").Pose}
+   */
+  framed(v) {
+    const viewer = /** @type {Viewer} */ (this.viewer);
+    const pose = VIEWS[v];
+    if (!this.desk) return viewer.fit(pose);
+    const { width, height } = viewer.size();
+    const dir = /** @type {[number, number, number]} */ (pose.pos.map((p, i) => p - pose.target[i]));
+    const boxes = SUBJECTS[v].nodes.map((n) => /** @type {Desk3D} */ (this.desk).box(n));
+    return frame(corners(boxes), dir, FOV, width, height, { top: GAP, right: GAP, bottom: GAP, left: GAP }, SUBJECTS[v].fill);
   }
 
 
@@ -194,7 +241,8 @@ export class Stage {
     this.view = v;
     if (v === "inside" && this.show === "everything") this.setShow("inside", true);
     else if (v !== "inside" && this.insideChosenByView) this.setShow("everything");
-    this.viewer.flyTo(VIEWS[v]);
+    this.fitted = v;
+    this.viewer.flyTo(this.framed(v));
     this.refresh();
   }
 
@@ -235,7 +283,8 @@ export class Stage {
       if (viewer && !o.instant) {
         this.moving = true;
         this.before = viewer.pose();
-        viewer.flyTo(VIEWS.screen, show);
+        this.fittedBefore = this.fitted;
+        viewer.flyTo(this.framed("screen"), show);
       } else show();
       return;
     }
@@ -249,7 +298,9 @@ export class Stage {
     this.moving = true;
     setTimeout(() => {
       this.view2d.hidden = true;
-      viewer.flyTo(this.before ?? VIEWS[this.view], () => (this.moving = false));
+      // a view the page chose is framed again, as the stage may have changed size meanwhile
+      this.fitted = this.fittedBefore ?? (this.before ? null : this.view);
+      viewer.flyTo(this.fitted ? this.framed(this.fitted) : /** @type {import("../scene/viewer.js").Pose} */ (this.before), () => (this.moving = false));
     }, o.instant ? 0 : 220);
     this.refresh();
     this.onModeChange("3d");
@@ -263,7 +314,7 @@ export class Stage {
       return;
     }
     this.labelTimer = setTimeout(() => {
-      const r = this.el.getBoundingClientRect();
+      const r = this.area.getBoundingClientRect();
       const s = this.system;
       const why = h.action === "takeOut" ? t("label.takeOut") : h.action === "putBack" ? t("label.putBack") : h.action === "none" && isUnitPart(h.node) && s.machine.powered ? t("label.offFirst") : "";
       this.label.replaceChildren(el("strong", { text: partName(h.node, h.label) }), el("span", { text: partRole(h.node) }), ...(why ? [el("em", { text: why })] : []));

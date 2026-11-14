@@ -54,6 +54,8 @@ const MIN_DISTANCE = 0.08;
 const MAX_DISTANCE = 3;
 /** A flight's length, s. */
 const FLIGHT_S = 0.7;
+/** The camera's vertical field of view, degrees. */
+export const FOV = 35;
 
 export class Viewer {
   /**
@@ -76,7 +78,7 @@ export class Viewer {
     const pmrem = new THREE.PMREMGenerator(this.renderer);
     this.scene.environment = pmrem.fromScene(studioEnvironment(), 0.04).texture;
     this.scene.environmentIntensity = 0.9;
-    this.camera = new THREE.PerspectiveCamera(35, 1, 0.01, 20);
+    this.camera = new THREE.PerspectiveCamera(FOV, 1, 0.01, 20);
     this.controls = new OrbitControls(this.camera, this.canvas);
     this.controls.enableDamping = true;
     this.controls.minDistance = MIN_DISTANCE;
@@ -105,6 +107,13 @@ export class Viewer {
     this.scene.add(this.desk);
     /** Called every frame, with seconds since the last. @type {((dt: number) => void)[]} */
     this.onFrame = [];
+    /** Called after the canvas changes size. @type {(() => void)[]} */
+    this.onResize = [];
+    /** Called when the visitor starts to move the camera themselves. @type {(() => void)[]} */
+    this.onUserMove = [];
+    this.controls.addEventListener("start", () => {
+      for (const f of this.onUserMove) f();
+    });
     /** Whether the scene is drawn: false under the 2D view. */
     this.active = true;
     /** @private @type {((dt: number) => boolean) | null} the flight under way */
@@ -128,6 +137,17 @@ export class Viewer {
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
+    for (const f of this.onResize ?? []) f();
+  }
+
+  /** The canvas's size, CSS px. */
+  size() {
+    return { width: this.host.clientWidth || 1, height: this.host.clientHeight || 1 };
+  }
+
+  /** Whether a flight is under way. */
+  isFlying() {
+    return this.flight !== null;
   }
 
   /** @private */
@@ -142,24 +162,36 @@ export class Viewer {
   }
 
   /**
-   * A view's pose, stood back on a narrow stage so that what it frames still fits across.
+   * A fixed pose, stood back on a narrow stage so that what it frames still fits across: for
+   * a view before the model has loaded, which has no parts to frame yet.
    * @param {Pose} pose framed for a stage about 16:9
+   * @returns {Pose}
    */
   fit(pose) {
     const aspect = this.camera.aspect;
     const p = new THREE.Vector3(...pose.pos);
     const t = new THREE.Vector3(...pose.target);
     const back = aspect < 1.6 ? Math.pow(1.6 / aspect, 0.85) : 1;
-    return { pos: t.clone().add(p.sub(t).multiplyScalar(back)), target: t };
+    const q = t.clone().add(p.sub(t).multiplyScalar(back));
+    return { pos: [q.x, q.y, q.z], target: [t.x, t.y, t.z] };
+  }
+
+  /** Puts the camera at a pose at once. @param {Pose} pose */
+  jumpTo(pose) {
+    this.flight = null;
+    this.camera.position.set(...pose.pos);
+    this.controls.target.set(...pose.target);
   }
 
   /**
-   * Flies the camera to a pose (fitted to the stage), then calls `then`.
+   * Flies the camera to a pose, as it is given, then calls `then`.
    * @param {Pose} pose
    * @param {() => void} [then]
+   * @param {number} [seconds]
    */
-  flyTo(pose, then) {
-    const { pos: p1, target: t1 } = this.fit(pose);
+  flyTo(pose, then, seconds = FLIGHT_S) {
+    const p1 = new THREE.Vector3(...pose.pos);
+    const t1 = new THREE.Vector3(...pose.target);
     const p0 = this.camera.position.clone();
     const t0 = this.controls.target.clone();
     if (this.reducedMotion.matches) {
@@ -171,7 +203,7 @@ export class Viewer {
     }
     let t = 0;
     this.flight = (dt) => {
-      t = Math.min(1, t + dt / FLIGHT_S);
+      t = Math.min(1, t + dt / seconds);
       const e = t * t * (3 - 2 * t);
       this.camera.position.lerpVectors(p0, p1, e);
       this.controls.target.lerpVectors(t0, t1, e);

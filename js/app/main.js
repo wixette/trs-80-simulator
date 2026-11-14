@@ -45,12 +45,29 @@ const system = new System({ rom: romResult.rom, takeApart: machineParams.take_ap
 const c = tokens();
 
 // ---- the status line (P7) ---------------------------------------------------------------------
+// One line's height in the page, whatever it says: a longer message rises over the foot of the
+// dock, whose panes gain as much room below their end (--status-rise), so the stage never
+// changes size because of a message. A refusal is amber, a fault red.
+const statusBar = $("status");
 const statusText = $("status-text");
-/** @param {string} text */
-const say = (text) => {
-  statusText.textContent = text;
+/** Messages that refuse something, and say why (P6). */
+const WARN = new Set(["power.apart", "power.noRom", "reset.off", "deck.noTape", "deck.empty", "apart.poweredOn", "type.off", "cpu.off", "cpu.badAddress", "tape.nothingToSave", "tape.noPulses", "status.otherRom"]);
+/** Messages about a fault. */
+const ERROR = new Set(["stage.no3d", "tape.badFile", "status.noRom", "rom.short"]);
+/** @param {string} key */
+const levelOf = (key) => (ERROR.has(key) ? "error" : WARN.has(key) ? "warn" : "");
+const fitStatus = () => {
+  const rise = Math.max(0, statusText.offsetHeight - statusBar.clientHeight);
+  document.documentElement.style.setProperty("--status-rise", `${rise}px`);
 };
-system.say = (m) => say(t(m.key, m.params ?? {}));
+/** @param {string} text @param {"" | "warn" | "error"} [level] */
+const say = (text, level = "") => {
+  statusText.textContent = text;
+  statusBar.dataset.level = level;
+  fitStatus();
+};
+addEventListener("resize", fitStatus);
+system.say = (m) => say(t(m.key, m.params ?? {}), levelOf(m.key));
 
 // ---- the stage: 2D always, 3D where WebGL is ---------------------------------------------------
 const flat = new Flat($("view2d"), system, {
@@ -82,9 +99,8 @@ let desk = null;
 /** @type {Crt | null} */
 let crt = null;
 if (webgl) {
-  viewer = new Viewer($("view3d"), { background: c.stage, desk: c.desk });
-  viewer.camera.position.set(...VIEWS.desk.pos);
-  viewer.controls.target.set(...VIEWS.desk.target);
+  viewer = new Viewer($("view3d"), { background: c.surface, desk: c.desk });
+  viewer.jumpTo(viewer.fit(VIEWS.desk));
 }
 
 const stage = new Stage(system, {
@@ -104,6 +120,7 @@ const stage = new Stage(system, {
 
 // ---- the dock and its tools (P3, U6) ---------------------------------------------------------------
 const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.4) : 240));
+dock.onResize = fitStatus;
 const sound = new TapeSound();
 const lessons = new LessonsTool($("pane-lessons"), system, (s) => showMe(s));
 const vram = new VramTool($("pane-vram"), system, (cell) => {
@@ -175,7 +192,7 @@ if (viewer) {
     })
     .catch((err) => {
       stage.progress(null);
-      say(`${t("stage.no3d")} (${err instanceof Error ? err.message : err})`);
+      say(`${t("stage.no3d")} (${err instanceof Error ? err.message : err})`, "error");
     });
 }
 
@@ -246,7 +263,7 @@ addEventListener("pointerdown", () => sound.unlock(), { capture: true });
 
 // ---- the ROM: missing, or the visitor's own (D2) ----------------------------------------------------
 if (romResult.status !== "ok") {
-  say(t(romResult.status === "missing" ? "status.noRom" : "status.otherRom"));
+  say(t(romResult.status === "missing" ? "status.noRom" : "status.otherRom"), romResult.status === "missing" ? "error" : "warn");
   if (romResult.status === "missing") {
     const pick = /** @type {HTMLInputElement} */ (el("input", { type: "file", hidden: true }));
     document.body.append(pick);
@@ -256,11 +273,11 @@ if (romResult.status !== "ok") {
       const f = pick.files?.[0];
       if (!f) return;
       const r = await checkRom(new Uint8Array(await f.arrayBuffer()));
-      if (!r.rom) return say(t("rom.short", { name: f.name }));
+      if (!r.rom) return say(t("rom.short", { name: f.name }), "error");
       system.setRom(r.rom);
       romResult.rom = r.rom;
       b.remove();
-      say(t(r.status === "ok" ? "rom.ok" : "status.otherRom"));
+      say(t(r.status === "ok" ? "rom.ok" : "status.otherRom"), r.status === "ok" ? "" : "warn");
     });
     $("status").append(b);
   }
