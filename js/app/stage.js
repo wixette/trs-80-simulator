@@ -92,10 +92,16 @@ export class Stage {
     home.addEventListener("click", () => this.home());
     const zoomOut = el("button", { class: "btn icon-only", type: "button" }, [icon("zoom_out")]);
     setTip(zoomOut, t("stage.zoomOut"));
-    zoomOut.addEventListener("click", () => this.viewer?.zoom(1 / 0.8));
+    zoomOut.addEventListener("click", () => {
+      this.fitted = null; // the camera is the visitor's now
+      this.viewer?.zoom(1 / 0.8);
+    });
     const zoomIn = el("button", { class: "btn icon-only", type: "button" }, [icon("zoom_in")]);
     setTip(zoomIn, t("stage.zoomIn"));
-    zoomIn.addEventListener("click", () => this.viewer?.zoom(0.8));
+    zoomIn.addEventListener("click", () => {
+      this.fitted = null;
+      this.viewer?.zoom(0.8);
+    });
     this.viewsBtn = el("button", { class: "btn small menu-btn", type: "button", "aria-haspopup": "menu", "aria-expanded": "false" });
     setTip(this.viewsBtn, t("stage.views.tip"));
     this.viewsBtn.setAttribute("data-tip-describes", "");

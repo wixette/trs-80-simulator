@@ -55,6 +55,8 @@ const MIN_DISTANCE = 0.08;
 const MAX_DISTANCE = 3;
 /** A flight's length, s. */
 const FLIGHT_S = 0.7;
+/** A press and release this close together, px, is a click, not a drag. */
+const CLICK_PX = 5;
 /** The camera's vertical field of view, degrees. */
 export const FOV = 35;
 
@@ -102,11 +104,9 @@ export class Viewer {
     this.onFrame = [];
     /** Called after the canvas changes size. @type {(() => void)[]} */
     this.onResize = [];
-    /** Called when the visitor starts to move the camera themselves. @type {(() => void)[]} */
+    /** Called when the visitor moves the camera themselves. @type {(() => void)[]} */
     this.onUserMove = [];
-    this.controls.addEventListener("start", () => {
-      for (const f of this.onUserMove) f();
-    });
+    this.watchUser();
     /** Whether the scene is drawn: false under the 2D view. */
     this.active = true;
     /** @private @type {((dt: number) => boolean) | null} the flight under way */
@@ -122,6 +122,42 @@ export class Viewer {
       e.preventDefault();
     });
     this.renderer.setAnimationLoop(() => this.frame());
+  }
+
+  /**
+   * @private The visitor takes the camera with a drag (more than a click's few pixels, or two
+   * fingers), a wheel turn, or the camera's own keys; not with a press alone, a click on a key
+   * or a part, as the Altair 8800 simulator has it. Until then the page refits its view as the
+   * stage changes size.
+   */
+  watchUser() {
+    const moved = () => {
+      for (const f of this.onUserMove) f();
+    };
+    /** @type {Set<number>} */
+    const pointers = new Set();
+    /** @type {{ x: number, y: number } | null} */
+    let down = null;
+    const c = this.canvas;
+    c.addEventListener("pointerdown", (e) => {
+      pointers.add(e.pointerId);
+      down = { x: e.clientX, y: e.clientY };
+    });
+    const up = (/** @type {PointerEvent} */ e) => {
+      pointers.delete(e.pointerId);
+      if (!pointers.size) down = null;
+    };
+    c.addEventListener("pointerup", up);
+    c.addEventListener("pointercancel", up);
+    c.addEventListener("pointermove", (e) => {
+      // a key held or a knob turned has the controls switched off: that is not the camera
+      if (!this.controls.enabled || !down) return;
+      if (pointers.size > 1 || Math.hypot(e.clientX - down.x, e.clientY - down.y) > CLICK_PX) moved();
+    });
+    c.addEventListener("wheel", moved, { passive: true });
+    c.addEventListener("keydown", (e) => {
+      if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "+", "=", "-", "_"].includes(e.key)) moved();
+    });
   }
 
   resize() {
