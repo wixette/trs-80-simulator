@@ -19,6 +19,9 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--md-sur
 body {
   display: grid;
   grid-template-rows: var(--bar-h) minmax(0, 1fr) auto auto var(--status-h);
+  /* one column, never wider than the window: without this it grows to the widest thing in it
+     (the Video RAM tab's 64 columns), and the whole page stops narrowing with the window */
+  grid-template-columns: minmax(0, 1fr);
   height: 100dvh;
   user-select: none;
   -webkit-user-select: none;
@@ -194,6 +197,9 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .flat-knob:hover { background: color-mix(in srgb, var(--md-primary) 18%, transparent); }
 .flat-deckkey { position: absolute; display: flex; align-items: flex-end; justify-content: center; padding: 0 0 6%; border: 1px solid #000; border-radius: 3px; background: linear-gradient(#3b3b3b, #232323); color: #d8d8d2; font-size: 3.5cqw; font-weight: 700; letter-spacing: -0.04em; white-space: nowrap; overflow: hidden; cursor: pointer; box-shadow: 0 2px 0 #090909; }
 .flat-deckkey.rec { color: #ff7a63; }
+/* STOP and EJECT spring back: pressed, every key goes down while it is held */
+.flat-deckkey { transition: transform 60ms var(--ease), box-shadow 60ms var(--ease); }
+.flat-deckkey:active { transform: translateY(2px); box-shadow: none; background: linear-gradient(#2a2a2a, #1a1a1a); }
 .flat-deckkey.latched { transform: translateY(2px); box-shadow: none; background: linear-gradient(#2a2a2a, #1a1a1a); }
 .flat-key { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 0; border: 0; border-radius: 3px; background: linear-gradient(#2a2a2a, var(--key-black)); color: var(--key-legend); font-family: var(--font); font-weight: 600; font-size: min(1.55cqw, var(--fit, 1.55cqw)); overflow: hidden; white-space: nowrap; line-height: 1.05; cursor: pointer; box-shadow: 0 0.2cqw 0 #050505, inset 0 1px 0 rgba(255, 255, 255, 0.07); touch-action: none; }
 .flat-key small { font-size: 0.72em; opacity: 0.85; }
@@ -206,7 +212,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .flat-rear.on .icon { color: var(--on); }
 
 /* ---- the dock (P3, U6) ---- */
-#dock { display: flex; flex-direction: column; min-height: 0; background: var(--md-surface-low); }
+#dock { display: flex; flex-direction: column; min-height: 0; min-width: 0; background: var(--md-surface-low); }
 /* the handle between the stage and the dock: a row of its own, lit while pointed at or dragged */
 #dock-handle { position: relative; height: 6px; cursor: ns-resize; touch-action: none; background: var(--md-well); }
 #dock-handle::after { content: ""; position: absolute; left: 50%; top: 2px; width: 40px; height: 2px; transform: translateX(-50%); border-radius: 1px; background: var(--md-outline-variant); }
