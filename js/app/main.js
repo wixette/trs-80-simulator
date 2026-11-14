@@ -237,8 +237,8 @@ function forThePage(e) {
   // a focused control keeps the keys it acts on
   if (a.matches("button, [role=tab], [role=radio], summary, a, #dock-handle") && ["Enter", " ", "Tab"].includes(e.key)) return true;
   if (a.matches(".vram-cell") && e.key.startsWith("Arrow")) return true;
-  // the 3D view, focused by Tab: its arrows, + and - move the camera, Home goes home
-  if (viewer && a === viewer.canvas && a.matches(":focus-visible") && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "+", "=", "-", "_", "Home"].includes(e.key)) return true;
+  // the 3D view, which only Tab can focus: its arrows, + and - move the camera, Home goes home
+  if (viewer && a === viewer.canvas && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "+", "=", "-", "_", "Home"].includes(e.key)) return true;
   return e.key === "Tab" || e.key === "F5" || e.key.startsWith("F");
 }
 addEventListener("keydown", (e) => {
@@ -252,15 +252,18 @@ addEventListener("keydown", (e) => {
 addEventListener("keyup", (e) => system.hostKeys.up(e));
 addEventListener("blur", () => system.hostKeys.releaseAll());
 if (viewer) {
-  // the camera's own keys only when the canvas was reached by Tab, not by a click
-  viewer.canvas.addEventListener(
-    "keydown",
-    (e) => {
-      if (!viewer?.canvas.matches(":focus-visible")) e.stopImmediatePropagation();
-      if (!viewer?.canvas.matches(":focus-visible") && !forThePage(e) && system.hostKeys.down(e)) e.preventDefault();
-    },
-    { capture: true },
-  );
+  // The 3D view's focus has two states, as the Altair 8800 simulator's has (U2): reached by Tab,
+  // it shows its ring and its arrows, + and - move the camera; otherwise it has no focus and
+  // every key is the machine's. A press on the view never focuses it (a click there followed by
+  // any key used to light the ring as :focus-visible and take + - and the arrows from the
+  // machine), and lets go of whatever had the focus, a text box say, and of the view's own:
+  // pressing the machine is typing at the machine.
+  const canvas = viewer.canvas;
+  canvas.addEventListener("mousedown", (e) => e.preventDefault());
+  canvas.addEventListener("pointerdown", () => {
+    const a = /** @type {HTMLElement | null} */ (document.activeElement);
+    if (a && a !== document.body) a.blur();
+  });
 }
 // a control pressed with the pointer lets go of the focus, so that the next keys are the machine's
 document.addEventListener("click", (e) => {
