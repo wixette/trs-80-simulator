@@ -76,8 +76,10 @@ export class Flat {
     this.system = system;
     this.o = o;
     this.c = o.colours;
-    // the two drawers, each as the visitor left it (U10). At first the keyboard is open and the
-    // recorder closed, its keys being on the helper strip.
+    // the two drawers, each as the visitor left it (U10). At first the recorder is closed, its keys
+    // being on the helper strip, and so is the keyboard, so that the screen has the stage (the
+    // machine starts switched on); but where the visitor has no keyboard of their own (a touch
+    // screen held upright), the keyboard is open, as there is no other way to type.
     /** @param {"kbd" | "rec"} which @param {boolean} first */
     const drawer = (which, first) => {
       let v = null;
@@ -88,9 +90,7 @@ export class Flat {
       }
       return v === "open" || v === "closed" ? v : first ? "open" : "closed";
     };
-    // the keyboard open at first, so that the 2D view shows the computer, and its POWER, with the
-    // display; but on a phone on its side, where it would open over the display
-    const kbd = drawer("kbd", !matchMedia("(max-height: 520px) and (orientation: landscape)").matches);
+    const kbd = drawer("kbd", matchMedia("(pointer: coarse) and (orientation: portrait)").matches);
     const rec = drawer("rec", false);
     this.el = el("div", { class: "flat", "data-rec": rec, "data-kbd": kbd }, [
       el("div", { class: "flat-top" }, [el("div", { class: "flat-box flat-display" }), el("div", { class: "flat-box flat-recorder" })]),
