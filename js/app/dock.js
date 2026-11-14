@@ -40,7 +40,15 @@ export class Dock {
     this.fold = /** @type {HTMLButtonElement} */ (document.getElementById("dock-fold"));
     this.stageMin = stageMin;
     const saved = load();
-    this.height = saved.height ?? Math.round(window.innerHeight * DOCK_START);
+    /**
+     * The height the visitor chose, by the handle, px, or null: until they do, the dock takes
+     * DOCK_START of the window. A window too small for it squeezes the dock, but never changes
+     * what was chosen, so the dock comes back as the window does (and after a reload).
+     * @type {number | null}
+     */
+    this.wanted = typeof saved.height === "number" ? saved.height : null;
+    /** The height shown, px. */
+    this.height = 0;
     this.folded = saved.folded ?? window.innerHeight <= SHORT;
     /** @type {ToolId} */
     this.current = saved.tab && TOOLS.includes(saved.tab) ? saved.tab : "lessons";
@@ -75,8 +83,7 @@ export class Dock {
       /** @param {PointerEvent} m */
       const move = (m) => {
         this.folded = false;
-        this.height = bottom - m.clientY;
-        this.apply();
+        this.choose(bottom - m.clientY);
       };
       const up = () => {
         this.handle.classList.remove("dragging");
@@ -93,8 +100,7 @@ export class Dock {
       if (!d) return;
       e.preventDefault();
       this.folded = false;
-      this.height += d;
-      this.apply();
+      this.choose(this.height + d);
     });
     window.addEventListener("resize", () => this.apply());
   }
@@ -116,7 +122,7 @@ export class Dock {
   /** @private */
   apply() {
     const max = this.maxHeight();
-    this.height = Math.max(dockMin(), Math.min(max, this.height));
+    this.height = Math.max(dockMin(), Math.min(max, this.wanted ?? Math.round(window.innerHeight * DOCK_START)));
     this.el.classList.toggle("folded", this.folded);
     this.el.style.height = this.folded ? "" : `${this.height}px`;
     this.fold.replaceChildren(icon(this.folded ? "keyboard_arrow_up" : "keyboard_arrow_down"));
@@ -126,10 +132,18 @@ export class Dock {
     window.dispatchEvent(new Event("dockresize"));
   }
 
+  /** @private The visitor's height, by the handle: what the window allows of it is what they see, and so what they chose. @param {number} h */
+  choose(h) {
+    this.wanted = h;
+    this.apply();
+    this.wanted = this.height;
+    this.save();
+  }
+
   /** @private */
   save() {
     try {
-      localStorage.setItem(STORE, JSON.stringify({ tab: this.current, height: Math.round(this.height), folded: this.folded }));
+      localStorage.setItem(STORE, JSON.stringify({ tab: this.current, height: this.wanted === null ? undefined : Math.round(this.wanted), folded: this.folded }));
     } catch {
       // private browsing: the dock is not remembered
     }
