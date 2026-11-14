@@ -386,7 +386,7 @@ export default {
   "about.version": "Version {version}",
   "about.prerelease": "A pre-release: the link format and the layout may still change before 1.0.0.",
   "about.simplifies": "What it simplifies",
-  "about.simplifies.list": "The tube's glass is drawn near black when the display is on, as the eye sees it beside the bright text, so that the text can be read on a screen. · Fast tape loads 32 times faster than a real tape (untick it for the real speed). · REWIND and FAST-F work without pulling the REM plug. · Memory starts cleared at power on. · The board's parts are blocks of the right size and place; the chips' lights are a view the real machine never had.",
+  "about.simplifies.list": "The tube's glass is drawn a deep green when the display is on, darker than it is, as the eye sees it beside the bright text, so that the text can be read on a screen. · Fast tape loads 32 times faster than a real tape (untick it for the real speed). · REWIND and FAST-F work without pulling the REM plug. · Memory starts cleared at power on. · The board's parts are blocks of the right size and place; the chips' lights are a view the real machine never had.",
   "about.credits": "Credits",
   "about.credits.list": "RetroStack's reconstructions of the Model I (MIT): the boards, the case and the netlist-checked reference the machine is built from. · Lawrence Kesteloot's TRS-80 emulator (MIT), the reference for the tape and the second source for the ROM. · Matthew Reed's TRS-80.org, for the history. · Molly Howell's Z80 core (MIT). · Tim Mann's xtrs, for the character set. · three.js (MIT). · Roboto Flex (OFL 1.1), Michroma (OFL 1.1), Material Symbols (Apache-2.0).",
   "about.licences": "Licences",

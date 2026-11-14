@@ -11,7 +11,7 @@ export function tokens() {
   return {
     phosphor: get("--phosphor", "#e4ecff"),
     glassOff: get("--glass-off", "#4b5856"),
-    glassOn: get("--glass-on", "#121716"),
+    glassOn: get("--glass-on", "#2a3d39"),
     tubeBlack: get("--tube-black", "#0b0d0c"),
     caseSilver: get("--case-silver", "#959590"),
     caseSilverDark: get("--case-silver-dark", "#85857f"),

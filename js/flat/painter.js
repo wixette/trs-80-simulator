@@ -12,10 +12,11 @@
 // brightness (B) the raster's glow behind it.
 //
 // Off, the glass is grey-green: the phosphor's coating, lit by the room, as photographs show it.
-// On, it is drawn near black. A lit tube cannot make its glass darker, but the eye adapts to
-// the bright phosphor, and the glass behind the text is seen as nearly black; a screen cannot
-// show a tube's range of brightness, so the dark is drawn instead, for the text to be read
-// (About says so). The change from grey to dark also says, at a glance, that the display is on.
+// On, it is drawn a deep green of the same hue. A lit tube cannot make its glass darker, but
+// the eye adapts to the bright phosphor and sees the glass behind the text as much darker; a
+// screen cannot show a tube's range of brightness, so the darker glass is drawn instead, for
+// the text to be read (About says so). The text is at full strength at C's middle, about 9:1
+// on the glass. The change from grey-green to deep green also says the display is on.
 
 import { CELL_H, CELL_W, glyph } from "../sim/charset.js";
 import { VIDEO } from "../sim/machine.js";
@@ -135,12 +136,13 @@ export class Painter {
         }
       }
     }
-    // C: the phosphor's strength
-    const strength = 0.45 + 0.55 * p.contrast;
+    // C: the phosphor's strength, full at its middle and dimmer below; above, the glow grows
+    const strength = Math.min(1, 0.3 + 1.4 * p.contrast);
+    const halo = 0.35 * strength + Math.max(0, p.contrast - 0.5) * 0.8;
     if ("filter" in c) {
       c.save();
       c.filter = `blur(${Math.max(1, dx * 0.9).toFixed(1)}px)`;
-      c.globalAlpha = 0.5 * strength;
+      c.globalAlpha = halo;
       c.globalCompositeOperation = "lighter";
       c.drawImage(layer, 0, 0);
       c.restore();
