@@ -12,11 +12,13 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 Simulator",
+  "app.title": "TRS-80 Simulator: the Model I in 3D",
   "bar.tapes": "Tapes",
   "bar.tapes.tip": "A blank tape, your own .cas or .wav, or save the one in the recorder",
   "bar.programs": "Programs",
   "bar.programs.tip": "Our sample programs: type one in on the Model I's keys, or load it from its tape",
   "bar.about": "About the simulator",
+  "bar.lang.tip": "The language of the page. The page opens again in the one you choose, and the machine starts again",
   "bar.needsRom": "needs the ROM",
   "bar.switchOnFirst": "switch on first",
   "bar.tape.blank": "Blank tape",

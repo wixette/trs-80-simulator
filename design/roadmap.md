@@ -9,15 +9,10 @@
 | **v0.0.3** | More sample programs and tapes; the lessons improved |
 | **v1.0.0** | Built on v0.0.3: the README in full, with the screenshots for it, as the 8800 simulator's |
 
-## v0.0.1: where it stands
+## Where it stands
 
-Ready for release, waiting for approval (2026-11-15):
-- **Unit tests** checked and brought up to date: 243 pass (`pnpm check`), ZEXDOC opt-in.
-- **Browser checks** (`pnpm test:browser`, [../tests/browser/](../tests/browser/)): 114 pass.
-- **Code review:** done; its findings are fixed, each bug with a browser check.
-- **README** with screenshots (`pnpm shots --readme`); CHANGELOG.md's 0.0.1 entry; REUSE lint clean; CI green.
-
-Left for the release itself, once approved: a manual pass in Safari and Firefox and on a phone; the release pull request from `dev-v0.0.1` to `main`; the `v0.0.1` tag on its merge commit, marked as a pre-release.
+- **v0.0.1:** released 2026-11-15 as a pre-release ([the release](https://github.com/wixette/trs-80-simulator/releases/tag/v0.0.1)).
+- **v0.0.2:** ready on `dev-v0.0.2`, waiting for the owner's manual check. The page in ten languages (docs/ui-design.md, U11): the language button, the choice from the address, the visitor or the browser, one message file per language, tests that hold each to English's keys, placeholders and code, and a browser check that no English is left on the page and each fits a phone.
 
 ## Decided
 

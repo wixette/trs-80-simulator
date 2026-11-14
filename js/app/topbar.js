@@ -7,7 +7,8 @@
 // P10). Visitors bring their own tapes, read locally and never uploaded (D7); our samples are
 // recorded at run time by a second Model I, so nothing but the ROM's own output is on them.
 
-import { t } from "../l10n/l10n.js";
+import { locale, t } from "../l10n/l10n.js";
+import { LOCALE_NAMES, LOCALE_SHORT, LOCALE_STORE, LOCALES } from "../l10n/locales.js";
 import { casFromTape, Tape, tapeFromCas } from "../sim/cassette.js";
 import { recordSampleTape } from "../sim/sample-tapes.js";
 import { typeKeys } from "../lessons/lessons.js";
@@ -32,6 +33,17 @@ function download(bytes, name, type) {
 
 /** Where Sound on or off is remembered. */
 const SOUND_STORE = "trs80.sound";
+
+/** Whether site data can be kept: if not, a language chosen goes in the address. */
+const remembered = () => {
+  try {
+    localStorage.setItem("trs80.probe", "1");
+    localStorage.removeItem("trs80.probe");
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 export class TopBar {
   /**
@@ -59,6 +71,32 @@ export class TopBar {
     setTip(tapes, t("bar.tapes.tip"));
     setTip(programs, t("bar.programs.tip"));
     setTip(about, t("bar.about"));
+    // the language (U11): each named as it names itself; a choice is remembered, and the page
+    // opens again in it, as everything on it is written once, as it is built
+    const lang = /** @type {HTMLButtonElement} */ (document.getElementById("lang"));
+    /** @type {HTMLElement} */ (lang.querySelector(".lang-code")).textContent = LOCALE_SHORT[locale()];
+    setTip(lang, t("bar.lang.tip"));
+    lang.addEventListener("click", () =>
+      showMenu(
+        lang,
+        LOCALES.map((l) => ({
+          label: LOCALE_NAMES[l],
+          checked: l === locale(),
+          run: () => {
+            if (l === locale()) return;
+            try {
+              localStorage.setItem(LOCALE_STORE, l);
+            } catch {
+              // not remembered: the address carries it instead
+            }
+            const u = new URL(location.href);
+            u.searchParams.delete("lang");
+            if (!remembered()) u.searchParams.set("lang", l);
+            location.replace(u);
+          },
+        })),
+      ),
+    );
     // Sound, for the whole page (the tape's sound is all there is yet): on or off, remembered
     const sound = /** @type {HTMLButtonElement} */ (document.getElementById("sound"));
     const showSound = () => {

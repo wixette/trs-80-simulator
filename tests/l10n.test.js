@@ -11,6 +11,7 @@ import { join } from "node:path";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 import en from "../js/l10n/en.js";
+import { LOCALES, matchLocale, pickLocale } from "../js/l10n/locales.js";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
@@ -41,4 +42,41 @@ describe("APP: every text is a message", () => {
       assert.doesNotMatch(v, /\{\s|\{\}/, k);
     }
   });
+});
+
+/** The {name}s in a message, sorted. @param {string} m */
+const holes = (m) => [...m.matchAll(/\{(\w+)\}/g)].map((x) => x[1]).sort();
+/** The `code` in a message, in order: the machine's words, never translated. @param {string} m */
+const code = (m) => [...m.matchAll(/`([^`]*)`/g)].map((x) => x[1]);
+
+/** English, by any key. @type {Record<string, string>} */
+const EN = en;
+
+describe("APP: the page in ten languages (U11)", () => {
+  it("APP-43: a language is picked from the address, then the visitor's choice, then the browser's, else English", () => {
+    assert.equal(pickLocale({ query: "fr", saved: "de", browser: ["ja"] }), "fr");
+    assert.equal(pickLocale({ query: null, saved: "de", browser: ["ja"] }), "de");
+    assert.equal(pickLocale({ browser: ["sv-SE", "ja-JP"] }), "ja");
+    assert.equal(pickLocale({ browser: ["sv-SE"] }), "en");
+    assert.equal(matchLocale("zh-Hant-HK"), "zh-TW");
+    assert.equal(matchLocale("zh-CN"), "zh");
+    assert.equal(matchLocale("pt-PT"), "pt-BR");
+    assert.equal(matchLocale("fr-CA"), "fr");
+    assert.equal(matchLocale("xx"), null);
+  });
+
+  for (const loc of LOCALES.filter((l) => l !== "en")) {
+    it(`APP-44 ${loc}: every message is translated, with the same placeholders and the same code`, async () => {
+      /** @type {Record<string, string>} */
+      const m = (await import(`../js/l10n/${loc}.js`)).default;
+      assert.deepEqual(Object.keys(en).filter((k) => !(k in m)), [], "untranslated");
+      assert.deepEqual(Object.keys(m).filter((k) => !(k in EN)), [], "keys English does not have");
+      for (const [k, v] of Object.entries(m)) {
+        assert.ok(typeof v === "string" && v.length > 0, `${k}: empty`);
+        assert.deepEqual(holes(v), holes(EN[k]), `${k}: placeholders`);
+        assert.deepEqual(code(v), code(EN[k]), `${k}: code`);
+        assert.equal((v.match(/\*\*/g) ?? []).length % 2, 0, `${k}: unbalanced **`);
+      }
+    });
+  }
 });
