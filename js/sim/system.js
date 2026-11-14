@@ -34,6 +34,9 @@ export const BACK_S = 0.12;
 /** @typedef {{ key: string, params?: Record<string, string | number> }} Message */
 /** @typedef {{ f: number, target: number, rate: number }} Motion how far out a unit is, where it is going, and how fast (per second) */
 
+/** Where C and B start, and a double-click puts them back: the middle of their turn. */
+export const CONTROL_MID = 0.5;
+
 export class System {
   /**
    * @param {object} options
@@ -51,7 +54,7 @@ export class System {
     this.assembly = new Assembly(takeApart);
     /** @type {Map<string, Motion>} */
     this.motion = new Map(this.assembly.units.map((u) => [u, { f: 0, target: 0, rate: 1 / OUT_S }]));
-    this.display = { on: false, contrast: 0.5, brightness: 0.5 };
+    this.display = { on: false, contrast: CONTROL_MID, brightness: CONTROL_MID };
     this.fastTape = true;
     this.fastTyping = true;
     /** The memory traffic of the last frame, for the chips and the memory map. @type {import("./machine.js").Traffic} */
@@ -124,6 +127,11 @@ export class System {
     this.display[which] = Math.min(1, Math.max(0, value));
     this.say({ key: `display.${which}`, params: { value: Math.round(this.display[which] * 100) } });
     this.changed();
+  }
+
+  /** C or B back to the middle, where it starts: a double-click on it. @param {"contrast" | "brightness"} which */
+  resetControl(which) {
+    this.setControl(which, CONTROL_MID);
   }
 
   /** The RESET button. */

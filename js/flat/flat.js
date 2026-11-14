@@ -307,7 +307,14 @@ export class Flat {
         e.preventDefault();
         this.system.setControl(which, this.system.display[which] - Math.sign(e.deltaY) * 0.05);
       }, { passive: false });
+      // a double-click, or Home, puts it back to the middle
+      k.addEventListener("dblclick", () => this.system.resetControl(which));
       k.addEventListener("keydown", (e) => {
+        if (e.key === "Home") {
+          e.preventDefault();
+          e.stopPropagation();
+          return void this.system.resetControl(which);
+        }
         const step = e.key === "ArrowRight" || e.key === "ArrowUp" ? 0.05 : e.key === "ArrowLeft" || e.key === "ArrowDown" ? -0.05 : 0;
         if (!step) return;
         e.preventDefault();

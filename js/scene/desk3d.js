@@ -514,7 +514,11 @@ export class Desk3D {
     });
     canvas.addEventListener("pointercancel", () => release());
     canvas.addEventListener("dblclick", (e) => {
-      if (this.pick(e)?.object === this.screen) this.on.screenDoubleClick?.();
+      const o = this.pick(e)?.object ?? null;
+      // C or B: back to the middle
+      const knob = this.up(o, (x) => x === this.knobs.contrast) ? "contrast" : this.up(o, (x) => x === this.knobs.brightness) ? "brightness" : null;
+      if (knob) return void s.resetControl(knob);
+      if (o === this.screen) this.on.screenDoubleClick?.();
     });
   }
 

@@ -131,7 +131,7 @@ With the computer off, a click on a unit takes it out along its path. Anything i
 
 ### U4. The helper strip
 
-The machine's controls that are hard to reach are clickable where they are: the computer's POWER switch on the rear, RESET inside the expansion opening, the display's POWER button, C and B on its front, and the recorder's six keys. The **helper strip** reaches the ones that are hard to find or to hit, in 3D and in 2D: *Computer* (POWER, lit green while on) and *Reset*, *Display* (its POWER), and the recorder's RECORD, REWIND, PLAY, FAST-F, STOP and EJECT, latched down as the machine latches them. They are the same operations as clicking the machine (P2).
+The machine's controls that are hard to reach are clickable where they are: the computer's POWER switch on the rear, RESET inside the expansion opening, the display's POWER button, C and B on its front (a drag sideways or the wheel turns them, a double-click puts them back to the middle), and the recorder's six keys. The **helper strip** reaches the ones that are hard to find or to hit, in 3D and in 2D: *Computer* (POWER, lit green while on) and *Reset*, *Display* (its POWER), and the recorder's RECORD, REWIND, PLAY, FAST-F, STOP and EJECT, latched down as the machine latches them. They are the same operations as clicking the machine (P2).
 
 - **Where:** a strip of its own, centred at the stage's foot, just above the dock, as the 8800's Switch Board Helper is. It is in the layout, not over the machine, so it never covers a drawing.
 - **Not parts of the machine:** the strip is the instrument's, so it is not in the band (which is the view's) nor in the top bar (which is for occasional actions, P4), where it read as one level with Tapes and Programs.
