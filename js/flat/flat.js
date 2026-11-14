@@ -25,6 +25,7 @@ import { t } from "../l10n/l10n.js";
 import { KEYS } from "../sim/keymap.js";
 import { mmss } from "../sim/system.js";
 import { el, icon, setTip } from "../ui/components.js";
+import { displayLayout, fitFlat } from "./layout.js";
 import { Painter, PICTURE_ASPECT } from "./painter.js";
 
 /** @typedef {import("../sim/system.js").System} System */
@@ -41,8 +42,9 @@ const DECK_LEGEND = { record: "RECORD", rewind: "REWIND", play: "PLAY", fastf: "
 const STORE = { kbd: "trs80.kbd", rec: "trs80.rec" };
 /** Canvas pixels per dot: 384 x 192 dots on a 4:3 picture. */
 const DOT_W = 3;
-/** The tube's glass round the picture, as fractions of the canvas. */
-const MARGIN = { x: 0.1, y: 0.11 };
+/** The tube's glass round the picture, as fractions of the canvas: little, as the glass is
+ * drawn for reading (layout.js). y is worked out to keep the picture 4:3. */
+const MARGIN = { x: 0.05, y: 0.05 };
 
 /** @param {{ v: any }} p a parameter: its value */
 const v = (p) => p.v;
@@ -116,13 +118,24 @@ export class Flat {
     /** @private the display's POWER button, placed by buildDisplay */
     this.dpower = el("button");
     this.painter = new Painter(this.canvas, { phosphor: this.c.phosphor, glassOff: this.c.glassOff, glassOn: this.c.glassOn }, MARGIN);
+    /** The drawings' sizes, mm, set as each is built. */
+    this.displayMm = { w: 1, h: 1 };
+    this.recorderMm = { w: 1, h: 1 };
+    this.keyboardMm = { w: 1, h: 1 };
     this.buildDisplay();
     this.buildRecorder();
     this.buildKeyboard();
     /** @private an upright phone: the keypad cropped */
     this.compact = matchMedia("(orientation: portrait) and (max-width: 700px)");
-    this.compact.addEventListener("change", () => this.layoutKeyboard());
+    this.compact.addEventListener("change", () => {
+      this.layoutKeyboard();
+      this.fit();
+    });
+    /** @private a phone on its side: the keyboard, opened, rises over the display (css/style.css) */
+    this.overlayKbd = matchMedia("(max-height: 520px) and (orientation: landscape)");
+    this.overlayKbd.addEventListener("change", () => this.fit());
     this.layoutKeyboard();
+    new ResizeObserver(() => this.fit()).observe(this.el);
   }
 
   /** Whether a drawer is open: the keyboard, or the recorder. @param {"rec" | "kbd"} which */
@@ -139,7 +152,35 @@ export class Flat {
     } catch {
       // not remembered
     }
+    this.fit();
     return now;
+  }
+
+  /**
+   * Sizes the drawings for the stage: the display, the recorder and the keyboard at one scale,
+   * the display as large as that leaves room for (layout.js, fitFlat).
+   */
+  fit() {
+    const cs = getComputedStyle(this.el);
+    const width = this.el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const height = this.el.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    if (width <= 0 || height <= 0) return; // not shown: fitted when it is
+    const gap = parseFloat(cs.rowGap) || 12;
+    const over = this.overlayKbd.matches;
+    const out = fitFlat({
+      width,
+      height,
+      gap,
+      display: this.displayMm,
+      recorder: this.drawerOpen("rec") ? this.recorderMm : null,
+      keyboard: this.drawerOpen("kbd") && !over ? this.keyboardMm : null,
+      fullKeyboard: this.compact.matches,
+    });
+    this.q(".flat-top").style.gap = `${gap}px`;
+    this.q(".flat-display").style.width = `${Math.floor(out.display)}px`;
+    this.q(".flat-recorder").style.width = `${Math.floor(out.recorder)}px`;
+    // opened over the display, the keyboard takes the width CSS gives it
+    this.q(".flat-keyboard").style.width = over ? "" : `${Math.floor(out.keyboard)}px`;
   }
 
   /** The picture changed. */
@@ -153,82 +194,76 @@ export class Flat {
   buildDisplay() {
     const d = this.o.machine.video_display;
     const c = this.c;
-    const W = v(d.width);
-    const base = v(d.base.height);
-    const H = v(d.height);
+    // the front as the 2D view draws it: the glass larger, what is round it trimmed (layout.js)
+    const L = displayLayout(d);
+    this.displayMm = { w: L.W, h: L.H };
+    const { W, H } = L;
+    const base = L.base.h;
     // the drawing's frame: x across (mm, centre 0), y down from the top (mm); the front's
     // features are placed by their height above the body's bottom, on the base
     const fr = { x0: -W / 2, x1: W / 2, y0: 0, y1: H };
     const Y = (/** @type {number} */ z) => H - base - z;
-    const so = d.screen_opening;
-    const tf = d.tube_face;
-    const [bx, bz] = v(d.power_button);
-    const np = d.nameplate;
-    const rp = d.right_panel;
-    const knobs = /** @type {number[][]} */ (v(d.knobs));
-    const vg = d.vent_grille;
-    const fc = d.front_controls;
-    const rect = (/** @type {number[]} */ xs, /** @type {number[]} */ zs, r = 0, fill = "") =>
-      `<rect x="${f(xs[0])}" y="${f(Y(zs[1]))}" width="${f(xs[1] - xs[0])}" height="${f(zs[1] - zs[0])}" rx="${r}" fill="${fill}"/>`;
+    /** @param {{ x0: number, x1: number, z0: number, z1: number }} b @param {number} r @param {string} fill */
+    const rect = (b, r, fill) => `<rect x="${f(b.x0)}" y="${f(Y(b.z1))}" width="${f(b.x1 - b.x0)}" height="${f(b.z1 - b.z0)}" rx="${f(r)}" fill="${fill}"/>`;
     let slots = "";
-    const [vx0, vx1] = v(vg.x);
-    for (let x = vx0; x < vx1; x += v(vg.pitch)) slots += `<rect x="${f(x)}" y="${f(Y(v(vg.z)[1]))}" width="2.6" height="${f(v(vg.z)[1] - v(vg.z)[0])}" rx="1.3" fill="#141312"/>`;
+    for (let x = L.vents.x0; x < L.vents.x1; x += L.vents.pitch) slots += `<rect x="${f(x)}" y="${f(Y(L.vents.z1))}" width="2.6" height="${f(L.vents.z1 - L.vents.z0)}" rx="1.3" fill="#141312"/>`;
     // the name plate: brushed aluminium; a black panel with the Radio Shack logo in silver; the
     // TRS-80 logo in black; a black panel with VIDEO DISPLAY in silver, in Michroma
-    const [nx0, nx1] = v(np.x);
-    const [nz0, nz1] = v(np.z);
-    const hgt = nz1 - nz0;
-    const top = [nz1 - 2.5 - hgt * 0.33, nz1 - 2.5];
-    const bot = [nz0 + 2.5, nz0 + 2.5 + hgt * 0.4];
-    const pw = nx1 - nx0 - 6;
-    const cxn = (nx0 + nx1) / 2;
+    const np = L.plate;
+    const ps = (np.x1 - np.x0) / (v(d.nameplate.x)[1] - v(d.nameplate.x)[0]); // the plate's scale
+    const hgt = np.z1 - np.z0;
+    const top = [np.z1 - 2.5 * ps - hgt * 0.33, np.z1 - 2.5 * ps];
+    const bot = [np.z0 + 2.5 * ps, np.z0 + 2.5 * ps + hgt * 0.4];
+    const pw = np.x1 - np.x0 - 6 * ps;
+    const cxn = (np.x0 + np.x1) / 2;
     const lettering = (/** @type {string} */ s, /** @type {number} */ z) =>
-      `<text x="${f(cxn)}" y="${f(Y(z) + 2.1)}" font-size="5.9" textLength="${f(pw * 0.84)}" lengthAdjust="spacingAndGlyphs" fill="${c.inkSilver}" text-anchor="middle" font-family="Michroma, var(--font)">${s}</text>`;
+      `<text x="${f(cxn)}" y="${f(Y(z) + 2.1 * ps)}" font-size="${f(5.9 * ps)}" textLength="${f(pw * 0.84)}" lengthAdjust="spacingAndGlyphs" fill="${c.inkSilver}" text-anchor="middle" font-family="Michroma, var(--font)">${s}</text>`;
     const label = (/** @type {string} */ s, /** @type {number} */ x, /** @type {number} */ z, /** @type {number} */ size, /** @type {string} */ fill) =>
       `<text x="${f(x)}" y="${f(Y(z) + size * 0.37)}" font-size="${f(size)}" fill="${fill}" text-anchor="middle" font-family="var(--font)" font-weight="600">${s}</text>`;
+    const { x: bx, z: bz } = L.button;
+    const [bushIn, bushOut] = L.bushing;
     const box = this.q(".flat-display");
     box.style.setProperty("--ar", String(W / H));
     box.innerHTML = `
       <svg viewBox="${fr.x0} 0 ${W} ${H}" aria-hidden="true">
         <defs><linearGradient id="flat-alu" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#d9d9d6"/><stop offset="0.5" stop-color="#bdbdb9"/><stop offset="1" stop-color="#d0d0cc"/></linearGradient></defs>
-        <rect x="${-W / 2 + v(d.base.inset)}" y="${H - base}" width="${W - 2 * v(d.base.inset)}" height="${base}" fill="${c.caseSilverDark}"/>
-        <rect x="${-W / 2}" y="0" width="${W}" height="${H - base}" rx="10" fill="${c.caseSilver}"/>
-        ${rect([-W / 2 + 9, W / 2 - 9], [50, H - base], 8, c.monitorBrown)}
+        <rect x="${f(-W / 2 + L.base.inset)}" y="${f(H - base)}" width="${f(W - 2 * L.base.inset)}" height="${f(base)}" fill="${c.caseSilverDark}"/>
+        <rect x="${f(-W / 2)}" y="0" width="${f(W)}" height="${f(H - base)}" rx="10" fill="${c.caseSilver}"/>
+        ${rect(L.brown, L.brown.r, c.monitorBrown)}
         ${slots}
-        ${rect(v(so.x), v(so.z), v(so.corner_radius), c.tubeBlack)}
-        ${rect(v(rp.x), v(rp.z), v(rp.corner_radius), c.panelBrown)}
-        ${label(d.power_label.text, bx, bz + v(d.power_label.z_above_button), v(d.power_label.height) * 1.6, c.inkSilver)}
-        <circle cx="${bx}" cy="${f(Y(bz))}" r="${v(d.power_button.casing_ring)[1]}" fill="${c.panelBrown}"/>
-        <circle cx="${bx}" cy="${f(Y(bz))}" r="${v(d.power_button.silver_ring)[1]}" fill="${c.chrome}"/>
-        ${rect([nx0, nx1], [nz0, nz1], 2, "url(#flat-alu)")}
-        ${rect([nx0 + 3, nx1 - 3], top, 1.5, "#111")}
-        ${rect([nx0 + 3, nx1 - 3], bot, 1.5, "#111")}
-        <g class="flat-logo" data-logo="Radio_Shack_1974_logo" data-fill="${c.inkSilver}" data-x="${f(cxn - (pw - 5) / 2)}" data-y="${f(Y(top[1]) + (top[1] - top[0]) * 0.225)}" data-w="${f(pw - 5)}" data-h="${f((top[1] - top[0]) * 0.55)}"></g>
+        ${rect(L.opening, L.opening.r, c.tubeBlack)}
+        ${rect(L.panel, L.panel.r, c.panelBrown)}
+        ${label(L.label.text, L.label.x, L.label.z, L.label.size, c.inkSilver)}
+        <circle cx="${f(bx)}" cy="${f(Y(bz))}" r="${L.ring.casing}" fill="${c.panelBrown}"/>
+        <circle cx="${f(bx)}" cy="${f(Y(bz))}" r="${L.ring.silver}" fill="${c.chrome}"/>
+        ${rect(np, np.r, "url(#flat-alu)")}
+        ${rect({ x0: np.x0 + 3 * ps, x1: np.x1 - 3 * ps, z0: top[0], z1: top[1] }, 1.5, "#111")}
+        ${rect({ x0: np.x0 + 3 * ps, x1: np.x1 - 3 * ps, z0: bot[0], z1: bot[1] }, 1.5, "#111")}
+        <g class="flat-logo" data-logo="Radio_Shack_1974_logo" data-fill="${c.inkSilver}" data-x="${f(cxn - (pw - 5 * ps) / 2)}" data-y="${f(Y(top[1]) + (top[1] - top[0]) * 0.225)}" data-w="${f(pw - 5 * ps)}" data-h="${f((top[1] - top[0]) * 0.55)}"></g>
         <g class="flat-logo" data-logo="TRS-80_logo" data-fill="#111" data-x="${f(cxn - pw * 0.31)}" data-y="${f(Y(top[0]) + (top[0] - bot[1]) * 0.275)}" data-w="${f(pw * 0.62)}" data-h="${f((top[0] - bot[1]) * 0.45)}"></g>
-        ${lettering("VIDEO", (bot[0] + bot[1]) / 2 + 4)}
-        ${lettering("DISPLAY", (bot[0] + bot[1]) / 2 - 4)}
-        ${knobs
+        ${lettering("VIDEO", (bot[0] + bot[1]) / 2 + 4 * ps)}
+        ${lettering("DISPLAY", (bot[0] + bot[1]) / 2 - 4 * ps)}
+        ${L.knobs
           .map(([kx, kz], i) =>
             (i < 2
-              ? `<circle cx="${kx}" cy="${f(Y(kz))}" r="${v(fc.bushing_radius)[1]}" fill="${c.chrome}"/><circle cx="${kx}" cy="${f(Y(kz))}" r="${v(fc.bushing_radius)[0]}" fill="#141414"/><rect class="flat-slot" data-knob="${i}" x="${kx - 1.6}" y="${f(Y(kz) - 0.4)}" width="3.2" height="0.8" fill="#5a5a5a" transform="rotate(0 ${kx} ${f(Y(kz))})"/>`
-              : `<circle cx="${kx}" cy="${f(Y(kz))}" r="${v(fc.bushing_radius)[1]}" fill="#0a0a0a"/>`) + label(v(fc.letters)[i], kx, kz + v(fc.letters.z_above), v(fc.letters.height) * 1.6, "#1b1b1b"),
+              ? `<circle cx="${f(kx)}" cy="${f(Y(kz))}" r="${bushOut}" fill="${c.chrome}"/><circle cx="${f(kx)}" cy="${f(Y(kz))}" r="${bushIn}" fill="#141414"/><rect class="flat-slot" data-knob="${i}" x="${f(kx - 1.6)}" y="${f(Y(kz) - 0.4)}" width="3.2" height="0.8" fill="#5a5a5a" transform="rotate(0 ${f(kx)} ${f(Y(kz))})"/>`
+              : `<circle cx="${f(kx)}" cy="${f(Y(kz))}" r="${bushOut}" fill="#0a0a0a"/>`) + label(L.letters.text[i], kx, L.letters.z, L.letters.size, "#1b1b1b"),
           )
           .join("")}
       </svg>`;
-    // the picture: a canvas at full resolution in the tube's face
-    const [tx0, tx1] = v(tf.x);
-    const [tz0, tz1] = v(tf.z);
-    const faceW = tx1 - tx0;
-    const faceH = tz1 - tz0;
+    // the picture: a canvas at full resolution in the glass
+    const tf = L.face;
+    const faceW = tf.x1 - tf.x0;
+    const faceH = tf.z1 - tf.z0;
     this.canvas.width = Math.round((DOT_W * 384) / (1 - 2 * MARGIN.x));
-    this.canvas.height = Math.round(this.canvas.width * ((faceH / faceW) * 1));
+    this.canvas.height = Math.round(this.canvas.width * (faceH / faceW));
     // the picture stays 4:3 inside the glass, whatever the face's shape
     const picH = (this.canvas.width * (1 - 2 * MARGIN.x)) / PICTURE_ASPECT;
     this.painter.margin = { x: MARGIN.x, y: Math.max(0.02, (1 - picH / this.canvas.height) / 2) };
     this.canvas.className = "flat-screen";
     this.canvas.setAttribute("aria-label", t("flat.screen"));
-    placeIn(this.canvas, { x0: tx0, x1: tx1, y0: Y(tz1), y1: Y(tz0) }, fr);
-    this.canvas.style.borderRadius = `${(v(tf.corner_radius) / faceW) * 100}% / ${(v(tf.corner_radius) / faceH) * 100}%`;
+    placeIn(this.canvas, { x0: tf.x0, x1: tf.x1, y0: Y(tf.z1), y1: Y(tf.z0) }, fr);
+    this.canvas.style.borderRadius = `${(tf.r / faceW) * 100}% / ${(tf.r / faceH) * 100}%`;
     this.canvas.addEventListener("click", (e) => {
       const r = this.canvas.getBoundingClientRect();
       const cell = this.painter.cellAt((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, this.system.machine.mode32);
@@ -236,16 +271,16 @@ export class Flat {
     });
     box.appendChild(this.canvas);
     // the display's POWER button, and C and B: turned by a drag sideways or the wheel
-    const r = v(d.power_button.radius);
+    const r = L.button.r;
     const pb = el("button", { class: "flat-dpower", type: "button", "aria-pressed": "false" });
     setTip(pb, t("flat.displayPower"));
     placeIn(pb, { x0: bx - r * 1.4, x1: bx + r * 1.4, y0: Y(bz) - r * 1.4, y1: Y(bz) + r * 1.4 }, fr);
     pb.addEventListener("click", () => this.system.displayPower(!this.system.display.on));
     box.appendChild(pb);
     this.dpower = pb;
-    const rb = v(fc.bushing_radius)[1] * 1.5;
+    const rb = bushOut * 1.5;
     for (const [i, which] of /** @type {const} */ (["contrast", "brightness"]).entries()) {
-      const [kx, kz] = knobs[i];
+      const [kx, kz] = L.knobs[i];
       const k = el("button", { class: "flat-knob", type: "button" });
       setTip(k, t(`flat.${which}`));
       placeIn(k, { x0: kx - rb, x1: kx + rb, y0: Y(kz) - rb, y1: Y(kz) + rb }, fr);
@@ -308,6 +343,7 @@ export class Flat {
   buildRecorder() {
     const r = this.o.machine.recorder;
     const [W, D] = v(r.size);
+    this.recorderMm = { w: W, h: D };
     const b = r.bands;
     // from above, the front at the bottom: drawing y = -Y (machine +Y is the back)
     const fr = { x0: -W / 2, x1: W / 2, y0: -D / 2, y1: D / 2 };
@@ -454,6 +490,7 @@ export class Flat {
     const [ledx, ledy] = v(this.o.machine.power_led.position);
     const box = this.q(".flat-keyboard");
     box.style.setProperty("--ar", String((fr.x1 - fr.x0) / (fr.y1 - fr.y0)));
+    this.keyboardMm = { w: fr.x1 - fr.x0, h: fr.y1 - fr.y0 };
     const svg = /** @type {SVGSVGElement} */ (box.querySelector("svg"));
     svg.setAttribute("viewBox", `${f(fr.x0)} ${f(fr.y0)} ${f(fr.x1 - fr.x0)} ${f(fr.y1 - fr.y0)}`);
     const led = ledx < kx1 ? `<circle class="flat-led" cx="${ledx}" cy="${-ledy}" r="2.4" fill="${this.c.ledOff}"/>` : "";

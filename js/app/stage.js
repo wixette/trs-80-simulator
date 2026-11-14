@@ -126,7 +126,11 @@ export class Stage {
       const b = el("button", { class: `btn small tonal has-icon drawer-${which}`, type: "button", "aria-pressed": String(this.flat.drawerOpen(which)) }, [icon(which === "rec" ? "voicemail" : "keyboard"), el("span", { text: t(which === "rec" ? "stage.drawer.recorder" : "stage.drawer.keyboard") })]);
       setTip(b, t(which === "rec" ? "stage.drawer.recorder.tip" : "stage.drawer.keyboard.tip"));
       b.setAttribute("data-tip-describes", "");
-      b.addEventListener("click", () => b.setAttribute("aria-pressed", String(this.flat.toggleDrawer(which))));
+      b.dataset.drawer = which;
+      b.addEventListener("click", () => {
+        this.flat.toggleDrawer(which);
+        this.refresh();
+      });
       this.drawers.append(b);
     }
     band.append(el("span", { class: "spacer" }), this.drawers, this.tools3d, this.toggle);
@@ -182,13 +186,15 @@ export class Stage {
     return frame(corners(boxes), dir, FOV, width, height, { top: GAP, right: GAP, bottom: GAP, left: GAP }, SUBJECTS[v].fill);
   }
 
-
-
   /** The state shown on the band's buttons: called each frame, and does the work only on a change. */
   refresh() {
     const s = this.system;
-    const key = `${s.whole}${this.mode}${this.view}${this.show}`;
+    const rec = this.flat.drawerOpen("rec");
+    const kbd = this.flat.drawerOpen("kbd");
+    const key = `${s.whole}${this.mode}${this.view}${this.show}${rec}${kbd}`;
     if (key === this.shownKey) return;
+    // the drawers' toggles say what the drawing shows, however a drawer was opened
+    for (const b of /** @type {NodeListOf<HTMLElement>} */ (this.drawers.querySelectorAll("[data-drawer]"))) b.setAttribute("aria-pressed", String(b.dataset.drawer === "rec" ? rec : kbd));
     this.shownKey = key;
     this.putBack.hidden = this.mode !== "3d" || s.whole;
     this.viewsBtn.replaceChildren(el("span", { text: t(`view.${this.view}`) }), icon("keyboard_arrow_down"));
