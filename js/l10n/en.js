@@ -62,6 +62,7 @@ export default {
   "view.recorder": "Recorder",
   "view.inside": "Inside, from below",
   "view.apart": "Taken apart",
+  "view.apart.on": "switch off first",
   "view.inside.on": "Inside, from below: the case is glass, and you look up at the board's chips, which hang upside down. ROM A glows while BASIC runs, the RAM while a program runs from it, the video RAM as the screen is written.",
   "view.inside.off": "Inside, from below: the case is glass, and you look up at the board's chips, which hang upside down. Switch the computer on to watch its chips light as they work.",
   "label.takeOut": "Click to take it out",

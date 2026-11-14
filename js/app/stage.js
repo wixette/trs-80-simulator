@@ -111,7 +111,8 @@ export class Stage {
     this.viewsBtn.addEventListener("click", () =>
       showMenu(
         this.viewsBtn,
-        VIEW_ORDER.map((v) => ({ label: t(`view.${v}`), checked: this.view === v, run: () => this.goTo(v) })),
+        // Taken apart greyed while the computer runs, saying why (P6); chosen, it says how to see inside
+        VIEW_ORDER.map((v) => ({ label: t(`view.${v}`), checked: this.view === v, disabled: v === "apart" && this.system.machine.powered ? t("view.apart.on") : undefined, run: () => this.goTo(v) })),
       ),
     );
     this.tools3d = el("div", { class: "band-group tools3d" }, [home, el("span", { class: "joined" }, [zoomOut, zoomIn]), this.viewsBtn]);
