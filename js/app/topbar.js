@@ -10,6 +10,7 @@
 import { t } from "../l10n/l10n.js";
 import { casFromTape, Tape, tapeFromCas } from "../sim/cassette.js";
 import { recordSampleTape } from "../sim/sample-tapes.js";
+import { typeKeys } from "../lessons/lessons.js";
 import { SAMPLES } from "../sim/samples.js";
 import { screenProgramCas } from "../sim/system-samples.js";
 import { parseWav, pulsesFromSound, wavFromPulses } from "../sim/wav.js";
@@ -138,16 +139,28 @@ export class TopBar {
         choice: true,
         icon: "keyboard",
         disabled: off,
-        run: () => {
-          if (!s.machine.powered) return void s.say({ key: "type.off" });
-          s.type(sm.text);
-          s.say({ key: "program.typing", params: { title, about } });
-        },
+        run: () => this.typeIn(sm, title),
       },
       tape,
     ]);
   }
 
+
+  /**
+   * Types a program in as an owner did, every key visible: ENTER first if the machine still
+   * asks MEMORY SIZE? (it reads its line as a number, and anything else is thrown away as it
+   * asks again), else BREAK to stop whatever runs; then NEW, so no old line is left in, the
+   * listing, and RUN.
+   * @private @param {import("../sim/samples.js").Sample} sm @param {string} title
+   */
+  typeIn(sm, title) {
+    const s = this.system;
+    if (!s.machine.powered) return void s.say({ key: "type.off" });
+    const lines = s.machine.screenText().filter((l) => l.trim());
+    const asking = /^MEMORY SIZE\?/.test(lines.at(-1) ?? "");
+    typeKeys(s, `${asking ? "{ENTER}" : "{BREAK}"}NEW\n${sm.text}`);
+    s.say({ key: asking ? "program.typingMemory" : "program.typing", params: { title } });
+  }
 
   /** @private @param {import("../sim/samples.js").Sample} sm */
   sampleTape(sm) {
