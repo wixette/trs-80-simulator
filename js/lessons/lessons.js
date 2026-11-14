@@ -28,6 +28,7 @@ import { keyNamed } from "../sim/keymap.js";
  * @property {string} id
  * @property {string} [type] keys for "Type it"
  * @property {string} [listing] a program, shown as the machine's text
+ * @property {{ src: string, credit: string, href: string }} [photo] a photograph (images/photos/CREDITS.md), its credit a message key
  * @property {Show} [show]
  * @property {boolean} [more] it has a "Going further" aside
  * @property {(s: System) => boolean} [done] the machine shows the step done
@@ -82,7 +83,11 @@ export const LESSONS = [
   {
     id: "meet",
     steps: [
-      { id: "system", show: { mode: "3d", view: "desk" } },
+      {
+        id: "system",
+        show: { mode: "3d", view: "desk" },
+        photo: { src: "images/photos/Radio_Shack_Tandy_TRS-80_Model_I_System.jpg", credit: "photo.system.credit", href: "https://commons.wikimedia.org/wiki/File:Radio_Shack_Tandy_TRS-80_Model_I_System.JPG" },
+      },
       { id: "computer", show: { mode: "3d", view: "keyboard" } },
       { id: "inside", show: { mode: "3d", view: "inside", show: "inside" }, more: true },
       { id: "display", show: { mode: "3d", view: "screen" } },

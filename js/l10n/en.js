@@ -48,6 +48,8 @@ export default {
   "stage.3d.tip": "The whole desk in 3D",
   "stage.drawer.recorder": "Recorder",
   "stage.drawer.keyboard": "Keyboard",
+  "stage.drawer.keyboard.tip": "Show or hide the Model I's keyboard, to click its keys",
+  "stage.drawer.recorder.tip": "Show or hide the recorder",
   "stage.legend": "Your keyboard: Esc is BREAK · Delete is CLEAR · Backspace is ← · Enter is ENTER",
   "stage.putBack": "Put it all back",
   "stage.loading": "Loading the machine in 3D…",
@@ -373,6 +375,8 @@ export default {
   "part.psu.body.role": "Mains in, about 14 V AC out; the computer makes its own voltages",
   "part.led.power.name": "Power lamp",
   "part.led.power.role": "Lit while the computer is on",
+
+  "photo.system.credit": "A TRS-80 Model I with its Video Display and recorder. Photo: Dave Jones, CC BY-SA 4.0, via Wikimedia Commons",
 
   // ---- About ----
   "about.title": "About",

@@ -72,7 +72,9 @@ export class Flat {
     this.system = system;
     this.o = o;
     this.c = o.colours;
-    this.el = el("div", { class: "flat", "data-rec": "closed", "data-kbd": "closed" }, [
+    // the drawn keyboard: shown at first where the visitor has no keyboard of their own (U10)
+    const touch = matchMedia("(pointer: coarse)").matches;
+    this.el = el("div", { class: "flat", "data-rec": "closed", "data-kbd": touch ? "open" : "closed" }, [
       el("div", { class: "flat-top" }, [el("div", { class: "flat-box flat-display" }), el("div", { class: "flat-box flat-recorder" })]),
       el("div", { class: "flat-kbd" }, [el("div", { class: "flat-box flat-keyboard", role: "group", "aria-label": t("flat.keyboard") })]),
     ]);
@@ -453,7 +455,8 @@ export class Flat {
     for (const r of this.rear) if (r.kind === "power") r.el.classList.toggle("on", m.powered);
     for (const b of this.el.querySelectorAll(".flat-deckkey")) {
       const id = /** @type {HTMLElement} */ (b).dataset.deck;
-      b.classList.toggle("latched", (id === "fastf" ? "fast" : id) === d.mode || (id === "play" && d.mode === "record"));
+      // RECORD, PLAY, REWIND and FAST-F latch down; STOP and EJECT spring back
+      b.classList.toggle("latched", (id !== "stop" && id !== "eject" && (id === "fastf" ? "fast" : id) === d.mode) || (id === "play" && d.mode === "record"));
     }
     const speed = d.running ? 1.5 : d.mode === "rewind" ? -9 : d.mode === "fast" ? 9 : 0;
     if (speed && d.tape) {

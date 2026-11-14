@@ -77,7 +77,7 @@ export class Stage {
     });
     this.helpers = el("div", { class: "band-group helpers" }, [this.powerBtn, this.displayBtn, this.resetBtn]);
     // the 3D tools
-    const home = el("button", { class: "btn icon-only", type: "button" }, [icon("home")]);
+    const home = el("button", { class: "btn icon-only home-btn", type: "button" }, [icon("home")]);
     setTip(home, t("stage.home"));
     home.addEventListener("click", () => this.home());
     const zoomOut = el("button", { class: "btn icon-only", type: "button" }, [icon("zoom_out")]);
@@ -95,7 +95,7 @@ export class Stage {
         VIEW_ORDER.map((v) => ({ label: t(`view.${v}`), checked: this.view === v, run: () => this.goTo(v) })),
       ),
     );
-    this.showBtn = el("button", { class: "btn small menu-btn", type: "button", "aria-haspopup": "menu", "aria-expanded": "false" });
+    this.showBtn = el("button", { class: "btn small menu-btn show-btn", type: "button", "aria-haspopup": "menu", "aria-expanded": "false" });
     setTip(this.showBtn, t("stage.show.tip"));
     this.showBtn.setAttribute("data-tip-describes", "");
     this.showBtn.addEventListener("click", () =>
@@ -117,7 +117,9 @@ export class Stage {
     // the 2D view's own: the phone's drawers, and the key legend
     this.drawers = el("div", { class: "band-group drawers" });
     for (const which of /** @type {const} */ (["rec", "kbd"])) {
-      const b = el("button", { class: `btn small tonal drawer-${which}`, type: "button", "aria-pressed": "false", text: t(which === "rec" ? "stage.drawer.recorder" : "stage.drawer.keyboard") });
+      const b = el("button", { class: `btn small tonal has-icon drawer-${which}`, type: "button", "aria-pressed": String(this.flat.el.dataset[which] === "open") }, [icon(which === "rec" ? "voicemail" : "keyboard"), el("span", { text: t(which === "rec" ? "stage.drawer.recorder" : "stage.drawer.keyboard") })]);
+      setTip(b, t(which === "rec" ? "stage.drawer.recorder.tip" : "stage.drawer.keyboard.tip"));
+      b.setAttribute("data-tip-describes", "");
       b.addEventListener("click", () => b.setAttribute("aria-pressed", String(this.flat.toggleDrawer(which))));
       this.drawers.append(b);
     }

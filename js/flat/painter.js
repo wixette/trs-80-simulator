@@ -97,7 +97,7 @@ export class Painter {
     const dx = w / DOTS_W;
     const dy = h / DOTS_H;
     // B: the raster's glow, the picture lifting from black as it is turned up
-    const glow = Math.max(0, p.brightness - 0.35) * 0.3;
+    const glow = Math.max(0, p.brightness - 0.5) * 0.4;
     if (glow > 0) {
       c.fillStyle = `rgba(200, 215, 240, ${glow.toFixed(3)})`;
       c.fillRect(x0 - dx * 2, y0 - dy * 2, w + dx * 4, h + dy * 4);

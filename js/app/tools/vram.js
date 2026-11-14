@@ -35,6 +35,8 @@ export class VramTool {
     this.dirty = new Set();
     /** @private */
     this.all = true;
+    /** @private the power the inspector was drawn for */
+    this.wasOn = false;
     this.grid = el("div", { class: "vram-grid", role: "grid", "aria-label": t("vram.grid") });
     /** @private @type {HTMLElement[]} */
     this.cells = [];
@@ -117,7 +119,10 @@ export class VramTool {
       const i = this.cells.indexOf(/** @type {HTMLElement} */ (c));
       if (now - this.flash[i] > 400) c.classList.remove("hot");
     }
-    if (update.includes(this.cell)) this.renderInspector();
+    if (update.includes(this.cell) || m.powered !== this.wasOn) {
+      this.wasOn = m.powered;
+      this.renderInspector();
+    }
   }
 
   /** @private */

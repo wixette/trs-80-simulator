@@ -96,6 +96,10 @@ export class LessonsTool {
       const text = el("div", { class: "step-text" });
       text.innerHTML = markup(t(`${key}.text`));
       const body = el("div", { class: "step-body" }, [el("h4", { text: t(`${key}.title`) }), text]);
+      if (st.photo) {
+        const img = el("img", { src: new URL(`../../${st.photo.src}`, import.meta.url).href, alt: t(`${key}.title`), loading: "lazy" });
+        body.append(el("figure", { class: "photo" }, [img, el("figcaption", {}, [el("a", { href: st.photo.href, target: "_blank", rel: "noopener", text: t(st.photo.credit) })])]));
+      }
       if (st.listing) body.append(el("pre", { class: "listing", text: st.listing }));
       if (chips.childElementCount) body.append(chips);
       if (st.more) {

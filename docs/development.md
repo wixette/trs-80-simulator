@@ -29,7 +29,6 @@ The page's own link format (`#view=3d`, `#view=2d`) is described in [ui-design.m
 
 - **Node.js 24** (22 or later works) and **pnpm**, pinned in `package.json`; `corepack enable` installs it. These are for the checks only: `pnpm install` fetches three.js for the tests and TypeScript's checker, and the page does not use them.
 - **Blender 4.2 or later**, for `pnpm build:model` only (`BLENDER` names its binary if it is not in `/Applications`).
-- **Google Chrome**, for `pnpm shots` only.
 
 ## Checks
 

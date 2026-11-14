@@ -175,3 +175,9 @@ A dialog holding:
 - the licences, one per line, the Level II ROM's notice among them;
 - a link to the source repository;
 - "not affiliated with Tandy or RadioShack".
+
+### U10. In 2D on a desktop, the drawn keyboard is a drawer
+
+*(build)* The 2D view first put the keyboard unit under the display, as on the desk. With the dock open, that left the screen less than one screen pixel per dot even on a 1080p desktop, which is too small to read. On a desktop the visitor types on their own keyboard, so there the drawn keyboard is a drawer, closed at first: a *Keyboard* button on the band opens it, to click the Model I's keys, and the screen gets the stage's whole height. Where the pointer is coarse (a phone, a tablet), the keyboard is shown at first, as the visitor has no other.
+
+*Rejected:* a smaller default dock, which would take the lessons' room for a picture that would still be too small.
