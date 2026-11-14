@@ -49,6 +49,9 @@ export class Crt {
     this.dirty = false;
     this.material.color.set(p.display ? this.colours.glassOn : this.colours.glassOff);
     this.material.emissiveIntensity = p.display ? 1.6 : 0;
+    // lit, the glass's reflections are turned down too: their grey sheen would wash over the text
+    this.material.clearcoat = p.display ? 0.15 : 0.5;
+    this.material.envMapIntensity = p.display ? 0.08 : 0.25;
     this.painter.paint(p);
     this.texture.needsUpdate = true;
   }

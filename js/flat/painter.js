@@ -11,9 +11,11 @@
 // The Video Display's own controls set the picture: contrast (C) the phosphor's strength,
 // brightness (B) the raster's glow behind it.
 //
-// The glass is grey-green, much the same on or off: a lit tube cannot make its glass darker.
-// It is drawn a touch darker with the display on only so that the glowing text stands out on
-// a screen, which cannot show a tube's range of brightness (About says so).
+// Off, the glass is grey-green: the phosphor's coating, lit by the room, as photographs show it.
+// On, it is drawn near black. A lit tube cannot make its glass darker, but the eye adapts to
+// the bright phosphor, and the glass behind the text is seen as nearly black; a screen cannot
+// show a tube's range of brightness, so the dark is drawn instead, for the text to be read
+// (About says so). The change from grey to dark also says, at a glance, that the display is on.
 
 import { CELL_H, CELL_W, glyph } from "../sim/charset.js";
 import { VIDEO } from "../sim/machine.js";

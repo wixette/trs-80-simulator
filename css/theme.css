@@ -48,7 +48,8 @@
   /* the screen */
   --phosphor: #e4ecff;
   --glass-off: #4b5856;
-  --glass-on: #414d4b;
+  /* lit, the glass reads near black: the eye adapts to the phosphor (js/flat/painter.js) */
+  --glass-on: #121716;
   --tube-black: #0b0d0c;
   /* the machine's finishes, as the 3D model's materials look on screen */
   --case-silver: #959590;
