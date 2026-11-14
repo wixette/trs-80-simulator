@@ -48,17 +48,21 @@ export function displayLayout(d) {
   const faceW = opening.x1 - opening.x0 - 2 * rim;
   const faceH = faceW / faceAspect;
   opening.z1 = opening.z0 + faceH + 2 * rim;
-  const face = { x0: opening.x0 + rim, x1: opening.x1 - rim, z0: opening.z0 + rim, z1: opening.z1 - rim, r: (v(tf.corner_radius) * faceW) / (tx1 - tx0) };
+  // the glass's corners rounder than the picture's need, but no more: the picture's own corners
+  // stay inside the rounded glass (pictureMargin)
+  const face = { x0: opening.x0 + rim, x1: opening.x1 - rim, z0: opening.z0 + rim, z1: opening.z1 - rim, r: FACE_RADIUS };
   opening.r = face.r + rim * 0.6;
   brown.z1 = opening.z1 + pad;
   const body = brown.z1 + edge;
   const H = body + base;
   // the right-hand panel: the word Power, the button, then the raised platform and its plate
   const cx = (panel.x0 + panel.x1) / 2;
-  const button = { x: cx, z: opening.z1 - 24, r: v(d.power_button.radius) };
-  const label = { x: cx, z: button.z + 14, size: v(d.power_label.height) * 1.6, text: d.power_label.text };
+  // the button a little smaller than the machine's, to sit with the trimmed panel; room above
+  // it for the word Power, and below it before the platform
+  const button = { x: cx, z: opening.z1 - 27, r: v(d.power_button.radius) * BUTTON_SCALE };
+  const label = { x: cx, z: button.z + 16, size: v(d.power_label.height) * 1.6, text: d.power_label.text };
   panel.z0 = opening.z0;
-  panel.z1 = button.z - 14;
+  panel.z1 = button.z - 17;
   const plateW = panelW - 8;
   const plateH = (plateW * (nz1 - nz0)) / (nx1 - nx0);
   const plate = { x0: cx - plateW / 2, x1: cx + plateW / 2, z1: panel.z1 - 5, z0: panel.z1 - 5 - plateH, r: 2 };
@@ -67,7 +71,27 @@ export function displayLayout(d) {
   const kz = lower / 2 - 2;
   const knobs = [-25.5, 0, 24.9].map((dx) => /** @type {[number, number]} */ ([cx + dx, kz]));
   const letters = { text: /** @type {string[]} */ (v(fc.letters)), z: kz + v(fc.letters.z_above) * 0.8, size: v(fc.letters.height) * 1.6 };
-  return { W, H, base: { h: base, inset: v(d.base.inset) }, brown, opening, face, panel, plate, button, label, vents, knobs, letters, bushing: /** @type {[number, number]} */ (v(fc.bushing_radius)), ring: { silver: v(d.power_button.silver_ring)[1], casing: v(d.power_button.casing_ring)[1] } };
+  return { W, H, base: { h: base, inset: v(d.base.inset) }, brown, opening, face, panel, plate, button, label, vents, knobs, letters, bushing: /** @type {[number, number]} */ (v(fc.bushing_radius)), ring: { silver: v(d.power_button.silver_ring)[1] * BUTTON_SCALE, casing: v(d.power_button.casing_ring)[1] * BUTTON_SCALE } };
+}
+
+/** The glass's corner radius in the 2D drawing, mm. */
+const FACE_RADIUS = 30;
+/** The display's POWER button and its rings, against the machine's. */
+const BUTTON_SCALE = 0.8;
+/** The glass round the picture, across, as a share of the glass's width. */
+export const PICTURE_MARGIN_X = 0.06;
+
+/**
+ * The picture's margins in the glass, as shares of the glass's width and height: across as
+ * given, down whatever keeps the picture 4:3.
+ * @param {DisplayLayout} L
+ * @param {number} aspect the picture's width over its height
+ */
+export function pictureMargin(L, aspect) {
+  const w = L.face.x1 - L.face.x0;
+  const h = L.face.z1 - L.face.z0;
+  const picH = (w * (1 - 2 * PICTURE_MARGIN_X)) / aspect;
+  return { x: PICTURE_MARGIN_X, y: Math.max(0.02, (1 - picH / h) / 2) };
 }
 
 /** @typedef {ReturnType<typeof displayLayout>} DisplayLayout */

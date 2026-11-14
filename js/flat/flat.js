@@ -25,7 +25,7 @@ import { t } from "../l10n/l10n.js";
 import { KEYS } from "../sim/keymap.js";
 import { mmss } from "../sim/system.js";
 import { el, icon, setTip } from "../ui/components.js";
-import { displayLayout, fitFlat } from "./layout.js";
+import { displayLayout, fitFlat, pictureMargin } from "./layout.js";
 import { Painter, PICTURE_ASPECT } from "./painter.js";
 
 /** @typedef {import("../sim/system.js").System} System */
@@ -42,9 +42,6 @@ const DECK_LEGEND = { record: "RECORD", rewind: "REWIND", play: "PLAY", fastf: "
 const STORE = { kbd: "trs80.kbd", rec: "trs80.rec" };
 /** Canvas pixels per dot: 384 x 192 dots on a 4:3 picture. */
 const DOT_W = 3;
-/** The tube's glass round the picture, as fractions of the canvas: little, as the glass is
- * drawn for reading (layout.js). y is worked out to keep the picture 4:3. */
-const MARGIN = { x: 0.05, y: 0.05 };
 
 /** @param {{ v: any }} p a parameter: its value */
 const v = (p) => p.v;
@@ -79,9 +76,8 @@ export class Flat {
     this.system = system;
     this.o = o;
     this.c = o.colours;
-    // the two drawers, each as the visitor left it (U10). At first the keyboard is open only where
-    // they have no keyboard of their own and the screen is upright, so that it has room under the
-    // display; the recorder is closed, its keys being on the helper strip.
+    // the two drawers, each as the visitor left it (U10). At first the keyboard is open and the
+    // recorder closed, its keys being on the helper strip.
     /** @param {"kbd" | "rec"} which @param {boolean} first */
     const drawer = (which, first) => {
       let v = null;
@@ -92,7 +88,9 @@ export class Flat {
       }
       return v === "open" || v === "closed" ? v : first ? "open" : "closed";
     };
-    const kbd = drawer("kbd", matchMedia("(pointer: coarse) and (orientation: portrait)").matches);
+    // the keyboard open at first, so that the 2D view shows the computer, and its POWER, with the
+    // display; but on a phone on its side, where it would open over the display
+    const kbd = drawer("kbd", !matchMedia("(max-height: 520px) and (orientation: landscape)").matches);
     const rec = drawer("rec", false);
     this.el = el("div", { class: "flat", "data-rec": rec, "data-kbd": kbd }, [
       el("div", { class: "flat-top" }, [el("div", { class: "flat-box flat-display" }), el("div", { class: "flat-box flat-recorder" })]),
@@ -117,7 +115,7 @@ export class Flat {
     this.canvas = /** @type {HTMLCanvasElement} */ (el("canvas"));
     /** @private the display's POWER button, placed by buildDisplay */
     this.dpower = el("button");
-    this.painter = new Painter(this.canvas, { phosphor: this.c.phosphor, glassOff: this.c.glassOff, glassOn: this.c.glassOn }, MARGIN);
+    this.painter = new Painter(this.canvas, { phosphor: this.c.phosphor, glassOff: this.c.glassOff, glassOn: this.c.glassOn });
     /** The drawings' sizes, mm, set as each is built. */
     this.displayMm = { w: 1, h: 1 };
     this.recorderMm = { w: 1, h: 1 };
@@ -255,11 +253,11 @@ export class Flat {
     const tf = L.face;
     const faceW = tf.x1 - tf.x0;
     const faceH = tf.z1 - tf.z0;
-    this.canvas.width = Math.round((DOT_W * 384) / (1 - 2 * MARGIN.x));
+    // the picture stays 4:3 inside the glass, and its corners inside the glass's (layout.js)
+    const margin = pictureMargin(L, PICTURE_ASPECT);
+    this.canvas.width = Math.round((DOT_W * 384) / (1 - 2 * margin.x));
     this.canvas.height = Math.round(this.canvas.width * (faceH / faceW));
-    // the picture stays 4:3 inside the glass, whatever the face's shape
-    const picH = (this.canvas.width * (1 - 2 * MARGIN.x)) / PICTURE_ASPECT;
-    this.painter.margin = { x: MARGIN.x, y: Math.max(0.02, (1 - picH / this.canvas.height) / 2) };
+    this.painter.margin = margin;
     this.canvas.className = "flat-screen";
     this.canvas.setAttribute("aria-label", t("flat.screen"));
     placeIn(this.canvas, { x0: tf.x0, x1: tf.x1, y0: Y(tf.z1), y1: Y(tf.z0) }, fr);

@@ -35,6 +35,8 @@ const asset = (path) => {
   u.search = new URL(import.meta.url).search;
   return u;
 };
+/** Where the power of the computer and the display is remembered. */
+const POWER_STORE = "trs80.power";
 /** @param {string} path */
 const json = async (path) => (await fetch(asset(path))).json();
 
@@ -285,7 +287,35 @@ if (romResult.status !== "ok") {
     });
     $("status").append(b);
   }
-} else say(t("status.welcome"));
+} else {
+  // the machine starts as the visitor left it: at first, switched on, waiting at MEMORY SIZE?
+  // (docs/ui-design.md, U5), so that a first visit opens on a live machine
+  let saved = null;
+  try {
+    saved = JSON.parse(localStorage.getItem(POWER_STORE) ?? "null");
+  } catch {
+    // not remembered
+  }
+  const on = { computer: saved?.computer ?? true, display: saved?.display ?? true };
+  const sayNothing = system.say;
+  system.say = () => {};
+  if (on.display) system.displayPower(true);
+  if (on.computer) system.power(true);
+  system.say = sayNothing;
+  say(t(on.computer && on.display ? "status.welcomeOn" : "status.welcome"));
+}
+// the power, as the visitor leaves it
+let powerShown = "";
+system.onChange.push(() => {
+  const now = JSON.stringify({ computer: system.machine.powered, display: system.display.on });
+  if (now === powerShown) return;
+  powerShown = now;
+  try {
+    localStorage.setItem(POWER_STORE, now);
+  } catch {
+    // not remembered
+  }
+});
 
 // ---- the view to start in (U1): the link's, else the remembered one, else 3D --------------------------
 const link = readLink(location.hash);

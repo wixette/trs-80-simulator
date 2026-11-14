@@ -25,7 +25,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | Look inside | 5 min | See inside, from below | The board hangs upside down. Hover over the chips: the Z80, the ROMs, the RAM. With the power off, students can take it apart: it comes apart in the real order. |
 | The Video Display | 2 min | The display | A television without a tuner. 64 × 16 capital letters. |
 | The cassette recorder | 2 min | The recorder | No disk: programs went onto audio tape. |
-| Switch it on | 3 min | `MEMORY SIZE?` | Two POWER buttons: the computer's, and the display's. |
+| Switch it off and on | 3 min | `MEMORY SIZE?` | The page opens with the machine on. Two POWER buttons: the computer's, and the display's. Off, the memory is gone; on again, the ROM starts BASIC at once. |
 | READY | 5 min | ENTER, then `READY` | BASIC is in ROM, so the computer is ready at once. Microsoft wrote this BASIC (Level II, 1978). |
 
 **Questions students ask:**

@@ -240,6 +240,7 @@ export default {
 
   // ---- what the machine says (the status line) ----
   "status.welcome": "Switch on: Computer and Display, below the machine. Your keyboard is the Model I's: Esc is BREAK, Enter is ENTER.",
+  "status.welcomeOn": "The Model I is on, asking MEMORY SIZE?: press ENTER for all the memory. Your keyboard is the Model I's: Esc is BREAK, Enter is ENTER.",
   "status.welcome2d": "Switch on: Computer and Display, below the machine. Your keyboard is the Model I's: Esc is BREAK, Enter is ENTER.",
   "status.noRom": "No ROM: roms/level2-v12.bin is missing (see roms/NOTICE). Choose a Level II image of your own to run.",
   "status.otherRom": "Running a ROM that is not Level II v1.2.",

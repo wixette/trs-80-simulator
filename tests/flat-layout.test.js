@@ -7,7 +7,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { displayLayout, fitFlat } from "../js/flat/layout.js";
+import { displayLayout, fitFlat, pictureMargin } from "../js/flat/layout.js";
 
 const machine = JSON.parse(readFileSync(new URL("../model/params/machine.json", import.meta.url), "utf8"));
 const d = machine.video_display;
@@ -64,4 +64,23 @@ test("APP-FLAT-4: on an upright phone the keyboard takes the width, the display 
   const o = fitFlat({ width: 380, height: 600, gap: 8, display, recorder: null, keyboard, fullKeyboard: true });
   assert.equal(o.keyboard, 380);
   assert.ok((o.display / display.w) * display.h + 8 + (380 * keyboard.h) / keyboard.w <= 600 + 0.01);
+});
+
+test("APP-FLAT-5: the picture's corners are inside the rounded glass, so no text is cut off", () => {
+  const m = pictureMargin(L, 4 / 3);
+  const w = L.face.x1 - L.face.x0;
+  const h = L.face.z1 - L.face.z0;
+  const r = L.face.r;
+  // the picture's top-left corner, from the glass's corner, mm; the glass's corner is a quarter
+  // circle of radius r about (r, r)
+  const [px, pz] = [m.x * w, m.y * h];
+  assert.ok(px >= r || pz >= r || Math.hypot(r - px, r - pz) <= r, `the corner at ${px.toFixed(1)}, ${pz.toFixed(1)} mm, the glass's radius ${r}`);
+  // and the picture is 4:3
+  assert.ok(Math.abs((w * (1 - 2 * m.x)) / (h * (1 - 2 * m.y)) - 4 / 3) < 1e-9);
+});
+
+test("APP-FLAT-6: room round the display's POWER button: the word above, the plate below", () => {
+  const ring = L.ring.casing;
+  assert.ok(L.label.z - L.label.size / 2 - (L.button.z + ring) >= 6, "a gap under the word Power");
+  assert.ok(L.button.z - ring - L.panel.z1 >= 8, "a gap over the platform");
 });

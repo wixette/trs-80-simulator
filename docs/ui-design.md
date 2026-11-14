@@ -140,6 +140,8 @@ The machine's controls that are hard to reach are clickable where they are: the 
 
 ### U5. Typing
 
+- **The machine starts switched on**, the computer and the display, waiting at `MEMORY SIZE?`: a first visit opens on a live machine, not on one to work out how to start, and See inside shows its chips at work. After that both are as the visitor left them. Switching off and on is lesson 1's step, and taking the machine apart still needs it off (U3), which a refusal says.
+
 - **The visitor's keyboard is the Model I's** whenever the stage has the focus, which it has by default. Not while a menu, a dialog or a text box has it.
 - **A held key holds the Model I's key,** so games that poll the keys play. Several keys at once work.
 - **SHIFT is worked out for each character:** a typed `"` is the Model I's SHIFT 2, whatever the visitor's layout.
@@ -189,7 +191,7 @@ A dialog holding:
 - **The recorder is a drawer too**, beside the display as on the desk: the helper strip (U4) has its keys, so a visitor may want the display's room instead. Closed, the display takes the row.
 - **Their toggles**, *Recorder* and *Keyboard* on the band, are Material's tonal toggle buttons: grey while closed, filled amber (primary container) while open, as the selected half of 2D | 3D is. They are always there, so they always say which state each drawer is in. On a phone, their icons alone.
 - **Each is remembered** as the visitor left it.
-- **At first** the keyboard is open only where the visitor has no keyboard of their own and the screen is upright (a phone held upright, a tablet); the recorder is closed, as its keys are on the helper strip.
+- **At first** the keyboard is open, so that the 2D view shows the computer, and its POWER, with the display (but on a phone on its side, where it would open over the display); the recorder is closed, as its keys are on the helper strip.
 - **On an upright phone** the recorder, opened, stands beside the display as on a desktop, both smaller: laid over the display, it hid the display's own controls. On a phone on its side, the keyboard, opened, rises over the display.
 - **The display is drawn for reading, not to measure** (`js/flat/layout.js`): at the monitor's own width, the glass is about a quarter wider than on the machine, and the black rim, the margins round it, the right-hand panel, the band under the case and the plinth are trimmed to make room. The 3D model keeps the measured proportions.
 - **One scale for all three drawings**, as on the desk: the keyboard unit is a little narrower than the monitor, and the recorder much smaller, so the display takes the room the keyboard leaves rather than the keyboard filling the stage's width. On an upright phone the keyboard still takes the width, as its keys must be tapped.
