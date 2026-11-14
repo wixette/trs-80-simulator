@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 # Lists the footprints of a KiCad 6+ board: reference, footprint, value, position,
 # rotation, pad count and body rectangle (from the footprint's F.Fab outline, else
 # F.SilkS, else F.CrtYd, else its pads), plus the board outline (Edge.Cuts), as JSON.

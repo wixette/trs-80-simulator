@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 # Measures RetroStack's printable case (STL) and KiCad board (.kicad_pcb) files:
 # triangle count and size of each STL, footprint count of a board.
 # Usage: python3 -I measure.py Original_Top.stl Original_Bottom.stl board.kicad_pcb

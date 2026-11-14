@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 # Cuts an STL with a plane perpendicular to one axis and prints the section as points,
 # for reading a case's profile. Usage:
 #   python3 -I stl_section.py part.stl AXIS VALUE [step_mm] [along_axis]

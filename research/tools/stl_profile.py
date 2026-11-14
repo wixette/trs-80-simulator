@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
 # Height map of an STL seen from above, for reading a case's profile and openings.
 # Usage: python3 -I stl_profile.py part.stl [cell_mm] [up_axis 0|1|2]
 # Prints the bounding box, a coarse ASCII height map (digits = tenths of the height),

@@ -1,0 +1,1307 @@
+{
+ "_generated": "by tools/kicad_to_params.py from research/data/kicad_keyboard_alps_e1_parts.json and model/params/machine.json; do not edit",
+ "frame": "machine frame, mm; x, y are key centres; z from machine.json keyboard_pcb",
+ "conf": "model (positions, from rs-kicad ALPS E1, a 1:1 replica); est (widths); matrix from rs-info keyboard",
+ "keys": [
+  {
+   "node": "key.at",
+   "ref": "SW1",
+   "name": "@",
+   "legend": "@",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 0,
+   "address": "3801",
+   "x": 42.45,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 42.45,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.h",
+   "ref": "SW2",
+   "name": "H",
+   "legend": "H",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 0,
+   "address": "3802",
+   "x": -47.95,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -47.95,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.p",
+   "ref": "SW3",
+   "name": "P",
+   "legend": "P",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 0,
+   "address": "3804",
+   "x": 23.35,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 23.35,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.x",
+   "ref": "SW4",
+   "name": "X",
+   "legend": "X",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 3,
+   "matrix_bit": 0,
+   "address": "3808",
+   "x": -114.25,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -114.25,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.0",
+   "ref": "SW5",
+   "name": "0",
+   "legend": "0",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 0,
+   "address": "3810",
+   "x": 13.95,
+   "y": 20.93,
+   "width_u": 1.0,
+   "cap": {
+    "x": 13.95,
+    "y": 20.93,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.8",
+   "ref": "SW6",
+   "name": "8",
+   "legend": "8",
+   "shift_legend": "(",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 0,
+   "address": "3820",
+   "x": -24.05,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -24.05,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.enter",
+   "ref": "SW7",
+   "name": "ENTER",
+   "legend": "ENTER",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 0,
+   "address": "3840",
+   "x": 65.55,
+   "y": -12.15,
+   "width_u": 2.0,
+   "cap": {
+    "x": 56.7,
+    "y": -17.45,
+    "w": 37.1,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.lshift",
+   "ref": "SW8",
+   "name": "LSHIFT",
+   "legend": "SHIFT",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 7,
+   "matrix_bit": 0,
+   "address": "3880",
+   "x": -157.55,
+   "y": -31.07,
+   "width_u": 1.75,
+   "cap": {
+    "x": -159.71,
+    "y": -36.65,
+    "w": 32.33,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.rshift",
+   "ref": "SW9",
+   "name": "RSHIFT",
+   "legend": "SHIFT",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 7,
+   "matrix_bit": 0,
+   "address": "3880",
+   "x": 61.05,
+   "y": -31.15,
+   "width_u": 1.5,
+   "cap": {
+    "x": 61.42,
+    "y": -36.65,
+    "w": 27.55,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.a",
+   "ref": "SW10",
+   "name": "A",
+   "legend": "A",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 1,
+   "address": "3801",
+   "x": -143.05,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -143.05,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.i",
+   "ref": "SW11",
+   "name": "I",
+   "legend": "I",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 1,
+   "address": "3802",
+   "x": -14.75,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -14.75,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.q",
+   "ref": "SW12",
+   "name": "Q",
+   "legend": "Q",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 1,
+   "address": "3804",
+   "x": -147.47,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -147.47,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.y",
+   "ref": "SW13",
+   "name": "Y",
+   "legend": "Y",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 3,
+   "matrix_bit": 1,
+   "address": "3808",
+   "x": -52.75,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -52.75,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.1",
+   "ref": "SW14",
+   "name": "1",
+   "legend": "1",
+   "shift_legend": "!",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 1,
+   "address": "3810",
+   "x": -157.05,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -157.05,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.9",
+   "ref": "SW15",
+   "name": "9",
+   "legend": "9",
+   "shift_legend": ")",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 1,
+   "address": "3820",
+   "x": -4.95,
+   "y": 20.93,
+   "width_u": 1.0,
+   "cap": {
+    "x": -4.95,
+    "y": 20.93,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.clear",
+   "ref": "SW16",
+   "name": "CLEAR",
+   "legend": "CLEAR",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 1,
+   "address": "3840",
+   "x": 85.35,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": 85.35,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.b",
+   "ref": "SW17",
+   "name": "B",
+   "legend": "B",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 2,
+   "address": "3801",
+   "x": -57.45,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -57.45,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.j",
+   "ref": "SW18",
+   "name": "J",
+   "legend": "J",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 2,
+   "address": "3802",
+   "x": -29.05,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -29.05,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.r",
+   "ref": "SW19",
+   "name": "R",
+   "legend": "R",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 2,
+   "address": "3804",
+   "x": -90.55,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -90.55,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.z",
+   "ref": "SW20",
+   "name": "Z",
+   "legend": "Z",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 3,
+   "matrix_bit": 2,
+   "address": "3808",
+   "x": -133.45,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -133.45,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.2",
+   "ref": "SW21",
+   "name": "2",
+   "legend": "2",
+   "shift_legend": "\"",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 2,
+   "address": "3810",
+   "x": -138.05,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -138.05,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.colon",
+   "ref": "SW22",
+   "name": ":",
+   "legend": ":",
+   "shift_legend": "*",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 2,
+   "address": "3820",
+   "x": 32.95,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": 32.95,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.break",
+   "ref": "SW23",
+   "name": "BREAK",
+   "legend": "BREAK",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 2,
+   "address": "3840",
+   "x": 71.05,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": 71.05,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.c",
+   "ref": "SW24",
+   "name": "C",
+   "legend": "C",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 3,
+   "address": "3801",
+   "x": -95.25,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -95.25,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.k",
+   "ref": "SW25",
+   "name": "K",
+   "legend": "K",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 3,
+   "address": "3802",
+   "x": -9.95,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -9.95,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.s",
+   "ref": "SW26",
+   "name": "S",
+   "legend": "S",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 3,
+   "address": "3804",
+   "x": -123.95,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -123.95,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.3",
+   "ref": "SW27",
+   "name": "3",
+   "legend": "3",
+   "shift_legend": "#",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 3,
+   "address": "3810",
+   "x": -118.95,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -118.95,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.semicolon",
+   "ref": "SW28",
+   "name": ";",
+   "legend": ";",
+   "shift_legend": "+",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 3,
+   "address": "3820",
+   "x": 28.05,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": 28.05,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.up",
+   "ref": "SW29",
+   "name": "UP",
+   "legend": "↑",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 3,
+   "address": "3840",
+   "x": -166.55,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -166.55,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.d",
+   "ref": "SW30",
+   "name": "D",
+   "legend": "D",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 4,
+   "address": "3801",
+   "x": -104.85,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -104.85,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.l",
+   "ref": "SW31",
+   "name": "L",
+   "legend": "L",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 4,
+   "address": "3802",
+   "x": 9.15,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": 9.15,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.t",
+   "ref": "SW32",
+   "name": "T",
+   "legend": "T",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 4,
+   "address": "3804",
+   "x": -71.65,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -71.65,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.4",
+   "ref": "SW33",
+   "name": "4",
+   "legend": "4",
+   "shift_legend": "$",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 4,
+   "address": "3810",
+   "x": -99.95,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -99.95,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.comma",
+   "ref": "SW34",
+   "name": ",",
+   "legend": ",",
+   "shift_legend": "<",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 4,
+   "address": "3820",
+   "x": -0.35,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -0.35,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.down",
+   "ref": "SW35",
+   "name": "DOWN",
+   "legend": "↓",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 4,
+   "address": "3840",
+   "x": -161.95,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -161.95,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.e",
+   "ref": "SW36",
+   "name": "E",
+   "legend": "E",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 5,
+   "address": "3801",
+   "x": -109.45,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -109.45,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.m",
+   "ref": "SW37",
+   "name": "M",
+   "legend": "M",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 5,
+   "address": "3802",
+   "x": -19.55,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -19.55,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.u",
+   "ref": "SW38",
+   "name": "U",
+   "legend": "U",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 5,
+   "address": "3804",
+   "x": -33.75,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -33.75,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.5",
+   "ref": "SW39",
+   "name": "5",
+   "legend": "5",
+   "shift_legend": "%",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 5,
+   "address": "3810",
+   "x": -80.95,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -80.95,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.minus",
+   "ref": "SW40",
+   "name": "-",
+   "legend": "-",
+   "shift_legend": "=",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 5,
+   "address": "3820",
+   "x": 51.95,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": 51.95,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.left",
+   "ref": "SW41",
+   "name": "LEFT",
+   "legend": "←",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 5,
+   "address": "3840",
+   "x": 61.55,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 61.55,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.f",
+   "ref": "SW42",
+   "name": "F",
+   "legend": "F",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 6,
+   "address": "3801",
+   "x": -85.75,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -85.75,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.n",
+   "ref": "SW43",
+   "name": "N",
+   "legend": "N",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 6,
+   "address": "3802",
+   "x": -38.55,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -38.55,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.v",
+   "ref": "SW44",
+   "name": "V",
+   "legend": "V",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 6,
+   "address": "3804",
+   "x": -76.35,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": -76.35,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.6",
+   "ref": "SW45",
+   "name": "6",
+   "legend": "6",
+   "shift_legend": "&",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 6,
+   "address": "3810",
+   "x": -62.05,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -62.05,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.period",
+   "ref": "SW46",
+   "name": ".",
+   "legend": ".",
+   "shift_legend": ">",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 6,
+   "address": "3820",
+   "x": 18.65,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": 18.65,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.right",
+   "ref": "SW47",
+   "name": "RIGHT",
+   "legend": "→",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 6,
+   "address": "3840",
+   "x": 80.55,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 80.55,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.g",
+   "ref": "SW48",
+   "name": "G",
+   "legend": "G",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 0,
+   "matrix_bit": 7,
+   "address": "3801",
+   "x": -66.85,
+   "y": -17.45,
+   "width_u": 1.0,
+   "cap": {
+    "x": -66.85,
+    "y": -17.45,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.o",
+   "ref": "SW49",
+   "name": "O",
+   "legend": "O",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 1,
+   "matrix_bit": 7,
+   "address": "3802",
+   "x": 4.35,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 4.35,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.w",
+   "ref": "SW50",
+   "name": "W",
+   "legend": "W",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 2,
+   "matrix_bit": 7,
+   "address": "3804",
+   "x": -128.55,
+   "y": 1.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": -128.55,
+    "y": 1.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.7",
+   "ref": "SW51",
+   "name": "7",
+   "legend": "7",
+   "shift_legend": "'",
+   "keypad": false,
+   "matrix_row": 4,
+   "matrix_bit": 7,
+   "address": "3810",
+   "x": -43.05,
+   "y": 20.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": -43.05,
+    "y": 20.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.slash",
+   "ref": "SW52",
+   "name": "/",
+   "legend": "/",
+   "shift_legend": "?",
+   "keypad": false,
+   "matrix_row": 5,
+   "matrix_bit": 7,
+   "address": "3820",
+   "x": 37.55,
+   "y": -36.65,
+   "width_u": 1.0,
+   "cap": {
+    "x": 37.55,
+    "y": -36.65,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.space",
+   "ref": "SW53",
+   "name": "SPACE",
+   "legend": "",
+   "shift_legend": "",
+   "keypad": false,
+   "matrix_row": 6,
+   "matrix_bit": 7,
+   "address": "3840",
+   "x": -53.5,
+   "y": -55.95,
+   "width_u": 7.3,
+   "cap": {
+    "x": -53.5,
+    "y": -55.95,
+    "w": 138.33,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.0",
+   "ref": "SW54",
+   "name": "0",
+   "legend": "0",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 0,
+   "address": "3810",
+   "x": 124.55,
+   "y": -46.05,
+   "width_u": 1.0,
+   "cap": {
+    "x": 124.55,
+    "y": -46.05,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.8",
+   "ref": "SW55",
+   "name": "8",
+   "legend": "8",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 5,
+   "matrix_bit": 0,
+   "address": "3820",
+   "x": 143.55,
+   "y": 11.35,
+   "width_u": 1.0,
+   "cap": {
+    "x": 143.55,
+    "y": 11.35,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.enter",
+   "ref": "SW56",
+   "name": "ENTER",
+   "legend": "ENTER",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 6,
+   "matrix_bit": 0,
+   "address": "3840",
+   "x": 162.55,
+   "y": -46.05,
+   "width_u": 1.0,
+   "cap": {
+    "x": 162.55,
+    "y": -46.05,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.1",
+   "ref": "SW57",
+   "name": "1",
+   "legend": "1",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 1,
+   "address": "3810",
+   "x": 124.55,
+   "y": -26.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": 124.55,
+    "y": -26.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.9",
+   "ref": "SW58",
+   "name": "9",
+   "legend": "9",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 5,
+   "matrix_bit": 1,
+   "address": "3820",
+   "x": 162.55,
+   "y": 11.35,
+   "width_u": 1.0,
+   "cap": {
+    "x": 162.55,
+    "y": 11.35,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.2",
+   "ref": "SW59",
+   "name": "2",
+   "legend": "2",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 2,
+   "address": "3810",
+   "x": 143.55,
+   "y": -26.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": 143.55,
+    "y": -26.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.3",
+   "ref": "SW60",
+   "name": "3",
+   "legend": "3",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 3,
+   "address": "3810",
+   "x": 162.55,
+   "y": -26.95,
+   "width_u": 1.0,
+   "cap": {
+    "x": 162.55,
+    "y": -26.95,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.4",
+   "ref": "SW61",
+   "name": "4",
+   "legend": "4",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 4,
+   "address": "3810",
+   "x": 124.55,
+   "y": -7.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 124.55,
+    "y": -7.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.5",
+   "ref": "SW62",
+   "name": "5",
+   "legend": "5",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 5,
+   "address": "3810",
+   "x": 143.55,
+   "y": -7.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 143.55,
+    "y": -7.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.6",
+   "ref": "SW63",
+   "name": "6",
+   "legend": "6",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 6,
+   "address": "3810",
+   "x": 162.55,
+   "y": -7.75,
+   "width_u": 1.0,
+   "cap": {
+    "x": 162.55,
+    "y": -7.75,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.period",
+   "ref": "SW64",
+   "name": ".",
+   "legend": ".",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 5,
+   "matrix_bit": 6,
+   "address": "3820",
+   "x": 143.55,
+   "y": -46.05,
+   "width_u": 1.0,
+   "cap": {
+    "x": 143.55,
+    "y": -46.05,
+    "w": 18.0,
+    "d": 18.0
+   }
+  },
+  {
+   "node": "key.pad.7",
+   "ref": "SW65",
+   "name": "7",
+   "legend": "7",
+   "shift_legend": "",
+   "keypad": true,
+   "matrix_row": 4,
+   "matrix_bit": 7,
+   "address": "3810",
+   "x": 124.55,
+   "y": 11.35,
+   "width_u": 1.0,
+   "cap": {
+    "x": 124.55,
+    "y": 11.35,
+    "w": 18.0,
+    "d": 18.0
+   }
+  }
+ ]
+}

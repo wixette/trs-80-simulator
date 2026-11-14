@@ -1,0 +1,3461 @@
+{
+ "_generated": "by tools/kicad_to_params.py from research/data/kicad_mainboard_rev_g_parts.json and model/params/machine.json; do not edit",
+ "frame": "machine frame, mm; x, y are footprint origins, body the part's outline [x0, y0, x1, y1]; the board is mounted components down and mirrored (machine.json main_board.mounting), so each part hangs `height` mm below board_z",
+ "conf": "model (rs-kicad rev G); placement of the whole board est (machine.json main_board)",
+ "outline": [
+  407.0,
+  184.0
+ ],
+ "parts": [
+  {
+   "ref": "Z60",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": 116.06,
+   "y": -58.15,
+   "body": [
+    112.86,
+    -68.15,
+    119.26,
+    -48.15
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R27",
+   "footprint": "R_0.25W",
+   "value": "330",
+   "x": 149.02,
+   "y": 56.89,
+   "body": [
+    144.07,
+    55.89,
+    153.97,
+    57.89
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R2",
+   "footprint": "R_0.25W",
+   "value": "2.7k",
+   "x": 44.43,
+   "y": 81.67,
+   "body": [
+    39.47,
+    80.67,
+    49.38,
+    82.67
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C56",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -142.38,
+   "y": -58.0,
+   "body": [
+    -144.23,
+    -62.7,
+    -140.52,
+    -53.33
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C20",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "330pF",
+   "x": 140.83,
+   "y": 29.7,
+   "body": [
+    138.97,
+    25.0,
+    142.68,
+    34.37
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z4",
+   "footprint": "DIP14",
+   "value": "LM3900",
+   "x": 165.56,
+   "y": 29.85,
+   "body": [
+    162.36,
+    20.85,
+    168.76,
+    38.85
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R63",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -57.57,
+   "y": -55.78,
+   "body": [
+    -58.57,
+    -60.73,
+    -56.57,
+    -50.82
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R54",
+   "footprint": "R_0.25W",
+   "value": "7.5k",
+   "x": 186.1,
+   "y": -41.5,
+   "body": [
+    181.15,
+    -42.5,
+    191.05,
+    -40.5
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z11",
+   "footprint": "DIP16",
+   "value": "74LS166",
+   "x": 49.59,
+   "y": 29.96,
+   "body": [
+    46.39,
+    19.96,
+    52.79,
+    39.96
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z46",
+   "footprint": "DIP16",
+   "value": "2102",
+   "x": 99.48,
+   "y": -28.81,
+   "body": [
+    96.28,
+    -38.81,
+    102.68,
+    -18.81
+   ],
+   "height": 4.5,
+   "label": "video RAM (2102)"
+  },
+  {
+   "ref": "C28",
+   "footprint": "C_Disc_18.5L_4W_8.5P_Large",
+   "value": "0.1uF 25V",
+   "x": 16.55,
+   "y": 17.15,
+   "body": [
+    7.56,
+    15.37,
+    25.54,
+    18.9
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "C18",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -49.28,
+   "y": 42.6,
+   "body": [
+    -53.97,
+    40.75,
+    -44.6,
+    44.45
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z42",
+   "footprint": "DIP14",
+   "value": "74LS04",
+   "x": 165.56,
+   "y": -28.87,
+   "body": [
+    162.36,
+    -37.87,
+    168.76,
+    -19.87
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "CR1",
+   "footprint": "D",
+   "value": "1N4735",
+   "x": 80.12,
+   "y": 71.6,
+   "body": [
+    75.15,
+    70.6,
+    85.1,
+    72.6
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R49",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": 58.0,
+   "y": -28.5,
+   "body": [
+    57.0,
+    -33.45,
+    59.0,
+    -23.55
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C12",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "470pF",
+   "x": -41.07,
+   "y": 60.6,
+   "body": [
+    -42.93,
+    55.9,
+    -39.22,
+    65.27
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C46",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -41.2,
+   "y": -28.65,
+   "body": [
+    -43.05,
+    -33.35,
+    -39.35,
+    -23.98
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z9",
+   "footprint": "DIP14",
+   "value": "74LS04",
+   "x": 82.96,
+   "y": 29.85,
+   "body": [
+    79.76,
+    20.85,
+    86.16,
+    38.85
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z39",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -115.96,
+   "y": 0.62,
+   "body": [
+    -119.16,
+    -9.38,
+    -112.76,
+    10.62
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R45",
+   "footprint": "R_0.25W",
+   "value": "470k",
+   "x": 185.85,
+   "y": 2.95,
+   "body": [
+    180.9,
+    1.95,
+    190.8,
+    3.95
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C29",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 0.1,
+   "y": 17.28,
+   "body": [
+    -4.57,
+    15.42,
+    4.8,
+    19.13
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R61",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -32.94,
+   "y": -70.76,
+   "body": [
+    -37.89,
+    -71.76,
+    -27.99,
+    -69.76
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z14",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": 0.06,
+   "y": 29.95,
+   "body": [
+    -3.14,
+    19.95,
+    3.26,
+    39.95
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "C35",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 157.52,
+   "y": 0.72,
+   "body": [
+    155.67,
+    -3.97,
+    159.38,
+    5.4
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z2",
+   "footprint": "DIP14",
+   "value": "LM723C",
+   "x": -66.28,
+   "y": 60.53,
+   "body": [
+    -69.48,
+    51.53,
+    -63.08,
+    69.53
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z75",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -132.56,
+   "y": -57.88,
+   "body": [
+    -135.76,
+    -67.88,
+    -129.36,
+    -47.88
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "CR6",
+   "footprint": "D",
+   "value": "1N4148",
+   "x": 185.85,
+   "y": 7.78,
+   "body": [
+    180.87,
+    6.78,
+    190.83,
+    8.78
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z49",
+   "footprint": "DIP16",
+   "value": "74LS157",
+   "x": 49.59,
+   "y": -28.6,
+   "body": [
+    46.39,
+    -38.6,
+    52.79,
+    -18.6
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z71",
+   "footprint": "DIP16",
+   "value": "~",
+   "x": -65.94,
+   "y": -59.19,
+   "body": [
+    -69.14,
+    -69.19,
+    -62.74,
+    -49.19
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C47",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -132.25,
+   "y": -28.9,
+   "body": [
+    -134.1,
+    -33.6,
+    -130.4,
+    -24.23
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z63",
+   "footprint": "DIP16",
+   "value": "2102",
+   "x": 66.38,
+   "y": -58.0,
+   "body": [
+    63.18,
+    -68.0,
+    69.58,
+    -48.0
+   ],
+   "height": 4.5,
+   "label": "video RAM (2102)"
+  },
+  {
+   "ref": "C51",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 58.15,
+   "y": -57.93,
+   "body": [
+    56.3,
+    -62.62,
+    60.0,
+    -53.25
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C1",
+   "footprint": "C_Pol_Axial_21L_9W_29P",
+   "value": "220uF 16V",
+   "x": 157.25,
+   "y": 75.85,
+   "body": [
+    144.52,
+    71.35,
+    170.59,
+    80.35
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "J2",
+   "footprint": "DIN5",
+   "value": "Front View",
+   "x": 160.45,
+   "y": 90.1,
+   "body": [
+    149.45,
+    81.83,
+    171.45,
+    98.6
+   ],
+   "height": 18.0,
+   "label": "video out (DIN)"
+  },
+  {
+   "ref": "Z76",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -152.61,
+   "y": -57.93,
+   "body": [
+    -155.81,
+    -67.93,
+    -149.41,
+    -47.93
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R47",
+   "footprint": "R_0.25W",
+   "value": "10k",
+   "x": -91.1,
+   "y": 0.68,
+   "body": [
+    -92.1,
+    -4.28,
+    -90.1,
+    5.63
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C44",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 91.08,
+   "y": -28.5,
+   "body": [
+    89.22,
+    -33.17,
+    92.93,
+    -23.8
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "CR10",
+   "footprint": "D",
+   "value": "1N982",
+   "x": 179.4,
+   "y": 55.5,
+   "body": [
+    178.4,
+    50.52,
+    180.4,
+    60.48
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Q1",
+   "footprint": "Q_Circle_EBC",
+   "value": "2N3904",
+   "x": 165.52,
+   "y": 65.63,
+   "body": [
+    163.21,
+    63.32,
+    167.81,
+    68.13
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "R65",
+   "footprint": "R_0.25W",
+   "value": "10k",
+   "x": -189.55,
+   "y": 52.8,
+   "body": [
+    -194.5,
+    51.8,
+    -184.6,
+    53.8
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R46",
+   "footprint": "R_0.25W",
+   "value": "910",
+   "x": 186.2,
+   "y": -7.15,
+   "body": [
+    181.25,
+    -8.15,
+    191.15,
+    -6.15
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "CR7",
+   "footprint": "D",
+   "value": "1N4148",
+   "x": 185.85,
+   "y": 5.4,
+   "body": [
+    180.87,
+    4.4,
+    190.83,
+    6.4
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "CR3",
+   "footprint": "D",
+   "value": "1N4148",
+   "x": 185.98,
+   "y": 39.98,
+   "body": [
+    181.0,
+    38.98,
+    190.95,
+    40.98
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z23",
+   "footprint": "DIP14",
+   "value": "74LS32",
+   "x": -152.69,
+   "y": 29.98,
+   "body": [
+    -155.89,
+    20.98,
+    -149.49,
+    38.98
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R58",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -82.6,
+   "y": -43.25,
+   "body": [
+    -87.55,
+    -44.25,
+    -77.65,
+    -42.25
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R41",
+   "footprint": "R_0.25W",
+   "value": "470k",
+   "x": 165.7,
+   "y": 16.35,
+   "body": [
+    160.75,
+    15.35,
+    170.65,
+    17.35
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R8",
+   "footprint": "R_0.25W",
+   "value": "100k",
+   "x": -49.5,
+   "y": 83.23,
+   "body": [
+    -54.45,
+    82.23,
+    -44.55,
+    84.23
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R64",
+   "footprint": "R_0.25W",
+   "value": "330",
+   "x": -90.95,
+   "y": -58.05,
+   "body": [
+    -91.95,
+    -63.0,
+    -89.95,
+    -53.1
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R32",
+   "footprint": "R_0.25W",
+   "value": "10k",
+   "x": 185.98,
+   "y": 42.52,
+   "body": [
+    181.02,
+    41.52,
+    190.93,
+    43.52
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C57",
+   "footprint": "C_Pol_Radial_5D_2.5P",
+   "value": "10uF 16V",
+   "x": -189.62,
+   "y": 46.62,
+   "body": [
+    -192.12,
+    44.12,
+    -187.12,
+    49.12
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "R4",
+   "footprint": "R_2W",
+   "value": "0.33",
+   "x": 44.88,
+   "y": 73.38,
+   "body": [
+    35.4,
+    70.38,
+    54.35,
+    76.38
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "C49",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 0.07,
+   "y": -43.18,
+   "body": [
+    -4.6,
+    -45.03,
+    4.77,
+    -41.32
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z36",
+   "footprint": "DIP14",
+   "value": "74LS32",
+   "x": -66.06,
+   "y": 0.43,
+   "body": [
+    -69.26,
+    -8.57,
+    -62.86,
+    9.43
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C7",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.01uF 24V",
+   "x": 135.55,
+   "y": 45.55,
+   "body": [
+    130.88,
+    43.7,
+    140.25,
+    47.4
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R17",
+   "footprint": "R_0.25W",
+   "value": "2k",
+   "x": -90.66,
+   "y": 56.66,
+   "body": [
+    -95.61,
+    55.66,
+    -85.7,
+    57.66
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C23",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -142.48,
+   "y": 29.62,
+   "body": [
+    -144.33,
+    24.93,
+    -140.62,
+    34.3
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z26",
+   "footprint": "DIP14",
+   "value": "74LS20",
+   "x": 132.56,
+   "y": 0.47,
+   "body": [
+    129.36,
+    -8.53,
+    135.76,
+    9.47
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z20",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": -99.21,
+   "y": 29.92,
+   "body": [
+    -102.41,
+    19.92,
+    -96.01,
+    39.92
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "C6",
+   "footprint": "C_Pol_Radial_10D_5P",
+   "value": "100uF 16V",
+   "x": 149.0,
+   "y": 45.25,
+   "body": [
+    144.48,
+    40.39,
+    154.21,
+    50.11
+   ],
+   "height": 16.0,
+   "label": ""
+  },
+  {
+   "ref": "C_C58",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 175.62,
+   "y": 63.4,
+   "body": [
+    173.77,
+    58.73,
+    177.48,
+    68.1
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z1",
+   "footprint": "DIP14",
+   "value": "LM723C",
+   "x": -49.62,
+   "y": 60.66,
+   "body": [
+    -52.82,
+    51.66,
+    -46.42,
+    69.66
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C54",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -74.18,
+   "y": -58.3,
+   "body": [
+    -76.03,
+    -63.0,
+    -72.32,
+    -53.63
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C10",
+   "footprint": "C_Pol_Radial_5D_2.5P",
+   "value": "10uF 16V",
+   "x": -49.5,
+   "y": 74.53,
+   "body": [
+    -52.0,
+    72.03,
+    -47.0,
+    77.03
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "C52",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 25.15,
+   "y": -58.1,
+   "body": [
+    23.3,
+    -62.8,
+    27.0,
+    -53.43
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z24",
+   "footprint": "DIP14",
+   "value": "74LS132",
+   "x": 165.56,
+   "y": 0.3,
+   "body": [
+    162.36,
+    -8.7,
+    168.76,
+    9.3
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z35",
+   "footprint": "DIP16",
+   "value": "74LS157",
+   "x": -49.59,
+   "y": 0.53,
+   "body": [
+    -52.79,
+    -9.47,
+    -46.39,
+    10.53
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z66",
+   "footprint": "DIP14",
+   "value": "74LS11",
+   "x": 16.71,
+   "y": -58.03,
+   "body": [
+    13.51,
+    -67.03,
+    19.91,
+    -49.03
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R21",
+   "footprint": "R_Pot",
+   "value": "100k",
+   "x": 197.41,
+   "y": 55.85,
+   "body": [
+    196.41,
+    50.85,
+    199.41,
+    60.85
+   ],
+   "height": 8.0,
+   "label": ""
+  },
+  {
+   "ref": "R7",
+   "footprint": "R_0.25W",
+   "value": "1.2k",
+   "x": -49.5,
+   "y": 85.83,
+   "body": [
+    -54.45,
+    84.83,
+    -44.55,
+    86.83
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R26",
+   "footprint": "R_0.25W",
+   "value": "1M",
+   "x": 165.53,
+   "y": 49.27,
+   "body": [
+    160.58,
+    48.27,
+    170.48,
+    50.27
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R22",
+   "footprint": "R_0.25W",
+   "value": "75",
+   "x": 165.53,
+   "y": 59.43,
+   "body": [
+    160.58,
+    58.43,
+    170.48,
+    60.43
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z25",
+   "footprint": "DIP14",
+   "value": "74LS32",
+   "x": 149.02,
+   "y": 0.47,
+   "body": [
+    145.82,
+    -8.53,
+    152.22,
+    9.47
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R35",
+   "footprint": "R_0.25W",
+   "value": "470k",
+   "x": 185.98,
+   "y": 32.36,
+   "body": [
+    181.02,
+    31.36,
+    190.93,
+    33.36
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R15",
+   "footprint": "R_0.25W",
+   "value": "1.5k",
+   "x": -57.73,
+   "y": 60.75,
+   "body": [
+    -58.73,
+    55.8,
+    -56.73,
+    65.7
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z33",
+   "footprint": "DIP24",
+   "value": "2364_20L",
+   "x": 8.86,
+   "y": -14.48,
+   "body": [
+    1.26,
+    -29.48,
+    16.46,
+    0.52
+   ],
+   "height": 5.0,
+   "label": "ROM A: Level II BASIC, 0000H-1FFFH (8 KB)"
+  },
+  {
+   "ref": "Z18",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": -66.31,
+   "y": 29.92,
+   "body": [
+    -69.51,
+    19.92,
+    -63.11,
+    39.92
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "Z57",
+   "footprint": "DIP14",
+   "value": "74C04",
+   "x": 165.56,
+   "y": -58.15,
+   "body": [
+    162.36,
+    -67.15,
+    168.76,
+    -49.15
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C43",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "47pF",
+   "x": 177.0,
+   "y": -28.85,
+   "body": [
+    175.15,
+    -33.55,
+    178.85,
+    -24.18
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "CR2",
+   "footprint": "D",
+   "value": "1N5231",
+   "x": 132.25,
+   "y": 51.6,
+   "body": [
+    127.27,
+    50.6,
+    137.23,
+    52.6
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z27",
+   "footprint": "DIP16",
+   "value": "74LS175",
+   "x": 115.89,
+   "y": 0.54,
+   "body": [
+    112.69,
+    -9.46,
+    119.09,
+    10.54
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R31",
+   "footprint": "R_0.25W",
+   "value": "10",
+   "x": 132.3,
+   "y": 49.2,
+   "body": [
+    127.35,
+    48.2,
+    137.25,
+    50.2
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R3",
+   "footprint": "R_0.25W",
+   "value": "750",
+   "x": 44.43,
+   "y": 78.92,
+   "body": [
+    39.47,
+    77.92,
+    49.38,
+    79.92
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R33",
+   "footprint": "R_0.25W",
+   "value": "360k",
+   "x": 185.98,
+   "y": 37.44,
+   "body": [
+    181.02,
+    36.44,
+    190.93,
+    38.44
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z37",
+   "footprint": "DIP14",
+   "value": "74LS02",
+   "x": -82.76,
+   "y": 0.53,
+   "body": [
+    -85.96,
+    -8.47,
+    -79.56,
+    9.53
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R38",
+   "footprint": "R_0.25W",
+   "value": "470k",
+   "x": 157.58,
+   "y": 29.8,
+   "body": [
+    156.58,
+    24.85,
+    158.58,
+    34.75
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z70",
+   "footprint": "DIP14",
+   "value": "74LS74",
+   "x": -49.54,
+   "y": -58.04,
+   "body": [
+    -52.74,
+    -67.04,
+    -46.34,
+    -49.04
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C33",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -65.98,
+   "y": 17.42,
+   "body": [
+    -70.65,
+    15.57,
+    -61.28,
+    19.28
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R66",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -73.43,
+   "y": -71.78,
+   "body": [
+    -74.43,
+    -76.73,
+    -72.43,
+    -66.82
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C2",
+   "footprint": "C_Pol_Radial_5D_2.5P",
+   "value": "10uF 16V",
+   "x": 157.27,
+   "y": 65.63,
+   "body": [
+    154.77,
+    63.13,
+    159.77,
+    68.13
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "Z69",
+   "footprint": "DIP14",
+   "value": "74LS74",
+   "x": -33.01,
+   "y": -58.07,
+   "body": [
+    -36.21,
+    -67.07,
+    -29.81,
+    -49.07
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C_R67",
+   "footprint": "R_0.25W",
+   "value": "220",
+   "x": 191.95,
+   "y": 52.95,
+   "body": [
+    190.95,
+    48.0,
+    192.95,
+    57.9
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C15",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.01uF 24V",
+   "x": -66.02,
+   "y": 49.05,
+   "body": [
+    -70.72,
+    47.2,
+    -61.35,
+    50.9
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C4",
+   "footprint": "C_Pol_Radial_5D_2.5P",
+   "value": "10uF 16V",
+   "x": 132.67,
+   "y": 57.85,
+   "body": [
+    130.17,
+    55.35,
+    135.17,
+    60.35
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "R60",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -24.53,
+   "y": -58.5,
+   "body": [
+    -25.53,
+    -63.45,
+    -23.53,
+    -53.55
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C9",
+   "footprint": "C_Pol_Axial_63L_25W_71P",
+   "value": "10000uF 16V",
+   "x": 69.07,
+   "y": 56.72,
+   "body": [
+    35.34,
+    44.22,
+    105.17,
+    69.22
+   ],
+   "height": 24.0,
+   "label": ""
+  },
+  {
+   "ref": "R56",
+   "footprint": "R_0.25W",
+   "value": "220k",
+   "x": 186.1,
+   "y": -46.53,
+   "body": [
+    181.15,
+    -47.53,
+    191.05,
+    -45.53
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R14",
+   "footprint": "R_0.25W",
+   "value": "12k",
+   "x": -66.0,
+   "y": 80.62,
+   "body": [
+    -70.95,
+    79.62,
+    -61.05,
+    81.62
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z40",
+   "footprint": "DIP40",
+   "value": "Z80CPU",
+   "x": -152.82,
+   "y": -13.87,
+   "body": [
+    -160.42,
+    -39.37,
+    -145.22,
+    11.63
+   ],
+   "height": 5.0,
+   "label": "Z80 CPU"
+  },
+  {
+   "ref": "Z8",
+   "footprint": "DIP16",
+   "value": "74LS153",
+   "x": 99.31,
+   "y": 29.83,
+   "body": [
+    96.11,
+    19.83,
+    102.51,
+    39.83
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C14",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.01uF 24V",
+   "x": -49.75,
+   "y": 49.05,
+   "body": [
+    -54.45,
+    47.2,
+    -45.08,
+    50.9
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "J100",
+   "footprint": "Keyboard_Connector",
+   "value": "Connection Mainboard Side",
+   "x": -174.18,
+   "y": -75.25,
+   "body": [
+    -198.31,
+    -80.35,
+    -150.05,
+    -80.35
+   ],
+   "height": 0,
+   "label": "keyboard connector"
+  },
+  {
+   "ref": "Z59",
+   "footprint": "DIP16",
+   "value": "74LS175",
+   "x": 132.56,
+   "y": -58.15,
+   "body": [
+    129.36,
+    -68.15,
+    135.76,
+    -48.15
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C30",
+   "footprint": "C_Disc_18.5L_4W_8.5P_Large",
+   "value": "0.1uF 25V",
+   "x": -16.65,
+   "y": 17.53,
+   "body": [
+    -25.64,
+    15.75,
+    -7.66,
+    19.28
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "R48",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -128.38,
+   "y": 0.7,
+   "body": [
+    -129.38,
+    -4.25,
+    -127.38,
+    5.65
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z5",
+   "footprint": "DIP14",
+   "value": "74C00",
+   "x": 149.06,
+   "y": 29.85,
+   "body": [
+    145.86,
+    20.85,
+    152.26,
+    38.85
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R29",
+   "footprint": "R_0.25W",
+   "value": "1.8k",
+   "x": 149.02,
+   "y": 59.43,
+   "body": [
+    144.07,
+    58.43,
+    153.97,
+    60.43
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C3",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.01uF 24V",
+   "x": 132.51,
+   "y": 65.85,
+   "body": [
+    127.81,
+    64.0,
+    137.18,
+    67.7
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "CR8",
+   "footprint": "D_Bridge",
+   "value": "MDA202",
+   "x": 132.48,
+   "y": 75.92,
+   "body": [
+    124.98,
+    72.92,
+    139.98,
+    81.21
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "R52",
+   "footprint": "R_0.25W",
+   "value": "910",
+   "x": 186.1,
+   "y": -36.4,
+   "body": [
+    181.15,
+    -37.4,
+    191.05,
+    -35.4
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z62",
+   "footprint": "DIP16",
+   "value": "2102",
+   "x": 82.94,
+   "y": -58.04,
+   "body": [
+    79.74,
+    -68.04,
+    86.14,
+    -48.04
+   ],
+   "height": 4.5,
+   "label": "video RAM (2102)"
+  },
+  {
+   "ref": "Q4",
+   "footprint": "Q_Heatsink_Large_BEC",
+   "value": "2N6594",
+   "x": -8.03,
+   "y": 71.97,
+   "body": [
+    -36.53,
+    46.97,
+    20.47,
+    96.97
+   ],
+   "height": 24.0,
+   "label": ""
+  },
+  {
+   "ref": "Z53",
+   "footprint": "DIP14",
+   "value": "74LS132",
+   "x": -82.74,
+   "y": -28.64,
+   "body": [
+    -85.94,
+    -37.64,
+    -79.54,
+    -19.64
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z21",
+   "footprint": "DIP16",
+   "value": "74LS156",
+   "x": -115.89,
+   "y": 29.83,
+   "body": [
+    -119.09,
+    19.83,
+    -112.69,
+    39.83
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R24",
+   "footprint": "R_0.25W",
+   "value": "680k",
+   "x": 165.53,
+   "y": 54.35,
+   "body": [
+    160.58,
+    53.35,
+    170.48,
+    55.35
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C19",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -82.68,
+   "y": 42.7,
+   "body": [
+    -87.37,
+    40.85,
+    -78.0,
+    44.55
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z64",
+   "footprint": "DIP16",
+   "value": "74LS157",
+   "x": 49.76,
+   "y": -57.94,
+   "body": [
+    46.56,
+    -67.94,
+    52.96,
+    -47.94
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z31",
+   "footprint": "DIP16",
+   "value": "74LS157",
+   "x": 49.88,
+   "y": 0.41,
+   "body": [
+    46.68,
+    -9.59,
+    53.08,
+    10.41
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z22",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -132.49,
+   "y": 29.86,
+   "body": [
+    -135.69,
+    19.86,
+    -129.29,
+    39.86
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C32",
+   "footprint": "C_Disc_18.5L_4W_8.5P_Large",
+   "value": "0.1uF 25V",
+   "x": -49.55,
+   "y": 17.5,
+   "body": [
+    -58.54,
+    15.72,
+    -40.56,
+    19.25
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "C42",
+   "footprint": "C_Pol_Radial_6.3D_2.5P",
+   "value": "22uF 16V",
+   "x": -82.48,
+   "y": -13.93,
+   "body": [
+    -86.61,
+    -17.96,
+    -78.54,
+    -9.89
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "Z55",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -115.71,
+   "y": -28.72,
+   "body": [
+    -118.91,
+    -38.72,
+    -112.51,
+    -18.72
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R30",
+   "footprint": "R_0.25W",
+   "value": "47",
+   "x": 149.02,
+   "y": 51.81,
+   "body": [
+    144.07,
+    50.81,
+    153.97,
+    52.81
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C13",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "470pF",
+   "x": -74.05,
+   "y": 60.42,
+   "body": [
+    -75.9,
+    55.73,
+    -72.2,
+    65.1
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Q3",
+   "footprint": "Q_Box_BCE",
+   "value": "TIP29A",
+   "x": 44.3,
+   "y": 90.15,
+   "body": [
+    39.3,
+    88.25,
+    49.3,
+    92.75
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R10",
+   "footprint": "R_Pot",
+   "value": "1k",
+   "x": -66.35,
+   "y": 93.15,
+   "body": [
+    -71.35,
+    92.15,
+    -61.35,
+    95.15
+   ],
+   "height": 8.0,
+   "label": ""
+  },
+  {
+   "ref": "C50",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 124.2,
+   "y": -57.9,
+   "body": [
+    122.35,
+    -62.6,
+    126.05,
+    -53.23
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C5",
+   "footprint": "C_Pol_Radial_5D_2.5P",
+   "value": "10uF 16V",
+   "x": 165.55,
+   "y": 44.4,
+   "body": [
+    163.05,
+    41.9,
+    168.05,
+    46.9
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "R68",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -42.03,
+   "y": -78.43,
+   "body": [
+    -46.98,
+    -79.43,
+    -37.07,
+    -77.43
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z43",
+   "footprint": "DIP16",
+   "value": "74LS157",
+   "x": 149.06,
+   "y": -28.87,
+   "body": [
+    145.86,
+    -38.87,
+    152.26,
+    -18.87
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z58",
+   "footprint": "DIP14",
+   "value": "74LS92",
+   "x": 149.06,
+   "y": -58.15,
+   "body": [
+    145.86,
+    -67.15,
+    152.26,
+    -49.15
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R51",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -136.18,
+   "y": -28.7,
+   "body": [
+    -137.18,
+    -33.65,
+    -135.18,
+    -23.75
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "J4",
+   "footprint": "Edge_Connector",
+   "value": "Edge Connector",
+   "x": -150.94,
+   "y": 97.04,
+   "body": [
+    -175.07,
+    94.5,
+    -126.81,
+    94.5
+   ],
+   "height": 0,
+   "label": "expansion edge connector: the Expansion Interface (26-1140) plugged in here for more memory, disks and a printer; not modelled here (design/decisions.md, D6)"
+  },
+  {
+   "ref": "K1",
+   "footprint": "Relay",
+   "value": "Relay_SPST-NO",
+   "x": 185.95,
+   "y": 61.49,
+   "body": [
+    183.45,
+    47.78,
+    188.45,
+    74.57
+   ],
+   "height": 10.0,
+   "label": ""
+  },
+  {
+   "ref": "Z17",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": -49.46,
+   "y": 29.95,
+   "body": [
+    -52.66,
+    19.95,
+    -46.26,
+    39.95
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "R19",
+   "footprint": "R_0.5W",
+   "value": "220",
+   "x": 132.35,
+   "y": 70.15,
+   "body": [
+    126.13,
+    68.3,
+    138.57,
+    72.0
+   ],
+   "height": 3.5,
+   "label": ""
+  },
+  {
+   "ref": "C38",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -132.45,
+   "y": 0.6,
+   "body": [
+    -134.3,
+    -4.1,
+    -130.6,
+    5.27
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z45",
+   "footprint": "DIP16",
+   "value": "2102",
+   "x": 116.06,
+   "y": -28.87,
+   "body": [
+    112.86,
+    -38.87,
+    119.26,
+    -18.87
+   ],
+   "height": 4.5,
+   "label": "video RAM (2102)"
+  },
+  {
+   "ref": "R59",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": 157.3,
+   "y": -58.0,
+   "body": [
+    156.3,
+    -62.95,
+    158.3,
+    -53.05
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z34",
+   "footprint": "DIP24",
+   "value": "2332_20L_21L",
+   "x": -20.4,
+   "y": -14.5,
+   "body": [
+    -28.0,
+    -29.5,
+    -12.8,
+    0.5
+   ],
+   "height": 5.0,
+   "label": "ROM B: Level II BASIC, 2000H-2FFFH (4 KB)"
+  },
+  {
+   "ref": "R37",
+   "footprint": "R_0.25W",
+   "value": "560k",
+   "x": 185.98,
+   "y": 22.2,
+   "body": [
+    181.02,
+    21.2,
+    190.93,
+    23.2
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z72",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -82.62,
+   "y": -57.94,
+   "body": [
+    -85.82,
+    -67.94,
+    -79.42,
+    -47.94
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z7",
+   "footprint": "DIP14",
+   "value": "74LS74",
+   "x": 116.06,
+   "y": 29.85,
+   "body": [
+    112.86,
+    20.85,
+    119.26,
+    38.85
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C22",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 74.7,
+   "y": 29.85,
+   "body": [
+    72.85,
+    25.15,
+    76.55,
+    34.52
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C48",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 174.9,
+   "y": -42.35,
+   "body": [
+    173.05,
+    -47.02,
+    176.75,
+    -37.65
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R40",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": 41.47,
+   "y": 29.6,
+   "body": [
+    40.47,
+    24.65,
+    42.47,
+    34.55
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "CR9",
+   "footprint": "D",
+   "value": "1N982",
+   "x": 179.4,
+   "y": 71.44,
+   "body": [
+    178.4,
+    66.47,
+    180.4,
+    76.42
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z48",
+   "footprint": "DIP16",
+   "value": "2102",
+   "x": 66.06,
+   "y": -28.68,
+   "body": [
+    62.86,
+    -38.68,
+    69.26,
+    -18.68
+   ],
+   "height": 4.5,
+   "label": "video RAM (2102)"
+  },
+  {
+   "ref": "Z28",
+   "footprint": "DIP16",
+   "value": "74LS174",
+   "x": 99.56,
+   "y": 0.5,
+   "body": [
+    96.36,
+    -9.5,
+    102.76,
+    10.5
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z16",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": -33.19,
+   "y": 29.9,
+   "body": [
+    -36.39,
+    19.9,
+    -29.99,
+    39.9
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "R9",
+   "footprint": "R_0.25W",
+   "value": "3.3k",
+   "x": -49.5,
+   "y": 80.62,
+   "body": [
+    -54.45,
+    79.62,
+    -44.55,
+    81.62
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R12",
+   "footprint": "R_0.25W",
+   "value": "3.3k",
+   "x": -66.0,
+   "y": 85.83,
+   "body": [
+    -70.95,
+    84.83,
+    -61.05,
+    86.83
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C11",
+   "footprint": "C_Pol_Radial_5D_2.5P",
+   "value": "10uF 16V",
+   "x": -65.7,
+   "y": 74.4,
+   "body": [
+    -68.2,
+    71.9,
+    -63.2,
+    76.9
+   ],
+   "height": 11.0,
+   "label": ""
+  },
+  {
+   "ref": "Z13",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": 16.41,
+   "y": 29.92,
+   "body": [
+    13.21,
+    19.92,
+    19.61,
+    39.92
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "C55",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -107.43,
+   "y": -58.0,
+   "body": [
+    -109.28,
+    -62.7,
+    -105.57,
+    -53.33
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R16",
+   "footprint": "R_0.25W",
+   "value": "1.2k",
+   "x": -90.66,
+   "y": 59.26,
+   "body": [
+    -95.61,
+    58.26,
+    -85.7,
+    60.26
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z44",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": 132.56,
+   "y": -28.87,
+   "body": [
+    129.36,
+    -38.87,
+    135.76,
+    -18.87
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "CR4",
+   "footprint": "D",
+   "value": "1N4148",
+   "x": 185.98,
+   "y": 27.28,
+   "body": [
+    181.0,
+    26.28,
+    190.95,
+    28.28
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R1",
+   "footprint": "R_0.25W",
+   "value": "68",
+   "x": 44.43,
+   "y": 84.42,
+   "body": [
+    39.47,
+    83.42,
+    49.38,
+    85.42
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R67",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": 173.4,
+   "y": -27.24,
+   "body": [
+    172.4,
+    -32.19,
+    174.4,
+    -22.28
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z12",
+   "footprint": "DIP14",
+   "value": "74LS93",
+   "x": 33.09,
+   "y": 29.92,
+   "body": [
+    29.89,
+    20.92,
+    36.29,
+    38.92
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R69",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -24.97,
+   "y": -78.47,
+   "body": [
+    -29.93,
+    -79.47,
+    -20.02,
+    -77.47
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R55",
+   "footprint": "R_0.25W",
+   "value": "7.5k",
+   "x": 186.1,
+   "y": -44.05,
+   "body": [
+    181.15,
+    -45.05,
+    191.05,
+    -43.05
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C40",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 149.0,
+   "y": -13.9,
+   "body": [
+    144.33,
+    -15.75,
+    153.7,
+    -12.05
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z15",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": -16.56,
+   "y": 29.88,
+   "body": [
+    -19.76,
+    19.88,
+    -13.36,
+    39.88
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "S2",
+   "footprint": "Sw_Small",
+   "value": "Reset",
+   "x": -189.7,
+   "y": 67.42,
+   "body": [
+    -194.7,
+    56.76,
+    -184.7,
+    87.74
+   ],
+   "height": 10.0,
+   "label": "reset"
+  },
+  {
+   "ref": "C34",
+   "footprint": "C_Disc_18.5L_4W_8.5P_Large",
+   "value": "0.1uF 25V",
+   "x": -82.7,
+   "y": 17.33,
+   "body": [
+    -91.69,
+    15.55,
+    -73.71,
+    19.08
+   ],
+   "height": 12.0,
+   "label": ""
+  },
+  {
+   "ref": "Z50",
+   "footprint": "DIP14",
+   "value": "74LS93",
+   "x": 33.14,
+   "y": -28.73,
+   "body": [
+    29.94,
+    -37.73,
+    36.34,
+    -19.73
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z3",
+   "footprint": "DIP16",
+   "value": "~",
+   "x": -132.49,
+   "y": 61.73,
+   "body": [
+    -135.69,
+    51.73,
+    -129.29,
+    71.73
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "S1",
+   "footprint": "Sw_Large",
+   "value": "~",
+   "x": 113.6,
+   "y": 68.05,
+   "body": [
+    108.3,
+    51.52,
+    118.85,
+    99.16
+   ],
+   "height": 14.0,
+   "label": "power switch"
+  },
+  {
+   "ref": "Q5",
+   "footprint": "Q_Circle_EBC",
+   "value": "2N3906",
+   "x": -57.82,
+   "y": 74.35,
+   "body": [
+    -60.14,
+    72.04,
+    -55.54,
+    76.85
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "C27",
+   "footprint": "C_Box_7.5L_5W_4.5P_Small",
+   "value": "0.022uF",
+   "x": 172.35,
+   "y": -71.97,
+   "body": [
+    168.6,
+    -74.47,
+    176.1,
+    -69.47
+   ],
+   "height": 6.0,
+   "label": ""
+  },
+  {
+   "ref": "Z19",
+   "footprint": "DIP16",
+   "value": "4116",
+   "x": -82.84,
+   "y": 29.92,
+   "body": [
+    -86.04,
+    19.92,
+    -79.64,
+    39.92
+   ],
+   "height": 4.5,
+   "label": "RAM (4116): one bit of every byte at 4000H-7FFFH"
+  },
+  {
+   "ref": "R5",
+   "footprint": "R_Pot",
+   "value": "1k",
+   "x": -50.03,
+   "y": 93.46,
+   "body": [
+    -55.02,
+    92.46,
+    -45.03,
+    95.46
+   ],
+   "height": 8.0,
+   "label": ""
+  },
+  {
+   "ref": "R20",
+   "footprint": "R_Pot",
+   "value": "100k",
+   "x": 197.35,
+   "y": 68.05,
+   "body": [
+    196.35,
+    63.05,
+    199.35,
+    73.05
+   ],
+   "height": 8.0,
+   "label": ""
+  },
+  {
+   "ref": "J3",
+   "footprint": "DIN5",
+   "value": "Front View",
+   "x": 188.39,
+   "y": 90.17,
+   "body": [
+    177.39,
+    81.91,
+    199.39,
+    98.67
+   ],
+   "height": 18.0,
+   "label": "cassette (DIN)"
+  },
+  {
+   "ref": "Z65",
+   "footprint": "DIP14",
+   "value": "74LS93",
+   "x": 33.16,
+   "y": -58.04,
+   "body": [
+    29.96,
+    -67.04,
+    36.36,
+    -49.04
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z68",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -16.54,
+   "y": -57.9,
+   "body": [
+    -19.74,
+    -67.9,
+    -13.34,
+    -47.9
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C8",
+   "footprint": "C_Pol_Axial_41L_19W_48P",
+   "value": "2200uF 35V",
+   "x": 80.53,
+   "y": 84.55,
+   "body": [
+    58.3,
+    76.09,
+    104.91,
+    95.09
+   ],
+   "height": 19.0,
+   "label": ""
+  },
+  {
+   "ref": "C25",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "220pF",
+   "x": 186.18,
+   "y": 12.28,
+   "body": [
+    181.5,
+    10.42,
+    190.87,
+    14.13
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R11",
+   "footprint": "R_0.25W",
+   "value": "3.3k",
+   "x": -66.0,
+   "y": 88.42,
+   "body": [
+    -70.95,
+    87.42,
+    -61.05,
+    89.42
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C36",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 124.22,
+   "y": 1.12,
+   "body": [
+    122.37,
+    -3.57,
+    126.08,
+    5.8
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z41",
+   "footprint": "DIP8",
+   "value": "75452",
+   "x": 185.99,
+   "y": -28.84,
+   "body": [
+    182.79,
+    -33.84,
+    189.19,
+    -23.84
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C24",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "220pF",
+   "x": 186.05,
+   "y": 17.55,
+   "body": [
+    181.35,
+    15.7,
+    190.72,
+    19.4
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R23",
+   "footprint": "R_0.25W",
+   "value": "120",
+   "x": 165.53,
+   "y": 56.89,
+   "body": [
+    160.58,
+    55.89,
+    170.48,
+    57.89
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Q2",
+   "footprint": "Q_Circle_EBC",
+   "value": "2N3906",
+   "x": 149.02,
+   "y": 65.63,
+   "body": [
+    146.71,
+    63.32,
+    151.31,
+    68.13
+   ],
+   "height": 5.0,
+   "label": ""
+  },
+  {
+   "ref": "R44",
+   "footprint": "R_0.25W",
+   "value": "10k",
+   "x": 187.78,
+   "y": -71.93,
+   "body": [
+    182.82,
+    -72.93,
+    192.73,
+    -70.93
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R6",
+   "footprint": "R_0.25W",
+   "value": "1.2k",
+   "x": -49.5,
+   "y": 88.42,
+   "body": [
+    -54.45,
+    87.42,
+    -44.55,
+    89.42
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C31",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -33.1,
+   "y": 17.22,
+   "body": [
+    -37.77,
+    15.37,
+    -28.4,
+    19.08
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "C26",
+   "footprint": "C_Box_11L_5W_6P_Large",
+   "value": "0.047uF",
+   "x": 175.0,
+   "y": -54.85,
+   "body": [
+    172.82,
+    -60.18,
+    177.31,
+    -49.49
+   ],
+   "height": 8.0,
+   "label": ""
+  },
+  {
+   "ref": "Z38",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": -99.46,
+   "y": 0.56,
+   "body": [
+    -102.66,
+    -9.44,
+    -96.26,
+    10.56
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z73",
+   "footprint": "DIP14",
+   "value": "74LS32",
+   "x": -99.31,
+   "y": -57.88,
+   "body": [
+    -102.51,
+    -66.88,
+    -96.11,
+    -48.88
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "J1",
+   "footprint": "DIN5",
+   "value": "Front View",
+   "x": 132.25,
+   "y": 90.25,
+   "body": [
+    121.25,
+    81.98,
+    143.25,
+    98.75
+   ],
+   "height": 18.0,
+   "label": "power in (DIN)"
+  },
+  {
+   "ref": "Z47",
+   "footprint": "DIP16",
+   "value": "2102",
+   "x": 82.96,
+   "y": -28.87,
+   "body": [
+    79.76,
+    -38.87,
+    86.16,
+    -18.87
+   ],
+   "height": 4.5,
+   "label": "video RAM (2102)"
+  },
+  {
+   "ref": "R34",
+   "footprint": "R_0.25W",
+   "value": "470k",
+   "x": 185.98,
+   "y": 34.9,
+   "body": [
+    181.02,
+    33.9,
+    190.93,
+    35.9
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z67",
+   "footprint": "DIP16",
+   "value": "74LS367",
+   "x": 0.12,
+   "y": -57.91,
+   "body": [
+    -3.08,
+    -67.91,
+    3.32,
+    -47.91
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R42",
+   "footprint": "R_0.25W",
+   "value": "1M",
+   "x": 165.69,
+   "y": 13.65,
+   "body": [
+    160.74,
+    12.65,
+    170.65,
+    14.65
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C17",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -16.43,
+   "y": 42.47,
+   "body": [
+    -21.12,
+    40.62,
+    -11.75,
+    44.33
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R53",
+   "footprint": "R_0.25W",
+   "value": "1.2k",
+   "x": 186.1,
+   "y": -38.93,
+   "body": [
+    181.15,
+    -39.93,
+    191.05,
+    -37.93
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R57",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -49.5,
+   "y": -43.6,
+   "body": [
+    -54.45,
+    -44.6,
+    -44.55,
+    -42.6
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z29",
+   "footprint": "DIP18",
+   "value": "MCM6670",
+   "x": 82.69,
+   "y": 0.59,
+   "body": [
+    79.49,
+    -10.91,
+    85.89,
+    12.09
+   ],
+   "height": 4.5,
+   "label": "MCM6670 character generator"
+  },
+  {
+   "ref": "R36",
+   "footprint": "R_0.25W",
+   "value": "360k",
+   "x": 185.98,
+   "y": 29.82,
+   "body": [
+    181.02,
+    28.82,
+    190.93,
+    30.82
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z52",
+   "footprint": "DIP14",
+   "value": "74LS04",
+   "x": -66.04,
+   "y": -28.76,
+   "body": [
+    -69.24,
+    -37.76,
+    -62.84,
+    -19.76
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Y1",
+   "footprint": "Crystal",
+   "value": "10.6445 MHz",
+   "x": 186.1,
+   "y": -1.93,
+   "body": [
+    180.4,
+    -4.43,
+    191.9,
+    0.57
+   ],
+   "height": 4.0,
+   "label": "10.6445 MHz crystal"
+  },
+  {
+   "ref": "Z54",
+   "footprint": "DIP14",
+   "value": "74LS30",
+   "x": -99.37,
+   "y": -28.56,
+   "body": [
+    -102.57,
+    -37.56,
+    -96.17,
+    -19.56
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R62",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -49.45,
+   "y": -70.76,
+   "body": [
+    -54.4,
+    -71.76,
+    -44.5,
+    -69.76
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C53",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -41.07,
+   "y": -57.93,
+   "body": [
+    -42.93,
+    -62.62,
+    -39.22,
+    -53.25
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z56",
+   "footprint": "DIP14",
+   "value": "74LS92",
+   "x": 185.93,
+   "y": -58.23,
+   "body": [
+    182.74,
+    -67.23,
+    189.13,
+    -49.23
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "R13",
+   "footprint": "R_0.25W",
+   "value": "2.2k",
+   "x": -66.0,
+   "y": 83.23,
+   "body": [
+    -70.95,
+    82.23,
+    -61.05,
+    84.23
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z74",
+   "footprint": "DIP14",
+   "value": "74LS00",
+   "x": -116.01,
+   "y": -57.86,
+   "body": [
+    -119.21,
+    -66.86,
+    -112.81,
+    -48.86
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C58",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": -34.45,
+   "y": 1.4,
+   "body": [
+    -39.15,
+    -0.45,
+    -29.78,
+    3.25
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "CR5",
+   "footprint": "D",
+   "value": "1N4148",
+   "x": 185.98,
+   "y": 24.74,
+   "body": [
+    181.0,
+    23.74,
+    190.95,
+    25.74
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C21",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "750pF",
+   "x": 124.3,
+   "y": 29.92,
+   "body": [
+    122.45,
+    25.25,
+    126.15,
+    34.62
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R18",
+   "footprint": "R_3W",
+   "value": "5.6",
+   "x": -115.93,
+   "y": 66.72,
+   "body": [
+    -120.93,
+    53.26,
+    -110.93,
+    80.19
+   ],
+   "height": 7.0,
+   "label": ""
+  },
+  {
+   "ref": "Z30",
+   "footprint": "DIP14",
+   "value": "74LS02",
+   "x": 66.21,
+   "y": 1.76,
+   "body": [
+    63.01,
+    -7.24,
+    69.41,
+    10.76
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C37",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 58.15,
+   "y": 0.5,
+   "body": [
+    56.3,
+    -4.2,
+    60.0,
+    5.17
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Q6",
+   "footprint": "Q_Heatsink_Small_BCE",
+   "value": "MJE34",
+   "x": -90.7,
+   "y": 82.25,
+   "body": [
+    -103.2,
+    63.45,
+    -78.2,
+    97.75
+   ],
+   "height": 18.0,
+   "label": ""
+  },
+  {
+   "ref": "Z61",
+   "footprint": "DIP16",
+   "value": "2102",
+   "x": 99.46,
+   "y": -58.05,
+   "body": [
+    96.26,
+    -68.05,
+    102.66,
+    -48.05
+   ],
+   "height": 4.5,
+   "label": "video RAM (2102)"
+  },
+  {
+   "ref": "R28",
+   "footprint": "R_0.25W",
+   "value": "270",
+   "x": 149.02,
+   "y": 54.35,
+   "body": [
+    144.07,
+    53.35,
+    153.97,
+    55.35
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "Z51",
+   "footprint": "DIP16",
+   "value": "74LS157",
+   "x": -49.44,
+   "y": -28.55,
+   "body": [
+    -52.64,
+    -38.55,
+    -46.24,
+    -18.55
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "Z6",
+   "footprint": "DIP14",
+   "value": "74C04",
+   "x": 132.56,
+   "y": 29.84,
+   "body": [
+    129.36,
+    20.84,
+    135.76,
+    38.84
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C16",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 16.7,
+   "y": 42.95,
+   "body": [
+    12.0,
+    41.1,
+    21.37,
+    44.8
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R43",
+   "footprint": "R_0.25W",
+   "value": "10k",
+   "x": 149.2,
+   "y": 16.28,
+   "body": [
+    144.25,
+    15.28,
+    154.15,
+    17.28
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C41",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 33.38,
+   "y": -13.88,
+   "body": [
+    28.68,
+    -15.73,
+    38.05,
+    -12.02
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z10",
+   "footprint": "DIP16",
+   "value": "74LS166",
+   "x": 66.24,
+   "y": 29.85,
+   "body": [
+    63.04,
+    19.85,
+    69.44,
+    39.85
+   ],
+   "height": 4.5,
+   "label": ""
+  },
+  {
+   "ref": "C39",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 165.7,
+   "y": -13.97,
+   "body": [
+    161.03,
+    -15.83,
+    170.4,
+    -12.12
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "R39",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": 107.7,
+   "y": 30.1,
+   "body": [
+    106.7,
+    25.15,
+    108.7,
+    35.05
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R50",
+   "footprint": "R_0.25W",
+   "value": "4.7k",
+   "x": -128.62,
+   "y": -28.7,
+   "body": [
+    -129.62,
+    -33.65,
+    -127.62,
+    -23.75
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "R25",
+   "footprint": "R_0.25W",
+   "value": "1.6M",
+   "x": 165.53,
+   "y": 51.81,
+   "body": [
+    160.58,
+    50.81,
+    170.48,
+    52.81
+   ],
+   "height": 2.4,
+   "label": ""
+  },
+  {
+   "ref": "C45",
+   "footprint": "C_Disc_9.5L_4W_6P_Small",
+   "value": "0.1uF 12V",
+   "x": 74.65,
+   "y": -28.2,
+   "body": [
+    72.8,
+    -32.87,
+    76.5,
+    -23.5
+   ],
+   "height": 9.0,
+   "label": ""
+  },
+  {
+   "ref": "Z32",
+   "footprint": "DIP14",
+   "value": "74LS93",
+   "x": 33.09,
+   "y": 0.53,
+   "body": [
+    29.89,
+    -8.47,
+    36.29,
+    9.53
+   ],
+   "height": 4.5,
+   "label": ""
+  }
+ ]
+}
