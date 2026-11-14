@@ -174,7 +174,7 @@ The design follows the 8800's U11.
 
 ### U8. The top bar
 
-- **Left (the machine):** the logo and title; **Tapes** (insert a blank tape; our sample tapes; open a `.cas` or `.wav` file…; eject; save the tape as `.cas` or `.wav`); **Programs** (our sample BASIC programs, typed in for you on the Model I's keys).
+- **Left (the machine):** the logo and title; **Tapes** (insert a blank tape; our sample tapes; open a `.cas` or `.wav` file…; eject; save the tape as `.cas` or `.wav`; **Fast tape**, checked while on, the same switch as the Cassette tab's, at hand when a tape is chosen); **Programs** (our sample BASIC programs, typed in for you on the Model I's keys).
 - **Right (the app):** **Sound** (an icon button, a speaker, crossed out while off; remembered), then About. Sound is the page's, not the tape's: it is the only sound yet, but it is switched where any later one would be.
 - On a phone the menus keep their icons and lose their names.
 

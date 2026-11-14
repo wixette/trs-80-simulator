@@ -122,7 +122,8 @@ export function setTip(e, text) {
  * @typedef {object} MenuItem
  * @property {string} label
  * @property {() => void} run
- * @property {boolean} [checked] shown with a check (a choice among several)
+ * @property {boolean} [checked] shown with a check (a choice among several, or a toggle)
+ * @property {boolean} [toggle] the check is a setting on or off, not a choice among several
  * @property {IconName} [icon] shown before the label
  * @property {string | true} [divider] a line before the item, headed by the text if one is given
  * @property {string} [disabled] greyed, with this reason at its right; choosing it still runs it, which says why (P6)
@@ -153,7 +154,7 @@ export function showMenu(anchor, items) {
   const box = el("div", { class: "menu", role: "menu" });
   const buttons = items.map((it) => {
     if (it.divider) box.appendChild(el("div", { class: "menu-divider", role: "separator" }, [typeof it.divider === "string" ? el("span", { text: it.divider }) : null]));
-    const role = it.checked === undefined ? "menuitem" : "menuitemradio";
+    const role = it.checked === undefined ? "menuitem" : it.toggle ? "menuitemcheckbox" : "menuitemradio";
     const mark = it.checked === undefined ? null : it.checked ? icon("check") : el("span", { class: "check" });
     const b = el("button", { role, tabindex: "-1" }, [mark, it.icon ? icon(it.icon) : null, el("span", { text: it.label }), it.disabled ? el("small", { class: "why", text: it.disabled }) : null]);
     if (it.checked !== undefined) b.setAttribute("aria-checked", String(it.checked));
@@ -177,7 +178,7 @@ export function showMenu(anchor, items) {
   // open towards the middle of the window: from the anchor's left edge, or its right edge on the right
   const left = r.left + r.width / 2 > window.innerWidth / 2 ? r.right - b.width : r.left;
   box.style.left = `${Math.max(8, Math.min(window.innerWidth - b.width - 8, left))}px`;
-  const start = Math.max(0, items.findIndex((it) => it.checked));
+  const start = Math.max(0, items.findIndex((it) => it.checked && !it.toggle));
   buttons[start]?.focus();
   box.addEventListener("keydown", (e) => {
     const i = buttons.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));

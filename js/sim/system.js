@@ -134,6 +134,13 @@ export class System {
     this.setControl(which, CONTROL_MID);
   }
 
+  /** Fast tape (D16), from the Tapes menu or the Cassette tab: on, the machine runs 32 times faster while the tape moves. @param {boolean} on */
+  setFastTape(on) {
+    this.fastTape = on;
+    this.say({ key: on ? "tape.fastOn" : "tape.fastOff" });
+    this.changed();
+  }
+
   /** The RESET button. */
   reset() {
     if (!this.machine.powered) {

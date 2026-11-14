@@ -102,6 +102,8 @@ export class TopBar {
       { label: t("bar.tape.saveCas"), icon: "download", divider: true, disabled: recorded ? undefined : t("bar.tape.nothing"), run: () => this.save("cas") },
       { label: t("bar.tape.saveWav"), icon: "download", disabled: recorded ? undefined : t("bar.tape.nothing"), run: () => this.save("wav") },
       { label: t("bar.tape.eject"), icon: "eject", disabled: has ? undefined : t("bar.tape.noTape"), run: () => s.deckKey("eject") },
+      // the same switch as the Cassette tab's
+      { label: t("tape.fast"), checked: s.fastTape, toggle: true, divider: true, run: () => s.setFastTape(!s.fastTape) },
     ];
   }
 

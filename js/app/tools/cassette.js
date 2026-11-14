@@ -60,10 +60,9 @@ export class CassetteTool {
     this.name = el("strong", { class: "tape-name" });
     this.what = el("p", { class: "tape-what" });
     this.where = el("p", { class: "tape-where mono" });
-    const fast = toggle(t("tape.fast"), system.fastTape, (on) => {
-      system.fastTape = on;
-      system.say({ key: on ? "tape.fastOn" : "tape.fastOff" });
-    });
+    // the same switch as the Tapes menu's: either sets it, both show it
+    const fast = toggle(t("tape.fast"), system.fastTape, (on) => system.setFastTape(on));
+    this.fast = fast;
     setTip(fast, t("tape.fast.tip"));
     fast.setAttribute("data-tip-describes", "");
     this.canvas = /** @type {HTMLCanvasElement} */ (el("canvas", { width: String(W), height: String(H), class: "tape-strip", "aria-label": t("tape.strip") }));
@@ -125,6 +124,7 @@ export class CassetteTool {
     const s = this.system;
     const d = s.deck;
     const tape = d.tape;
+    this.fast.setAttribute("aria-checked", String(s.fastTape));
     this.name.textContent = tape ? tape.name : t("tape.none");
     const info = s.tapeInfo();
     this.what.textContent = !tape ? t("tape.none.how") : !info ? t("tape.blank.how") : info.kind === "basic" ? t("tape.basic.how", { letter: info.name }) : info.kind === "system" ? t("tape.system.how", { program: info.name, blocks: info.blocks.length, entry: `${hex(info.entry, 4)}H`, bad: info.bad.length ? t("tape.badBlocks", { n: info.bad.length }) : "" }) : t("tape.unknown.how");
