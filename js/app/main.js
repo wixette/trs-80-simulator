@@ -122,7 +122,9 @@ const stage = new Stage(system, {
 });
 
 // ---- the dock and its tools (P3, U6) ---------------------------------------------------------------
-const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.4) : 300));
+// the stage's least height: on a phone, more than half the screen, as the band and the helper
+// strip take some of it and the drawings need the rest
+const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.55) : window.innerHeight <= 520 ? Math.round(window.innerHeight * 0.65) : 300));
 dock.onResize = fitStatus;
 const sound = new TapeSound();
 const lessons = new LessonsTool($("pane-lessons"), system, (s) => showMe(s));

@@ -13,6 +13,11 @@ export const TOOLS = /** @type {ToolId[]} */ (["lessons", "vram", "keyboard", "c
 
 /** The dock's least open height, px; at the start it takes this share of the window. */
 const DOCK_MIN = 140;
+/** A window this short, px, or shorter (a phone on its side): the dock opens folded at first,
+ * and its least height gives way to the stage's. */
+const SHORT = 520;
+/** The dock's least open height in this window, px. */
+const dockMin = () => Math.min(DOCK_MIN, Math.round(window.innerHeight * 0.25));
 const DOCK_START = 0.4;
 /** One arrow key's step on the handle, px. */
 const KEY_STEP = 24;
@@ -36,17 +41,20 @@ export class Dock {
     this.stageMin = stageMin;
     const saved = load();
     this.height = saved.height ?? Math.round(window.innerHeight * DOCK_START);
-    this.folded = saved.folded ?? false;
+    this.folded = saved.folded ?? window.innerHeight <= SHORT;
     /** @type {ToolId} */
     this.current = saved.tab && TOOLS.includes(saved.tab) ? saved.tab : "lessons";
     /** Called when a tab is shown. @type {(id: ToolId) => void} */
     this.onShow = () => {};
+    /** @private while the remembered tab is shown at the start */
+    this.starting = false;
     /** Called when the dock changes size or folds. */
     this.onResize = () => {};
     this.select = tabs(/** @type {HTMLElement} */ (document.getElementById("dock-tabs")), (tabId) => {
       this.current = /** @type {ToolId} */ (tabId.replace(/^tab-/, ""));
       document.getElementById(tabId)?.querySelector(".dot")?.setAttribute("hidden", "");
-      if (this.folded) {
+      // a tab chosen opens the dock; the one shown at the start leaves it as it was
+      if (this.folded && !this.starting) {
         this.folded = false;
         this.apply();
       }
@@ -93,20 +101,22 @@ export class Dock {
 
   /** Shows the remembered tab; call once the tools are built. */
   start() {
+    this.starting = true;
     this.select(`tab-${this.current}`);
+    this.starting = false;
     this.apply();
   }
 
   /** The tallest the dock may be in this window: whatever leaves the stage its least, px. */
   maxHeight() {
     const h = (/** @type {string} */ id) => document.getElementById(id)?.offsetHeight ?? 0;
-    return Math.max(DOCK_MIN, document.body.clientHeight - h("topbar") - h("status") - h("dock-handle") - this.stageMin());
+    return Math.max(dockMin(), document.body.clientHeight - h("topbar") - h("status") - h("dock-handle") - this.stageMin());
   }
 
   /** @private */
   apply() {
     const max = this.maxHeight();
-    this.height = Math.max(DOCK_MIN, Math.min(max, this.height));
+    this.height = Math.max(dockMin(), Math.min(max, this.height));
     this.el.classList.toggle("folded", this.folded);
     this.el.style.height = this.folded ? "" : `${this.height}px`;
     this.fold.replaceChildren(icon(this.folded ? "keyboard_arrow_up" : "keyboard_arrow_down"));

@@ -96,6 +96,9 @@ export function pictureMargin(L, aspect) {
 
 /** @typedef {ReturnType<typeof displayLayout>} DisplayLayout */
 
+/** On an upright phone, the least share of the height the display keeps beside a full-width keyboard. */
+const DISPLAY_SHARE = 0.45;
+
 /**
  * How wide each drawing is on the stage, px.
  * @param {object} o
@@ -117,12 +120,14 @@ export function fitFlat(o) {
   let down;
   let keyboard = 0;
   if (k && o.fullKeyboard) {
-    keyboard = width;
-    down = (height - gap - (width * k.h) / k.w) / topH;
+    // the stage's width, while that leaves the display at least its share of the height
+    keyboard = Math.min(width, ((height - gap) * (1 - DISPLAY_SHARE) * k.w) / k.h);
+    down = (height - gap - (keyboard * k.h) / k.w) / topH;
   } else if (k) {
     down = (height - gap) / (topH + k.h / d.w);
   } else down = height / topH;
-  const display = Math.max(40, Math.min(across, down));
+  // never more than fits: a short stage draws everything smaller rather than overflowing
+  const display = Math.max(1, Math.min(across, down));
   if (k && !o.fullKeyboard) keyboard = Math.min(width, (display * k.w) / d.w);
   return { display, recorder: r ? (display * r.w) / d.w : 0, keyboard };
 }

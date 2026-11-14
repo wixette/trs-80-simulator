@@ -84,3 +84,16 @@ test("APP-FLAT-6: room round the display's POWER button: the word above, the pla
   assert.ok(L.label.z - L.label.size / 2 - (L.button.z + ring) >= 6, "a gap under the word Power");
   assert.ok(L.button.z - ring - L.panel.z1 >= 8, "a gap over the platform");
 });
+
+for (const [w, h] of [[348, 150], [378, 310], [400, 420], [348, 90]]) {
+  test(`APP-FLAT-7: on an upright phone the drawings never overflow the stage, at ${w} x ${h}`, () => {
+    for (const rec of [null, recorder]) {
+      const o = fitFlat({ width: w, height: h, gap: 8, display, recorder: rec, keyboard, fullKeyboard: true });
+      const s = o.display / display.w;
+      const down = Math.max(display.h, rec ? rec.h : 0) * s + 8 + (o.keyboard * keyboard.h) / keyboard.w;
+      assert.ok(down <= h + 0.01, `${down.toFixed(1)} px down in ${h}`);
+      assert.ok(o.keyboard <= w && o.display + (rec ? 8 + o.recorder : 0) <= w + 0.01);
+      assert.ok((Math.max(display.h, rec ? rec.h : 0) * s) / (h - 8) >= 0.45 - 1e-9 || o.keyboard === w, "the display keeps its share");
+    }
+  });
+}
