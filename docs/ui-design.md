@@ -26,7 +26,7 @@ If a control is wanted somewhere else, move it, or make both places visible at o
 
 ### P3. Tools live in one dock, one at a time
 
-The lessons and the four instruments (Video RAM, Keyboard, Cassette, CPU & Memory) share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
+The lessons, the four instruments (Video RAM, Keyboard, Cassette, CPU & Memory) and the references share one dock under the stage. You choose which one it shows, how big it is, and whether it is open at all.
 
 ### P4. Occasional actions go in menus and dialogs
 
@@ -149,13 +149,15 @@ The machine's controls that are hard to reach are clickable where they are: the 
 - **A key legend** in the status line's first message, and in the Keyboard tool, names the special keys.
 - **The Model I's own keys** can be clicked or tapped, in 3D and in 2D. SHIFT clicked latches for the next key.
 
-### U6. The dock's five tabs
+### U6. The dock's six tabs
 
 1. **Lessons:** the lesson bar (numbered tabs, one lesson at a time), then the lesson's steps (U7).
 2. **Video RAM:** the 64 × 16 grid of bytes, live, cells flashing on write. Click a cell, here or on the screen in 2D, to inspect it: its address, its byte as read back with bit 6 marked as rebuilt, and either the character's 6 × 12 dots from the character generator, row by row, or the 2 × 3 blocks by bit.
 3. **Keyboard:** the 8 × 8 matrix, keys lit while down. The rows the program reads light as it reads them, with each read's address and byte, and reads a second.
 4. **Cassette:** the tape in the recorder (its name and what it holds, how to load it), the position and length, Fast tape, and the tape under the head: pulses, bits, bytes, and what each byte is (leader, sync, name, block, address, data, checksum, entry).
 5. **CPU & Memory:** the registers (AF, BC, DE, HL, IX, IY, SP, PC, the alternate set, I, R) and the flags by letter (S Z H P/V N C). The next instruction disassembled. A memory map strip (ROM, unused, keyboard, video, RAM) lit where the CPU reads and writes. A memory dump that can follow PC, SP or HL. Pause, Step, Run to (an address), and a clock speed (real, 1/10, 1/100, 1/1,000). Paused, everything else waits too: the screen, the tape, the keys.
+
+6. **References:** what the simulator simplifies, what it is built on, further reading and the source, one column down the middle, as the 8800 simulator's References tab. About's *References* button opens it.
 
 The first visit opens the dock on Lessons. After that the dock remembers its tab and its height. What the machine does never switches the dock's tab by itself. A tab that changes while not shown gets an activity dot.
 
@@ -177,13 +179,14 @@ The design follows the 8800's U11.
 
 ### U9. About
 
-A dialog holding:
-- the logo, the version and what the simulator is;
-- what it simplifies (the colours of the glass, Fast tape, the board's parts as blocks);
-- credits: sources, people and libraries;
-- the licences, one per line, the Level II ROM's notice among them;
-- a link to the source repository;
-- "not affiliated with Tandy or RadioShack".
+A dialog, short as the 8800 simulator's is, holding:
+- the logo, the version and what the simulator is, and that it is a pre-release;
+- links to the source and to report a problem;
+- the licences, a line each, what then whose, the Level II ROM's notice among them;
+- "not affiliated with Tandy or RadioShack";
+- at the bottom right, *References* (a text button, which opens the References tab) and *Close* (filled, the one action it is for).
+
+*(build)* What it simplifies and its credits made About too long to read at a glance: they are in the References tab, with further reading.
 
 ### U10. In 2D, the recorder and the keyboard are drawers
 

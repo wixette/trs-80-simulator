@@ -238,18 +238,42 @@ export function tabs(list, onSelect) {
 
 // ---- dialogs (Material 3, on the native <dialog>) ------------------------------------------------
 /**
- * Opens a modal dialog with a title band and a body; Escape, the close button or a click on the
- * scrim closes it, and the focus goes back where it was.
+ * @typedef {object} DialogAction a button at the dialog's foot; each closes the dialog, then runs
+ * @property {string} label
+ * @property {boolean} [primary] the one action the dialog is for: filled, and the focus at first
+ * @property {() => void} [run]
+ */
+
+/**
+ * Opens a modal dialog (Material 3): a title band with its close button, the body, and the
+ * actions at the bottom right, the one it is for filled. Escape, the close button, an action or
+ * a click on the scrim closes it, and the focus goes back where it was.
  * @param {string} title
  * @param {Node[]} body
+ * @param {DialogAction[]} [actions]
  * @returns {HTMLDialogElement}
  */
-export function showDialog(title, body) {
+export function showDialog(title, body, actions = []) {
   const close = el("button", { class: "btn icon-only", type: "button" }, [icon("close")]);
   setTip(close, t("dialog.close"));
+  /** @type {HTMLButtonElement | null} */
+  let first = null;
+  const foot = el(
+    "div",
+    { class: "dialog-actions" },
+    actions.map((a) => {
+      const b = el("button", { class: `btn ${a.primary ? "filled" : ""}`, type: "button", text: a.label });
+      b.addEventListener("click", () => {
+        d.close();
+        a.run?.();
+      });
+      if (a.primary) first = b;
+      return b;
+    }),
+  );
   const d = el("dialog", { class: "dialog", "aria-label": title }, [
     el("div", { class: "dialog-head" }, [el("h2", { text: title }), close]),
-    el("div", { class: "dialog-body" }, body),
+    el("div", { class: "dialog-body" }, [...body, ...(actions.length ? [foot] : [])]),
   ]);
   close.addEventListener("click", () => d.close());
   d.addEventListener("click", (e) => {
@@ -258,6 +282,7 @@ export function showDialog(title, body) {
   d.addEventListener("close", () => d.remove());
   document.body.appendChild(d);
   d.showModal();
+  /** @type {HTMLButtonElement | null} */ (first)?.focus();
   return d;
 }
 

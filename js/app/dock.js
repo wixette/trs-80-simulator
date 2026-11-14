@@ -8,8 +8,8 @@
 import { t } from "../l10n/l10n.js";
 import { icon, setTip, tabs } from "../ui/components.js";
 
-/** @typedef {"lessons" | "vram" | "keyboard" | "cassette" | "cpu"} ToolId */
-export const TOOLS = /** @type {ToolId[]} */ (["lessons", "vram", "keyboard", "cassette", "cpu"]);
+/** @typedef {"lessons" | "vram" | "keyboard" | "cassette" | "cpu" | "refs"} ToolId */
+export const TOOLS = /** @type {ToolId[]} */ (["lessons", "vram", "keyboard", "cassette", "cpu", "refs"]);
 
 /** The dock's least open height, px; at the start it takes this share of the window. */
 const DOCK_MIN = 140;

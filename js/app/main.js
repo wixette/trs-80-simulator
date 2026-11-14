@@ -19,6 +19,7 @@ import { aboutBody } from "./about.js";
 import { Dock } from "./dock.js";
 import { LessonsTool } from "./lessons.js";
 import { readLink, writeLink } from "./link.js";
+import { ReferencesTool } from "./references.js";
 import { Stage, VIEWS } from "./stage.js";
 import { HelperStrip } from "./strip.js";
 import { CassetteTool } from "./tools/cassette.js";
@@ -135,6 +136,7 @@ const vram = new VramTool($("pane-vram"), system, (cell) => {
 const keyboard = new KeyboardTool($("pane-keyboard"), system);
 const cassette = new CassetteTool($("pane-cassette"), system, sound);
 const cpu = new CpuTool($("pane-cpu"), system);
+new ReferencesTool($("pane-refs"));
 /** The tool Show me put beside the lesson, if any. @type {{ tick: (dt: number) => void } | null} */
 let companion = null;
 /** The Keyboard tool beside the lesson, which hears the program's reads too. @type {KeyboardTool | null} */
@@ -205,7 +207,7 @@ if (viewer) {
 const strip = new HelperStrip($("helper-strip"), system, () => desk);
 
 // ---- the top bar ---------------------------------------------------------------------------------
-new TopBar(system, { rom: () => romResult.rom, about: () => aboutBody(asset("package.json")) });
+new TopBar(system, { rom: () => romResult.rom, about: () => aboutBody(asset("package.json")), references: () => dock.show("refs") });
 
 // ---- the machine's events -------------------------------------------------------------------------
 system.machine.on.video = (addr) => {

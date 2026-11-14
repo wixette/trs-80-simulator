@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// About (docs/ui-design.md, U9): what the simulator is, its version (read from package.json,
-// the one place it is kept), what it simplifies, its credits and licences, and its source.
+// About (docs/ui-design.md, U9), short as the Altair 8800 simulator's is: the logo and the
+// version (read from package.json, the one place it is kept), what the simulator is, where its
+// source is, its licences a line each, and that it is not Tandy's. What it simplifies, its
+// credits and further reading are in the References tab (js/app/references.js), which About's
+// References button opens.
 
 import { t } from "../l10n/l10n.js";
 import { el } from "../ui/components.js";
 
-const REPO = "https://github.com/wixette/trs-80-simulator";
+export const REPO = "https://github.com/wixette/trs-80-simulator";
 
-/** @param {string} key a message of items joined by " · " */
-const list = (key) => el("ul", {}, t(key).split(" · ").map((s) => el("li", { text: s })));
+/** @param {string} href @param {string} text */
+const link = (href, text) => el("a", { href, target: "_blank", rel: "noopener", text });
 
 /** @param {URL} pkg package.json @returns {Node[]} */
 export function aboutBody(pkg) {
@@ -18,29 +21,28 @@ export function aboutBody(pkg) {
     .then((r) => r.json())
     .then((p) => (version.textContent = t("about.version", { version: p.version })))
     .catch(() => {});
-  /** @param {string} what @param {string} licence */
-  const row = (what, licence) => el("tr", {}, [el("td", { text: t(what) }), el("td", { text: licence })]);
+  /** What, then whose: a line each. @param {string} what @param {(Node | string)[]} whose */
+  const row = (what, whose) => [el("dt", { text: t(what) }), el("dd", {}, whose)];
   return [
     el("div", { class: "about-band" }, [el("img", { src: new URL("../../images/logo.svg", import.meta.url).href, alt: "" }), el("div", {}, [el("strong", { text: t("app.name") }), el("br"), version])]),
-    el("p", { text: t("about.what") }),
-    el("p", { class: "dim", text: t("about.prerelease") }),
-    el("h3", { text: t("about.simplifies") }),
-    list("about.simplifies.list"),
-    el("h3", { text: t("about.credits") }),
-    list("about.credits.list"),
-    el("h3", { text: t("about.licences") }),
-    el("table", { class: "licences" }, [
-      row("about.lic.code", "Apache-2.0"),
-      row("about.lic.content", "CC BY-SA 4.0"),
-      row("about.lic.rom", "LicenseRef-HistoricalROM"),
-      row("about.lic.z80", "MIT"),
-      row("about.lic.chars", "xtrs (MIT-style)"),
-      row("about.lic.three", "MIT"),
-      row("about.lic.fonts", "OFL 1.1"),
-      row("about.lic.icons", "Apache-2.0"),
-      row("about.lic.photos", "CC BY-SA 4.0, CC0"),
+    el("p", { class: "dialog-text", text: t("about.what") }),
+    el("p", { class: "dialog-text dim", text: t("about.prerelease") }),
+    el("ul", { class: "about-links" }, [
+      el("li", {}, [link(REPO, t("about.source"))]),
+      el("li", {}, [link(`${REPO}/issues`, t("about.issues"))]),
     ]),
-    el("p", {}, [el("a", { href: REPO, target: "_blank", rel: "noopener", text: t("about.source") })]),
-    el("p", { class: "dim", text: t("about.trademark") }),
+    el("h3", { text: t("about.licences") }),
+    el("dl", { class: "about-licences" }, [
+      ...row("about.lic.code", [link(`${REPO}/blob/main/LICENSE`, "Apache-2.0")]),
+      ...row("about.lic.rom", ["© Microsoft, Tandy · ", link(`${REPO}/blob/main/roms/NOTICE`, "roms/NOTICE")]),
+      ...row("about.lic.z80", ["Z80.js © Molly Howell · MIT"]),
+      ...row("about.lic.chars", ["xtrs © Tim Mann"]),
+      ...row("about.lic.content", ["CC BY-SA 4.0"]),
+      ...row("about.lic.three", ["three.js · MIT"]),
+      ...row("about.lic.fonts", ["Roboto Flex, Michroma · OFL 1.1"]),
+      ...row("about.lic.icons", ["Material Symbols © Google · Apache-2.0"]),
+      ...row("about.lic.photos", ["Wikimedia Commons · CC BY-SA 4.0, CC0"]),
+    ]),
+    el("p", { class: "dialog-text dim about-trademark", text: t("about.trademark") }),
   ];
 }

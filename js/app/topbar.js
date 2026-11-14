@@ -30,7 +30,7 @@ function download(bytes, name, type) {
 export class TopBar {
   /**
    * @param {System} system
-   * @param {{ rom: () => Uint8Array | null, about: () => Node[] }} o
+   * @param {{ rom: () => Uint8Array | null, about: () => Node[], references: () => void }} o
    */
   constructor(system, o) {
     this.system = system;
@@ -43,7 +43,13 @@ export class TopBar {
     this.file.addEventListener("change", () => this.openFile());
     tapes.addEventListener("click", () => showMenu(tapes, this.tapeItems()));
     programs.addEventListener("click", () => showMenu(programs, this.programItems()));
-    about.addEventListener("click", () => showDialog(t("about.title"), this.o.about()));
+    // About, as the Altair 8800 simulator's: References opens the tab, Close is the one action
+    about.addEventListener("click", () =>
+      showDialog(t("about.title"), this.o.about(), [
+        { label: t("about.references"), run: () => this.o.references() },
+        { label: t("about.close"), primary: true },
+      ]),
+    );
     setTip(tapes, t("bar.tapes.tip"));
     setTip(programs, t("bar.programs.tip"));
     setTip(about, t("bar.about"));
