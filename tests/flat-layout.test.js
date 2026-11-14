@@ -37,7 +37,7 @@ test("APP-FLAT-2: the front's parts nest and do not overlap", () => {
   assert.ok(L.label.z + L.label.size / 2 < L.brown.z1, "the word Power on the brown");
   assert.ok(L.vents.z1 <= L.brown.z0 && L.vents.z0 >= 0, "the vents in the band under the brown");
   for (const [, z] of L.knobs) assert.ok(z + L.bushing[1] <= L.brown.z0 && L.letters.z + L.letters.size / 2 <= L.brown.z0, "C, B and V in the band");
-  assert.ok(L.brown.z1 < L.H - L.base.h, "the brown under the case's top edge");
+  assert.equal(L.brown.z1, L.H - L.base.h, "the dark front runs up to the case's top edge: the silver tray has no top");
 });
 
 const display = { w: L.W, h: L.H };

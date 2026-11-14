@@ -214,11 +214,16 @@ export class Flat {
     const bot = [np.z0 + 2.5 * ps, np.z0 + 2.5 * ps + hgt * 0.4];
     const pw = np.x1 - np.x0 - 6 * ps;
     const cxn = (np.x0 + np.x1) / 2;
+    // VIDEO DISPLAY in Michroma, as on the 3D plate: at its own width, made smaller (never
+    // stretched) should a line not fit 72 % of the panel, which leaves the margin the 3D plate has (fitLettering)
     const lettering = (/** @type {string} */ s, /** @type {number} */ z) =>
-      `<text x="${f(cxn)}" y="${f(Y(z) + 2.1 * ps)}" font-size="${f(5.9 * ps)}" textLength="${f(pw * 0.84)}" lengthAdjust="spacingAndGlyphs" fill="${c.inkSilver}" text-anchor="middle" font-family="Michroma, var(--font)">${s}</text>`;
+      `<text class="flat-lettering" data-max="${f(pw * 0.72)}" x="${f(cxn)}" y="${f(Y(z) + 2.4 * ps)}" font-size="${f(6.6 * ps)}" fill="${c.inkSilver}" text-anchor="middle" font-family="Michroma, 'Roboto Flex', sans-serif">${s}</text>`;
     const label = (/** @type {string} */ s, /** @type {number} */ x, /** @type {number} */ z, /** @type {number} */ size, /** @type {string} */ fill) =>
       `<text x="${f(x)}" y="${f(Y(z) + size * 0.37)}" font-size="${f(size)}" fill="${fill}" text-anchor="middle" font-family="var(--font)" font-weight="600">${s}</text>`;
     const { x: bx, z: bz } = L.button;
+    // the dark front: square at the top, where it meets the case's top edge; round at the bottom
+    const br = L.brown;
+    const frontPath = `<path d="M${f(br.x0)} ${f(Y(br.z1))}H${f(br.x1)}V${f(Y(br.z0) - br.r)}Q${f(br.x1)} ${f(Y(br.z0))} ${f(br.x1 - br.r)} ${f(Y(br.z0))}H${f(br.x0 + br.r)}Q${f(br.x0)} ${f(Y(br.z0))} ${f(br.x0)} ${f(Y(br.z0) - br.r)}Z" fill="${c.monitorBrown}"/>`;
     const [bushIn, bushOut] = L.bushing;
     const box = this.q(".flat-display");
     box.style.setProperty("--ar", String(W / H));
@@ -227,7 +232,7 @@ export class Flat {
         <defs><linearGradient id="flat-alu" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#d9d9d6"/><stop offset="0.5" stop-color="#bdbdb9"/><stop offset="1" stop-color="#d0d0cc"/></linearGradient></defs>
         <rect x="${f(-W / 2 + L.base.inset)}" y="${f(H - base)}" width="${f(W - 2 * L.base.inset)}" height="${f(base)}" fill="${c.caseSilverDark}"/>
         <rect x="${f(-W / 2)}" y="0" width="${f(W)}" height="${f(H - base)}" rx="10" fill="${c.caseSilver}"/>
-        ${rect(L.brown, L.brown.r, c.monitorBrown)}
+        ${frontPath}
         ${slots}
         ${rect(L.opening, L.opening.r, c.tubeBlack)}
         ${rect(L.panel, L.panel.r, c.panelBrown)}
@@ -308,6 +313,31 @@ export class Flat {
       box.appendChild(k);
     }
     void this.loadLogos(box);
+    void this.fitLettering(box);
+  }
+
+  /** @private The plate's lettering, no wider than its room, once Michroma is in. @param {HTMLElement} box */
+  async fitLettering(box) {
+    try {
+      await document.fonts.load("10px Michroma");
+    } catch {
+      // the fallback font is measured instead
+    }
+    // measured where it is drawn; under a hidden view, once it is shown
+    const fit = () => {
+      for (const n of box.querySelectorAll(".flat-lettering")) {
+        const te = /** @type {SVGTextElement} */ (/** @type {unknown} */ (n));
+        const len = te.getComputedTextLength();
+        if (!len) return false;
+        const max = Number(te.dataset.max);
+        if (len > max) te.setAttribute("font-size", String(f((Number(te.getAttribute("font-size")) * max) / len)));
+      }
+      return true;
+    };
+    if (!fit()) {
+      const ro = new ResizeObserver(() => fit() && ro.disconnect());
+      ro.observe(box);
+    }
   }
 
   /** @private The two name-plate logos, as the 3D plate has them. @param {HTMLElement} box */

@@ -53,7 +53,9 @@ export function displayLayout(d) {
   const face = { x0: opening.x0 + rim, x1: opening.x1 - rim, z0: opening.z0 + rim, z1: opening.z1 - rim, r: FACE_RADIUS };
   opening.r = face.r + rim * 0.6;
   brown.z1 = opening.z1 + pad;
-  const body = brown.z1 + edge;
+  // the silver shell is a tray with no top: its sides and the band under the front, the dark
+  // front running up to the case's top edge, as on the machine
+  const body = brown.z1;
   const H = body + base;
   // the right-hand panel: the word Power, the button, then the raised platform and its plate
   const cx = (panel.x0 + panel.x1) / 2;

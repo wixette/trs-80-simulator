@@ -1,4 +1,13 @@
 /* SPDX-License-Identifier: Apache-2.0 */
+/* Michroma, the name plates' wide lettering, as the 3D model has it: model/assets/fonts,
+   SIL Open Font License 1.1 (model/assets/fonts/OFL.txt). */
+@font-face {
+  font-family: "Michroma";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(../model/assets/fonts/Michroma-Regular.ttf?v=0.0.1) format("truetype");
+}
 /* Roboto Flex (weight axis), vendored from @fontsource-variable/roboto-flex (pnpm vendor),
    SIL Open Font License 1.1: vendor/roboto-flex/LICENSE. */
 @font-face {
