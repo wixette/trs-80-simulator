@@ -217,6 +217,7 @@ export class Viewer {
   /** Puts the camera at a pose at once. @param {Pose} pose */
   jumpTo(pose) {
     this.endFlight();
+    this.stopDrift();
     this.camera.position.set(...pose.pos);
     this.controls.target.set(...pose.target);
   }
@@ -228,6 +229,7 @@ export class Viewer {
    * @param {number} [seconds]
    */
   flyTo(pose, then, seconds = FLIGHT_S) {
+    this.stopDrift();
     const p1 = new THREE.Vector3(...pose.pos);
     const t1 = new THREE.Vector3(...pose.target);
     const p0 = this.camera.position.clone();
@@ -262,6 +264,14 @@ export class Viewer {
     this.flight = null;
     this.flightThen = null;
     then?.();
+  }
+
+  /** @private What is left of a drag's damped momentum is spent now, so that it does not carry the camera on past where it is put. */
+  stopDrift() {
+    const damping = this.controls.enableDamping;
+    this.controls.enableDamping = false;
+    this.controls.update();
+    this.controls.enableDamping = damping;
   }
 
   /** Where the camera is now. @returns {Pose} */

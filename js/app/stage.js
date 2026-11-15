@@ -151,8 +151,16 @@ export class Stage {
     if (this.viewer) {
       const v = this.viewer;
       v.onUserMove.push(() => (this.fitted = null));
+      // a stage resized during a flight or a move is framed again once the camera has landed
+      let refit = false;
       v.onResize.push(() => {
         if (this.fitted && this.mode === "3d" && !this.moving && !v.isFlying()) v.jumpTo(this.framed(this.fitted));
+        else refit = true;
+      });
+      v.onFrame.push(() => {
+        if (!refit || this.moving || v.isFlying()) return;
+        refit = false;
+        if (this.fitted && this.mode === "3d") v.jumpTo(this.framed(this.fitted));
       });
     }
     /** @private @type {ReturnType<typeof setTimeout> | undefined} */
@@ -296,7 +304,7 @@ export class Stage {
       // a view the page chose is framed again, as the stage may have changed size meanwhile
       this.fitted = this.fittedBefore ?? (this.before ? null : this.view);
       viewer.flyTo(this.fitted ? this.framed(this.fitted) : /** @type {import("../scene/viewer.js").Pose} */ (this.before), () => (this.moving = false));
-    }, o.instant ? 0 : 220);
+    }, o.instant || viewer.reducedMotion.matches ? 0 : 220);
     this.refresh();
     this.onModeChange("3d");
   }
