@@ -8,20 +8,23 @@ The **TRS-80 Model I** (1977) in 3D in your browser: switch it on, type Level II
 
 **[▶ Try it online](https://wixette.github.io/trs-80-simulator/)**: nothing to install, on a desktop or a phone, in ten languages.
 
-> **v0.0.2 is a pre-release.** Everything below works, and the six lessons are complete. The layout may still change before 1.0.0; more sample programs and better lessons come first ([design/roadmap.md](design/roadmap.md)).
+> **v0.0.3 is a pre-release.** Everything below works, and the six lessons are complete. The layout may still change before 1.0.0 ([design/roadmap.md](design/roadmap.md)).
 
-![The simulator: the TRS-80 Model I in 3D, its screen showing a frame and a diagonal drawn with SET, the helper strip under it, and the first lesson, Meet the TRS-80, in the dock below](./screenshots/app.jpg)
+![The simulator: the TRS-80 Model I in 3D, its screen showing the Kaleidoscope program's mirrored patterns, the helper strip under it, and the first lesson, Meet the TRS-80, in the dock below](./screenshots/app.jpg)
 
 ## What you can do
 
 <table>
 <tr>
-<td width="50%"><b>Switch to 2D</b><br>The machine's own faces, flat: the screen, the recorder, the keyboard. On a phone, this is where you type.<br><img src="./screenshots/2d.jpg" alt="The 2D view: the Video Display with a frame and a diagonal on its screen, the CTR-80 recorder beside it from above, and the keyboard below"></td>
+<td colspan="2"><b>Run programs of our own</b><br>21 of them, typed in for you on the Model I's keys or loaded from tape: games, utilities and music in the style of 1977–80, and short ones to learn from.<br><img src="./screenshots/programs.jpg" alt="The Programs menu open on its Games section: Moon lander, Worm, Bricks, Meteors and The lighthouse, beside the sections Learn, Utilities and Music, and Find original programs and Open a listing"></td>
+</tr>
+<tr>
+<td width="50%"><b>Switch to 2D</b><br>The machine's own faces, flat: the screen, the recorder, the keyboard. On a phone, this is where you type.<br><img src="./screenshots/2d.jpg" alt="The 2D view: the Video Display with a sine wave drawn with SET on its screen, the CTR-80 recorder beside it, and the keyboard below"></td>
 <td width="50%"><b>Look inside while it runs</b><br>The case turns to glass; the board's chips light up as they work.<br><img src="./screenshots/inside.jpg" alt="The Inside, from below view: the keyboard unit's case as glass, and under it the main board's chips, seen from below"></td>
 </tr>
 <tr>
 <td><b>Take it apart</b><br>With the power off, in the order the real one comes apart.<br><img src="./screenshots/apart.jpg" alt="The computer taken apart in 3D: the case top lifted, the keyboard raised, the main board out in front and turned over"></td>
-<td><b>See the screen as memory</b><br>1,024 bytes, live; pick one to see its bits become dots.<br><img src="./screenshots/vram.jpg" alt="The Video RAM tool: the 64 by 16 grid of bytes, one picked, and beside it the letter H drawn by the character generator, row by row"></td>
+<td><b>See the screen as memory</b><br>1,024 bytes, live; pick one to see its bits become dots.<br><img src="./screenshots/vram.jpg" alt="The Video RAM tool: the 64 by 16 grid of bytes as the Kaleidoscope program fills it, one graphics byte picked, and beside it its bits and the 2 by 3 blocks they light"></td>
 </tr>
 <tr>
 <td><b>Save and load programs on tape</b><br>The tape under the head, as pulses, bits and bytes.<br><img src="./screenshots/tape.jpg" alt="The Cassette tool while a machine-code tape loads: the pulses under the head, the bits they make, and the bytes, each named"></td>
@@ -30,7 +33,8 @@ The **TRS-80 Model I** (1977) in 3D in your browser: switch it on, type Level II
 </table>
 
 - **Use Level II BASIC,** Microsoft's 12 KB BASIC, on an emulated Z80 at the Model I's 1.77 MHz. Type on your own keyboard (Esc is BREAK, Enter is ENTER); held keys work, so games play.
-- **Programs:** a few of ours, typed in for you on the Model I's keys, or loaded from their tapes. Open your own `.cas` or `.wav` files, and save any tape as either.
+- **Programs:** 21 of ours, in the style of 1977–80, to learn from and for fun: games (a moon lander, a worm, bricks, meteors, a text adventure), utilities (a clock, a calendar, a biorhythm chart, a banner) and music. Each is typed in for you on the Model I's keys, or loaded from its tape. **Find original programs** says where the era's own software is archived and how to load it; open your own `.cas` or `.wav` files, or a BASIC file to type in, and save any tape as either.
+- **Sound,** as owners had it: the cassette lead into an amplifier.
 - **Ten languages:** English, Español, Français, Deutsch, Italiano, Português (Brasil), 简体中文, 繁體中文, 日本語 and 한국어, the lessons included. The machine's own words (BREAK, `READY`, BASIC) stay as the machine has them.
 - **Six lessons** for a middle-school class or a first course in computer science, below.
 
@@ -42,7 +46,7 @@ Every step can be typed for you, and ticks itself when the machine shows it done
 2. **Talk to BASIC:** `PRINT`, a first program, a loop, `INPUT`.
 3. **The screen is memory:** a letter is a byte; draw with `SET`, then find the picture in memory.
 4. **The keyboard is memory:** keys are switches in rows, read as bytes.
-5. **Programs as sound:** save a program to tape, see its bits, load it back.
+5. **Programs as sound:** save a program to tape, see its bits, load it back; data on tape, and music.
 6. **Inside the CPU:** machine code put in with `POKE`, then stepped through one instruction at a time.
 
 Teacher notes, with timings and the questions students ask, in English: [lessons/teacher-notes.md](lessons/teacher-notes.md).

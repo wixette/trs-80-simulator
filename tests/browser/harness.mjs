@@ -121,6 +121,10 @@ const NAMED = {
   Shift: { key: "Shift", code: "ShiftLeft", keyCode: 16 },
   Tab: { key: "Tab", code: "Tab", keyCode: 9 },
   Backspace: { key: "Backspace", code: "Backspace", keyCode: 8 },
+  ArrowLeft: { key: "ArrowLeft", code: "ArrowLeft", keyCode: 37 },
+  ArrowUp: { key: "ArrowUp", code: "ArrowUp", keyCode: 38 },
+  ArrowRight: { key: "ArrowRight", code: "ArrowRight", keyCode: 39 },
+  ArrowDown: { key: "ArrowDown", code: "ArrowDown", keyCode: 40 },
 };
 
 /**
@@ -314,18 +318,26 @@ export async function start(chromePath, base, query = "") {
     await until("!trs80.typist.busy", ms);
     await sleep(800);
   };
-  /** Opens a top-bar or band menu and chooses the item whose text starts so. @param {string} button @param {string} label */
+  /**
+   * Opens a top-bar or band menu and chooses the item whose text starts so, scrolled to if the
+   * menu scrolls; "Learn ▸ Sine wave" opens the submenu Learn first.
+   * @param {string} button @param {string} label
+   */
   const choose = async (button, label) => {
     await press(button);
     await sleep(200);
-    const sel = await js(`(() => { const b = [...document.querySelectorAll('.menu [role^="menuitem"]')].find((x) => x.textContent.startsWith(${JSON.stringify(label)}));
-      if (!b) return null; b.id ||= 'check-item'; return '#' + b.id; })()`);
-    if (!sel) {
-      errors.push(`no menu item ${label}`);
-      await key("Escape");
-      return false;
+    for (const part of label.split(" ▸ ")) {
+      const sel = await js(`(() => { const b = [...document.querySelectorAll('.menu [role^="menuitem"]')].reverse().find((x) => x.textContent.startsWith(${JSON.stringify(part)}));
+        if (!b) return null; b.id = 'check-item-' + Math.random().toString(36).slice(2); b.scrollIntoView({ block: 'nearest' }); return '#' + b.id; })()`);
+      if (!sel) {
+        errors.push(`no menu item ${part}`);
+        await key("Escape");
+        return false;
+      }
+      await press(sel);
+      await sleep(150);
     }
-    return press(sel);
+    return true;
   };
   /** @type {{ name: string, ok: boolean }[]} */
   const results = [];

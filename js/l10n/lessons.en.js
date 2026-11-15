@@ -25,6 +25,8 @@ export default {
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Press ENTER to use all the memory. The computer answers `RADIO SHACK LEVEL II BASIC` and `READY`. It is waiting for you. Type on your own keyboard: Enter is ENTER, Esc is BREAK.",
   "lesson.meet.ready.more": "BASIC is a program in 12 KB of ROM, memory that keeps its contents with the power off. So the computer is ready the moment it is switched on, with no disk and no operating system. Microsoft wrote this BASIC for Tandy in 1978.",
+  "lesson.meet.play.title": "Something to play",
+  "lesson.meet.play.text": "Before the next lesson, a game in the style of the time: **Moon lander**. Open it and choose **Put its tape in**, press **PLAY** on the recorder, type `CLOAD`, then `RUN`. Or choose **Type it in** and watch the keys type it. Programs, in the top bar, has more: games, utilities and music.",
 
   "lesson.basic.title": "Talk to BASIC",
   "lesson.basic.lead": "A program is a list of instructions that the computer follows, one after another.",
@@ -45,6 +47,8 @@ export default {
   "lesson.basic.input.title": "Ask a question",
   "lesson.basic.input.text": "`INPUT` waits for you to type something and press ENTER. Run this, type your name at the question mark, and press ENTER.",
   "lesson.basic.input.more": "`N$` is a string variable: the `$` means it holds letters, not a number. BASIC stores the program itself in memory too, from address 42E9H, with each word such as `PRINT` packed into one byte. Lesson 6 looks at memory directly.",
+  "lesson.basic.guess.title": "A whole game",
+  "lesson.basic.guess.text": "**Guess my number** is a game in eleven lines, made of what you have just used: `INPUT`, `PRINT`, `IF` and a loop. Open it and play. Then press **BREAK**, type `LIST`, and find the two `IF` lines that answer TOO LOW and TOO HIGH.",
 
   "lesson.screen.title": "The screen is memory",
   "lesson.screen.lead": "1,024 bytes of memory are the picture: change a byte and the screen changes.",
@@ -61,6 +65,8 @@ export default {
   "lesson.screen.seven.title": "The missing chip",
   "lesson.screen.seven.text": "Store 193 in the first byte of the screen, then read it back: it says 129. One bit, bit 6, was never stored.",
   "lesson.screen.seven.more": "The screen's memory is seven chips, not eight, to save money. Bit 6 is rebuilt from bits 5 and 7 when the byte is read. That is why the Model I has no lower-case letters: they need bit 6.",
+  "lesson.screen.kaleido.title": "Pictures from bytes",
+  "lesson.screen.kaleido.text": "**Kaleidoscope** draws by POKEing graphics characters, 128 to 191, straight into the video RAM, each one mirrored four ways. Run it with the **Video RAM** tool beside the lesson, and watch the cells change as the picture grows.",
 
   "lesson.keyboard.title": "The keyboard is memory",
   "lesson.keyboard.lead": "Keys are switches. The computer reads them as bytes, like memory.",
@@ -77,6 +83,8 @@ export default {
   "lesson.keyboard.ghost.title": "Ghost keys",
   "lesson.keyboard.ghost.text": "Hold A, B and I together, and watch the Keyboard tool: J lights too, though you never pressed it.",
   "lesson.keyboard.ghost.more": "The matrix has no diodes, so current from row 1 runs through I, then A, then B, and reaches J's column. Any three keys at the corners of a rectangle make the fourth appear. Later keyboards added a diode on every switch to stop this.",
+  "lesson.keyboard.worm.title": "A game reads the keys",
+  "lesson.keyboard.worm.text": "**Worm** steers with the arrow keys by reading the same row as your sketch, `PEEK(14400)`, many times a second. Play it with the **Keyboard** tool beside the lesson, and watch the row light as you steer.",
 
   "lesson.tape.title": "Programs as sound",
   "lesson.tape.lead": "A program can be kept on an ordinary cassette tape, as pulses of sound.",
@@ -94,6 +102,11 @@ export default {
   "lesson.tape.list.title": "It is back",
   "lesson.tape.list.text": "`LIST` it. The program came back from the sound on the tape. **Tapes ▸ Save tape as .wav** gives you the sound itself to play.",
   "lesson.tape.list.more": "Owners swapped programs by copying cassettes, and magazines printed programs to type in. A tape could stretch or wear out, so people often saved a program twice.",
+  "lesson.tape.notes.title": "Data on tape",
+  "lesson.tape.notes.text": "A tape holds more than programs. **Notes to tape** writes five lines of yours onto a tape with `PRINT #-1`, and reads them back with `INPUT #-1`. Put a blank tape in first (Tapes ▸ Blank tape), and follow its screen.",
+  "lesson.tape.music.title": "The same lead makes music",
+  "lesson.tape.music.text": "The lead to the recorder carries a level that the program sets: to save, the ROM switches it in pulses. Owners plugged that lead into a small amplifier instead, and programs switched the level for sounds and tunes. The simulator has the amplifier plugged in. Open **Music box**, and listen.",
+  "lesson.tape.music.more": "The Model I has no speaker and no sound command. **Music box** POKEs a few bytes of machine code into the top of the memory and calls them with `USR`: they switch port 255 between two levels hundreds of times a second, and how fast is the note's pitch. Its first `DATA` lines are that routine.",
 
   "lesson.cpu.title": "Inside the CPU",
   "lesson.cpu.lead": "The CPU fetches an instruction from memory, does it, and fetches the next. Programs are bytes too.",
@@ -116,4 +129,6 @@ export default {
   "lesson.cpu.chips.title": "Watch the chips",
   "lesson.cpu.chips.text": "**Show me** looks inside. Run it again with `X=USR(0)` and watch: while BASIC runs, ROM A glows; your program runs from the RAM chips, and the screen's chips flash as it writes.",
   "lesson.cpu.chips.more": "The lights are a view the real machine never had: each chip glows with its share of the CPU's reads and writes. The Z80 can only do one thing at a time, and you can watch it move from the ROM to the RAM and back.",
+  "lesson.cpu.race.title": "Why machine code?",
+  "lesson.cpu.race.text": "**BASIC against machine code** fills the screen twice. BASIC takes about 7 seconds; the Z80, running six instructions in a loop, about 1/45 of a second. Its machine code is at 32512: with the **CPU & Memory** tool beside the lesson, you can see its bytes, and stop it and step it as you did here.",
 };

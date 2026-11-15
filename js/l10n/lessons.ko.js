@@ -21,6 +21,8 @@ export default {
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "ENTER를 누르면 메모리를 모두 써요. 컴퓨터가 `RADIO SHACK LEVEL II BASIC`과 `READY`로 대답해요. 이제 여러분을 기다리고 있어요. 여러분의 키보드로 입력하세요. Enter는 ENTER, Esc는 BREAK예요.",
   "lesson.meet.ready.more": "BASIC은 12 KB짜리 ROM에 든 프로그램이에요. ROM은 전원이 꺼져도 내용을 잊지 않는 메모리예요. 그래서 디스크도 운영 체제도 없이, 켜자마자 바로 쓸 수 있어요. 이 BASIC은 1978년에 Microsoft가 Tandy를 위해 만들었어요.",
+  "lesson.meet.play.title": "놀아 볼 거리",
+  "lesson.meet.play.text": "다음 레슨 전에, 그 시절 스타일의 게임을 하나 해 봐요: **달 착륙**. 열어서 **테이프 넣기**를 고르고, 녹음기의 **PLAY**를 누른 다음 `CLOAD`, 그리고 `RUN`을 입력하세요. 아니면 **키로 입력**을 고르고 키가 입력하는 모습을 지켜보세요. 위쪽 막대의 ‘프로그램’에 게임, 유틸리티, 음악이 더 있어요.",
 
   "lesson.basic.title": "BASIC과 대화해요",
   "lesson.basic.lead": "프로그램은 컴퓨터가 차례차례 따라 하는 명령의 목록이에요.",
@@ -41,6 +43,8 @@ export default {
   "lesson.basic.input.title": "질문을 해요",
   "lesson.basic.input.text": "`INPUT`은 여러분이 무언가 입력하고 ENTER를 누를 때까지 기다려요. 이 프로그램을 실행하고, 물음표가 나오면 이름을 입력한 뒤 ENTER를 누르세요.",
   "lesson.basic.input.more": "`N$`는 문자열 변수예요. `$`는 수가 아니라 글자를 담는다는 표시예요. BASIC은 프로그램 자체도 42E9H 번지부터 메모리에 저장하는데, `PRINT` 같은 단어는 1바이트로 줄여서 저장해요. 레슨 6에서는 메모리를 직접 들여다봐요.",
+  "lesson.basic.guess.title": "게임 하나 통째로",
+  "lesson.basic.guess.text": "**숫자 맞히기**는 열한 줄짜리 게임이에요. 방금 써 본 것들로 만들어졌어요: `INPUT`, `PRINT`, `IF`, 그리고 반복문. 열어서 해 보세요. 그런 다음 **BREAK**를 누르고 `LIST`를 입력해서, TOO LOW와 TOO HIGH라고 대답하는 `IF` 줄 두 개를 찾아보세요.",
 
   "lesson.screen.title": "화면은 메모리예요",
   "lesson.screen.lead": "1,024바이트의 메모리가 곧 그림이에요. 바이트 하나를 바꾸면 화면이 바뀌어요.",
@@ -57,6 +61,8 @@ export default {
   "lesson.screen.seven.title": "사라진 칩",
   "lesson.screen.seven.text": "화면의 첫 바이트에 193을 넣고 다시 읽어 보세요. 129가 나와요. 비트 하나, 비트 6은 저장된 적이 없어요.",
   "lesson.screen.seven.more": "돈을 아끼려고 화면 메모리는 칩 8개가 아니라 7개로 만들었어요. 바이트를 읽을 때 비트 6은 비트 5와 7로 다시 만들어 내요. 그래서 Model I에는 소문자가 없어요. 소문자에는 비트 6이 필요하거든요.",
+  "lesson.screen.kaleido.title": "바이트로 그린 그림",
+  "lesson.screen.kaleido.text": "**만화경**은 128부터 191까지의 그래픽 문자를 POKE로 비디오 RAM에 바로 써서 그림을 그려요. 문자마다 네 방향으로 비춰요. 레슨 옆에 **비디오 RAM** 도구를 열고 실행해서, 그림이 커지는 동안 칸이 바뀌는 걸 지켜보세요.",
 
   "lesson.keyboard.title": "키보드도 메모리예요",
   "lesson.keyboard.lead": "키는 스위치예요. 컴퓨터는 키를 메모리처럼 바이트로 읽어요.",
@@ -73,6 +79,8 @@ export default {
   "lesson.keyboard.ghost.title": "유령 키",
   "lesson.keyboard.ghost.text": "A, B, I를 함께 누르고 키보드 도구를 보세요. 누르지도 않은 J에도 불이 들어와요.",
   "lesson.keyboard.ghost.more": "이 매트릭스에는 다이오드가 없어서, 1번 줄의 전류가 I, A, B를 차례로 지나 J의 열에 닿아요. 직사각형의 세 꼭짓점에 있는 키를 누르면 네 번째 키가 나타나요. 나중의 키보드는 이를 막으려고 스위치마다 다이오드를 달았어요.",
+  "lesson.keyboard.worm.title": "게임이 키를 읽어요",
+  "lesson.keyboard.worm.text": "**지렁이**는 여러분의 스케치와 같은 줄, `PEEK(14400)`을 1초에 여러 번 읽어서 화살표 키로 방향을 바꿔요. 레슨 옆에 **키보드** 도구를 열고 해 보면서, 방향을 바꿀 때 그 줄에 불이 들어오는 걸 지켜보세요.",
 
   "lesson.tape.title": "소리가 된 프로그램",
   "lesson.tape.lead": "프로그램을 평범한 카세트테이프에 소리 펄스로 저장할 수 있어요.",
@@ -90,6 +98,11 @@ export default {
   "lesson.tape.list.title": "돌아왔어요",
   "lesson.tape.list.text": "`LIST`를 입력해 보세요. 프로그램이 테이프의 소리에서 돌아왔어요. **테이프 ▸ .wav로 테이프 저장**을 고르면 그 소리를 직접 들어 볼 수 있어요.",
   "lesson.tape.list.more": "주인들은 카세트를 복사해서 프로그램을 주고받았고, 잡지는 직접 입력할 프로그램을 실었어요. 테이프는 늘어나거나 닳을 수 있어서, 프로그램을 두 번씩 저장하는 일이 많았어요.",
+  "lesson.tape.notes.title": "테이프에 담긴 데이터",
+  "lesson.tape.notes.text": "테이프에는 프로그램만 담기는 게 아니에요. **테이프에 메모**는 여러분이 쓴 다섯 줄을 `PRINT #-1`로 테이프에 쓰고, `INPUT #-1`로 다시 읽어요. 먼저 빈 테이프를 넣고(테이프 ▸ 빈 테이프), 화면에 나오는 대로 따라 하세요.",
+  "lesson.tape.music.title": "같은 선으로 음악을",
+  "lesson.tape.music.text": "녹음기로 가는 선에는 프로그램이 정하는 레벨이 실려 있어요. 저장할 때는 ROM이 그 레벨을 펄스로 바꿔요. 주인들은 이 선을 작은 앰프에 대신 꽂았고, 프로그램은 레벨을 바꿔서 소리와 노래를 냈어요. 시뮬레이터에는 앰프가 연결되어 있어요. **오르골**을 열고 들어 보세요.",
+  "lesson.tape.music.more": "Model I에는 스피커도, 소리를 내는 명령도 없어요. **오르골**은 몇 바이트의 기계어를 POKE로 메모리 맨 위에 넣고 `USR`로 불러요. 그 기계어가 포트 255를 1초에 수백 번 두 레벨 사이에서 바꾸는데, 그 빠르기가 음의 높이예요. 앞쪽의 `DATA` 줄들이 바로 그 루틴이에요.",
 
   "lesson.cpu.title": "CPU 속으로",
   "lesson.cpu.lead": "CPU는 메모리에서 명령을 하나 가져와 실행하고, 다음 명령을 가져와요. 프로그램도 바이트예요.",
@@ -112,4 +125,6 @@ export default {
   "lesson.cpu.chips.title": "칩을 지켜봐요",
   "lesson.cpu.chips.text": "**보여 주기**를 누르면 안을 들여다봐요. `X=USR(0)`으로 다시 실행하고 지켜보세요. BASIC이 실행되는 동안에는 ROM A가 빛나고, 여러분의 프로그램은 RAM 칩에서 실행되며, 화면에 쓸 때마다 화면 칩이 깜박여요.",
   "lesson.cpu.chips.more": "이 불빛은 진짜 기계에는 없던 보기예요. 각 칩은 CPU가 읽고 쓴 몫만큼 빛나요. Z80은 한 번에 한 가지 일만 할 수 있어서, ROM에서 RAM으로 갔다가 돌아오는 모습을 지켜볼 수 있어요.",
+  "lesson.cpu.race.title": "왜 기계어일까?",
+  "lesson.cpu.race.text": "**BASIC 대 기계어**는 화면을 두 번 채워요. BASIC은 약 7초, 여섯 개의 명령을 반복해서 실행하는 Z80은 약 1/45초가 걸려요. 기계어는 32512 번지에 있어요. 레슨 옆에 **CPU·메모리** 도구를 열면, 그 바이트를 보고, 여기서 했던 것처럼 멈추고 한 스텝씩 실행해 볼 수 있어요.",
 };

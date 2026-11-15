@@ -29,6 +29,8 @@ export const videoReadBack = (b) => (b & 0xbf) | (b & 0xa0 ? 0 : 0x40);
 
 /** Where the video RAM starts, and its size. */
 export const VIDEO = 0x3c00;
+/** Level II's keyboard driver, which scans the matrix [rs-info keyboard]: its first and last addresses. */
+const KEYBOARD_DRIVER = [0x03e3, 0x045f];
 export const VIDEO_SIZE = 1024;
 
 /**
@@ -109,6 +111,8 @@ export class Machine {
     this.anyScanT = -1;
     /** When each keyboard row was last read, by the ROM or by a program reading the keys itself, T-states. */
     this.rowScanT = [-1, -1, -1, -1, -1, -1, -1, -1];
+    /** When each row was last read by the program itself (PEEK, or its own machine code), not by Level II's keyboard driver, T-states. */
+    this.ownScanT = [-1, -1, -1, -1, -1, -1, -1, -1];
     /** @type {Traffic} */
     this.traffic = noTraffic();
     /** @type {TapePort | null} */
@@ -223,6 +227,9 @@ export class Machine {
     if (sel & 0x01) this.scanT = this.t;
     this.anyScanT = this.t;
     for (let r = 0; r < 8; r++) if (sel & (1 << r)) this.rowScanT[r] = this.t;
+    // Level II's keyboard driver (03E3H-045FH) scans every row between statements, for BREAK
+    const pc = this.cpu.pc;
+    if (pc < KEYBOARD_DRIVER[0] || pc > KEYBOARD_DRIVER[1]) for (let r = 0; r < 8; r++) if (sel & (1 << r)) this.ownScanT[r] = this.t;
     this.traffic.keyboard++;
     const v = this.matrix(sel);
     this.on.scan?.(sel, v);
@@ -304,6 +311,7 @@ export class Machine {
       this.tapeLatch = false;
       this.scanT = this.anyScanT = -1;
       this.rowScanT.fill(-1);
+      this.ownScanT.fill(-1);
       this.traffic = noTraffic();
       this.cpu.reset();
     }
@@ -355,9 +363,9 @@ export class Machine {
   }
 
   /**
-   * The screen as text, for tests and checks: 16 lines of 64 characters, graphics as "#",
-   * control codes as the letters the character generator shows for them; trailing spaces
-   * trimmed.
+   * The screen as text, for tests and checks: 16 lines of 64 characters, graphics as "#" (a
+   * blank one as a space, as it looks), control codes as the letters the character generator
+   * shows for them; trailing spaces trimmed.
    * @returns {string[]}
    */
   screenText() {
@@ -366,7 +374,7 @@ export class Machine {
       let s = "";
       for (let c = 0; c < 64; c++) {
         const b = videoReadBack(this.vram[r * 64 + c]);
-        s += b >= 0x80 ? "#" : String.fromCharCode(b < 0x20 ? b + 0x40 : b);
+        s += b >= 0x80 ? ((b & 0x3f) === 0 ? " " : "#") : String.fromCharCode(b < 0x20 ? b + 0x40 : b);
       }
       lines.push(s.trimEnd());
     }

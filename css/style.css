@@ -3,8 +3,8 @@
    then the machine in 3D or in 2D), the handle, the dock below, the status line. The page never
    scrolls. Every colour, corner and state is a token (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.2");
-@import url("fonts.css?v=0.0.2");
+@import url("theme.css?v=0.0.3");
+@import url("fonts.css?v=0.0.3");
 
 :root {
   font-family: var(--font);
@@ -233,8 +233,10 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 #dock.folded .dock-pane { display: none; }
 
 /* a tool's layout: its main part, and a side */
-.tool { display: flex; gap: 20px; align-items: flex-start; min-width: 0; }
-.tool-main { min-width: 0; flex: 1 1 auto; }
+/* an instrument is one block, centred in its tab as a lesson is: its cards side by side at
+   their own widths, not spread to the tab's edges */
+.tool { display: flex; gap: 20px; align-items: flex-start; justify-content: center; min-width: 0; max-width: 1400px; margin: 0 auto; }
+.tool-main { min-width: 0; flex: 0 1 auto; }
 .tool-side { flex: 0 1 340px; min-width: 240px; }
 .tool-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 8px 0; }
 .tool h3, .cpu-box h3 { margin: 4px 0 8px; font-size: 13px; font-weight: 640; color: var(--md-on-surface-variant); }
@@ -270,7 +272,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 
 /* the Keyboard tool */
 .matrix { display: inline-grid; gap: 2px; padding: 6px; background: var(--md-well); border-radius: var(--radius-m); font-size: 12px; max-width: 100%; overflow-x: auto; }
-.matrix-row { display: grid; grid-template-columns: 64px repeat(8, 54px) 64px 64px; gap: 2px; align-items: center; border-radius: var(--radius-xs); }
+.matrix-row { display: grid; grid-template-columns: 64px repeat(8, 54px) 64px 96px; gap: 2px; align-items: center; border-radius: var(--radius-xs); }
 .matrix-head { color: var(--md-outline); font-size: 11px; }
 .matrix-row.read .mx-addr { color: var(--md-primary-text); }
 .matrix-row.read { background: color-mix(in srgb, var(--md-primary) 10%, transparent); }
@@ -278,7 +280,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .mx-key { height: 26px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-xs); background: var(--md-surface-high); font-weight: 560; }
 .mx-key.none { background: transparent; }
 .mx-key.down { background: var(--md-primary); color: var(--md-on-primary); }
-.mx-byte, .mx-rate { text-align: right; padding-right: 6px; color: var(--md-on-surface-variant); }
+.mx-byte, .mx-rate { text-align: right; padding-right: 6px; color: var(--md-on-surface-variant); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 /* the Cassette tool */
 .tape-name { display: block; font-size: 15px; margin: 4px 0; }
@@ -293,7 +295,14 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .cpu-controls { margin: 0; }
 .cpu-controls .group { display: inline-flex; gap: 4px; align-items: center; }
 .cpu-state { margin: 0; color: var(--md-on-surface-variant); }
-.cpu-grid { display: grid; grid-template-columns: minmax(260px, auto) minmax(280px, 1fr); gap: 12px; width: 100%; }
+/* the registers at their own width, the next instructions as wide as a listing needs, side by
+   side down to a phone; the memory under both, the whole width, or beside them on a wide window */
+.cpu-tool { width: fit-content; max-width: 100%; }
+.cpu-grid { display: grid; grid-template-columns: max-content minmax(320px, 520px); gap: 12px; }
+@media (min-width: 1440px) {
+  .cpu-grid { grid-template-columns: max-content minmax(320px, 520px) minmax(560px, 640px); }
+  .cpu-grid .cpu-box.wide { grid-column: 3; grid-row: 1 / span 2; align-self: start; }
+}
 .cpu-box { padding: 8px 12px 10px; border-radius: var(--radius-m); background: var(--md-surface-mid); min-width: 0; }
 .cpu-box.wide { grid-column: 1 / -1; }
 .box-head { display: flex; align-items: center; gap: 6px; }
@@ -327,11 +336,14 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .d-ascii { color: var(--md-outline); letter-spacing: 0.05em; }
 
 /* the lessons (U7): a bar of numbered lessons across the top, full width and in sight as a
-   lesson scrolls, its tabs lined up with the lesson's column; then one lesson down the middle */
+   lesson scrolls, its tabs centred; then one lesson down the middle */
 #pane-lessons { padding-top: 0; container-type: inline-size; }
 .lessons { --reading: 780px; display: flex; flex-direction: column; min-height: 100%; line-height: 1.6; }
-.lesson-bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: 0 -16px; padding: 6px max(16px, calc((100% - var(--reading)) / 2 + 16px)) 0; background: var(--md-surface-low); border-bottom: 1px solid var(--md-outline-variant); overflow-x: auto; scrollbar-width: none; }
+.lesson-bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: 0 -16px; padding: 6px 16px 0; background: var(--md-surface-low); border-bottom: 1px solid var(--md-outline-variant); overflow-x: auto; scrollbar-width: none; }
 .lesson-bar::-webkit-scrollbar { display: none; }
+/* the tabs centred in the bar; where they overflow, the auto margins give way and they start at its left */
+.lesson-bar > .lesson-tab:first-child { margin-left: auto; }
+.lesson-bar > .lesson-tab:last-child { margin-right: auto; }
 .lesson-tab { flex: none; display: inline-flex; align-items: center; gap: 8px; margin-bottom: -1px; padding: 6px 10px 8px 4px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--md-on-surface-variant); cursor: pointer; white-space: nowrap; font-size: 13px; font-weight: 560; line-height: 1.45; }
 .lesson-tab:hover { color: var(--md-on-surface); }
 .lesson-tab:focus-visible { outline: none; }
@@ -344,6 +356,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 @container (max-width: 600px) {
   .lesson-tab:not([aria-selected="true"]) span { display: none; }
 }
+.lesson-bar.compact .lesson-tab:not([aria-selected="true"]) span { display: none; }
 .lesson-body { display: flex; gap: 16px; align-items: flex-start; padding-top: 14px; }
 .lesson { flex: 1 1 auto; max-width: var(--reading); margin: 0 auto; min-width: 0; }
 .lesson-of { margin: 0; color: var(--md-outline); font-size: 11px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -358,8 +371,12 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .step h4 { margin: 0 0 2px; font-size: 15px; font-weight: 620; line-height: 24px; }
 .step-text { color: var(--md-on-surface); }
 .step-text code, .more code { padding: 0 4px; border-radius: var(--radius-xs); background: var(--md-well); font-size: 0.95em; }
-.photo { margin: 10px 0 4px; }
-.photo img { display: block; width: 100%; max-width: 560px; border-radius: var(--radius-s); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+.step-body { display: flow-root; }
+.photo { float: right; width: min(42%, 300px); margin: 4px 0 8px 18px; }
+.photo img { display: block; width: 100%; border-radius: var(--radius-s); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+@container (max-width: 560px) {
+  .photo { float: none; width: auto; max-width: 420px; margin: 10px 0 4px; }
+}
 .photo figcaption { margin-top: 6px; font-size: 12px; color: var(--md-outline); }
 .photo figcaption a { color: inherit; }
 .listing { margin: 8px 0; padding: 10px 14px; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-s); background: var(--md-well); color: var(--phosphor); font-size: 13px; line-height: 1.5; overflow-x: auto; }
@@ -379,11 +396,18 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .btn.next-lesson:hover { border-color: var(--md-primary); color: var(--md-primary-text); }
 .lessons .dim:last-child { margin-top: 8px; }
 /* the tool Show me opened, beside the lesson: the grids keep their size and scroll */
+/* Show me's answer on the stage: its edge glows once, so a press is seen even when the view is already there */
+#stage-view.pointed::after { content: ""; position: absolute; inset: 0; z-index: 30; border-radius: inherit; pointer-events: none; animation: pointed 900ms var(--ease) forwards; }
+@keyframes pointed { 0%, 100% { box-shadow: inset 0 0 0 3px transparent; } 25%, 45% { box-shadow: inset 0 0 0 3px var(--md-primary); } }
 .lesson-companion { position: sticky; top: 56px; flex: 0 1 560px; min-width: 0; max-height: calc(100% - 8px); overflow: auto; padding: 8px 12px; border-radius: var(--radius-l); background: var(--md-surface-mid); border: 1px solid var(--md-outline-variant); line-height: 1.45; }
 .companion-close { display: flex; margin: -2px -6px 4px auto; }
 .companion-tool .tool { flex-direction: column; }
 .companion-tool .vram-grid, .companion-tool .matrix { max-width: 100%; overflow-x: auto; }
 .companion-tool .tool-side, .companion-tool .vram-inspector { flex: none; min-width: 0; max-width: none; }
+/* beside a lesson there is room for one card across: the CPU tool's cards one under another */
+.companion-tool .cpu-tool { width: auto; }
+.companion-tool .cpu-grid { grid-template-columns: minmax(0, 1fr); width: 100%; }
+.companion-tool .cpu-grid .cpu-box.wide { grid-column: 1; grid-row: auto; }
 
 /* ---- the status line (P7) ---- */
 /* one line's height in the page: a longer message rises over the foot of the dock (P7), which
@@ -402,6 +426,9 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .menu button[aria-disabled="true"] > span { color: color-mix(in srgb, var(--md-on-surface) 38%, transparent); }
 .menu .why { margin-left: auto; padding-left: 16px; color: var(--md-outline); font-size: 12px; }
 .menu .check { width: 20px; }
+.menu button.has-sub > .icon:last-child { margin-left: auto; color: var(--md-outline); }
+.menu button.has-sub[aria-expanded="true"] { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); }
+.menu .menu-back { font-weight: 640; border-bottom: 1px solid var(--md-outline-variant); margin-bottom: 4px; }
 .menu-divider { margin: 6px 0; border-top: 1px solid var(--md-outline-variant); }
 .menu-divider span { display: block; padding: 8px 16px 2px; font-size: 12px; color: var(--md-outline); }
 .tooltip { position: fixed; z-index: 60; max-width: 320px; padding: 6px 10px; border-radius: var(--radius-xs); background: var(--md-on-surface); color: var(--md-surface); font-size: 12px; pointer-events: none; }
@@ -422,6 +449,11 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .dialog-actions .btn[aria-disabled="true"] { opacity: 0.55; }
 .program-listing { margin: 10px 0 4px; padding: 8px 10px; max-height: 11.5em; overflow: auto; border-radius: var(--radius-xs); background: var(--md-well); font-family: var(--mono); font-size: 12px; line-height: 1.45; white-space: pre; user-select: text; -webkit-user-select: text; }
 .program-ways { margin: 10px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5; }
+.program-faster { margin: 8px 0 0 -4px; }
+.dialog-subhead { margin: 16px 0 2px; font-size: 14px; font-weight: 640; color: var(--md-on-surface); }
+.originals-links { margin: 0 0 12px; padding-left: 18px; font-size: 14px; line-height: 1.5; color: var(--md-on-surface-variant); }
+.originals-links li { margin: 0 0 6px; }
+.originals-links a { color: var(--md-primary); font-weight: 560; }
 .dialog-actions .btn:not(.filled) { color: var(--md-primary-text); }
 .about-band { display: flex; gap: 16px; align-items: center; margin: 4px 0 14px; }
 .about-band img { width: 56px; height: 56px; }
@@ -441,15 +473,23 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .plain-list, .link-list { margin: 0; padding: 0 0 0 18px; }
 .plain-list li, .link-list li { margin: 3px 0; }
 .link-list a { text-decoration: none; }
+.refs-more { margin-top: 20px; }
+.refs-more .plain-list { margin: 4px 0 6px; color: var(--md-on-surface-variant); }
 .link-list a:hover, .link-list a:focus-visible { text-decoration: underline; }
 .selftest { position: fixed; right: 12px; bottom: 40px; z-index: 40; width: 440px; max-height: 60vh; overflow: auto; padding: 10px 14px; border-radius: var(--radius-m); background: var(--md-surface-highest); font-size: 12px; }
 .selftest .pass { color: var(--on); }
 .selftest .fail { color: var(--md-error); }
 
 /* ---- narrower windows ---- */
+/* the tape beside its card while both fit (it scales), under it when not */
+.tape-tool { flex-wrap: wrap; }
+.tape-tool .tool-main { flex: 1 1 420px; }
+@media (max-width: 660px) {
+  .cpu-tool { width: auto; }
+  .cpu-grid { grid-template-columns: minmax(0, 1fr); width: 100%; }
+}
 @media (max-width: 1100px) {
-  .cpu-grid { grid-template-columns: 1fr; }
-  .tool { flex-wrap: wrap; }
+  .tool:not(.tape-tool) { flex-wrap: wrap; }
   .lesson-companion { flex-basis: 420px; }
 }
 @media (max-width: 860px) {

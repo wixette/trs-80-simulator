@@ -6,6 +6,7 @@
 
 import { t, useLocale } from "../l10n/l10n.js";
 import { LOCALE_STORE, pickLocale } from "../l10n/locales.js";
+import { Amplifier } from "../audio/amplifier.js";
 import { TapeSound } from "../audio/tape-sound.js";
 import { Flat } from "../flat/flat.js";
 import { Crt } from "../scene/crt.js";
@@ -149,7 +150,9 @@ const stage = new Stage(system, {
 const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.55) : window.innerHeight <= 520 ? Math.round(window.innerHeight * 0.65) : 300));
 dock.onResize = fitStatus;
 const sound = new TapeSound();
-const lessons = new LessonsTool($("pane-lessons"), system, (s) => showMe(s));
+/** @type {TopBar | null} */
+let topBar = null;
+const lessons = new LessonsTool($("pane-lessons"), system, (s) => showMe(s), (id) => topBar?.openProgram(id));
 const vram = new VramTool($("pane-vram"), system, (cell) => {
   flat.highlight = cell;
   flat.invalidate();
@@ -177,6 +180,13 @@ dock.start();
 function showMe(s) {
   if (s.mode) stage.setMode(s.mode);
   if (s.view) stage.goTo(s.view);
+  if (s.mode || s.view) {
+    // the stage's edge glows once: an answer even when the view is already the one asked for
+    const v = $("stage-view");
+    v.classList.remove("pointed");
+    void v.offsetWidth;
+    v.classList.add("pointed");
+  }
   if (s.tool) {
     const host = el("div", { class: "companion-tool" });
     companionKeys = null; // a tool that replaces the Keyboard one no longer hears the reads
@@ -231,7 +241,14 @@ if (viewer) {
 const strip = new HelperStrip($("helper-strip"), system, () => desk);
 
 // ---- the top bar ---------------------------------------------------------------------------------
-new TopBar(system, { rom: () => romResult.rom, about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound });
+topBar = new TopBar(system, {
+  rom: () => romResult.rom,
+  tape: async (id) => {
+    const r = await fetch(asset(`tapes/${id}.cas`));
+    if (!r.ok) throw new Error(`${r.status}`);
+    return new Uint8Array(await r.arrayBuffer());
+  },
+  about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound });
 
 // ---- the machine's events -------------------------------------------------------------------------
 system.machine.on.video = (addr) => {
@@ -251,6 +268,9 @@ system.onChange.push(() => {
 /** The pulses of this frame, for the tape's sound: machine times. @type {number[]} */
 const pulses = [];
 system.deck.onPulse = (tt) => pulses.push(tt);
+/** The amplifier on the cassette output, for games and music (design/v0.0.3.md, S1). */
+const amp = new Amplifier();
+system.machine.on.port = (v, tt) => amp.write(v, tt, system.machine.motor);
 
 // ---- the visitor's keyboard (U5) ------------------------------------------------------------------
 /** Whether a key event belongs to the page rather than the machine. @param {KeyboardEvent} e */
@@ -375,9 +395,10 @@ function frame() {
   const dt = Math.min(0.1, (now - lastT) / 1000);
   lastT = now;
   system.frame(dt);
-  // the tape's sound, at the real speed only
+  // the tape's and the amplifier's sound, at the real speed only
   const ran = system.machine.t - frameT0;
-  if (system.clock.boost === 1 && system.clock.speed === 1 && pulses.length && ran > 0) sound.frame(pulses.map((p) => (p - frameT0) / CLOCK_HZ), ran / CLOCK_HZ);
+  const levels = amp.take(frameT0, system.machine.t);
+  if (system.clock.boost === 1 && system.clock.speed === 1 && (pulses.length || levels) && ran > 0) sound.frame(pulses.map((p) => (p - frameT0) / CLOCK_HZ), levels, ran / CLOCK_HZ);
   pulses.length = 0;
   frameT0 = system.machine.t;
   const pic = { read: (/** @type {number} */ a) => system.machine.peek(a), computer: system.machine.powered, display: system.display.on, mode32: system.machine.mode32, contrast: system.display.contrast, brightness: system.display.brightness };

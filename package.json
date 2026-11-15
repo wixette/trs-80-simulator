@@ -1,6 +1,6 @@
 {
   "name": "trs-80-simulator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "type": "module",
   "description": "The TRS-80 Model I (1977) in 3D in your browser: switch it on, type Level II BASIC, load tapes, open it up and watch the screen and keyboard work as memory.",
@@ -26,6 +26,7 @@
     "version": "node tools/stamp.mjs",
     "serve": "node tools/serve.mjs 8000",
     "shots": "node tools/shots.mjs",
+    "tapes": "node tools/tapes.mjs",
     "build:model": "\"${BLENDER:-/Applications/Blender.app/Contents/MacOS/Blender}\" --background --factory-startup --python-exit-code 1 --python model/blender/scripts/build_desk.py",
     "params": "python3 -I tools/kicad_to_params.py"
   },

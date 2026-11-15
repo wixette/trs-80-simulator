@@ -2,20 +2,21 @@
 //
 // The top bar (docs/ui-design.md, U8): what you do to the machine on the left (Tapes,
 // Programs), what you do with the app on the right (Sound, About). Programs is the one
-// catalogue of our samples: each opens a dialog that offers both ways in, typed on the keys
-// or loaded from its tape; Tapes is for tapes themselves. Each is a menu or a dialog (P4,
-// P10). Visitors bring their own tapes, read locally and never uploaded (D7); our samples are
-// recorded at run time by a second Model I, so nothing but the ROM's own output is on them.
+// catalogue of our programs, in sections (design/v0.0.3.md, S2): each opens a dialog that
+// offers both ways in, typed on the keys or loaded from its tape; then where to find the
+// era's own programs, and a BASIC file of the visitor's to type in (S3). Tapes is for tapes
+// themselves. Each is a menu or a dialog (P4, P10). Visitors bring their own tapes and
+// listings, read locally and never uploaded (D7); our tapes were recorded by a Model I of
+// our own (pnpm tapes), so nothing but the ROM's own output is on them.
 
 import { locale, t } from "../l10n/l10n.js";
 import { LOCALE_NAMES, LOCALE_SHORT, LOCALE_STORE, LOCALES } from "../l10n/locales.js";
 import { casFromTape, Tape, tapeFromCas } from "../sim/cassette.js";
-import { recordSampleTape } from "../sim/sample-tapes.js";
 import { typeKeys } from "../lessons/lessons.js";
-import { SAMPLES, typeIn } from "../sim/samples.js";
-import { screenProgramCas } from "../sim/system-samples.js";
+import { Typist } from "../sim/keys.js";
+import { LONG, SAMPLES, SECTIONS, typeIn } from "../sim/samples.js";
 import { parseWav, pulsesFromSound, wavFromPulses } from "../sim/wav.js";
-import { el, icon, setTip, showDialog, showMenu } from "../ui/components.js";
+import { el, icon, setTip, showDialog, showMenu, toggle } from "../ui/components.js";
 
 /** @typedef {import("../sim/system.js").System} System */
 
@@ -30,6 +31,16 @@ function download(bytes, name, type) {
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
+
+/** The archives Find original programs names (S3), each with what it holds. @type {[string, string][]} */
+const ORIGINALS = [
+  ["https://www.trs-80.com/main-search-software.htm", "originals.trs80com"],
+  ["https://www.classic-computers.org.nz/system-80/software_cassette_archive.htm", "originals.nz"],
+  ["https://archive.org/details/80-microcomputing-magazine", "originals.80micro"],
+];
+
+/** Each section's icon in Programs. @type {Record<import("../sim/samples.js").Section, import("../ui/components.js").IconName>} */
+const SECTION_ICONS = { learn: "school", games: "sports_esports", utilities: "construction", music: "music_note" };
 
 /** Where Sound on or off is remembered. */
 const SOUND_STORE = "trs80.sound";
@@ -48,7 +59,7 @@ const remembered = () => {
 export class TopBar {
   /**
    * @param {System} system
-   * @param {{ rom: () => Uint8Array | null, about: () => Node[], references: () => void, sound: { muted: boolean, setMuted: (m: boolean) => void } }} o
+   * @param {{ rom: () => Uint8Array | null, tape: (id: string) => Promise<Uint8Array>, about: () => Node[], references: () => void, sound: { muted: boolean, setMuted: (m: boolean) => void } }} o
    */
   constructor(system, o) {
     this.system = system;
@@ -57,7 +68,9 @@ export class TopBar {
     const programs = /** @type {HTMLButtonElement} */ (document.getElementById("programs"));
     const about = /** @type {HTMLButtonElement} */ (document.getElementById("about"));
     this.file = /** @type {HTMLInputElement} */ (el("input", { type: "file", accept: ".cas,.wav,audio/wav,audio/x-wav", hidden: true }));
-    document.body.append(this.file);
+    this.listing = /** @type {HTMLInputElement} */ (el("input", { type: "file", accept: ".bas,.txt,text/plain", hidden: true }));
+    document.body.append(this.file, this.listing);
+    this.listing.addEventListener("change", () => this.openListing());
     this.file.addEventListener("change", () => this.openFile());
     tapes.addEventListener("click", () => showMenu(tapes, this.tapeItems()));
     programs.addEventListener("click", () => showMenu(programs, this.programItems()));
@@ -145,68 +158,113 @@ export class TopBar {
 
   /** @private @returns {import("../ui/components.js").MenuItem[]} */
   programItems() {
-    return [
-      ...SAMPLES.map((sm) => ({ label: t(`sample.${sm.id}.title`), run: () => this.program(sm) })),
-      { label: t("sample.screen.menu"), run: () => this.program(null) },
-    ];
+    /** @type {import("../ui/components.js").MenuItem[]} */
+    const items = [];
+    // a submenu for each section (Learn, Games, Utilities, Music), then the two that are not ours
+    for (const sec of SECTIONS) {
+      const list = SAMPLES.filter((sm) => sm.section === sec).map((sm) => ({ label: t(`sample.${sm.id}.title`), run: () => this.program(sm) }));
+      if (list.length) items.push({ label: t(`programs.${sec}`), icon: SECTION_ICONS[sec], items: list });
+    }
+    items.push({ label: t("programs.find"), icon: "travel_explore", divider: true, run: () => this.findOriginals() });
+    items.push({ label: t("programs.listing"), icon: "article", run: () => this.listing.click() });
+    return items;
+  }
+
+  /** Opens one of our programs' dialogs, as Programs does (a lesson's step). @param {string} id */
+  openProgram(id) {
+    const sm = SAMPLES.find((x) => x.id === id);
+    if (sm) this.program(sm);
   }
 
   /**
    * A program's dialog: what it does, its listing, and the two ways in, typed on the Model I's
-   * keys or put in the recorder on its tape. Machine code has only the tape.
-   * @private @param {import("../sim/samples.js").Sample | null} sm null: the machine-code sample
+   * keys or put in the recorder on its tape; a long one is typed in faster at first.
+   * @private @param {import("../sim/samples.js").Sample} sm
    */
   program(sm) {
     const s = this.system;
-    const id = sm ? sm.id : "screen";
-    const title = t(`sample.${id}.title`);
-    const about = t(`sample.${id}.about`);
-    const noRom = this.o.rom() ? undefined : t("bar.needsRom");
-    const tape = { label: t("program.tape"), choice: true, icon: /** @type {const} */ ("voicemail"), disabled: sm ? noRom : undefined, run: () => (sm ? this.sampleTape(sm) : s.insertTape(tapeFromCas(t("tape.screenName"), screenProgramCas()))) };
+    const title = t(`sample.${sm.id}.title`);
+    const about = t(`sample.${sm.id}.about`);
+    let faster = sm.text.length >= LONG;
+    const fast = toggle(t("program.faster"), faster, (on) => (faster = on));
+    fast.setAttribute("data-tip-describes", "");
+    setTip(fast, t("program.faster.tip"));
     const body = [
       el("p", { class: "dialog-text", text: about.charAt(0).toUpperCase() + about.slice(1) }),
-      ...(sm ? [el("pre", { class: "program-listing", text: sm.text.replace(/\nRUN\n$/, "\n").trimEnd() })] : []),
-      el("ul", { class: "program-ways dim" }, [
-        ...(sm ? [el("li", { text: t("program.how.type") })] : []),
-        el("li", { text: sm ? t("program.how.tape", { letter: sm.letter }) : t("program.how.system") }),
-      ]),
+      el("pre", { class: "program-listing", text: sm.text.replace(/\nRUN\n$/, "\n").trimEnd() }),
+      el("ul", { class: "program-ways dim" }, [el("li", { text: t("program.how.type") }), el("li", { text: t("program.how.tape", { letter: sm.letter }) })]),
+      el("div", { class: "program-faster" }, [fast]),
     ];
-    if (!sm) return void showDialog(title, body, [tape]);
     const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
-    // two ways in, of equal weight, in the order the dialog lists them
+    // two ways in: the tape, and the one we recommend, Type it in, last (on the right, where a
+    // dialog's confirming action goes), filled, and with the focus
     showDialog(title, body, [
-      {
-        label: t("program.type"),
-        choice: true,
-        icon: "keyboard",
-        disabled: off,
-        run: () => this.typeProgram(sm, title),
-      },
-      tape,
+      { label: t("program.tape"), choice: true, icon: "voicemail", run: () => this.sampleTape(sm) },
+      { label: t("program.type"), primary: true, icon: "keyboard", disabled: off, run: () => this.typeProgram(sm.text, title, faster) },
     ]);
   }
 
   /**
-   * Types a program in as an owner did, every key visible: ENTER first if the machine still
+   * Types a listing in as an owner did, every key visible: ENTER first if the machine still
    * asks MEMORY SIZE? (it reads its line as a number, and anything else is thrown away as it
-   * asks again), else BREAK to stop whatever runs; then NEW, so no old line is left in, the
-   * listing, and RUN.
-   * @private @param {import("../sim/samples.js").Sample} sm @param {string} title
+   * asks again), else BREAK to stop whatever runs; then NEW, so no old line is left in, and
+   * the listing (ours end with RUN).
+   * @private @param {string} text @param {string} title @param {boolean} faster
    */
-  typeProgram(sm, title) {
+  typeProgram(text, title, faster) {
     const s = this.system;
     if (!s.machine.powered) return void s.say({ key: "type.off" });
-    const { asking, keys } = typeIn(s.machine.screenText(), sm.text);
+    const { asking, keys } = typeIn(s.machine.screenText(), text);
     typeKeys(s, keys);
+    s.typeFaster = faster;
     s.say({ key: asking ? "program.typingMemory" : "program.typing", params: { title } });
   }
 
-  /** @private @param {import("../sim/samples.js").Sample} sm */
-  sampleTape(sm) {
-    const rom = this.o.rom();
-    if (!rom) return void this.system.say({ key: "power.noRom" });
-    this.system.say({ key: "tape.recording", params: { title: t(`sample.${sm.id}.title`), letter: sm.letter } });
-    setTimeout(() => this.system.insertTape(recordSampleTape(rom, sm, t("tape.sampleName", { title: t(`sample.${sm.id}.title`), letter: sm.letter }))), 30);
+  /** @private Our program's tape, recorded beforehand (pnpm tapes). @param {import("../sim/samples.js").Sample} sm */
+  async sampleTape(sm) {
+    const name = t("tape.sampleName", { title: t(`sample.${sm.id}.title`), letter: sm.letter });
+    try {
+      this.system.insertTape(tapeFromCas(name, await this.o.tape(sm.id)));
+    } catch {
+      this.system.say({ key: "tape.notLoaded", params: { name } });
+    }
+  }
+
+  /** @private Where the era's own programs are, what of them runs here, and how (S3). */
+  findOriginals() {
+    const p = (/** @type {string} */ key) => el("p", { class: "dialog-text", text: t(key) });
+    const h = (/** @type {string} */ key) => el("p", { class: "dialog-subhead", text: t(key) });
+    const link = (/** @type {string} */ href, /** @type {string} */ key) => el("li", {}, [el("a", { href, target: "_blank", rel: "noopener", text: new URL(href).hostname.replace(/^www\./, "") }), el("span", { text: `: ${t(key)}` })]);
+    showDialog(t("originals.title"), [
+      p("originals.intro"),
+      h("originals.runs.head"),
+      p("originals.runs"),
+      h("originals.not.head"),
+      p("originals.not"),
+      h("originals.load.head"),
+      p("originals.load"),
+      h("originals.where.head"),
+      el("ul", { class: "originals-links" }, ORIGINALS.map(([href, key]) => link(href, key))),
+      el("p", { class: "dialog-text dim", text: t("originals.rights") }),
+    ]);
+  }
+
+  /** @private Type in a BASIC file: a visitor's own program, written out as text, typed in as Type it in types ours (S3). */
+  async openListing() {
+    const f = this.listing.files?.[0];
+    if (!f) return;
+    this.listing.value = "";
+    const s = this.system;
+    const bytes = new Uint8Array(await f.arrayBuffer());
+    // a tokenised program (saved by BASIC itself) is not text: its keywords are single bytes
+    if (bytes[0] === 0xff || bytes.some((b) => b >= 0x80 || (b < 0x20 && b !== 0x0a && b !== 0x0d && b !== 0x09))) return void s.say({ key: "listing.notText", params: { name: f.name } });
+    const lines = new TextDecoder().decode(bytes).replace(/\t/g, " ").replace(/\r\n?/g, "\n").split("\n").map((l) => l.trim()).filter(Boolean);
+    if (!lines.length || !lines.every((l) => /^\d+/.test(l))) return void s.say({ key: "listing.noNumbers", params: { name: f.name } });
+    const text = lines.join("\n") + "\n";
+    const bad = new Typist(/** @type {any} */ ({})).untypable(text);
+    if (bad.length) return void s.say({ key: "listing.untypable", params: { name: f.name, chars: bad.join(" ") } });
+    if (!s.machine.powered) return void s.say({ key: "type.off" });
+    this.typeProgram(text, f.name, text.length >= LONG);
   }
 
   /** @private A visitor's own .cas or .wav: read here, never uploaded (D7). */

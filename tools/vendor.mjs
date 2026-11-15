@@ -48,6 +48,7 @@ const DIR = /** @type {Record<string, string>} */ ({
 
 /** Material Symbols the page uses (Rounded, weight 400). */
 export const ICONS = [
+  "article",
   "check",
   "check_circle",
   "chevron_left",
@@ -67,6 +68,7 @@ export const ICONS = [
   "keyboard_arrow_down",
   "keyboard_arrow_up",
   "memory",
+  "music_note",
   "menu_book",
   "pause",
   "play_arrow",
@@ -74,8 +76,10 @@ export const ICONS = [
   "restart_alt",
   "school",
   "skip_next",
+  "sports_esports",
   "stop",
   "translate",
+  "travel_explore",
   "upload_file",
   "view_in_ar",
   "visibility",

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The References tab (docs/ui-design.md, U6), as the Altair 8800 simulator's: what the
-// simulator simplifies, what it is built on, and further reading, in one column down the middle
-// of the dock, looked up rather than read in order. About's References button opens it.
+// The References tab (docs/ui-design.md, U6), as the Altair 8800 simulator's, in one column
+// down the middle of the dock, looked up rather than read in order: further reading first,
+// what it is built on, its source; then what the simulator simplifies, folded, for the few who
+// want it. About's References button opens it.
 
 import { t } from "../l10n/l10n.js";
 import { el } from "../ui/components.js";
@@ -38,14 +39,14 @@ export class ReferencesTool {
     const list = (/** @type {[string, string][]} */ items) => el("ul", { class: "link-list" }, items.map(([key, href]) => el("li", {}, [link(href, t(key))])));
     host.append(
       el("article", { class: "references" }, [
-        el("h3", { text: t("refs.simplifies") }),
-        el("ul", { class: "plain-list" }, t("refs.simplifies.list").split(" · ").map((s) => el("li", { text: s }))),
-        el("h3", { text: t("refs.credits") }),
-        list(CREDITS),
         el("h3", { text: t("refs.reading") }),
         list(READING),
+        el("h3", { text: t("refs.credits") }),
+        list(CREDITS),
         el("h3", { text: t("refs.source") }),
         el("ul", { class: "link-list" }, [el("li", {}, [link(REPO, t("about.source"))]), el("li", {}, [link(`${REPO}/tree/main/research`, t("refs.research"))])]),
+        // the few who want it: how the simulator differs from the machine, folded
+        el("details", { class: "more refs-more" }, [el("summary", { text: t("refs.simplifies") }), el("ul", { class: "plain-list" }, t("refs.simplifies.list").split(" · ").map((s) => el("li", { text: s })))]),
       ]),
     );
   }
