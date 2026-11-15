@@ -60,6 +60,16 @@ export class Recorder {
     return !!this.rec;
   }
 
+  /**
+   * The recording being made, as far as it has got: where on the tape it started, and its
+   * pulses (not to be changed). It goes onto the tape when the recording ends; until then the
+   * tape still holds what was there before.
+   * @returns {{ from: number, pulses: readonly number[] } | null}
+   */
+  get pending() {
+    return this.rec ? { from: this.rec.from, pulses: this.rec.pulses } : null;
+  }
+
   /** The counter's three digits at machine time t: it counts while the tape plays or winds. @param {number} t */
   counterAt(t) {
     return Math.floor((this.at(t) / CLOCK_HZ) * COUNTS_PER_S) % 1000;

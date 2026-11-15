@@ -140,6 +140,7 @@ export default {
   "tape.none": "No hay cinta en la grabadora",
   "tape.none.how": "Cintas ▸ Cinta virgen para grabar, o tu propio .cas o .wav; Programas ▸ un programa ▸ Poner su cinta para uno de los nuestros.",
   "tape.blank.how": "Una cinta virgen. Pulsa RECORD en la grabadora y escribe CSAVE \"A\" (cualquier letra).",
+  "tape.recording.how": "Grabando: la computadora escribe en la cinta, pulso a pulso. Los bytes aparecen a medida que se escriben.",
   "tape.basic.how": "Un programa en BASIC, guardado como “{letter}”. Pulsa PLAY y escribe CLOAD.",
   "tape.system.how": "Código máquina, “{program}”: {blocks} bloques, que empieza en {entry}. Pulsa PLAY, escribe SYSTEM, en *? escribe {program}, y cuando vuelva *? escribe / para ejecutarlo. {bad}",
   "tape.badBlocks": "{n} bloques tienen una suma de control errónea: SYSTEM se detendrá en ellos.",

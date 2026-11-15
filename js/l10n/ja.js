@@ -140,6 +140,7 @@ export default {
   "tape.none": "レコーダーにテープが入っていません",
   "tape.none.how": "録音するには テープ ▸ 空のテープ、または手持ちの .cas や .wav。サンプルなら プログラム ▸ プログラム名 ▸ テープを入れる。",
   "tape.blank.how": "空のテープです。レコーダーの RECORD を押してから、CSAVE \"A\"（どの文字でも可）と打ちます。",
+  "tape.recording.how": "録音中：コンピューターがパルスを 1 つずつテープに書いています。書かれたバイトから順に表示されます。",
   "tape.basic.how": "「{letter}」として保存された BASIC プログラムです。PLAY を押してから CLOAD と打ちます。",
   "tape.system.how": "機械語「{program}」：{blocks} ブロック、開始は {entry}。PLAY を押し、SYSTEM と打ち、*? で {program} と打ち、*? がまた出たら / と打って実行します。{bad}",
   "tape.badBlocks": "{n} ブロックのチェックサムが合いません。SYSTEM はそこで止まります。",

@@ -140,6 +140,7 @@ export default {
   "tape.none": "녹음기에 테이프가 없어요",
   "tape.none.how": "녹음하려면 테이프 ▸ 빈 테이프, 또는 여러분의 .cas나 .wav 파일을 고르세요. 예제는 프로그램 ▸ 프로그램 ▸ 테이프 넣기로 넣을 수 있어요.",
   "tape.blank.how": "빈 테이프예요. 녹음기의 RECORD를 누른 다음 CSAVE \"A\"를 입력하세요(아무 글자나 돼요).",
+  "tape.recording.how": "녹음 중: 컴퓨터가 펄스를 하나씩 테이프에 쓰고 있어요. 바이트가 쓰이는 대로 보여요.",
   "tape.basic.how": "“{letter}”(으)로 저장된 BASIC 프로그램이에요. PLAY를 누른 다음 CLOAD를 입력하세요.",
   "tape.system.how": "기계어 “{program}”: 블록 {blocks}개, 시작 주소 {entry}. PLAY를 누르고 SYSTEM을 입력한 다음, *?에 {program}을(를) 입력하고, *?가 다시 나오면 /를 입력해서 실행하세요. {bad}",
   "tape.badBlocks": "블록 {n}개의 체크섬이 맞지 않아요. SYSTEM이 거기서 멈출 거예요.",

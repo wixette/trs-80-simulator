@@ -140,6 +140,7 @@ export default {
   "tape.none": "錄音機裡沒有磁帶",
   "tape.none.how": "用「磁帶 ▸ 空白磁帶」來錄音，或放入你自己的 .cas 或 .wav；用「程式 ▸ 某個程式 ▸ 放入它的磁帶」來使用我們的程式。",
   "tape.blank.how": "空白磁帶。按錄音機的 RECORD，再輸入 CSAVE \"A\"（任何字母都可以）。",
+  "tape.recording.how": "正在錄音：電腦把脈衝一個接一個地寫到磁帶上。位元組一邊寫，一邊顯示出來。",
   "tape.basic.how": "BASIC 程式，以「{letter}」為名儲存。按 PLAY，再輸入 CLOAD。",
   "tape.system.how": "機器碼「{program}」：{blocks} 個區塊，從 {entry} 開始。按 PLAY，輸入 SYSTEM，在 *? 輸入 {program}，等 *? 再出現時輸入 / 來執行。{bad}",
   "tape.badBlocks": "有 {n} 個區塊的檢查碼錯誤：SYSTEM 會在那裡停下來。",

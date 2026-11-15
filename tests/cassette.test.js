@@ -378,6 +378,23 @@ describe("TAP: saving onto a tape", { skip: NO_ROM }, () => {
     assert.ok(b.screen().includes('10 PRINT "TWO"'), b.screen().join(" | "));
   });
 
+  it("TAP-18: while CSAVE records, the recording made so far can be read (the Cassette tool shows it); then it is on the tape", () => {
+    const b = ready();
+    const tape = new Tape("live");
+    b.deck.insert(tape);
+    b.deck.press("record", b.m.t);
+    b.type('10 PRINT "LIVE"\nCSAVE "L"\n');
+    for (let i = 0; i < 400 && !b.deck.recording; i++) b.clock.step(0.05);
+    b.clock.step(1.5);
+    const sofar = b.deck.pending?.pulses.slice() ?? [];
+    assert.ok(sofar.length > 500, "pulses written so far");
+    assert.equal(tape.pulses.length, 0, "not on the tape until the recording ends");
+    b.untilMotorOff(60);
+    assert.equal(b.deck.pending, null);
+    assert.ok(tape.pulses.length > sofar.length, "the whole recording is on the tape");
+    assert.deepEqual(tape.pulses.slice(0, sofar.length), sofar, "it begins as it was read while recording");
+  });
+
   it("TAP-16: a 12 KB program saved with CSAVE goes onto the tape whole, and the deck stops", () => {
     const b = ready();
     // a program of REM lines, 12 KB, put in memory as BASIC keeps it (42E9H on)

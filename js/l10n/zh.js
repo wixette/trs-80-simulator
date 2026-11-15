@@ -140,6 +140,7 @@ export default {
   "tape.none": "录音机里没有磁带",
   "tape.none.how": "选择“磁带 ▸ 空白磁带”来录音，或者打开你自己的 .cas 或 .wav；选择“程序 ▸ 某个程序 ▸ 放入它的磁带”来使用我们的程序。",
   "tape.blank.how": "一盘空白磁带。按录音机上的 RECORD，然后输入 CSAVE \"A\"（任意字母）。",
+  "tape.recording.how": "正在录音：电脑把脉冲一个接一个地写到磁带上。字节一边写，一边显示出来。",
   "tape.basic.how": "一个 BASIC 程序，保存名为“{letter}”。按 PLAY，然后输入 CLOAD。",
   "tape.system.how": "机器码“{program}”：{blocks} 个数据块，从 {entry} 开始。按 PLAY，输入 SYSTEM，在 *? 处输入 {program}，等 *? 再次出现时输入 / 运行它。{bad}",
   "tape.badBlocks": "有 {n} 个数据块的校验和错误：SYSTEM 会在那里停下。",

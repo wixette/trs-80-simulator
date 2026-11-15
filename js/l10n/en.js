@@ -142,6 +142,7 @@ export default {
   "tape.none": "No tape in the recorder",
   "tape.none.how": "Tapes ▸ Blank tape to record, or your own .cas or .wav; Programs ▸ a program ▸ Put its tape in for one of ours.",
   "tape.blank.how": "A blank tape. Press RECORD on the recorder, then type CSAVE \"A\" (any letter).",
+  "tape.recording.how": "Recording: the computer is writing onto the tape, pulse by pulse. The bytes show as they are written.",
   "tape.basic.how": "A BASIC program, saved as “{letter}”. Press PLAY, then type CLOAD.",
   "tape.system.how": "Machine code, “{program}”: {blocks} blocks, starting at {entry}. Press PLAY, type SYSTEM, at *? type {program}, and when *? comes back type / to run it. {bad}",
   "tape.badBlocks": "{n} blocks have a bad checksum: SYSTEM will stop at them.",

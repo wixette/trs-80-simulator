@@ -140,6 +140,7 @@ export default {
   "tape.none": "Keine Kassette im Rekorder",
   "tape.none.how": "Kassetten ▸ Leere Kassette zum Aufnehmen, oder deine eigene .cas oder .wav; Programme ▸ ein Programm ▸ Kassette einlegen für eins von unseren.",
   "tape.blank.how": "Eine leere Kassette. Drück RECORD am Rekorder und tipp dann CSAVE \"A\" (ein beliebiger Buchstabe).",
+  "tape.recording.how": "Aufnahme: Der Computer schreibt Impuls für Impuls auf das Band. Die Bytes erscheinen, während sie geschrieben werden.",
   "tape.basic.how": "Ein BASIC-Programm, gespeichert als „{letter}“. Drück PLAY und tipp dann CLOAD.",
   "tape.system.how": "Maschinencode, „{program}“: {blocks} Blöcke, Start bei {entry}. Drück PLAY, tipp SYSTEM, bei *? tipp {program}, und wenn *? wiederkommt, tipp / zum Starten. {bad}",
   "tape.badBlocks": "{n} Blöcke haben eine falsche Prüfsumme: SYSTEM bleibt dort stehen.",

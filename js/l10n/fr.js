@@ -140,6 +140,7 @@ export default {
   "tape.none": "Pas de cassette dans le magnétophone",
   "tape.none.how": "Cassettes ▸ Cassette vierge pour enregistrer, ou ton propre .cas ou .wav ; Programmes ▸ un programme ▸ Mettre sa cassette pour l’un des nôtres.",
   "tape.blank.how": "Une cassette vierge. Appuie sur RECORD sur le magnétophone, puis tape CSAVE \"A\" (n’importe quelle lettre).",
+  "tape.recording.how": "Enregistrement : l’ordinateur écrit sur la cassette, impulsion par impulsion. Les octets s’affichent à mesure qu’ils sont écrits.",
   "tape.basic.how": "Un programme BASIC, enregistré sous « {letter} ». Appuie sur PLAY, puis tape CLOAD.",
   "tape.system.how": "Du code machine, « {program} » : {blocks} blocs, démarrage en {entry}. Appuie sur PLAY, tape SYSTEM, à *? tape {program}, et quand *? revient, tape / pour le lancer. {bad}",
   "tape.badBlocks": "{n} blocs ont une somme de contrôle fausse : SYSTEM s’arrêtera dessus.",

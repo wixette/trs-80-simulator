@@ -10,7 +10,7 @@ A review of the code and the docs, and what it found fixed. Each fix has a test 
 
 The fixes:
 
-- **The tape:** a CSAVE of 11 KB or more crashed and lost its recording; FAST-F could wind back; a tape put in mid-recording took the recording; the Cassette tool misnamed the bytes of a recording cut short.
+- **The tape:** while a CSAVE wrote, the Cassette tool said the tape was blank; it now shows the pulses, bits and bytes as they are written. A CSAVE of 11 KB or more crashed and lost its recording; FAST-F could wind back; a tape put in mid-recording took the recording; the Cassette tool misnamed the bytes of a recording cut short.
 - **The machine:** Run to could miss its stop (always while typed keys waited on the program); the visitor's keys were dead for a while after a power cycle; a key pressed again quickly could be let go while held; a key clicked in 3D or 2D waited behind typing, sped games up, and now waits for a read as the visitor's do (D18).
 - **Taking it apart:** clicking parts while parts moved could leave units stuck, and POWER refused.
 - **The views:** Show me pressed during the flight to 2D left the page in 2D; SHIFT clicked in 3D with the power off took the keyboard out; the tube froze during that flight; the 3D view follows the browser's zoom.

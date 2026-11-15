@@ -140,6 +140,7 @@ export default {
   "tape.none": "Nenhuma fita no gravador",
   "tape.none.how": "Fitas ▸ Fita virgem para gravar, ou seu próprio .cas ou .wav; Programas ▸ um programa ▸ Pôr a fita para um dos nossos.",
   "tape.blank.how": "Uma fita virgem. Pressione RECORD no gravador e digite CSAVE \"A\" (qualquer letra).",
+  "tape.recording.how": "Gravando: o computador escreve na fita, pulso a pulso. Os bytes aparecem à medida que são escritos.",
   "tape.basic.how": "Um programa em BASIC, salvo como “{letter}”. Pressione PLAY e digite CLOAD.",
   "tape.system.how": "Código de máquina, “{program}”: {blocks} blocos, começando em {entry}. Pressione PLAY, digite SYSTEM, em *? digite {program} e, quando *? voltar, digite / para executar. {bad}",
   "tape.badBlocks": "{n} blocos têm checksum errado: SYSTEM vai parar neles.",

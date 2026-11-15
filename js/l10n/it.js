@@ -140,6 +140,7 @@ export default {
   "tape.none": "Nessun nastro nel registratore",
   "tape.none.how": "Nastri ▸ Nastro vergine per registrare, oppure un tuo .cas o .wav; Programmi ▸ un programma ▸ Inserisci il nastro per uno dei nostri.",
   "tape.blank.how": "Un nastro vergine. Premi RECORD sul registratore, poi scrivi CSAVE \"A\" (una lettera qualsiasi).",
+  "tape.recording.how": "Registrazione: il computer scrive sul nastro, impulso dopo impulso. I byte compaiono man mano che vengono scritti.",
   "tape.basic.how": "Un programma BASIC, salvato come «{letter}». Premi PLAY, poi scrivi CLOAD.",
   "tape.system.how": "Codice macchina, «{program}»: {blocks} blocchi, che parte da {entry}. Premi PLAY, scrivi SYSTEM, a *? scrivi {program} e, quando *? ricompare, scrivi / per eseguirlo. {bad}",
   "tape.badBlocks": "{n} blocchi hanno un checksum sbagliato: SYSTEM si fermerà lì.",

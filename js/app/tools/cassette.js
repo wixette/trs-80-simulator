@@ -5,7 +5,9 @@
 // tape under the head: pulses, bits, bytes, and what each byte is in the recording (a view
 // the real machine never had). A strip about five bytes long around the head: each pulse as
 // the port made it, the bit cells (a clock pulse, and a data pulse half a cell later for a 1)
-// and the bytes they make, most significant bit first, counted from the sync byte.
+// and the bytes they make, most significant bit first, counted from the sync byte. While a
+// CSAVE records, the recording being made is drawn and read as it is written, in place of
+// what it is recording over.
 
 import { t } from "../../l10n/l10n.js";
 import { bitsOf, GAP_T, syncBit } from "../../sim/cassette.js";
@@ -64,6 +66,10 @@ export class CassetteTool {
     this.recs = [];
     /** @private */
     this.drawnAt = NaN;
+    /** @private the recording being made, decoded, and its pulses then @type {Recording | null} */
+    this.live = null;
+    /** @private */
+    this.liveN = 0;
     const css = getComputedStyle(document.documentElement);
     /** @private */
     this.col = {
@@ -88,19 +94,21 @@ export class CassetteTool {
     let s = 0;
     for (let i = 1; i <= p.length; i++) {
       if (i < p.length && p[i] - p[i - 1] <= GAP_T) continue;
-      const pulses = p.slice(s, i);
-      const bits = bitsOf(pulses);
-      const sync = syncBit(bits);
-      /** @type {number[]} */
-      const bytes = [];
-      for (let b = sync; b + 8 <= bits.length; b += 8) {
-        let v = 0;
-        for (let k = 0; k < 8; k++) v = (v << 1) | (bits[b + k].one ? 1 : 0);
-        bytes.push(v);
-      }
-      this.recs.push({ start: pulses[0], end: pulses[pulses.length - 1], bits, sync, bytes, roles: byteRoles(bytes) });
+      this.recs.push(decode(p.slice(s, i)));
       s = i;
     }
+  }
+
+  /** @private the recording being made, read again whenever it has grown @returns {Recording | null} */
+  liveRecording() {
+    const pending = this.system.deck.pending;
+    const n = pending ? pending.pulses.length : 0;
+    if (n !== this.liveN) {
+      this.liveN = n;
+      this.live = n ? decode(pending ? pending.pulses : []) : null;
+      this.drawnAt = NaN;
+    }
+    return this.live;
   }
 
   /** Called each frame while shown. */
@@ -111,17 +119,19 @@ export class CassetteTool {
     this.fast.setAttribute("aria-checked", String(s.fastTape));
     this.name.textContent = tape ? tape.name : t("tape.none");
     const info = s.tapeInfo();
-    this.what.textContent = !tape ? t("tape.none.how") : !info ? t("tape.blank.how") : info.kind === "basic" ? t("tape.basic.how", { letter: info.name }) : info.kind === "system" ? t("tape.system.how", { program: info.name, blocks: info.blocks.length, entry: `${hex(info.entry, 4)}H`, bad: info.bad.length ? t("tape.badBlocks", { n: info.bad.length }) : "" }) : t("tape.unknown.how");
+    this.what.textContent = !tape ? t("tape.none.how") : d.recording ? t("tape.recording.how") : !info ? t("tape.blank.how") : info.kind === "basic" ? t("tape.basic.how", { letter: info.name }) : info.kind === "system" ? t("tape.system.how", { program: info.name, blocks: info.blocks.length, entry: `${hex(info.entry, 4)}H`, bad: info.bad.length ? t("tape.badBlocks", { n: info.bad.length }) : "" }) : t("tape.unknown.how");
     const mode = d.mode === "record" ? "RECORD + PLAY" : d.mode === "fast" ? "FAST-F" : d.mode.toUpperCase();
-    this.where.textContent = tape ? t("tape.where", { pos: mmss(d.at(s.machine.t)), length: mmss(d.length), counter: String(d.counterAt(s.machine.t)).padStart(3, "0"), mode, motor: t(d.relay ? "tape.motorOn" : "tape.motorOff") }) : "";
+    this.where.textContent = tape ? t("tape.where", { pos: mmss(d.at(s.machine.t)), length: mmss(d.recording ? Math.max(d.length, d.at(s.machine.t)) : d.length), counter: String(d.counterAt(s.machine.t)).padStart(3, "0"), mode, motor: t(d.relay ? "tape.motorOn" : "tape.motorOff") }) : "";
     this.draw();
   }
 
   /** @private */
   draw() {
     this.analyse();
+    const live = this.liveRecording();
     const s = this.system;
     const tape = s.deck.tape;
+    const pending = s.deck.pending;
     const pos = s.deck.at(s.machine.t);
     if (pos === this.drawnAt) return;
     this.drawnAt = pos;
@@ -138,21 +148,29 @@ export class CassetteTool {
     c.stroke();
     c.font = "12px ui-monospace, Menlo, monospace";
     c.textBaseline = "top";
+    /** A pulse: up then down, as the port's levels make them. @param {number} at */
+    const pulse = (at) => {
+      const x = X(at);
+      c.strokeStyle = at <= pos ? hot : dim;
+      c.beginPath();
+      c.moveTo(x, base);
+      c.lineTo(x + 2, base - 28);
+      c.lineTo(x + 4, base + 22);
+      c.lineTo(x + 6, base);
+      c.stroke();
+    };
     if (tape) {
-      // the pulses: up then down, as the port's levels make them
+      // what is on the tape, but not where a recording is being made over it now
       const p = tape.pulses;
-      for (let i = tape.indexAt(x0 - 1000); i < p.length && p[i] < x0 + SPAN_T; i++) {
-        const x = X(p[i]);
-        c.strokeStyle = p[i] <= pos ? hot : dim;
-        c.beginPath();
-        c.moveTo(x, base);
-        c.lineTo(x + 2, base - 28);
-        c.lineTo(x + 4, base + 22);
-        c.lineTo(x + 6, base);
-        c.stroke();
-      }
+      for (let i = tape.indexAt(x0 - 1000); i < p.length && p[i] < x0 + SPAN_T; i++) if (!pending || p[i] < pending.from || p[i] > pos) pulse(p[i]);
     }
-    const rec = this.recs.find((r) => pos >= r.start - SPAN_T && pos <= r.end + SPAN_T);
+    if (pending) {
+      const p = pending.pulses;
+      let i = p.length;
+      while (i > 0 && p[i - 1] >= x0 - 1000) i--;
+      for (; i < p.length; i++) pulse(p[i]);
+    }
+    const rec = live && pending && pos >= pending.from - SPAN_T ? live : this.recs.find((r) => pos >= r.start - SPAN_T && pos <= r.end + SPAN_T && !(pending && r.start <= pos && r.end >= pending.from));
     let here = "";
     if (rec) {
       const { bits, sync, bytes, roles } = rec;
@@ -205,4 +223,18 @@ export class CassetteTool {
     c.fillText(`${(pos / CLOCK_HZ).toFixed(3)} s`, 4, 2);
     this.now.textContent = !tape ? t("tape.none") : here || t("tape.nothingHere");
   }
+}
+
+/** One recording's pulses, read: its bit cells, the sync bit, the bytes after it and what each is. @param {readonly number[]} pulses @returns {Recording} */
+function decode(pulses) {
+  const bits = bitsOf(/** @type {number[]} */ (pulses));
+  const sync = syncBit(bits);
+  /** @type {number[]} */
+  const bytes = [];
+  for (let b = sync; b + 8 <= bits.length; b += 8) {
+    let v = 0;
+    for (let k = 0; k < 8; k++) v = (v << 1) | (bits[b + k].one ? 1 : 0);
+    bytes.push(v);
+  }
+  return { start: pulses[0], end: pulses[pulses.length - 1], bits, sync, bytes, roles: byteRoles(bytes) };
 }
