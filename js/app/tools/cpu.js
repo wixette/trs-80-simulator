@@ -219,14 +219,16 @@ export class CpuTool {
       ...rows.map((row) => el("div", { class: "reg-row" }, row.map(([n, v, w]) => cell(/** @type {string} */ (n), /** @type {number | undefined} */ (v ?? undefined), 4, /** @type {number | undefined} */ (w ?? undefined))))),
       el("div", { class: "reg-row" }, [cell("I", r?.i, 2, b?.i), cell("R", r?.r, 2, undefined), el("span", { class: "reg" }, [el("small", { text: "IM" }), el("b", { text: r ? String(r.im) : "–" })]), el("span", { class: "reg" }, [el("small", { text: "IFF" }), el("b", { text: r ? (r.iff1 ? "1" : "0") : "–" })])]),
     );
-    this.flags.replaceChildren(
-      ...FLAGS.map(([n, bit]) => {
-        const set = r ? (r.f >> /** @type {number} */ (bit)) & 1 : 0;
-        const e = el("span", { class: `flag${set ? " on" : ""}`, text: String(n) });
-        setTip(e, t(`flag.${n === "P/V" ? "PV" : n}`));
-        return e;
-      }),
-    );
+    // the flags are made once and lit after: made again each time, their tooltips never showed
+    if (!this.flags.childElementCount)
+      this.flags.replaceChildren(
+        ...FLAGS.map(([n]) => {
+          const e = el("span", { class: "flag", text: String(n) });
+          setTip(e, t(`flag.${n === "P/V" ? "PV" : n}`));
+          return e;
+        }),
+      );
+    FLAGS.forEach(([, bit], i) => this.flags.children[i].classList.toggle("on", !!r && ((r.f >> /** @type {number} */ (bit)) & 1) === 1));
   }
 
   /** @private @param {Registers | null} r */

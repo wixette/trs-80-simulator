@@ -112,7 +112,10 @@ export function setTip(e, text) {
     tipTimer = setTimeout(() => {
       // never over an open menu: the tooltip would cover what was just asked for
       if (!e.isConnected || !e.dataset.tip || openMenu) return;
-      tipBox ??= document.body.appendChild(el("div", { class: "tooltip", role: "presentation" }));
+      tipBox ??= el("div", { class: "tooltip", role: "presentation" });
+      // inside an open dialog, in it: a modal dialog is drawn above everything else in the page
+      const host = e.closest("dialog[open]") ?? document.body;
+      if (tipBox.parentElement !== host) host.appendChild(tipBox);
       tipBox.textContent = e.dataset.tip;
       tipBox.hidden = false;
       const r = e.getBoundingClientRect();
@@ -357,6 +360,9 @@ export function showMenu(anchor, items) {
   buttons[start]?.focus();
 }
 
+/** When the visitor last pressed with a pointer (performance.now()), to tell how a dialog was opened. */
+let lastPointer = -Infinity;
+document.addEventListener("pointerdown", () => (lastPointer = performance.now()), { capture: true });
 document.addEventListener("pointerdown", (e) => {
   const t = /** @type {Node} */ (e.target);
   if (openMenu && !openMenu.box.contains(t) && !openMenu.sub?.contains(t) && !openMenu.anchor.contains(t)) closeMenu();
@@ -443,6 +449,9 @@ export function showDialog(title, body, actions = []) {
     el("div", { class: "dialog-body" }, [...body, ...(actions.length ? [foot] : [])]),
   ]);
   close.addEventListener("click", () => d.close());
+  // opened by a click or a touch, the browser gives the focus back to what was pressed when it
+  // closes: let go of it then, so that the next Enter is the machine's, not the dialog again
+  const byPointer = performance.now() - lastPointer < 1000;
   // a click on the scrim closes it, but only one that both began and ended there: a press
   // inside (selecting text, say) released outside is not one
   /** @param {MouseEvent} e */
@@ -456,7 +465,14 @@ export function showDialog(title, body, actions = []) {
     if (e.target === d && downOutside && outside(e)) d.close();
     downOutside = false;
   });
-  d.addEventListener("close", () => d.remove());
+  d.addEventListener("close", () => {
+    d.remove();
+    if (byPointer)
+      setTimeout(() => {
+        const a = /** @type {HTMLElement | null} */ (document.activeElement);
+        if (a && a !== document.body && !a.closest("dialog, .menu") && a.matches("button, [role=tab]")) a.blur();
+      }, 0);
+  });
   document.body.appendChild(d);
   d.showModal();
   /** @type {HTMLButtonElement | null} */ (first)?.focus();

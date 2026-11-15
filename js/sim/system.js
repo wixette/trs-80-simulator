@@ -154,6 +154,7 @@ export class System {
       return false;
     }
     this.clock.resume();
+    this.clock.stops.clear(); // a Run to set before is not this run's
     this.machine.reset();
     this.say({ key: "reset.done" });
     return true;
@@ -337,7 +338,8 @@ export class System {
    * @param {number} dt seconds of wall time
    */
   frame(dt) {
-    this.deck.wind(dt * (this.fastTape ? FAST_TAPE : 1), this.machine.t);
+    // paused (the CPU tool), the tape waits too (docs/ui-design.md, U6)
+    if (!this.clock.paused) this.deck.wind(dt * (this.fastTape ? FAST_TAPE : 1), this.machine.t);
     if (!this.typist.busy) this.typeFaster = false;
     this.clock.boost = this.deck.running && this.fastTape ? FAST_TAPE : this.typist.busy && this.fastTyping ? (this.typeFaster ? TYPE_FASTER : FAST_TYPING) : 1;
     this.stepMotion(dt);

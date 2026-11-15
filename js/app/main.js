@@ -60,6 +60,12 @@ document.documentElement.lang = lang;
 document.title = t("app.title");
 applyIcons(document);
 applyL10n(document);
+// a button whose words a narrow window hides keeps them as its name (the menus and the dock's tabs
+// show their icons alone on a phone)
+for (const b of document.querySelectorAll("#tapes, #programs, .dock-tab")) {
+  const words = b.querySelector(".label, span[data-l10n]")?.textContent;
+  if (words) b.setAttribute("aria-label", words);
+}
 
 const [romResult, machineParams, keyboardParams, boardParams] = await Promise.all([loadRom(), json("model/params/machine.json"), json("model/params/keyboard.json"), json("model/params/board.json")]);
 const system = new System({ rom: romResult.rom, takeApart: machineParams.take_apart.order });
@@ -140,7 +146,8 @@ const stage = new Stage(system, {
       // not remembered
     }
     writeLink({ view: mode });
-    if (mode === "2d") say(t(system.machine.powered ? "stage.legend" : "status.welcome2d"));
+    // without the ROM, the machine cannot be switched on: say that, not how to switch it on
+    if (mode === "2d") say(t(system.machine.powered ? "stage.legend" : romResult.rom ? "status.welcome2d" : "status.noRom"), romResult.rom || system.machine.powered ? "" : "error");
   },
 });
 
@@ -347,9 +354,11 @@ if (romResult.status !== "ok") {
     });
     $("status").append(b);
   }
-} else {
+}
+if (romResult.rom) {
   // the machine starts as the visitor left it: at first, switched on, waiting at MEMORY SIZE?
-  // (docs/ui-design.md, U5), so that a first visit opens on a live machine
+  // (docs/ui-design.md, U5), so that a first visit opens on a live machine; with another ROM
+  // than ours too, which the status line has warned of
   let saved = null;
   try {
     saved = JSON.parse(localStorage.getItem(POWER_STORE) ?? "null");
@@ -362,11 +371,13 @@ if (romResult.status !== "ok") {
   if (on.display) system.displayPower(true);
   if (on.computer) system.power(true);
   system.say = sayNothing;
-  say(t(on.computer && on.display ? "status.welcomeOn" : "status.welcome"));
+  if (romResult.status === "ok") say(t(on.computer && on.display ? "status.welcomeOn" : "status.welcome"));
 }
 // the power, as the visitor leaves it
 let powerShown = "";
 system.onChange.push(() => {
+  // without the ROM the computer is off by force, not by choice: what the visitor chose is kept
+  if (!romResult.rom) return;
   const now = JSON.stringify({ computer: system.machine.powered, display: system.display.on });
   if (now === powerShown) return;
   powerShown = now;
@@ -389,7 +400,7 @@ if (!start) {
 }
 if (!viewer) start = "2d";
 if (start === "2d") stage.setMode("2d", { instant: true });
-if (start !== "2d" && matchMedia("(max-width: 700px)").matches) say(t("status.phone2d"));
+if (start !== "2d" && romResult.status === "ok" && matchMedia("(max-width: 700px)").matches) say(t("status.phone2d"));
 
 // ---- each frame ------------------------------------------------------------------------------------
 system.clock.start();

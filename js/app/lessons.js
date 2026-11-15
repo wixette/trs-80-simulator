@@ -30,7 +30,11 @@ export function markup(s) {
 /** @returns {{ lesson?: string, done?: Record<string, string[]> }} */
 function load() {
   try {
-    return JSON.parse(localStorage.getItem(STORE) ?? "{}");
+    const v = JSON.parse(localStorage.getItem(STORE) ?? "{}");
+    if (!v || typeof v !== "object") return {};
+    // a lesson's steps done, as lists of ids; anything else (an older page's, a damaged store) is dropped
+    const done = Object.fromEntries(Object.entries(v.done ?? {}).filter(([, ids]) => Array.isArray(ids)));
+    return { lesson: typeof v.lesson === "string" ? v.lesson : undefined, done };
   } catch {
     return {};
   }
