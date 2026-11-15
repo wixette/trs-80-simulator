@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "卡式錄音機",
   "lesson.meet.recorder.text": "這台電腦沒有磁碟。程式以聲音的形式，存在一般的錄音卡帶上。電腦可以自己啟動和停止錄音機的馬達。",
   "lesson.meet.on.title": "關機再開機",
-  "lesson.meet.on.text": "電腦的 POWER 開關在背面（或用舞台下方的**電腦**），螢幕也有自己的開關（或用**螢幕**）。把電腦關掉：畫面變黑，記憶體裡的東西全都消失了。螢幕開著時再把電腦打開，過一會兒畫面就會問 `MEMORY SIZE?`",
+  "lesson.meet.on.text": "電腦的 POWER 開關在背面（或用視圖下方那一列的**電腦**），螢幕也有自己的開關（或用**螢幕**）。把電腦關掉：畫面變黑，記憶體裡的東西全都消失了。螢幕開著時再把電腦打開，過一會兒畫面就會問 `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "按 ENTER，就能使用全部的記憶體。電腦會回答 `RADIO SHACK LEVEL II BASIC` 和 `READY`，表示它在等你了。用你自己的鍵盤打字：Enter 就是 ENTER，Esc 就是 BREAK。",
   "lesson.meet.ready.more": "BASIC 是一個存在 12 KB ROM 裡的程式；ROM 是關機後內容也不會消失的記憶體。所以電腦一開機就能用，不需要磁碟，也不需要作業系統。這套 BASIC 是 Microsoft 在 1978 年為 Tandy 寫的。",

@@ -92,7 +92,10 @@ export class TopBar {
             const u = new URL(location.href);
             u.searchParams.delete("lang");
             if (!remembered()) u.searchParams.set("lang", l);
-            location.replace(u);
+            // the address may be this very one, #fragment and all (link.js keeps the view
+            // there), and going to it only moves within the page: then load it again
+            if (u.href === location.href) location.reload();
+            else location.replace(u);
           },
         })),
       ),

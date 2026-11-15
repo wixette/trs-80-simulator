@@ -21,7 +21,7 @@ export default {
   "lesson.meet.recorder.title": "The cassette recorder",
   "lesson.meet.recorder.text": "There is no disk. Programs are kept on an ordinary audio cassette, as sound. The computer can start and stop the recorder's motor by itself.",
   "lesson.meet.on.title": "Switch it off and on",
-  "lesson.meet.on.text": "The computer's POWER is on its back (or **Computer** under the stage), and the Video Display has its own (or **Display**). Switch the computer off: the screen goes blank, and whatever was in the memory is gone. Switch it on again, with the display on, and in a moment the screen asks `MEMORY SIZE?`",
+  "lesson.meet.on.text": "The computer's POWER is on its back (or **Computer** in the strip under the view), and the Video Display has its own (or **Display**). Switch the computer off: the screen goes blank, and whatever was in the memory is gone. Switch it on again, with the display on, and in a moment the screen asks `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Press ENTER to use all the memory. The computer answers `RADIO SHACK LEVEL II BASIC` and `READY`. It is waiting for you. Type on your own keyboard: Enter is ENTER, Esc is BREAK.",
   "lesson.meet.ready.more": "BASIC is a program in 12 KB of ROM, memory that keeps its contents with the power off. So the computer is ready the moment it is switched on, with no disk and no operating system. Microsoft wrote this BASIC for Tandy in 1978.",

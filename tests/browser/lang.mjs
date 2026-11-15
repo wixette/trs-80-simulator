@@ -46,4 +46,17 @@ export default async function (h) {
   await h.send("Page.navigate", { url: `${h.base}?debug` });
   await h.until("typeof app === 'object'", 20000);
   h.verify("and it is remembered", (await h.js("document.documentElement.lang")) === "de");
+
+  // a choice when the address comes back the same, #fragment and all (?debug= is already as
+  // URL writes it; the view is kept in the fragment): going to it would only move within the
+  // page, so it must be loaded again
+  await h.send("Page.navigate", { url: `${h.base}?debug=#view=3d` });
+  await h.until("typeof app === 'object' && document.documentElement.lang === 'de'", 20000);
+  await h.js("window.__before = true");
+  await h.choose("#lang", "Français");
+  h.verify(
+    "with a #fragment in the address, a choice still opens the page again in it",
+    await h.until("typeof window.__before === 'undefined' && typeof app === 'object' && document.documentElement.lang === 'fr'", 20000),
+    await h.js("[location.href, document.documentElement.lang]"),
+  );
 }

@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "카세트 녹음기",
   "lesson.meet.recorder.text": "디스크는 없어요. 프로그램은 평범한 음악용 카세트테이프에 소리로 저장해요. 컴퓨터는 녹음기의 모터를 스스로 켜고 끌 수 있어요.",
   "lesson.meet.on.title": "껐다가 다시 켜요",
-  "lesson.meet.on.text": "컴퓨터의 POWER는 뒷면에 있고(무대 아래의 **컴퓨터**로도 돼요), 디스플레이에도 따로 있어요(**디스플레이**). 컴퓨터를 꺼 보세요. 화면이 꺼지고, 메모리에 있던 것은 모두 사라져요. 디스플레이를 켠 채로 컴퓨터를 다시 켜면, 잠시 뒤 화면이 `MEMORY SIZE?`라고 물어요.",
+  "lesson.meet.on.text": "컴퓨터의 POWER는 뒷면에 있고(보기 아래 띠의 **컴퓨터**로도 돼요), 디스플레이에도 따로 있어요(**디스플레이**). 컴퓨터를 꺼 보세요. 화면이 꺼지고, 메모리에 있던 것은 모두 사라져요. 디스플레이를 켠 채로 컴퓨터를 다시 켜면, 잠시 뒤 화면이 `MEMORY SIZE?`라고 물어요.",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "ENTER를 누르면 메모리를 모두 써요. 컴퓨터가 `RADIO SHACK LEVEL II BASIC`과 `READY`로 대답해요. 이제 여러분을 기다리고 있어요. 여러분의 키보드로 입력하세요. Enter는 ENTER, Esc는 BREAK예요.",
   "lesson.meet.ready.more": "BASIC은 12 KB짜리 ROM에 든 프로그램이에요. ROM은 전원이 꺼져도 내용을 잊지 않는 메모리예요. 그래서 디스크도 운영 체제도 없이, 켜자마자 바로 쓸 수 있어요. 이 BASIC은 1978년에 Microsoft가 Tandy를 위해 만들었어요.",

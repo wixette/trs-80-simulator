@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "Der Kassettenrekorder",
   "lesson.meet.recorder.text": "Es gibt kein Diskettenlaufwerk. Programme werden auf einer ganz normalen Musikkassette gespeichert, als Ton. Der Computer kann den Motor des Rekorders selbst starten und anhalten.",
   "lesson.meet.on.title": "Aus- und wieder einschalten",
-  "lesson.meet.on.text": "Der POWER-Schalter des Computers ist auf seiner Rückseite (oder **Computer** unter der Bühne), der Monitor hat einen eigenen (oder **Monitor**). Schalte den Computer aus: Der Bildschirm wird dunkel, und alles im Speicher ist weg. Schalte ihn wieder ein, mit eingeschaltetem Monitor, und gleich fragt der Bildschirm `MEMORY SIZE?`",
+  "lesson.meet.on.text": "Der POWER-Schalter des Computers ist auf seiner Rückseite (oder **Computer** in der Leiste unter der Ansicht), der Monitor hat einen eigenen (oder **Monitor**). Schalte den Computer aus: Der Bildschirm wird dunkel, und alles im Speicher ist weg. Schalte ihn wieder ein, mit eingeschaltetem Monitor, und gleich fragt der Bildschirm `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Drück ENTER, um den ganzen Speicher zu nutzen. Der Computer antwortet `RADIO SHACK LEVEL II BASIC` und `READY`. Jetzt wartet er auf dich. Tipp auf deiner eigenen Tastatur: Enter ist ENTER, Esc ist BREAK.",
   "lesson.meet.ready.more": "BASIC ist ein Programm in 12 KB ROM, einem Speicher, der seinen Inhalt auch ohne Strom behält. Deshalb ist der Computer sofort nach dem Einschalten bereit, ohne Diskette und ohne Betriebssystem. Microsoft schrieb dieses BASIC 1978 für Tandy.",

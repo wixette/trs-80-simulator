@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "Le magnétophone à cassettes",
   "lesson.meet.recorder.text": "Il n’y a pas de disque. Les programmes sont gardés sur une cassette audio ordinaire, sous forme de son. L’ordinateur peut démarrer et arrêter tout seul le moteur du magnétophone.",
   "lesson.meet.on.title": "Éteins-le et rallume-le",
-  "lesson.meet.on.text": "Le POWER de l’ordinateur est à l’arrière (ou **Ordinateur** sous la scène), et le moniteur a le sien (ou **Moniteur**). Éteins l’ordinateur : l’écran devient noir, et tout ce qui était en mémoire disparaît. Rallume-le, avec le moniteur allumé, et au bout d’un instant l’écran demande `MEMORY SIZE?`",
+  "lesson.meet.on.text": "Le POWER de l’ordinateur est à l’arrière (ou **Ordinateur** dans la barre sous la vue), et le moniteur a le sien (ou **Moniteur**). Éteins l’ordinateur : l’écran devient noir, et tout ce qui était en mémoire disparaît. Rallume-le, avec le moniteur allumé, et au bout d’un instant l’écran demande `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Appuie sur ENTER pour utiliser toute la mémoire. L’ordinateur répond `RADIO SHACK LEVEL II BASIC` et `READY`. Il t’attend. Tape sur ton propre clavier : Entrée, c’est ENTER, et Échap, c’est BREAK.",
   "lesson.meet.ready.more": "Le BASIC est un programme rangé dans 12 Ko de ROM, une mémoire qui garde son contenu quand le courant est coupé. L’ordinateur est donc prêt dès qu’on l’allume, sans disque ni système d’exploitation. C’est Microsoft qui a écrit ce BASIC pour Tandy, en 1978.",

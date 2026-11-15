@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "カセットレコーダー",
   "lesson.meet.recorder.text": "ディスクはありません。プログラムは、ふつうの音楽用カセットテープに音として記録します。コンピューターはレコーダーのモーターを自分で動かしたり止めたりできます。",
   "lesson.meet.on.title": "電源を切って、また入れる",
-  "lesson.meet.on.text": "コンピューターの POWER は本体の裏にあります（ステージの下の**コンピューター**でも操作できます）。ディスプレイにも専用の POWER があります（**ディスプレイ**）。コンピューターの電源を切ると、画面は消え、メモリーの中身もなくなります。ディスプレイをつけたまま電源をもう一度入れると、すぐに画面が `MEMORY SIZE?` とたずねます。",
+  "lesson.meet.on.text": "コンピューターの POWER は本体の裏にあります（ビューの下の帯にある**コンピューター**でも操作できます）。ディスプレイにも専用の POWER があります（**ディスプレイ**）。コンピューターの電源を切ると、画面は消え、メモリーの中身もなくなります。ディスプレイをつけたまま電源をもう一度入れると、すぐに画面が `MEMORY SIZE?` とたずねます。",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "ENTER を押すと、メモリーをすべて使います。コンピューターは `RADIO SHACK LEVEL II BASIC` と `READY` を表示します。あなたの入力を待っている合図です。自分のキーボードで打ってください。Enter が ENTER、Esc が BREAK です。",
   "lesson.meet.ready.more": "BASIC は 12 KB の ROM に入ったプログラムです。ROM は電源を切っても中身が消えないメモリーです。だから、ディスクもオペレーティングシステムもなしに、電源を入れた瞬間に使えます。この BASIC は、Microsoft が 1978 年に Tandy のために書いたものです。",

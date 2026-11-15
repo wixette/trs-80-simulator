@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "La grabadora de casete",
   "lesson.meet.recorder.text": "No hay disco. Los programas se guardan en un casete de audio normal, como sonido. La computadora puede arrancar y parar por sí sola el motor de la grabadora.",
   "lesson.meet.on.title": "Apágala y enciéndela",
-  "lesson.meet.on.text": "El POWER de la computadora está en su parte trasera (o **Computadora**, debajo de la vista), y el monitor tiene el suyo (o **Monitor**). Apaga la computadora: la pantalla se queda en blanco y lo que había en la memoria desaparece. Vuelve a encenderla, con el monitor encendido, y al momento la pantalla pregunta `MEMORY SIZE?`",
+  "lesson.meet.on.text": "El POWER de la computadora está en su parte trasera (o **Computadora** en la barra bajo la vista), y el monitor tiene el suyo (o **Monitor**). Apaga la computadora: la pantalla se queda en blanco y lo que había en la memoria desaparece. Vuelve a encenderla, con el monitor encendido, y al momento la pantalla pregunta `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Pulsa ENTER para usar toda la memoria. La computadora responde `RADIO SHACK LEVEL II BASIC` y `READY`. Te está esperando. Escribe con tu propio teclado: Intro es ENTER y Esc es BREAK.",
   "lesson.meet.ready.more": "BASIC es un programa guardado en 12 KB de ROM, una memoria que conserva su contenido sin corriente. Por eso la computadora está lista en cuanto se enciende, sin disco ni sistema operativo. Microsoft escribió este BASIC para Tandy en 1978.",

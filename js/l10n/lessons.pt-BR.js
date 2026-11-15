@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "O gravador cassete",
   "lesson.meet.recorder.text": "Não há disco. Os programas ficam guardados numa fita cassete de áudio comum, como som. O computador consegue ligar e desligar sozinho o motor do gravador.",
   "lesson.meet.on.title": "Desligue e ligue",
-  "lesson.meet.on.text": "O POWER do computador fica na parte de trás (ou use **Computador** embaixo da cena), e o monitor tem o seu próprio (ou **Monitor**). Desligue o computador: a tela se apaga e tudo o que estava na memória some. Ligue de novo, com o monitor ligado, e em um instante a tela pergunta `MEMORY SIZE?`",
+  "lesson.meet.on.text": "O POWER do computador fica na parte de trás (ou use **Computador** na faixa embaixo da vista), e o monitor tem o seu próprio (ou **Monitor**). Desligue o computador: a tela se apaga e tudo o que estava na memória some. Ligue de novo, com o monitor ligado, e em um instante a tela pergunta `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Pressione ENTER para usar toda a memória. O computador responde `RADIO SHACK LEVEL II BASIC` e `READY`. Ele está esperando por você. Digite no seu próprio teclado: Enter é ENTER, Esc é BREAK.",
   "lesson.meet.ready.more": "O BASIC é um programa em 12 KB de ROM, uma memória que guarda o conteúdo mesmo sem energia. Por isso o computador fica pronto no instante em que é ligado, sem disco e sem sistema operacional. A Microsoft escreveu este BASIC para a Tandy em 1978.",

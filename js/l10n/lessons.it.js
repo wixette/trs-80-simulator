@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "Il registratore a cassette",
   "lesson.meet.recorder.text": "Non c’è un disco. I programmi si conservano su una normale audiocassetta, sotto forma di suono. Il computer può avviare e fermare da solo il motore del registratore.",
   "lesson.meet.on.title": "Spegnilo e riaccendilo",
-  "lesson.meet.on.text": "Il POWER del computer è sul retro (oppure **Computer** sotto la macchina), e il monitor ha il suo (oppure **Monitor**). Spegni il computer: lo schermo si oscura e tutto ciò che c’era in memoria sparisce. Riaccendilo, con il monitor acceso, e dopo un attimo lo schermo chiede `MEMORY SIZE?`",
+  "lesson.meet.on.text": "Il POWER del computer è sul retro (oppure **Computer** nella barra sotto la vista), e il monitor ha il suo (oppure **Monitor**). Spegni il computer: lo schermo si oscura e tutto ciò che c’era in memoria sparisce. Riaccendilo, con il monitor acceso, e dopo un attimo lo schermo chiede `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Premi ENTER per usare tutta la memoria. Il computer risponde `RADIO SHACK LEVEL II BASIC` e `READY`. Ti sta aspettando. Scrivi sulla tua tastiera: Invio è ENTER, Esc è BREAK.",
   "lesson.meet.ready.more": "Il BASIC è un programma in 12 KB di ROM, una memoria che conserva il suo contenuto anche a corrente spenta. Per questo il computer è pronto appena lo accendi, senza disco e senza sistema operativo. Microsoft scrisse questo BASIC per Tandy nel 1978.",

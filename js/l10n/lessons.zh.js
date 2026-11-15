@@ -17,7 +17,7 @@ export default {
   "lesson.meet.recorder.title": "磁带录音机",
   "lesson.meet.recorder.text": "这台电脑没有磁盘。程序以声音的形式存在普通的录音磁带上。电脑可以自己启动和停止录音机的电机。",
   "lesson.meet.on.title": "关机再开机",
-  "lesson.meet.on.text": "电脑的 POWER 开关在机器背面（也可以用舞台下方的**电脑**按钮），显示器有自己的开关（或者用**显示器**按钮）。把电脑关掉：屏幕变黑，内存里的东西全都没了。打开显示器，再把电脑打开，稍等片刻，屏幕就会问 `MEMORY SIZE?`",
+  "lesson.meet.on.text": "电脑的 POWER 开关在机器背面（也可以用视图下方那一栏里的**电脑**按钮），显示器有自己的开关（或者用**显示器**按钮）。把电脑关掉：屏幕变黑，内存里的东西全都没了。打开显示器，再把电脑打开，稍等片刻，屏幕就会问 `MEMORY SIZE?`",
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "按 ENTER 使用全部内存。电脑会回答 `RADIO SHACK LEVEL II BASIC` 和 `READY`，表示它在等你了。用你自己的键盘打字就行：Enter 就是 ENTER，Esc 就是 BREAK。",
   "lesson.meet.ready.more": "BASIC 是存在 12 KB ROM 里的一个程序，ROM 是断电后内容也不会丢失的存储器。所以电脑一开机就准备好了，不需要磁盘，也不需要操作系统。这个 BASIC 是 Microsoft 在 1978 年为 Tandy 编写的。",
