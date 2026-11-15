@@ -63,6 +63,14 @@ export class LessonsTool {
     this.companion = el("aside", { class: "lesson-companion", hidden: true });
     host.append(el("div", { class: "lessons" }, [this.bar, el("div", { class: "lesson-body" }, [this.page, this.companion])]));
     this.select = tabs(this.bar, (id) => this.open(id.replace(/^lesson-tab-/, "")));
+    // when the lessons' names do not all fit the bar, the others show their numbers alone (their
+    // names are their tooltips), rather than run off its end
+    const fit = () => {
+      this.bar.classList.remove("compact");
+      if (this.bar.scrollWidth > this.bar.clientWidth + 1) this.bar.classList.add("compact");
+    };
+    new ResizeObserver(fit).observe(this.bar);
+    this.bar.addEventListener("click", () => requestAnimationFrame(fit));
     this.select(`lesson-tab-${this.lessonId}`);
     /** @private */
     this.last = 0;
@@ -105,11 +113,13 @@ export class LessonsTool {
       }
       const text = el("div", { class: "step-text" });
       text.innerHTML = markup(t(`${key}.text`));
-      const body = el("div", { class: "step-body" }, [el("h4", { text: t(`${key}.title`) }), text]);
+      const body = el("div", { class: "step-body" }, [el("h4", { text: t(`${key}.title`) })]);
+      // a photograph stands at the right of its text (under it, narrow)
       if (st.photo) {
         const img = el("img", { src: new URL(`../../${st.photo.src}`, import.meta.url).href, alt: t(`${key}.title`), loading: "lazy" });
         body.append(el("figure", { class: "photo" }, [img, el("figcaption", {}, [el("a", { href: st.photo.href, target: "_blank", rel: "noopener", text: t(st.photo.credit) })])]));
       }
+      body.append(text);
       if (st.listing) body.append(el("pre", { class: "listing", text: st.listing }));
       if (chips.childElementCount) body.append(chips);
       if (st.more) {

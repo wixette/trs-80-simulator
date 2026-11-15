@@ -180,6 +180,13 @@ dock.start();
 function showMe(s) {
   if (s.mode) stage.setMode(s.mode);
   if (s.view) stage.goTo(s.view);
+  if (s.mode || s.view) {
+    // the stage's edge glows once: an answer even when the view is already the one asked for
+    const v = $("stage-view");
+    v.classList.remove("pointed");
+    void v.offsetWidth;
+    v.classList.add("pointed");
+  }
   if (s.tool) {
     const host = el("div", { class: "companion-tool" });
     companionKeys = null; // a tool that replaces the Keyboard one no longer hears the reads

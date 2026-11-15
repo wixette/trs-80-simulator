@@ -327,11 +327,14 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .d-ascii { color: var(--md-outline); letter-spacing: 0.05em; }
 
 /* the lessons (U7): a bar of numbered lessons across the top, full width and in sight as a
-   lesson scrolls, its tabs lined up with the lesson's column; then one lesson down the middle */
+   lesson scrolls, its tabs centred; then one lesson down the middle */
 #pane-lessons { padding-top: 0; container-type: inline-size; }
 .lessons { --reading: 780px; display: flex; flex-direction: column; min-height: 100%; line-height: 1.6; }
-.lesson-bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: 0 -16px; padding: 6px max(16px, calc((100% - var(--reading)) / 2 + 16px)) 0; background: var(--md-surface-low); border-bottom: 1px solid var(--md-outline-variant); overflow-x: auto; scrollbar-width: none; }
+.lesson-bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 4px; margin: 0 -16px; padding: 6px 16px 0; background: var(--md-surface-low); border-bottom: 1px solid var(--md-outline-variant); overflow-x: auto; scrollbar-width: none; }
 .lesson-bar::-webkit-scrollbar { display: none; }
+/* the tabs centred in the bar; where they overflow, the auto margins give way and they start at its left */
+.lesson-bar > .lesson-tab:first-child { margin-left: auto; }
+.lesson-bar > .lesson-tab:last-child { margin-right: auto; }
 .lesson-tab { flex: none; display: inline-flex; align-items: center; gap: 8px; margin-bottom: -1px; padding: 6px 10px 8px 4px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--md-on-surface-variant); cursor: pointer; white-space: nowrap; font-size: 13px; font-weight: 560; line-height: 1.45; }
 .lesson-tab:hover { color: var(--md-on-surface); }
 .lesson-tab:focus-visible { outline: none; }
@@ -344,6 +347,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 @container (max-width: 600px) {
   .lesson-tab:not([aria-selected="true"]) span { display: none; }
 }
+.lesson-bar.compact .lesson-tab:not([aria-selected="true"]) span { display: none; }
 .lesson-body { display: flex; gap: 16px; align-items: flex-start; padding-top: 14px; }
 .lesson { flex: 1 1 auto; max-width: var(--reading); margin: 0 auto; min-width: 0; }
 .lesson-of { margin: 0; color: var(--md-outline); font-size: 11px; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -358,8 +362,12 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .step h4 { margin: 0 0 2px; font-size: 15px; font-weight: 620; line-height: 24px; }
 .step-text { color: var(--md-on-surface); }
 .step-text code, .more code { padding: 0 4px; border-radius: var(--radius-xs); background: var(--md-well); font-size: 0.95em; }
-.photo { margin: 10px 0 4px; }
-.photo img { display: block; width: 100%; max-width: 560px; border-radius: var(--radius-s); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+.step-body { display: flow-root; }
+.photo { float: right; width: min(42%, 300px); margin: 4px 0 8px 18px; }
+.photo img { display: block; width: 100%; border-radius: var(--radius-s); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+@container (max-width: 560px) {
+  .photo { float: none; width: auto; max-width: 420px; margin: 10px 0 4px; }
+}
 .photo figcaption { margin-top: 6px; font-size: 12px; color: var(--md-outline); }
 .photo figcaption a { color: inherit; }
 .listing { margin: 8px 0; padding: 10px 14px; border: 1px solid var(--md-outline-variant); border-radius: var(--radius-s); background: var(--md-well); color: var(--phosphor); font-size: 13px; line-height: 1.5; overflow-x: auto; }
@@ -379,6 +387,9 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .btn.next-lesson:hover { border-color: var(--md-primary); color: var(--md-primary-text); }
 .lessons .dim:last-child { margin-top: 8px; }
 /* the tool Show me opened, beside the lesson: the grids keep their size and scroll */
+/* Show me's answer on the stage: its edge glows once, so a press is seen even when the view is already there */
+#stage-view.pointed::after { content: ""; position: absolute; inset: 0; z-index: 30; border-radius: inherit; pointer-events: none; animation: pointed 900ms var(--ease) forwards; }
+@keyframes pointed { 0%, 100% { box-shadow: inset 0 0 0 3px transparent; } 25%, 45% { box-shadow: inset 0 0 0 3px var(--md-primary); } }
 .lesson-companion { position: sticky; top: 56px; flex: 0 1 560px; min-width: 0; max-height: calc(100% - 8px); overflow: auto; padding: 8px 12px; border-radius: var(--radius-l); background: var(--md-surface-mid); border: 1px solid var(--md-outline-variant); line-height: 1.45; }
 .companion-close { display: flex; margin: -2px -6px 4px auto; }
 .companion-tool .tool { flex-direction: column; }
@@ -449,6 +460,8 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .plain-list, .link-list { margin: 0; padding: 0 0 0 18px; }
 .plain-list li, .link-list li { margin: 3px 0; }
 .link-list a { text-decoration: none; }
+.refs-more { margin-top: 20px; }
+.refs-more .plain-list { margin: 4px 0 6px; color: var(--md-on-surface-variant); }
 .link-list a:hover, .link-list a:focus-visible { text-decoration: underline; }
 .selftest { position: fixed; right: 12px; bottom: 40px; z-index: 40; width: 440px; max-height: 60vh; overflow: auto; padding: 10px 14px; border-radius: var(--radius-m); background: var(--md-surface-highest); font-size: 12px; }
 .selftest .pass { color: var(--on); }

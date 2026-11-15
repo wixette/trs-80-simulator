@@ -170,6 +170,10 @@ The design follows the 8800's U11.
 - **A step's chips:** *Type it* types the step's keys on the Model I's own keyboard, visibly; *Show me* points at what the step is about (a 3D view and a Show, or a tool and its selection). A chip never switches the computer on or works the recorder by itself: the visitor does those.
 - **A step ticks itself done** when the machine shows it, checked against the machine's state (the screen, the video RAM, a tape).
 - **Going further:** a step may end with an aside for computer-science readers, blue, folded by default.
+- **The lessons' bar** is centred across the dock; where the six names do not fit it, the lessons not open show their numbers alone (their names are their tooltips), rather than run off its end. *Found in v0.0.3:* lined up with the 780 px column, the names never fitted, and at some widths ran off the right with the left empty.
+- **A photograph** stands at the right of its step's text, a third of the column wide or 300 px at most; under the text where the dock is narrow.
+- **Show me always answers:** the stage's edge glows once, so a press is seen even when the camera is already where it points. Lesson 1's first step points at Three-quarter, the whole system from the front left, not the view the page opens on.
+- **A program to open:** a step may end with one of ours (Programs), opened from a chip as Programs opens it.
 - **Show me never takes the dock away from the lesson.** A tool it points at opens in a split beside the lesson on a wide dock, or as a sheet over the stage's foot on a narrow one, closed with one press.
 - The lesson open, and each step's tick, are remembered per browser.
 

@@ -85,7 +85,7 @@ export const LESSONS = [
     steps: [
       {
         id: "system",
-        show: { mode: "3d", view: "desk" },
+        show: { mode: "3d", view: "angle" },
         photo: { src: "images/photos/Radio_Shack_Tandy_TRS-80_Model_I_System.jpg", credit: "photo.system.credit", href: "https://commons.wikimedia.org/wiki/File:Radio_Shack_Tandy_TRS-80_Model_I_System.JPG" },
       },
       { id: "computer", show: { mode: "3d", view: "keyboard" } },
