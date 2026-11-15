@@ -20,7 +20,7 @@ const SHORT = 520;
 /** The dock's least open height in this window, px. */
 const dockMin = () => Math.min(DOCK_MIN, Math.round(window.innerHeight * 0.25));
 /** The share of the window the dock takes until the visitor chooses its height. */
-const DOCK_START = 0.4;
+const DOCK_START = 0.3;
 /** One arrow key's step on the handle, px. */
 const KEY_STEP = 24;
 const STORE = "trs80.dock";

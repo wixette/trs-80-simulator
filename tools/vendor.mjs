@@ -75,6 +75,7 @@ export const ICONS = [
   "school",
   "skip_next",
   "stop",
+  "translate",
   "upload_file",
   "view_in_ar",
   "visibility",

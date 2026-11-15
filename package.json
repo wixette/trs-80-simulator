@@ -1,6 +1,6 @@
 {
   "name": "trs-80-simulator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "description": "The TRS-80 Model I (1977) in 3D in your browser: switch it on, type Level II BASIC, load tapes, open it up and watch the screen and keyboard work as memory.",

@@ -5,7 +5,7 @@
 // refused, then takes it apart once off; another view puts it back. C and B turn and a
 // double-click puts them back to the middle.
 
-const VIEWS = ["Desk", "Three-quarter", "Keyboard", "Screen", "Recorder", "Inside, from below", "Taken apart"];
+const VIEWS = ["Whole system", "Three-quarter", "Keyboard", "Screen", "Recorder", "Inside, from below", "Taken apart"];
 
 /** @param {import("./harness.mjs").Harness} h */
 export default async function (h) {
@@ -28,7 +28,7 @@ export default async function (h) {
   h.verify("Inside, from below turns the case to glass", (await h.js("app.stage.glass")) === true);
   await h.choose("#band .menu-btn", "Taken apart");
   h.verify("Taken apart, chosen while on, is refused, and says why", (await h.js("app.stage.view")) === "inside" && /Switch the computer off first/.test(await h.status()));
-  await h.choose("#band .menu-btn", "Desk");
+  await h.choose("#band .menu-btn", "Whole system");
   h.verify("leaving Inside makes the case solid", (await h.js("app.stage.glass")) === false);
 
   await h.pressText("#helper-strip button", "Computer");
@@ -39,7 +39,7 @@ export default async function (h) {
   const said = await h.status();
   h.verify("POWER is refused while it is apart, naming the part for the visitor", !(await h.js("trs80.machine.powered")) && /Put the machine back together/.test(said) && !/board\.main|case\.top/.test(said), said);
   await h.press(".put-back");
-  h.verify("Put it all back: the machine is whole, and the view is the desk again", (await h.until("trs80.whole", 10000)) && (await h.js("document.querySelector('#band .menu-btn').textContent")) === "Desk");
+  h.verify("Put it all back: the machine is whole, and the view is the whole system again", (await h.until("trs80.whole", 10000)) && (await h.js("document.querySelector('#band .menu-btn').textContent")) === "Whole system");
   await h.choose("#band .menu-btn", "Taken apart");
   await h.until("[...trs80.motion.values()].every((m) => m.f === 1)", 15000);
   await h.choose("#band .menu-btn", "Inside, from below");
@@ -47,8 +47,8 @@ export default async function (h) {
 
   // C and B: the wheel turns C; a double-click puts it back to the middle
   await h.js("trs80.setControl('contrast', 0.9)");
-  // the Desk view: the Screen view frames the glass, and leaves the knobs under it out
-  await h.choose("#band .menu-btn", "Desk");
+  // the Whole system view: the Screen view frames the glass, and leaves the knobs under it out
+  await h.choose("#band .menu-btn", "Whole system");
   await h.until("!app.viewer.isFlying()", 5000);
   const c = await h.js(`(() => { const k = app.desk().knobs.contrast; const p = k.getWorldPosition(k.position.clone()).project(app.viewer.camera);
     const r = app.viewer.canvas.getBoundingClientRect(); return { x: r.left + ((p.x + 1) / 2) * r.width, y: r.top + ((1 - p.y) / 2) * r.height }; })()`);

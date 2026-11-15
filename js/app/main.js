@@ -4,7 +4,8 @@
 // the stage in 3D and 2D, the dock and its tools, the top bar and the status line, and runs
 // them each frame. docs/ui-design.md says how they are laid out and why.
 
-import { t } from "../l10n/l10n.js";
+import { t, useLocale } from "../l10n/l10n.js";
+import { LOCALE_STORE, pickLocale } from "../l10n/locales.js";
 import { TapeSound } from "../audio/tape-sound.js";
 import { Flat } from "../flat/flat.js";
 import { Crt } from "../scene/crt.js";
@@ -41,6 +42,21 @@ const POWER_STORE = "trs80.power";
 /** @param {string} path */
 const json = async (path) => (await fetch(asset(path))).json();
 
+// the language (U11), before anything is written: the address's ?lang=, the visitor's choice, the browser's
+const lang = pickLocale({
+  query: new URLSearchParams(location.search).get("lang"),
+  saved: (() => {
+    try {
+      return localStorage.getItem(LOCALE_STORE);
+    } catch {
+      return null; // site data blocked: the browser's language decides
+    }
+  })(),
+  browser: navigator.languages ?? [navigator.language],
+});
+await useLocale(lang);
+document.documentElement.lang = lang;
+document.title = t("app.title");
 applyIcons(document);
 applyL10n(document);
 

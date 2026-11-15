@@ -6,6 +6,7 @@
 //     pnpm shots                     into ~/Downloads/trs-80-simulator-v<version>-media/shots/
 //     pnpm shots --only tape         the shots whose name holds "tape"
 //     pnpm shots --readme            and the README's, into screenshots/ (1600 px wide)
+//     pnpm shots --lang en,zh        in these languages, each into its own folder (U11)
 //
 // Headless Chrome with its GPU (tests/browser/harness.mjs), 1600 x 900 at twice the pixels,
 // written as JPEGs. Each shot opens the page afresh, as a first visit, and sets it up through
@@ -93,6 +94,7 @@ const { values: opts } = parseArgs({
   options: {
     out: { type: "string", default: join(homedir(), "Downloads", `trs-80-simulator-v${VERSION}-media`, "shots") },
     only: { type: "string", default: "" },
+    lang: { type: "string", default: "en" },
     readme: { type: "boolean", default: false },
   },
 });
@@ -101,33 +103,36 @@ if (!chrome) {
   console.error("Chrome was not found: set CHROME to its path.");
   process.exit(2);
 }
-mkdirSync(opts.out, { recursive: true });
 if (opts.readme) mkdirSync(join(ROOT, "screenshots"), { recursive: true });
 const server = await serve();
 let failed = 0;
-for (const shot of SHOTS.filter((s) => s.name.includes(opts.only))) {
-  const h = await start(chrome, server.url);
-  try {
-    const size = SIZES[shot.size ?? "desktop"];
-    await h.viewport(size.width, size.height, size.phone, size.scale);
-    await h.open();
-    await h.js(`(async () => { ${HELPERS} ${shot.setup} })()`);
-    await sleep(shot.wait ?? 1500);
-    const image = await h.send("Page.captureScreenshot", { format: "jpeg", quality: QUALITY });
-    const bytes = Buffer.from(image.result.data, "base64");
-    writeFileSync(join(opts.out, `${shot.name}.jpg`), bytes);
-    if (opts.readme && shot.readme) {
-      // the README's copy, 1600 pixels wide: sharp on GitHub, and light
-      const made = spawnSync("ffmpeg", ["-loglevel", "error", "-y", "-f", "image2pipe", "-i", "pipe:0", "-vf", "scale=1600:-2", "-q:v", "3", join(ROOT, "screenshots", `${shot.readme}.jpg`)], { input: bytes });
-      if (made.status) h.errors.push(`ffmpeg: ${made.stderr}`);
+for (const lang of opts.lang.split(",")) {
+  const dir = join(opts.out, lang);
+  mkdirSync(dir, { recursive: true });
+  for (const shot of SHOTS.filter((s) => s.name.includes(opts.only))) {
+    const h = await start(chrome, server.url, `&lang=${encodeURIComponent(lang)}`);
+    try {
+      const size = SIZES[shot.size ?? "desktop"];
+      await h.viewport(size.width, size.height, size.phone, size.scale);
+      await h.open();
+      await h.js(`(async () => { ${HELPERS} ${shot.setup} })()`);
+      await sleep(shot.wait ?? 1500);
+      const image = await h.send("Page.captureScreenshot", { format: "jpeg", quality: QUALITY });
+      const bytes = Buffer.from(image.result.data, "base64");
+      writeFileSync(join(dir, `${shot.name}.jpg`), bytes);
+      if (opts.readme && shot.readme && lang === "en") {
+        // the README's copy, 1600 pixels wide: sharp on GitHub, and light
+        const made = spawnSync("ffmpeg", ["-loglevel", "error", "-y", "-f", "image2pipe", "-i", "pipe:0", "-vf", "scale=1600:-2", "-q:v", "3", join(ROOT, "screenshots", `${shot.readme}.jpg`)], { input: bytes });
+        if (made.status) h.errors.push(`ffmpeg: ${made.stderr}`);
+      }
+    } catch (e) {
+      h.errors.push(String(e));
+    } finally {
+      await h.stop();
     }
-  } catch (e) {
-    h.errors.push(String(e));
-  } finally {
-    await h.stop();
+    if (h.errors.length) failed++;
+    console.log(`${lang}/${shot.name}.jpg${h.errors.length ? `  ERROR ${h.errors.join("; ")}` : ""}`);
   }
-  if (h.errors.length) failed++;
-  console.log(`${shot.name}.jpg${h.errors.length ? `  ERROR ${h.errors.join("; ")}` : ""}`);
 }
 server.close();
 process.exitCode = failed ? 1 : 0;

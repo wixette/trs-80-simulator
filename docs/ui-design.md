@@ -86,9 +86,9 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 ```
 ┌ [logo] TRS-80 Simulator   [▤ Tapes ▾] [▶ Programs ▾]                            [🔊] [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                          [⌂] [− +] [Desk ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
+│                                  [⌂] [− +] [Whole system ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
 │ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
-│ │                  THE STAGE: the desk in 3D, or the flat views in 2D                 │ │
+│ │                  THE STAGE: the whole system in 3D, or the flat views in 2D         │ │
 │ │                                                                  [Put it all back]  │ │
 │ ╰─────────────────────────────────────────────────────────────────────────────────────╯ │
 │        [⏻ Computer|↺ Reset] [⏻ Display] │ [● RECORD|◀◀|▶ PLAY|▶▶|■ STOP|⏏ EJECT]          │  helper strip
@@ -101,7 +101,7 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 ```
 
 The page is a fixed frame of top bar, stage, dock and status line. The page itself never scrolls.
-- **The dock sits below the stage,** as in the 8800 and AGT-30 simulators. The desk is a wide subject, and the tools (a 64-column grid, a memory dump) want the width.
+- **The dock sits below the stage,** as in the 8800 and AGT-30 simulators. The whole system is a wide subject, and the tools (a 64-column grid, a memory dump) want the width.
 - **The dock can be resized** by its top edge, and folds to its tab bar. Growing it shrinks the stage, and the 3D view refits.
 - **The stage keeps at least 240 px** on a desktop. On a phone it keeps at least 40 % of the height in 2D, where the keyboard is.
 
@@ -120,7 +120,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 
 ### U2. The 3D views
 
-- **Views** (a menu naming the view on show): Desk (the way in: from the front, a little above the desk, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), **Inside, from below** and **Taken apart**. ⌂ goes to Desk, with every part back.
+- **Views** (a menu naming the view on show): Whole system (the way in: from the front and a little above, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), **Inside, from below** and **Taken apart**. ⌂ goes to Whole system, with every part back. The default view is named for what it shows, not for a desk the scene does not draw: in other languages "desk" is only the piece of furniture.
 - **Inside, from below** turns the keyboard unit's case to outlined glass, and the camera looks up from below, where the main board's parts hang (it is mounted upside down). The ROM and RAM chips glow by their share of the memory traffic, and the video RAM chips flash on writes. The machine keeps running. Leaving the view makes the case solid again. (There is no separate Show menu: only the computer's case can be seen into, so the view is enough.)
 - **Taken apart** takes the computer apart (the cables, the case top, the keyboard, the board, in the real order) and frames the parts as they will lie. A running machine stays closed: while the computer is on, the view is greyed in the menu with "switch off first" beside it, and choosing it anyway says to switch it off, or to look Inside instead (P6). Choosing another view puts it back together; clicking a part with the power off still takes it out or puts it back on its own (U3).
 - **The camera:** drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and limited, so the machine can't be lost. The 3D view's focus has two states: reached by Tab, it shows the amber focus ring, and the arrows orbit, + and − zoom and Home resets; otherwise it has no focus, and every key is the machine's. A click or a tap on the view never focuses it, and lets go of whatever had the focus: pressing the machine is typing at it. (A click then a key used to light the ring as `:focus-visible` and take + − and the arrows from BASIC.)
@@ -161,7 +161,7 @@ The instruments first, in the order lessons 3 to 6 use them, then the reading: L
 5. **Lessons:** the lesson bar (numbered tabs, one lesson at a time), then the lesson's steps (U7).
 6. **References:** what the simulator simplifies, what it is built on, further reading and the source, one column down the middle, as the 8800 simulator's References tab. About's *References* button opens it.
 
-The first visit opens the dock on Lessons. After that the dock remembers its tab and its height. What the machine does never switches the dock's tab by itself. A tab that changes while not shown gets an activity dot.
+The first visit opens the dock on Lessons, at 30% of the window's height: with the helper strip under the stage, a larger share left the stage barely a third of the window. After that the dock remembers its tab and its height. What the machine does never switches the dock's tab by itself. A tab that changes while not shown gets an activity dot.
 
 ### U7. A lesson's page
 
@@ -176,7 +176,7 @@ The design follows the 8800's U11.
 ### U8. The top bar
 
 - **Left (the machine):** the logo and title; **Tapes**, for tapes themselves (insert a blank tape; open a `.cas` or `.wav` file…; save the tape as `.cas` or `.wav`; eject; **Fast tape**, checked while on, the same switch as the Cassette tab's, at hand when a tape is chosen); **Programs**, the one catalogue of our samples, each listed once. Choosing one opens its dialog: what it does, its listing, and the two ways in, **Type it in** (the Model I's keys type it as an owner did, every key on the screen: ENTER first if the machine still asks `MEMORY SIZE?`, which reads its line as a number and throws anything else away, else BREAK to stop whatever runs; then NEW, so no old line is left in, the listing, and RUN) and **Put its tape in** (the same program saved on a tape, with how to load it): two tonal buttons of equal weight, each with its icon (keyboard, tape), as they are two choices, not an action and its alternative. Machine code has only its tape. A way that cannot be taken now is greyed with its reason (switch on first, needs the ROM), and still says why when chosen (P6). *Rejected:* the samples in both menus, which read as two sets of programs and doubled with each new one; a card beside the menu, which has no room on a phone, no hover on touch, and is awkward to reach by keyboard. As the catalogue grows, the menu gets headings (pictures, games, machine code); past about twenty programs it becomes a dock tab with a search.
-- **Right (the app):** **Sound** (an icon button, a speaker, crossed out while off; remembered), then About. Sound is the page's, not the tape's: it is the only sound yet, but it is switched where any later one would be.
+- **Right (the app):** **Sound** (an icon button, a speaker, crossed out while off; remembered), the **language** (U11), then About. Sound is the page's, not the tape's: it is the only sound yet, but it is switched where any later one would be.
 - On a phone the menus keep their icons and lose their names.
 
 ### U9. About
@@ -207,3 +207,13 @@ A dialog, short as the 8800 simulator's is, holding:
 - **The key legend** (Esc is BREAK, Delete is CLEAR…) is not on the band, where it took the stage's top left: the status line says it as the 2D view opens, and the Keyboard tool keeps it.
 
 *Rejected:* a smaller default dock, which would take the lessons' room for a picture that would still be too small; showing the keyboard by the window's width alone, which made it appear on its own as a window narrowed, with a toggle that did nothing there.
+
+### U11. Ten languages
+
+*(v0.0.2)* The page speaks the Altair 8800 simulator's ten languages: English, Español, Français, Deutsch, Italiano, Português (Brasil), 简体中文, 繁體中文, 日本語, 한국어.
+
+- **What is translated:** every text of the page's own (the top bar, the band, the views, the helper strip, the dock and its tools, the dialogs, the status line, the parts' names) and the six lessons. **What is not:** the machine's own words, as printed on it or shown on its screen (BREAK, ENTER, PLAY, `MEMORY SIZE?`, `READY`, BASIC itself, the key legends, the recorder's printing, P5), the teacher notes (`lessons/teacher-notes.md`, in English, design/roadmap.md), and the references' titles, which are the sources' own.
+- **Which language a visit uses:** the address's `?lang=` (a link, or a screenshot's), else the one the visitor chose before, else the first of the browser's languages that is here (zh-Hant and zh-TW, zh-HK are 繁體中文; pt-PT is the Brazilian Portuguese here), else English (`js/l10n/locales.js`).
+- **The language button** is in the top bar's right, between Sound and About (U8): a translate icon and the language's short name (EN, DE, 简, 日…), which stays on a phone, as it is what the button is. Its menu lists each language as it names itself, so a visitor can find their own in any. A choice is remembered.
+- **Choosing a language opens the page again in it.** Everything on the page is written once, as it is built; to rewrite it all in place would need each part to rebuild itself. The machine starts again, as it starts on any visit (switched on, U5), which the button's tooltip says. *Rejected:* a live switch, as the 8800 simulator's, for a cost (every tool rebuilt, its state carried over) out of proportion to an act made once.
+- **One file per language,** `js/l10n/<locale>.js` and `lessons.<locale>.js`, with English's keys. English stands in for a message a language lacks, so the page never shows a key; `tests/l10n.test.js` fails while any is missing, or its placeholders or its `code` differ from English's.

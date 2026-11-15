@@ -13,7 +13,7 @@
 import { existsSync } from "node:fs";
 import { findChrome, killAll, serve, start } from "./harness.mjs";
 
-const CHECKS = ["boot", "focus", "programs", "tape", "views", "flat", "layout", "dock", "dialogs"];
+const CHECKS = ["boot", "focus", "programs", "tape", "views", "flat", "layout", "dock", "dialogs", "lang"];
 
 const chrome = findChrome();
 if (!chrome || !existsSync(chrome)) {

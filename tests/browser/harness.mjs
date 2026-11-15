@@ -127,9 +127,10 @@ const NAMED = {
  * Starts Chrome on a fresh profile and gives back what a check needs to drive the page.
  * @param {string} chromePath
  * @param {string} base the served repository
+ * @param {string} [query] more of the address's query, after ?debug ("&lang=de")
  */
-export async function start(chromePath, base) {
-  const url = `${base}?debug`;
+export async function start(chromePath, base, query = "") {
+  const url = `${base}?debug${query}`;
   const profile = mkdtempSync(join(tmpdir(), "trs80-browser-"));
   // the GPU, for the 3D view: without it three.js falls back, or fails, in headless Chrome
   const chrome = spawn(chromePath, ["--headless=new", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "--no-first-run", "--no-default-browser-check", "--lang=en-US", "--enable-gpu", "--use-angle=metal", "--autoplay-policy=no-user-gesture-required", "--window-size=1440,900", "about:blank"], { stdio: "ignore" });
@@ -337,7 +338,7 @@ export async function start(chromePath, base) {
     ws.close();
     await stopChrome(live);
   };
-  return { send, js, until, viewport, open, centre, clickAt, press, pressText, drag, key, typeHost, screen, shows, status, typed, choose, verify, results, errors, stop, sleep };
+  return { base, send, js, until, viewport, open, centre, clickAt, press, pressText, drag, key, typeHost, screen, shows, status, typed, choose, verify, results, errors, stop, sleep };
 }
 
 /** @typedef {Awaited<ReturnType<typeof start>>} Harness */

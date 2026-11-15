@@ -2,6 +2,19 @@
 
 What changed in each release. Versions follow `package.json` and are tagged `vX.Y.Z` ([docs/development.md](docs/development.md)). Versions 0.0.x are pre-releases. The decisions cited (D1, U10, …) are in [design/decisions.md](design/decisions.md) and [docs/ui-design.md](docs/ui-design.md).
 
+## 0.0.2
+
+The page in ten languages.
+
+- **Ten languages,** as the Altair 8800 simulator's: English, Español, Français, Deutsch, Italiano, Português (Brasil), 简体中文, 繁體中文, 日本語 and 한국어. Everything of the page's own is translated, the six lessons included; the machine's own words (BREAK, `READY`, BASIC, the key legends) stay as the machine has them, and the teacher notes stay in English (U11).
+- **The language button,** in the top bar between Sound and About: a translate icon and the language's short name. Its menu lists each language as it names itself; a choice is remembered, and the page opens again in it.
+- **Which language a visit uses:** the address's `?lang=`, else the one chosen before, else the browser's, else English.
+- **The dock opens smaller,** at 30% of the window's height rather than 40%, so the stage has more room (at 1440 × 900, 418 px rather than 328). Its handle still sets any height, and that is remembered.
+- **The default view is named Whole system,** not Desk: the scene draws no desk, and in other languages the word means only the furniture. The tips and the first lesson say the computer or the whole system instead.
+
+**Tools**
+- `tests/l10n.test.js` holds every language to English's keys, placeholders and code. A new browser check opens each language, finds no English of the page's own left on it, and fits a 360 px phone. `pnpm shots --lang de,zh` takes the screenshots in any language.
+
 ## 0.0.1
 
 The first pre-release. Every feature of the machine works, and six lessons are complete.

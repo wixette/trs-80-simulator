@@ -39,7 +39,7 @@ These rules keep the model, the parameters, the code and the tests consistent. R
 
 - **Comments say why,** and cite their source by key (`[reed-uc]`, `research/bibliography.md`) or a decision by number (D3, U4). A number in the code that comes from a document names its source next to it.
 - **Licence headers:** every JavaScript, CSS and HTML file of ours starts with an SPDX header naming Apache-2.0. A file copied from another project keeps that project's copyright line.
-- **Text:** every string a visitor sees is a message key in `js/l10n/en.js`. The machine's own text (the screen, BASIC listings, key legends) is data, not a message.
+- **Text:** every string a visitor sees is a message key in `js/l10n/en.js`, translated in each other language's file, `js/l10n/<locale>.js` (docs/ui-design.md, U11). A new message is added to English first; until it is translated English stands in, and `tests/l10n.test.js` fails. The machine's own text (the screen, BASIC listings, key legends) is data, not a message.
 - **Generated files are never edited by hand.** These are `js/sim/charset-data.js`, `vendor/material-symbols/icons.js`, `vendor/z80js/z80.module.*`, `roms/level2-v12.bin`, `model/params/board.json` and `keyboard.json`, and `model/trs80-model-i.glb`.
 
 ## Tests
