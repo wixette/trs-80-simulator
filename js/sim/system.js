@@ -197,7 +197,7 @@ export class System {
    */
   insertTape(tape) {
     this.deck.eject(this.machine.t);
-    this.deck.insert(tape);
+    this.deck.insert(tape, this.machine.t);
     const info = tape.pulses.length ? tapeInfo(casFromTape(tape)) : null;
     const long = tape.end / CLOCK_HZ > 30;
     const params = { name: tape.name, length: mmss(tape.end) };

@@ -105,8 +105,12 @@ export class Recorder {
     return tape;
   }
 
-  /** Puts a tape in, at its start. @param {Tape} tape */
-  insert(tape) {
+  /** Puts a tape in, at its start: a recording on the tape taken out is finished on it first. @param {Tape} tape @param {number} [t] machine time */
+  insert(tape, t = 0) {
+    if (this.rec) {
+      this.settle(t);
+      this.finishRecording(t);
+    }
     this.tape = tape;
     this.mode = "stop";
     this.pos = 0;
@@ -129,7 +133,9 @@ export class Recorder {
     if (!this.tape || (this.mode !== "rewind" && this.mode !== "fast")) return;
     this.settle(t);
     const d = dtSeconds * CLOCK_HZ * WIND;
-    const end = Math.max(this.tape.end + CLOCK_HZ, CLOCK_HZ * 2);
+    // FAST-F stops a second past the last pulse, or where the tape already is if it has played
+    // further than that (never winding back)
+    const end = Math.max(this.tape.end + CLOCK_HZ, CLOCK_HZ * 2, this.pos);
     this.pos = this.mode === "rewind" ? Math.max(0, this.pos - d) : Math.min(end, this.pos + d);
     if (this.pos === 0 || this.pos === end) this.mode = "stop";
     this.next = this.tape.indexAt(this.pos);

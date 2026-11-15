@@ -161,6 +161,19 @@ describe("TAP: the tape format", () => {
   });
 });
 
+describe("TAP: recordings cut short", () => {
+  it("TAP-6: a recording cut anywhere gives one role per byte, and its information reads without throwing", () => {
+    const basic = [0, 0, 0xa5, 0xd3, 0xd3, 0xd3, 0x41, 0x1e, 0x43, 0x0a, 0x00, 0xb2, 0x22, 0x48, 0x22, 0x00, 0x00, 0x00];
+    for (const whole of [screenProgramCas(), new Uint8Array(basic)]) {
+      for (let n = 0; n <= whole.length; n++) {
+        const cut = whole.slice(0, n);
+        assert.equal(byteRoles(cut).length, n, `${n} bytes`);
+        assert.doesNotThrow(() => tapeInfo(cut));
+      }
+    }
+  });
+});
+
 describe("TAP: the recorder", () => {
   it("TAP-10: the tape moves only while PLAY is down and the computer closes the relay (port FFH bit 2)", () => {
     const deck = new Recorder();
@@ -192,6 +205,51 @@ describe("TAP: the recorder", () => {
     assert.equal(deck.mode, "stop", "the deck stops at the end of the tape");
     assert.ok(deck.eject(0));
     assert.equal(deck.tape, null);
+  });
+
+  it("TAP-14: FAST-F never winds back: from beyond the last pulse (a long play) it stops where it is", () => {
+    const deck = new Recorder();
+    deck.insert(tapeFromCas("t", screenProgramCas()));
+    const end = deck.tape?.end ?? 0;
+    deck.press("play", 0);
+    deck.setRelay(true, 0);
+    deck.setRelay(false, end + 10 * CLOCK_HZ); // a CLOAD that found nothing played on
+    const played = deck.at(end + 10 * CLOCK_HZ);
+    deck.press("fast", end + 10 * CLOCK_HZ);
+    deck.wind(0.01, end + 10 * CLOCK_HZ);
+    assert.ok(deck.at(0) >= played, `${deck.at(0)} < ${played}`);
+    assert.equal(deck.mode, "stop");
+  });
+
+  it("TAP-15: a recording is kept by STOP, EJECT and a new tape put in; recording over a tape keeps what follows", () => {
+    // over pulses at 1, 2 and 3 s, a recording from 1.5 s to 2.5 s replaces only the one at 2 s
+    const tape = new Tape("t", [CLOCK_HZ, 2 * CLOCK_HZ, 3 * CLOCK_HZ]);
+    const deck = new Recorder();
+    deck.insert(tape);
+    deck.pos = 1.5 * CLOCK_HZ;
+    deck.press("record", 0);
+    deck.setRelay(true, 0);
+    deck.portWrite(1, 0.2 * CLOCK_HZ);
+    deck.portWrite(0, 0.3 * CLOCK_HZ);
+    deck.press("stop", CLOCK_HZ);
+    assert.deepEqual(tape.pulses, [CLOCK_HZ, 1.7 * CLOCK_HZ, 3 * CLOCK_HZ]);
+    // EJECT mid-recording commits it to the tape taken out
+    const t2 = new Tape("t2");
+    deck.insert(t2);
+    deck.press("record", 0);
+    deck.portWrite(1, 0.1 * CLOCK_HZ);
+    deck.eject(0.2 * CLOCK_HZ);
+    assert.deepEqual(t2.pulses, [0.1 * CLOCK_HZ]);
+    // a new tape put in while recording: the recording stays on the old one
+    const t3 = new Tape("t3");
+    const t4 = new Tape("t4");
+    deck.insert(t3);
+    deck.press("record", 0);
+    deck.portWrite(1, 100);
+    deck.insert(t4, 200);
+    deck.press("play", 300);
+    assert.deepEqual(t3.pulses, [100]);
+    assert.deepEqual(t4.pulses, []);
   });
 
   it("TAP-13: the counter counts as the tape moves, playing or winding, not only when it stops", () => {
@@ -294,6 +352,40 @@ describe("TAP: with Level II", { skip: NO_ROM }, () => {
     b.m.keyUp(6, 2);
     b.clock.step(0.5);
     assert.ok(b.screen().some((l) => l.startsWith("READY")), b.screen().join(" | "));
+  });
+});
+
+describe("TAP: a long CSAVE", { skip: NO_ROM }, () => {
+  it("TAP-16: a 12 KB program saved with CSAVE goes onto the tape whole, and the deck stops", () => {
+    const b = ready();
+    // a program of REM lines, 12 KB, put in memory as BASIC keeps it (42E9H on)
+    let a = 0x42e9;
+    let line = 10;
+    while (a < 0x42e9 + 12 * 1024) {
+      const next = a + 4 + 201 + 1;
+      for (const [k, v] of [[0, next & 255], [1, next >> 8], [2, line & 255], [3, line >> 8], [4, 0x93]]) b.m.write(a + k, v);
+      for (let k = 0; k < 200; k++) b.m.write(a + 5 + k, 0x58);
+      b.m.write(a + 205, 0);
+      a = next;
+      line += 10;
+    }
+    b.m.write(a, 0);
+    b.m.write(a + 1, 0);
+    a += 2;
+    for (const p of [0x40f9, 0x40fb, 0x40fd]) {
+      b.m.write(p, a & 255);
+      b.m.write(p + 1, a >> 8);
+    }
+    const tape = new Tape("long");
+    b.deck.insert(tape);
+    b.deck.press("record", b.m.t);
+    b.type('CSAVE "L"\n');
+    b.untilMotorOff(300);
+    assert.ok(!b.m.motor && !b.deck.recording, "the motor stopped and the recording ended");
+    assert.ok(tape.pulses.length > 124000, `${tape.pulses.length} pulses`);
+    const bytes = tape.blocks()[0];
+    assert.deepEqual([...bytes.slice(bytes.indexOf(0xa5), bytes.indexOf(0xa5) + 5)], [0xa5, 0xd3, 0xd3, 0xd3, 0x4c]);
+    assert.ok(bytes.length > 12 * 1024);
   });
 });
 
