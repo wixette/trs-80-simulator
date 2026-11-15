@@ -161,7 +161,7 @@ The instruments first, in the order lessons 3 to 6 use them, then the reading: L
 5. **Lessons:** the lesson bar (numbered tabs, one lesson at a time), then the lesson's steps (U7).
 6. **References:** what the simulator simplifies, what it is built on, further reading and the source, one column down the middle, as the 8800 simulator's References tab. About's *References* button opens it.
 
-The first visit opens the dock on Lessons. After that the dock remembers its tab and its height. What the machine does never switches the dock's tab by itself. A tab that changes while not shown gets an activity dot.
+The first visit opens the dock on Lessons, at 30% of the window's height: with the helper strip under the stage, a larger share left the stage barely a third of the window. After that the dock remembers its tab and its height. What the machine does never switches the dock's tab by itself. A tab that changes while not shown gets an activity dot.
 
 ### U7. A lesson's page
 
