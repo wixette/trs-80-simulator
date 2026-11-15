@@ -102,6 +102,7 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 
 The page is a fixed frame of top bar, stage, dock and status line. The page itself never scrolls.
 - **The dock sits below the stage,** as in the 8800 and AGT-30 simulators. The whole system is a wide subject, and the tools (a 64-column grid, a memory dump) want the width.
+- **Every tab's content is centred:** a lesson and the references as a reading column; an instrument (Video RAM, Keyboard, Cassette, CPU & Memory) as one block of cards side by side at their own widths, at most 1,400 px, so that a card's notes stand next to what they describe rather than at the window's far edge.
 - **The dock can be resized** by its top edge, and folds to its tab bar. Growing it shrinks the stage, and the 3D view refits.
 - **The stage keeps at least 240 px** on a desktop. On a phone it keeps at least 40 % of the height in 2D, where the keyboard is.
 
