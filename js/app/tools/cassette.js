@@ -12,7 +12,7 @@ import { bitsOf, GAP_T, syncBit } from "../../sim/cassette.js";
 import { CLOCK_HZ } from "../../sim/machine.js";
 import { byteRoles } from "../../sim/system-tape.js";
 import { mmss } from "../../sim/system.js";
-import { el, setTip } from "../../ui/components.js";
+import { el, setTip, toggle } from "../../ui/components.js";
 
 /** @typedef {import("../../sim/system.js").System} System */
 /** @typedef {import("../../sim/system-tape.js").ByteRole} ByteRole */
@@ -32,22 +32,6 @@ const hex = (n, d = 2) => n.toString(16).toUpperCase().padStart(d, "0");
 export function roleText(r) {
   if (!r) return "";
   return t(`role.${r.role}`, { block: r.block ?? 0, index: r.index ?? 0, addr: r.addr === undefined ? "" : `${hex(r.addr, 4)}H`, name: r.name ?? "" });
-}
-
-/**
- * A switch (Material 3): its track and thumb, then its label.
- * @param {string} label
- * @param {boolean} on
- * @param {(on: boolean) => void} change
- */
-function toggle(label, on, change) {
-  const b = el("button", { class: "switch", type: "button", role: "switch", "aria-checked": String(on) }, [el("span", { class: "switch-track" }, [el("span", { class: "switch-thumb" })]), el("span", { text: label })]);
-  b.addEventListener("click", () => {
-    const now = b.getAttribute("aria-checked") !== "true";
-    b.setAttribute("aria-checked", String(now));
-    change(now);
-  });
-  return b;
 }
 
 export class CassetteTool {

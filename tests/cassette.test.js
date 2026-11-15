@@ -13,8 +13,6 @@ import { Clock } from "../js/sim/clock.js";
 import { Typist } from "../js/sim/keys.js";
 import { CLOCK_HZ, Machine } from "../js/sim/machine.js";
 import { Recorder } from "../js/sim/recorder.js";
-import { recordSampleTape } from "../js/sim/sample-tapes.js";
-import { SAMPLES } from "../js/sim/samples.js";
 import { SCREEN_PROGRAM, screenProgramCas } from "../js/sim/system-samples.js";
 import { byteRoles, systemTape, tapeInfo } from "../js/sim/system-tape.js";
 import { parseWav, pulsesFromSound, wavFromPulses } from "../js/sim/wav.js";
@@ -297,20 +295,6 @@ describe("TAP: with Level II", { skip: NO_ROM }, () => {
     b.clock.step(0.5);
     assert.ok(b.screen().some((l) => l.startsWith("READY")), b.screen().join(" | "));
   });
-
-  it("TAP-24: our sample tapes are Level II's own recordings, and each loads with CLOAD", () => {
-    const sample = SAMPLES[0];
-    const tape = recordSampleTape(rom(), sample, "sample");
-    const info = tapeInfo(tape.blocks()[0]);
-    assert.deepEqual(info, { kind: "basic", name: sample.letter });
-    const b = ready();
-    b.deck.insert(tape);
-    b.deck.press("play", b.m.t);
-    b.type(`CLOAD "${sample.letter}"\n`);
-    b.untilMotorOff(30);
-    b.type("LIST 10\n");
-    assert.ok(b.screen().includes("10 CLS"), b.screen().join(" | "));
-  });
 });
 
 describe("TAP: .wav files", () => {
@@ -367,24 +351,4 @@ describe("TAP: .wav files", () => {
     while (b + same < cas.length && bytes[a + same] === cas[b + same]) same++;
     assert.ok(same >= cas.length - b - 3, `${same} of ${cas.length - b} bytes from the sync byte`);
   });
-});
-
-describe("our sample programs", () => {
-  for (const s of SAMPLES) {
-    it(`"${s.id}" is all on the Model I's keyboard, and runs`, { skip: NO_ROM }, () => {
-      assert.deepEqual(new Typist(/** @type {any} */ ({})).untypable(s.text), []);
-      const b = ready();
-      b.type(s.text, 2);
-      const blocks = () => [...b.m.vram].filter((v) => v & 0x80 && v & 0x3f).length;
-      assert.ok(blocks() > 0, `${s.id}: blocks are lit`);
-      if (s.id === "keys") {
-        const before = blocks();
-        b.m.keyDown(6, 3); // UP, held
-        b.clock.step(2);
-        b.m.keyUp(6, 3);
-        assert.ok(blocks() > before, "holding UP draws a line");
-      }
-      assert.ok(!b.screen().some((l) => /\?SN ERROR|ERROR/.test(l)), b.screen().join(" | "));
-    });
-  }
 });

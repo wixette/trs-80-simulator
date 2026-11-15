@@ -3,8 +3,8 @@
    then the machine in 3D or in 2D), the handle, the dock below, the status line. The page never
    scrolls. Every colour, corner and state is a token (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.2");
-@import url("fonts.css?v=0.0.2");
+@import url("theme.css?v=0.0.3");
+@import url("fonts.css?v=0.0.3");
 
 :root {
   font-family: var(--font);
@@ -422,6 +422,11 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .dialog-actions .btn[aria-disabled="true"] { opacity: 0.55; }
 .program-listing { margin: 10px 0 4px; padding: 8px 10px; max-height: 11.5em; overflow: auto; border-radius: var(--radius-xs); background: var(--md-well); font-family: var(--mono); font-size: 12px; line-height: 1.45; white-space: pre; user-select: text; -webkit-user-select: text; }
 .program-ways { margin: 10px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.5; }
+.program-faster { margin: 8px 0 0 -4px; }
+.dialog-subhead { margin: 16px 0 2px; font-size: 14px; font-weight: 640; color: var(--md-on-surface); }
+.originals-links { margin: 0 0 12px; padding-left: 18px; font-size: 14px; line-height: 1.5; color: var(--md-on-surface-variant); }
+.originals-links li { margin: 0 0 6px; }
+.originals-links a { color: var(--md-primary); font-weight: 560; }
 .dialog-actions .btn:not(.filled) { color: var(--md-primary-text); }
 .about-band { display: flex; gap: 16px; align-items: center; margin: 4px 0 14px; }
 .about-band img { width: 56px; height: 56px; }

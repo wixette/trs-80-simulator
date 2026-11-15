@@ -21,6 +21,8 @@ export default {
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "按 ENTER，就能使用全部的記憶體。電腦會回答 `RADIO SHACK LEVEL II BASIC` 和 `READY`，表示它在等你了。用你自己的鍵盤打字：Enter 就是 ENTER，Esc 就是 BREAK。",
   "lesson.meet.ready.more": "BASIC 是一個存在 12 KB ROM 裡的程式；ROM 是關機後內容也不會消失的記憶體。所以電腦一開機就能用，不需要磁碟，也不需要作業系統。這套 BASIC 是 Microsoft 在 1978 年為 Tandy 寫的。",
+  "lesson.meet.play.title": "來玩點什麼",
+  "lesson.meet.play.text": "下一課之前，來玩一個那個年代風格的遊戲：**登陸月球**。打開它，選擇**放入它的磁帶**，按下錄音機上的 **PLAY**，輸入 `CLOAD`，再輸入 `RUN`。也可以選擇**打字輸入**，看著按鍵自己把它打進去。上方工具列的「程式」裡還有更多：遊戲、工具和音樂。",
 
   "lesson.basic.title": "跟 BASIC 對話",
   "lesson.basic.lead": "程式就是一串指令，電腦會一條接一條地照著做。",
@@ -41,6 +43,8 @@ export default {
   "lesson.basic.input.title": "問一個問題",
   "lesson.basic.input.text": "`INPUT` 會等你輸入一些東西並按 ENTER。執行這個程式，在問號後面輸入你的名字，再按 ENTER。",
   "lesson.basic.input.more": "`N$` 是字串變數：`$` 表示它存的是文字，不是數字。BASIC 也把程式本身存在記憶體裡，從位址 42E9H 開始，像 `PRINT` 這樣的字會被壓縮成一個位元組。第 6 課會直接觀察記憶體。",
+  "lesson.basic.guess.title": "一個完整的遊戲",
+  "lesson.basic.guess.text": "**猜數字**是一個只有十一行的遊戲，用的正是你剛剛學過的東西：`INPUT`、`PRINT`、`IF` 和一個迴圈。打開它玩玩看。然後按 **BREAK**，輸入 `LIST`，找出回答 TOO LOW 和 TOO HIGH 的那兩行 `IF`。",
 
   "lesson.screen.title": "螢幕就是記憶體",
   "lesson.screen.lead": "1,024 個位元組的記憶體就是畫面：改一個位元組，螢幕就跟著改變。",
@@ -57,6 +61,8 @@ export default {
   "lesson.screen.seven.title": "少了一顆晶片",
   "lesson.screen.seven.text": "把 193 存進螢幕的第一個位元組，再把它讀回來：結果是 129。有一個位元，也就是位元 6，從來沒有被存起來。",
   "lesson.screen.seven.more": "為了省錢，螢幕的記憶體只用了七顆晶片，而不是八顆。讀取位元組時，位元 6 是由位元 5 和位元 7 重新算出來的。這就是 Model I 沒有小寫字母的原因：小寫字母需要位元 6。",
+  "lesson.screen.kaleido.title": "用位元組拼成的圖畫",
+  "lesson.screen.kaleido.text": "**萬花筒**用 POKE 把 128 到 191 的圖形字元直接寫進視訊 RAM 來畫圖，每個字元都朝四個方向鏡射。在課程旁邊打開**視訊 RAM** 工具再執行它，看著圖案長大時格子怎麼變化。",
 
   "lesson.keyboard.title": "鍵盤就是記憶體",
   "lesson.keyboard.lead": "按鍵就是開關。電腦像讀記憶體一樣，把它們當成位元組來讀。",
@@ -73,6 +79,8 @@ export default {
   "lesson.keyboard.ghost.title": "幽靈按鍵",
   "lesson.keyboard.ghost.text": "同時按住 A、B 和 I，看看「鍵盤」工具：J 也亮了，雖然你根本沒按它。",
   "lesson.keyboard.ghost.more": "這個矩陣沒有二極體，所以第 1 行的電流會經過 I，再經過 A，再經過 B，最後流到 J 那一欄。任何三個位在長方形角上的鍵，都會讓第四個角的鍵出現。後來的鍵盤在每個開關上加了二極體來防止這種情況。",
+  "lesson.keyboard.worm.title": "遊戲怎麼讀按鍵",
+  "lesson.keyboard.worm.text": "**貪吃蟲**用方向鍵控制方向，它讀的正是你的畫板讀的那一行，`PEEK(14400)`，每秒讀很多次。在課程旁邊打開**鍵盤**工具再玩，看看你轉彎時那一行怎麼亮起來。",
 
   "lesson.tape.title": "化成聲音的程式",
   "lesson.tape.lead": "程式可以用聲音脈衝的形式，存在一般的錄音卡帶上。",
@@ -90,6 +98,11 @@ export default {
   "lesson.tape.list.title": "它回來了",
   "lesson.tape.list.text": "用 `LIST` 看看。程式從磁帶上的聲音回來了。**磁帶 ▸ 將磁帶存成 .wav** 會把聲音本身給你，讓你可以播放。",
   "lesson.tape.list.more": "當年的使用者會複製卡帶來交換程式，雜誌也會刊登程式讓讀者自己打進去。磁帶可能會拉長或磨損，所以大家常把一個程式存兩次。",
+  "lesson.tape.notes.title": "磁帶上的資料",
+  "lesson.tape.notes.text": "磁帶上存的不只是程式。**把筆記存進磁帶**用 `PRINT #-1` 把你寫的五行字寫到磁帶上，再用 `INPUT #-1` 讀回來。先放入一捲空白磁帶（磁帶 ▸ 空白磁帶），再照著它畫面上的提示做。",
+  "lesson.tape.music.title": "同一條線也能奏樂",
+  "lesson.tape.music.text": "接到錄音機的那條線上有一個電位，由程式來設定：存檔時，ROM 讓它一下一下地切換，形成脈衝。當年的使用者會把這條線改接到一台小擴大機上，程式切換電位，就能發出聲音和曲調。模擬器已經接好擴大機了。打開**音樂盒**，聽聽看。",
+  "lesson.tape.music.more": "Model I 沒有喇叭，也沒有發聲的指令。**音樂盒**用 POKE 把幾個位元組的機器碼寫到記憶體的最頂端，再用 `USR` 呼叫它們：它們讓埠 255 在兩個電位之間每秒切換好幾百次，切換得多快，就是音符的音高。程式開頭那幾行 `DATA` 就是這段常式。",
 
   "lesson.cpu.title": "CPU 的內部",
   "lesson.cpu.lead": "CPU 從記憶體取出一道指令，執行它，再取出下一道。程式也是位元組。",
@@ -112,4 +125,6 @@ export default {
   "lesson.cpu.chips.title": "看晶片工作",
   "lesson.cpu.chips.text": "**指給我看**會帶你看機器內部。用 `X=USR(0)` 再執行一次，仔細看：BASIC 執行時，ROM A 會發光；你的程式從 RAM 晶片執行，螢幕的晶片會在寫入時閃爍。",
   "lesson.cpu.chips.more": "這些燈光是真正的機器從來沒有的視角：每顆晶片會依照它在 CPU 讀寫中所占的比例發光。Z80 一次只能做一件事，你可以看著它從 ROM 移到 RAM，再移回來。",
+  "lesson.cpu.race.title": "為什麼要用機器碼？",
+  "lesson.cpu.race.text": "**BASIC 對決機器碼**把螢幕填滿兩次。BASIC 大約要 7 秒；Z80 在迴圈裡執行六道指令，大約只要 1/45 秒。它的機器碼在 32512：在課程旁邊打開 **CPU 與記憶體**工具，你可以看到它的位元組，還能像這一課一樣讓它停下來、單步執行。",
 };

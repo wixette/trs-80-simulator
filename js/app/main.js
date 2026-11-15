@@ -150,7 +150,9 @@ const stage = new Stage(system, {
 const dock = new Dock(() => (matchMedia("(max-width: 700px)").matches ? Math.round(window.innerHeight * 0.55) : window.innerHeight <= 520 ? Math.round(window.innerHeight * 0.65) : 300));
 dock.onResize = fitStatus;
 const sound = new TapeSound();
-const lessons = new LessonsTool($("pane-lessons"), system, (s) => showMe(s));
+/** @type {TopBar | null} */
+let topBar = null;
+const lessons = new LessonsTool($("pane-lessons"), system, (s) => showMe(s), (id) => topBar?.openProgram(id));
 const vram = new VramTool($("pane-vram"), system, (cell) => {
   flat.highlight = cell;
   flat.invalidate();
@@ -232,7 +234,14 @@ if (viewer) {
 const strip = new HelperStrip($("helper-strip"), system, () => desk);
 
 // ---- the top bar ---------------------------------------------------------------------------------
-new TopBar(system, { rom: () => romResult.rom, about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound });
+topBar = new TopBar(system, {
+  rom: () => romResult.rom,
+  tape: async (id) => {
+    const r = await fetch(asset(`tapes/${id}.cas`));
+    if (!r.ok) throw new Error(`${r.status}`);
+    return new Uint8Array(await r.arrayBuffer());
+  },
+  about: () => aboutBody(asset("package.json")), references: () => dock.show("refs"), sound });
 
 // ---- the machine's events -------------------------------------------------------------------------
 system.machine.on.video = (addr) => {

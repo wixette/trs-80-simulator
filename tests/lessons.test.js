@@ -10,13 +10,14 @@ import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { has } from "../js/l10n/l10n.js";
 import { LESSONS, typeKeys } from "../js/lessons/lessons.js";
+import { SAMPLES } from "../js/sim/samples.js";
 import { System } from "../js/sim/system.js";
 import { NO_ROM, rom } from "./boot.js";
 
 const TAKE_APART = JSON.parse(readFileSync(new URL("../model/params/machine.json", import.meta.url), "utf8")).take_apart.order;
 
 describe("LES: the lessons", () => {
-  it("LES-0: every lesson and step has its words; every step that types has keys the Model I has", () => {
+  it("LES-0: every lesson and step has its words, and every program it opens is one of ours; every step that types has keys the Model I has", () => {
     /** @type {string[]} */
     const missing = [];
     for (const l of LESSONS) {
@@ -24,6 +25,7 @@ describe("LES: the lessons", () => {
       for (const st of l.steps) {
         for (const k of ["title", "text"]) if (!has(`lesson.${l.id}.${st.id}.${k}`)) missing.push(`lesson.${l.id}.${st.id}.${k}`);
         if (st.more && !has(`lesson.${l.id}.${st.id}.more`)) missing.push(`lesson.${l.id}.${st.id}.more`);
+        if (st.program && !SAMPLES.some((sm) => sm.id === st.program)) missing.push(`program ${st.program}`);
       }
     }
     assert.deepEqual(missing, []);

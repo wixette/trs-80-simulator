@@ -21,6 +21,8 @@ export default {
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "按 ENTER 使用全部内存。电脑会回答 `RADIO SHACK LEVEL II BASIC` 和 `READY`，表示它在等你了。用你自己的键盘打字就行：Enter 就是 ENTER，Esc 就是 BREAK。",
   "lesson.meet.ready.more": "BASIC 是存在 12 KB ROM 里的一个程序，ROM 是断电后内容也不会丢失的存储器。所以电脑一开机就准备好了，不需要磁盘，也不需要操作系统。这个 BASIC 是 Microsoft 在 1978 年为 Tandy 编写的。",
+  "lesson.meet.play.title": "来玩点什么",
+  "lesson.meet.play.text": "下一课之前，来玩一个那个年代风格的游戏：**月球着陆**。打开它，选择**放入它的磁带**，按下录音机上的 **PLAY**，输入 `CLOAD`，再输入 `RUN`。也可以选择**用按键输入**，看着按键自己把它打进去。顶栏里的“程序”还有更多：游戏、工具和音乐。",
 
   "lesson.basic.title": "和 BASIC 对话",
   "lesson.basic.lead": "程序就是一串指令，电脑会一条接一条地执行。",
@@ -41,6 +43,8 @@ export default {
   "lesson.basic.input.title": "提一个问题",
   "lesson.basic.input.text": "`INPUT` 会等你输入内容并按 ENTER。运行这个程序，在问号后面输入你的名字，再按 ENTER。",
   "lesson.basic.input.more": "`N$` 是字符串变量：`$` 表示它存的是字母，而不是数字。BASIC 也把程序本身存在内存里，从地址 42E9H 开始，像 `PRINT` 这样的关键字都被压缩成一个字节。第 6 课会直接查看内存。",
+  "lesson.basic.guess.title": "一个完整的游戏",
+  "lesson.basic.guess.text": "**猜数字**是一个只有十一行的游戏，用的正是你刚学过的东西：`INPUT`、`PRINT`、`IF` 和一个循环。打开它玩一玩。然后按 **BREAK**，输入 `LIST`，找出回答 TOO LOW 和 TOO HIGH 的那两行 `IF`。",
 
   "lesson.screen.title": "屏幕就是内存",
   "lesson.screen.lead": "1024 字节的内存就是画面：改变一个字节，屏幕就跟着变。",
@@ -57,6 +61,8 @@ export default {
   "lesson.screen.seven.title": "少了一块芯片",
   "lesson.screen.seven.text": "把 193 存进屏幕的第一个字节，再读出来：结果是 129。有一位，也就是第 6 位，根本没有被存下来。",
   "lesson.screen.seven.more": "为了省钱，屏幕的内存只用了七块芯片，而不是八块。读取字节时，第 6 位是根据第 5 位和第 7 位重新算出来的。这就是 Model I 没有小写字母的原因：小写字母需要第 6 位。",
+  "lesson.screen.kaleido.title": "用字节拼出的图画",
+  "lesson.screen.kaleido.text": "**万花筒**用 POKE 把 128 到 191 的图形字符直接写进显存来作画，每个字符都向四个方向镜像。在课程旁边打开**显存**工具再运行它，看着图案变大时格子怎样变化。",
 
   "lesson.keyboard.title": "键盘就是内存",
   "lesson.keyboard.lead": "按键就是开关。电脑像读内存一样，把它们当作字节来读。",
@@ -73,6 +79,8 @@ export default {
   "lesson.keyboard.ghost.title": "幽灵键",
   "lesson.keyboard.ghost.text": "同时按住 A、B 和 I，看看“键盘”工具：J 也亮了，可你根本没按它。",
   "lesson.keyboard.ghost.more": "键盘矩阵里没有二极管，所以电流从第 1 行经过 I，再经过 A，再经过 B，到达了 J 所在的列。任意三个位于矩形三个角上的键，都会让第四个角的键“出现”。后来的键盘在每个开关上加了一个二极管来防止这种情况。",
+  "lesson.keyboard.worm.title": "游戏怎样读取按键",
+  "lesson.keyboard.worm.text": "**贪吃虫**用方向键控制方向，它读取的正是你的画板读的那一行，`PEEK(14400)`，每秒读很多次。在课程旁边打开**键盘**工具再玩，看看你转向时那一行怎样亮起来。",
 
   "lesson.tape.title": "变成声音的程序",
   "lesson.tape.lead": "程序可以以声音脉冲的形式，存在一盘普通的磁带上。",
@@ -90,6 +98,11 @@ export default {
   "lesson.tape.list.title": "它回来了",
   "lesson.tape.list.text": "用 `LIST` 看看。程序是从磁带上的声音里读回来的。**磁带 ▸ 将磁带存为 .wav** 可以把这段声音本身给你播放。",
   "lesson.tape.list.more": "当年，用户靠复制磁带来交换程序，杂志也会刊登程序让读者自己输入。磁带可能会被拉长或磨损，所以人们常常把一个程序保存两遍。",
+  "lesson.tape.notes.title": "磁带上的数据",
+  "lesson.tape.notes.text": "磁带上存的不只是程序。**把笔记存到磁带**用 `PRINT #-1` 把你写的五行字写到磁带上，再用 `INPUT #-1` 读回来。先放入一盘空白磁带（磁带 ▸ 空白磁带），然后按它屏幕上的提示做。",
+  "lesson.tape.music.title": "同一根线也能奏乐",
+  "lesson.tape.music.text": "接到录音机的那根线上有一个电平，由程序来设定：保存时，ROM 让它一下下地切换，形成脉冲。当年的用户会把这根线改接到一个小放大器上，程序切换电平，就能发出声音和曲调。模拟器已经接好了放大器。打开**八音盒**，听一听。",
+  "lesson.tape.music.more": "Model I 没有扬声器，也没有发声的命令。**八音盒**用 POKE 把几个字节的机器码写到内存的最顶端，再用 `USR` 调用它们：它们让端口 255 在两个电平之间每秒切换几百次，切换得多快，就是音符的音高。程序开头的那几行 `DATA` 就是这段例程。",
 
   "lesson.cpu.title": "CPU 的内部",
   "lesson.cpu.lead": "CPU 从内存中取出一条指令，执行它，再取下一条。程序也是字节。",
@@ -112,4 +125,6 @@ export default {
   "lesson.cpu.chips.title": "看芯片工作",
   "lesson.cpu.chips.text": "**指给我看**会带你看内部。用 `X=USR(0)` 再运行一次，仔细看：BASIC 运行时，ROM A 发光；你的程序从 RAM 芯片中运行，屏幕的芯片在写入时闪烁。",
   "lesson.cpu.chips.more": "这些灯光是真机从来没有的视角：每块芯片按它在 CPU 读写中所占的份额发光。Z80 一次只能做一件事，你可以看着它从 ROM 跑到 RAM，再跑回来。",
+  "lesson.cpu.race.title": "为什么要用机器码？",
+  "lesson.cpu.race.text": "**BASIC 对决机器码**把屏幕填满两次。BASIC 大约要 7 秒；Z80 循环执行六条指令，大约只要 1/45 秒。它的机器码在 32512：在课程旁边打开 **CPU 与内存**工具，你可以看到它的字节，还能像这一课里那样让它停下、单步执行。",
 };

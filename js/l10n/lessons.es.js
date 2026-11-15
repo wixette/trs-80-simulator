@@ -21,6 +21,8 @@ export default {
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Pulsa ENTER para usar toda la memoria. La computadora responde `RADIO SHACK LEVEL II BASIC` y `READY`. Te está esperando. Escribe con tu propio teclado: Intro es ENTER y Esc es BREAK.",
   "lesson.meet.ready.more": "BASIC es un programa guardado en 12 KB de ROM, una memoria que conserva su contenido sin corriente. Por eso la computadora está lista en cuanto se enciende, sin disco ni sistema operativo. Microsoft escribió este BASIC para Tandy en 1978.",
+  "lesson.meet.play.title": "Algo para jugar",
+  "lesson.meet.play.text": "Antes de la próxima lección, un juego al estilo de la época: **Alunizaje**. Ábrelo y elige **Poner su cinta**, pulsa **PLAY** en la grabadora, escribe `CLOAD` y luego `RUN`. O elige **Teclearlo** y mira cómo las teclas lo escriben solas. Programas, en la barra superior, tiene más: juegos, utilidades y música.",
 
   "lesson.basic.title": "Habla con BASIC",
   "lesson.basic.lead": "Un programa es una lista de instrucciones que la computadora sigue, una tras otra.",
@@ -41,6 +43,8 @@ export default {
   "lesson.basic.input.title": "Haz una pregunta",
   "lesson.basic.input.text": "`INPUT` espera a que escribas algo y pulses ENTER. Ejecuta esto, escribe tu nombre tras el signo de interrogación y pulsa ENTER.",
   "lesson.basic.input.more": "`N$` es una variable de cadena: el `$` indica que guarda letras, no un número. BASIC guarda también el propio programa en la memoria, a partir de la dirección 42E9H, con cada palabra, como `PRINT`, comprimida en un solo byte. La lección 6 mira la memoria directamente.",
+  "lesson.basic.guess.title": "Un juego completo",
+  "lesson.basic.guess.text": "**Adivina mi número** es un juego de once líneas, hecho con lo que acabas de usar: `INPUT`, `PRINT`, `IF` y un bucle. Ábrelo y juega. Luego pulsa **BREAK**, escribe `LIST` y busca las dos líneas `IF` que responden TOO LOW y TOO HIGH.",
 
   "lesson.screen.title": "La pantalla es memoria",
   "lesson.screen.lead": "1024 bytes de memoria son la imagen: cambia un byte y la pantalla cambia.",
@@ -57,6 +61,8 @@ export default {
   "lesson.screen.seven.title": "El chip que falta",
   "lesson.screen.seven.text": "Guarda 193 en el primer byte de la pantalla y vuelve a leerlo: dice 129. Un bit, el bit 6, nunca se guardó.",
   "lesson.screen.seven.more": "La memoria de la pantalla son siete chips, no ocho, para ahorrar dinero. El bit 6 se reconstruye a partir de los bits 5 y 7 al leer el byte. Por eso el Model I no tiene minúsculas: necesitan el bit 6.",
+  "lesson.screen.kaleido.title": "Dibujos hechos de bytes",
+  "lesson.screen.kaleido.text": "**Caleidoscopio** dibuja escribiendo con POKE caracteres gráficos, del 128 al 191, directamente en la RAM de vídeo, cada uno reflejado en cuatro direcciones. Ejecútalo con la herramienta **RAM de vídeo** junto a la lección y mira cómo cambian las celdas a medida que crece el dibujo.",
 
   "lesson.keyboard.title": "El teclado es memoria",
   "lesson.keyboard.lead": "Las teclas son interruptores. La computadora las lee como bytes, igual que la memoria.",
@@ -73,6 +79,8 @@ export default {
   "lesson.keyboard.ghost.title": "Teclas fantasma",
   "lesson.keyboard.ghost.text": "Mantén pulsadas A, B e I a la vez y mira la herramienta Teclado: también se enciende la J, aunque nunca la pulsaste.",
   "lesson.keyboard.ghost.more": "La matriz no tiene diodos, así que la corriente de la fila 1 pasa por la I, luego por la A, luego por la B, y llega a la columna de la J. Tres teclas cualesquiera en las esquinas de un rectángulo hacen aparecer la cuarta. Los teclados posteriores pusieron un diodo en cada interruptor para evitarlo.",
+  "lesson.keyboard.worm.title": "Un juego lee las teclas",
+  "lesson.keyboard.worm.text": "**Gusano** se dirige con las flechas leyendo la misma fila que tu bloc de dibujo, `PEEK(14400)`, muchas veces por segundo. Juega con la herramienta **Teclado** junto a la lección y mira cómo se enciende la fila mientras lo guías.",
 
   "lesson.tape.title": "Programas hechos sonido",
   "lesson.tape.lead": "Un programa se puede guardar en una cinta de casete normal, como pulsos de sonido.",
@@ -90,6 +98,11 @@ export default {
   "lesson.tape.list.title": "Ha vuelto",
   "lesson.tape.list.text": "Haz `LIST`. El programa ha vuelto desde el sonido de la cinta. **Cintas ▸ Guardar cinta como .wav** te da el propio sonido para reproducirlo.",
   "lesson.tape.list.more": "Los usuarios se intercambiaban programas copiando casetes, y las revistas publicaban programas para teclearlos. Una cinta podía estirarse o desgastarse, así que a menudo se guardaba un programa dos veces.",
+  "lesson.tape.notes.title": "Datos en la cinta",
+  "lesson.tape.notes.text": "Una cinta guarda más que programas. **Notas en la cinta** escribe cinco líneas tuyas en una cinta con `PRINT #-1` y las vuelve a leer con `INPUT #-1`. Pon antes una cinta virgen (Cintas ▸ Cinta virgen) y sigue lo que dice su pantalla.",
+  "lesson.tape.music.title": "El mismo cable hace música",
+  "lesson.tape.music.text": "El cable que va a la grabadora lleva un nivel que fija el programa: para guardar, la ROM lo conmuta en pulsos. Los usuarios conectaban ese cable a un pequeño amplificador, y los programas conmutaban el nivel para hacer sonidos y melodías. El simulador tiene el amplificador conectado. Abre **Caja de música** y escucha.",
+  "lesson.tape.music.more": "El Model I no tiene altavoz ni ninguna instrucción de sonido. **Caja de música** escribe con POKE unos pocos bytes de código máquina en lo más alto de la memoria y los llama con `USR`: conmutan el puerto 255 entre dos niveles cientos de veces por segundo, y lo rápido que lo hacen es el tono de la nota. Sus primeras líneas `DATA` son esa rutina.",
 
   "lesson.cpu.title": "Dentro de la CPU",
   "lesson.cpu.lead": "La CPU toma una instrucción de la memoria, la ejecuta y toma la siguiente. Los programas también son bytes.",
@@ -112,4 +125,6 @@ export default {
   "lesson.cpu.chips.title": "Observa los chips",
   "lesson.cpu.chips.text": "**Muéstrame** mira por dentro. Ejecútalo otra vez con `X=USR(0)` y observa: mientras BASIC funciona, brilla la ROM A; tu programa se ejecuta desde los chips de RAM, y los chips de la pantalla destellan mientras escribe en ella.",
   "lesson.cpu.chips.more": "Las luces son una vista que la máquina real nunca tuvo: cada chip brilla según su parte de las lecturas y escrituras de la CPU. El Z80 solo puede hacer una cosa a la vez, y puedes verlo pasar de la ROM a la RAM y volver.",
+  "lesson.cpu.race.title": "¿Por qué código máquina?",
+  "lesson.cpu.race.text": "**BASIC contra código máquina** llena la pantalla dos veces. BASIC tarda unos 7 segundos; el Z80, ejecutando seis instrucciones en un bucle, alrededor de 1/45 de segundo. Su código máquina está en 32512: con la herramienta **CPU y memoria** junto a la lección puedes ver sus bytes, y detenerlo y avanzarlo paso a paso como hiciste aquí.",
 };

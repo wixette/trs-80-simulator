@@ -26,7 +26,7 @@ export function recordSampleTape(rom, sample, name) {
   /** @param {string} text */
   const type = (text) => {
     typist.type(text);
-    for (let s = 0; typist.busy && s < 120; s += 0.05) clock.step(0.05);
+    for (let s = 0; typist.busy && s < 1800; s += 0.05) clock.step(0.05);
     typist.clear();
     clock.step(0.3);
   };

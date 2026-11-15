@@ -17,6 +17,13 @@ precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 trs-80-simulator contributors"
 SPDX-License-Identifier = "Apache-2.0"
 
+# Our programs' tapes are the programs, recorded (pnpm tapes): code.
+[[annotations]]
+path = "tapes/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 trs-80-simulator contributors"
+SPDX-License-Identifier = "Apache-2.0"
+
 # Parameters and research data are content, not code.
 [[annotations]]
 path = ["model/params/**", "research/data/**"]

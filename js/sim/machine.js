@@ -355,9 +355,9 @@ export class Machine {
   }
 
   /**
-   * The screen as text, for tests and checks: 16 lines of 64 characters, graphics as "#",
-   * control codes as the letters the character generator shows for them; trailing spaces
-   * trimmed.
+   * The screen as text, for tests and checks: 16 lines of 64 characters, graphics as "#" (a
+   * blank one as a space, as it looks), control codes as the letters the character generator
+   * shows for them; trailing spaces trimmed.
    * @returns {string[]}
    */
   screenText() {
@@ -366,7 +366,7 @@ export class Machine {
       let s = "";
       for (let c = 0; c < 64; c++) {
         const b = videoReadBack(this.vram[r * 64 + c]);
-        s += b >= 0x80 ? "#" : String.fromCharCode(b < 0x20 ? b + 0x40 : b);
+        s += b >= 0x80 ? ((b & 0x3f) === 0 ? " " : "#") : String.fromCharCode(b < 0x20 ? b + 0x40 : b);
       }
       lines.push(s.trimEnd());
     }

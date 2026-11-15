@@ -50,6 +50,22 @@ export function el(tag, attrs = {}, children = []) {
 }
 
 /**
+ * A switch (Material 3): its track and thumb, then its label.
+ * @param {string} label
+ * @param {boolean} on
+ * @param {(on: boolean) => void} change
+ */
+export function toggle(label, on, change) {
+  const b = el("button", { class: "switch", type: "button", role: "switch", "aria-checked": String(on) }, [el("span", { class: "switch-track" }, [el("span", { class: "switch-thumb" })]), el("span", { text: label })]);
+  b.addEventListener("click", () => {
+    const now = b.getAttribute("aria-checked") !== "true";
+    b.setAttribute("aria-checked", String(now));
+    change(now);
+  });
+  return b;
+}
+
+/**
  * Replace each <i data-icon="name"> placeholder under root with its icon.
  * @param {ParentNode} root
  */
@@ -176,8 +192,15 @@ export function showMenu(anchor, items) {
   anchor.setAttribute("aria-expanded", "true");
   const r = anchor.getBoundingClientRect();
   const b = box.getBoundingClientRect();
-  const below = r.bottom + 4 + b.height <= window.innerHeight - 8;
-  box.style.top = `${below ? r.bottom + 4 : Math.max(8, r.top - 4 - b.height)}px`;
+  // below the anchor, else above it; a menu taller than either side scrolls, on the roomier one
+  const down = window.innerHeight - 8 - (r.bottom + 4);
+  const up = r.top - 4 - 8;
+  if (b.height > down && b.height > up) {
+    box.style.maxHeight = `${Math.max(down, up)}px`;
+    box.style.overflowY = "auto";
+  }
+  const top = b.height <= down || down >= up ? r.bottom + 4 : Math.max(8, r.top - 4 - Math.min(b.height, up));
+  box.style.top = `${top}px`;
   // open towards the middle of the window: from the anchor's left edge, or its right edge on the right
   const left = r.left + r.width / 2 > window.innerWidth / 2 ? r.right - b.width : r.left;
   box.style.left = `${Math.max(8, Math.min(window.innerWidth - b.width - 8, left))}px`;

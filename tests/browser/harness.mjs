@@ -314,12 +314,12 @@ export async function start(chromePath, base, query = "") {
     await until("!trs80.typist.busy", ms);
     await sleep(800);
   };
-  /** Opens a top-bar or band menu and chooses the item whose text starts so. @param {string} button @param {string} label */
+  /** Opens a top-bar or band menu and chooses the item whose text starts so, scrolled to if the menu scrolls. @param {string} button @param {string} label */
   const choose = async (button, label) => {
     await press(button);
     await sleep(200);
     const sel = await js(`(() => { const b = [...document.querySelectorAll('.menu [role^="menuitem"]')].find((x) => x.textContent.startsWith(${JSON.stringify(label)}));
-      if (!b) return null; b.id ||= 'check-item'; return '#' + b.id; })()`);
+      if (!b) return null; b.id ||= 'check-item'; b.scrollIntoView({ block: 'nearest' }); return '#' + b.id; })()`);
     if (!sel) {
       errors.push(`no menu item ${label}`);
       await key("Escape");

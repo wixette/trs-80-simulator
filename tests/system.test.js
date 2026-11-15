@@ -198,13 +198,13 @@ describe("APP: the desk's rules", () => {
     };
     assert.equal(typeSample("keys"), true, "at MEMORY SIZE?, ENTER first");
     assert.ok([...s.machine.vram].some((v) => v & 0x80), "the program runs: blocks are lit");
-    assert.equal(typeSample("set"), false, "over a running program, BREAK first");
+    assert.equal(typeSample("bounce"), false, "over a running program, BREAK first");
     typeKeys(s, "{BREAK}LIST\n");
     for (let t = 0; s.typist.busy && t < 30; t += 0.05) s.clock.step(0.05);
     s.clock.step(1);
     const screen = s.machine.screenText();
-    assert.ok(screen.includes("50 GOTO 50"), screen.join(" | "));
-    assert.ok(!screen.some((l) => /^[6-9]0 /.test(l)), "the longer program's lines 60 to 90 are gone");
+    assert.ok(screen.includes("60 GOTO 20"), screen.join(" | "));
+    assert.ok(!screen.some((l) => /^[7-9]0 /.test(l)), "the longer program's lines 70 to 90 are gone");
   });
 
   it("APP-11: with Level II, power on reaches MEMORY SIZE?", { skip: NO_ROM }, () => {

@@ -9,6 +9,8 @@ Each lesson takes one class period of 40–50 minutes. Lessons 1 and 2 can share
 
 The steps live in the simulator's Lessons tab. Each step ticks itself when the machine shows it done, so a teacher can see at a glance how far a student has got. Lessons 3 to 6 each have a task that students do on their own: a prediction to write down before they look.
 
+**Programs** (top bar) has our own programs, all short Level II BASIC: **Learn**, which the lessons use; **Games**, **Utilities** and **Music**, for fun, in the style of 1977–80; and **Find original programs**, which says where the era's own software is archived and how to load it. Each program can be typed in on the Model I's keys or loaded from its tape. Sound comes through the cassette lead, as on the real machine with an amplifier plugged in.
+
 **Before the class:** open the simulator in a recent browser (Chrome, Edge, Safari or Firefox) on each machine; nothing is installed. On tablets and phones, the 2D view (top right) is the place to type.
 
 ## 1. Meet the TRS-80
@@ -27,6 +29,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | The cassette recorder | 2 min | The recorder | No disk: programs went onto audio tape. |
 | Switch it off and on | 3 min | `MEMORY SIZE?` | The page opens with the machine on. Two POWER buttons: the computer's, and the display's. Off, the memory is gone; on again, the ROM starts BASIC at once. |
 | READY | 5 min | ENTER, then `READY` | BASIC is in ROM, so the computer is ready at once. Microsoft wrote this BASIC (Level II, 1978). |
+| Something to play | at home | Moon lander, from Programs | Load it from its tape: PLAY, `CLOAD`, `RUN`. It shows what the machine was bought for, and the next lessons explain how it works. |
 
 **Questions students ask:**
 - *How many were sold?* Sources differ, and it is worth saying so. "100,000 computers in 1978" (Matthew Reed, [The TRS-80 Model I](https://www.trs-80.org/model-1.html)) or "well over 100,000" ([The Introduction of the TRS-80, part 2](https://www.trs-80.org/trs80-introduction-part2.html)), against "55,000 in its first year" ([Wikipedia, TRS-80](https://en.wikipedia.org/wiki/TRS-80)).
@@ -49,6 +52,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | Look at the program | 3 min | `LIST` | The program is in memory. |
 | Count with a loop | 8 min | `FOR I=1 TO 10` | Ask students to change it: count to 20, print cubes. |
 | Ask a question | 8 min | `INPUT` | `N$` holds text. Students write a two-question program. |
+| A whole game | 8 min | Guess my number, from Programs | Eleven lines, all of them things just used. Students `LIST` it and find the `IF` lines; then change the range from 100 to 1000. |
 
 *Going further:* BASIC stores the program in memory from 42E9H, with each keyword packed into one byte (a token). In lesson 6, students can find it with the CPU & Memory tool.
 
@@ -66,6 +70,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | Find the corner | 8 min | SET(10,10) is in byte 15557 (3CC5H) | Column 10 ÷ 2 = 5; row 10 ÷ 3 = 3, remainder 1, the middle band. |
 | **Your prediction** | 8 min | `SET(0,0)` | Students write down a byte and a bit before they look: 3C00H, bits 7 and 0. Then each draws their initial with `SET`, writing each block's byte first. |
 | The missing chip | 5 min | `POKE 15360,193` reads back 129 | Seven video RAM chips, not eight: bit 6 is rebuilt from bits 5 and 7. That is why there is no lower case. The saving was $1.50 in parts, $5 in the shop `[reed-uc]`. |
+| Pictures from bytes | 5 min | Kaleidoscope, with the Video RAM tab | Each pattern is graphics characters (128–191) POKEd into the video RAM and mirrored four ways. Lines 40 to 60 flip a character's six blocks with `AND`. |
 
 *Misconception to correct:* "The picture is stored as a picture." It is codes, drawn afresh 60 times a second.
 
@@ -83,6 +88,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | **Two keys at once** | 8 min | ↑ and → together | Students predict before they press: 8 + 64 = 72. Bits add up. |
 | Draw with the arrows | 10 min | A sketch pad | The program reads the keys itself, the way a game does. |
 | Ghost keys | 5 min | A, B and I give J | No diodes: current runs round a rectangle of switches. |
+| A game reads the keys | 5 min | Worm, with the Keyboard tab | The same `PEEK(14400)` as the sketch pad, many times a second. |
 
 *Misconception to correct:* "The keyboard sends letters." It closes contacts. The ROM does the arithmetic: a letter's code is its row × 8 + its column + 40H.
 
@@ -101,6 +107,8 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | Rewind | 2 min | REWIND | |
 | Load it back | 8 min | `NEW`, PLAY, `CLOAD "T"` | Untick Fast tape to hear it and to load at the real speed. |
 | It is back | 5 min | `LIST` | Tapes ▸ Save tape as .wav gives the sound itself: play it, open it in an audio editor, and find the pulses. |
+| Data on tape | 8 min | Notes to tape | `PRINT #-1` and `INPUT #-1` write and read data, not a program: the same pulses. |
+| The same lead makes music | 5 min | Music box | The Model I has no speaker. Owners plugged the cassette lead into an amplifier (Radio Shack sold one); the simulator has it plugged in. Music needs machine code: BASIC is too slow to switch the level hundreds of times a second. |
 
 ## 6. Inside the CPU
 
@@ -119,6 +127,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | **One instruction at a time** | 10 min | Step | Students predict each register before they press Step. `LDIR` copies one byte per step: HL and DE go up, BC down. |
 | Full speed | 3 min | Run | 1,023 bytes in about 12 ms. |
 | Watch the chips | 5 min | Inside, from below, `X=USR(0)` | ROM A glows while BASIC runs; the RAM chips while the program runs from them. |
+| Why machine code? | 5 min | BASIC against machine code | The same fill: about 7 s in BASIC, about 1/45 s in machine code. Students count the instructions in the loop (six) and compare with what BASIC must do for one `POKE`. |
 
 *Going further:* why can the same bytes be both data and instructions? This is the stored-program idea. Compare the Altair 8800, where a program went in through the switches one byte at a time.
 

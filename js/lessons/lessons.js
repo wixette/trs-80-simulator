@@ -27,6 +27,7 @@ import { keyNamed } from "../sim/keymap.js";
  * @property {string} id
  * @property {string} [type] keys for "Type it"
  * @property {string} [listing] a program, shown as the machine's text
+ * @property {string} [program] one of our programs (js/sim/samples.js), to open from the step
  * @property {{ src: string, credit: string, href: string }} [photo] a photograph (images/photos/CREDITS.md), its credit a message key
  * @property {Show} [show]
  * @property {boolean} [more] it has a "Going further" aside
@@ -102,6 +103,7 @@ export const LESSONS = [
         },
       },
       { id: "ready", type: "\n", done: (s) => shows(s, /^READY/), more: true },
+      { id: "play", program: "lander" },
     ],
   },
   {
@@ -125,6 +127,7 @@ export const LESSONS = [
         },
         more: true,
       },
+      { id: "guess", program: "guess" },
     ],
   },
   {
@@ -135,6 +138,7 @@ export const LESSONS = [
       { id: "corner", show: { tool: "vram", cell: 3 * 64 + 5 }, done: (s) => (s.machine.vram[3 * 64 + 5] & 0x80) !== 0, more: true },
       { id: "predict", type: "{BREAK}SET(0,0)\n", show: { tool: "vram", cell: 0 }, done: (s) => (s.machine.vram[0] & 0x81) === 0x81 },
       { id: "seven", type: "POKE 15360,193:PRINT PEEK(15360)\n", show: { tool: "vram", cell: 0 }, done: (s) => shows(s, /^ 129$/), more: true },
+      { id: "kaleido", program: "kaleido", show: { tool: "vram" } },
     ],
   },
   {
@@ -166,6 +170,7 @@ export const LESSONS = [
       },
       { id: "sketch", type: `{BREAK}NEW\n${SKETCH}\nRUN\n`, listing: SKETCH, done: (s) => blocks(s) >= 12, act: (s) => hold(s, "RIGHT", 2.5) },
       { id: "ghost", show: { tool: "keyboard" }, more: true },
+      { id: "worm", program: "worm", show: { tool: "keyboard" } },
     ],
   },
   {
@@ -199,6 +204,8 @@ export const LESSONS = [
         act: (s) => s.deckKey("play"),
       },
       { id: "list", type: "LIST\n", done: (s) => shows(s, /^10 PRINT "SAVED ON TAPE"/), more: true },
+      { id: "notes", program: "notes", show: { tool: "cassette" } },
+      { id: "music", program: "musicbox", more: true },
     ],
   },
   {
@@ -246,6 +253,7 @@ export const LESSONS = [
         },
       },
       { id: "chips", type: "X=USR(0)\n", show: { mode: "3d", view: "inside" }, more: true },
+      { id: "race", program: "race", show: { tool: "cpu", address: 32512 } },
     ],
   },
 ];

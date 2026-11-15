@@ -1,0 +1,150 @@
+// SPDX-License-Identifier: Apache-2.0
+//
+// Learn (design/v0.0.3.md): short programs, each with something to see and one idea, in the
+// order of the lessons that use them. Their text is the machine's: upper case, English.
+
+/** @typedef {import("../sim/samples.js").Sample} Sample */
+
+/** @type {Sample[]} */
+export const LEARN = [
+  {
+    id: "hello",
+    section: "learn",
+    letter: "H",
+    text: `10 CLS
+20 PRINT "HELLO. I AM A TRS-80 MODEL I."
+30 INPUT "WHAT IS YOUR NAME";N$
+40 CLS
+50 FOR I=0 TO 12
+60 PRINT @ I*64+I*3,"HELLO, ";N$;"!"
+70 NEXT I
+80 PRINT @ 832,"TYPE LIST TO SEE HOW I DID IT, OR RUN TO GO AGAIN.";
+RUN
+`,
+  },
+  {
+    id: "guess",
+    section: "learn",
+    letter: "G",
+    text: `10 CLS:RANDOM
+20 PRINT "GUESS MY NUMBER"
+30 PRINT "I AM THINKING OF A NUMBER FROM 1 TO 100."
+40 N=RND(100):T=0
+50 PRINT:INPUT "YOUR GUESS";G
+60 T=T+1
+70 IF G<N THEN PRINT "TOO LOW.":GOTO 50
+80 IF G>N THEN PRINT "TOO HIGH.":GOTO 50
+90 PRINT "YES! IT WAS";N;"- YOU TOOK";T;"GUESSES."
+100 INPUT "PLAY AGAIN (Y/N)";A$
+110 IF A$="Y" THEN 10
+RUN
+`,
+  },
+  {
+    id: "wave",
+    section: "learn",
+    letter: "W",
+    text: `10 F=10
+20 CLS:PRINT @ 0,"SET(X,Y)  X: 0-127  Y: 0-47";
+30 FOR X=0 TO 127:SET(X,24):NEXT X
+40 FOR X=0 TO 127:SET(X,24-20*SIN(X/F)):NEXT X
+50 FOR D=1 TO 600:NEXT D
+60 F=F-2:IF F<2 THEN F=10
+70 GOTO 20
+RUN
+`,
+  },
+  {
+    id: "kaleido",
+    section: "learn",
+    letter: "K",
+    text: `10 CLS:RANDOM:S=15360
+20 X=RND(32)-1:Y=RND(8)-1:C=RND(64)-1
+30 IF RND(4)=1 THEN C=0
+40 H=(C AND 21)*2+(C AND 42)/2
+50 V=(C AND 3)*16+(C AND 12)+(C AND 48)/16
+60 B=(V AND 21)*2+(V AND 42)/2
+70 POKE S+Y*64+X,128+C
+80 POKE S+Y*64+63-X,128+H
+90 POKE S+(15-Y)*64+X,128+V
+100 POKE S+(15-Y)*64+63-X,128+B
+110 GOTO 20
+RUN
+`,
+  },
+  {
+    id: "bounce",
+    section: "learn",
+    letter: "B",
+    text: `10 CLS:X=10:Y=10:A=1:B=1
+20 SET(X,Y):FOR D=1 TO 15:NEXT D:RESET(X,Y)
+30 X=X+A:Y=Y+B
+40 IF X<1 OR X>126 THEN A=-A
+50 IF Y<1 OR Y>46 THEN B=-B
+60 GOTO 20
+RUN
+`,
+  },
+  {
+    id: "keys",
+    section: "learn",
+    letter: "S",
+    text: `10 CLS:X=64:Y=24
+20 SET(X,Y):K=PEEK(14400)
+30 IF K AND 8 THEN Y=Y-1
+40 IF K AND 16 THEN Y=Y+1
+50 IF K AND 32 THEN X=X-1
+60 IF K AND 64 THEN X=X+1
+70 IF K AND 128 THEN CLS
+80 X=(X+128) AND 127:Y=(Y+48)-INT((Y+48)/48)*48
+90 GOTO 20
+RUN
+`,
+  },
+  {
+    id: "notes",
+    section: "learn",
+    letter: "N",
+    text: `10 CLS:PRINT "NOTES TO TAPE"
+20 PRINT:PRINT "1  WRITE FIVE NOTES ONTO A TAPE"
+30 PRINT "2  READ THEM BACK FROM THE TAPE"
+40 PRINT:INPUT "1 OR 2";C
+50 IF C=2 THEN 200
+60 IF C<>1 THEN 40
+70 PRINT "TYPE FIVE SHORT NOTES, WITH NO COMMAS."
+80 FOR I=1 TO 5:PRINT I;:INPUT N$(I):NEXT I
+90 PRINT "PUT A BLANK TAPE IN, PRESS RECORD, THEN ENTER."
+100 INPUT A$
+110 PRINT #-1,N$(1),N$(2),N$(3),N$(4),N$(5)
+120 PRINT "SAVED. REWIND THE TAPE, PRESS PLAY, AND RUN AGAIN.":END
+200 PRINT "REWIND THE TAPE, PRESS PLAY, THEN ENTER."
+210 INPUT A$
+220 INPUT #-1,N$(1),N$(2),N$(3),N$(4),N$(5)
+230 PRINT:FOR I=1 TO 5:PRINT I;N$(I):NEXT I
+RUN
+`,
+  },
+  {
+    id: "race",
+    section: "learn",
+    letter: "R",
+    text: `10 POKE 16561,255:POKE 16562,126:CLEAR 50
+20 FOR I=32512 TO 32529:READ B:POKE I,B:NEXT I
+30 POKE 16526,0:POKE 16527,127
+40 DATA 205,127,10,85,33,0,60,1,0,4,114,35,11,120,177,32,249,201
+50 CLS:PRINT "BASIC AGAINST MACHINE CODE"
+60 PRINT:PRINT "EACH WILL FILL THE SCREEN'S 1,024 BYTES."
+70 INPUT "PRESS ENTER FOR BASIC";A$
+80 FOR I=15360 TO 16383:POKE I,191:NEXT I
+90 CLS:INPUT "NOW PRESS ENTER FOR MACHINE CODE";A$
+100 X=USR(140)
+110 FOR D=1 TO 1000:NEXT D
+120 CLS:PRINT "BASIC: ABOUT 7 SECONDS. IT READ AND WORKED OUT ITS LINE"
+130 PRINT "1,024 TIMES."
+140 PRINT "MACHINE CODE: ABOUT 1/45 SECOND, 300 TIMES AS FAST. THE Z80"
+150 PRINT "RAN 6 INSTRUCTIONS 1,024 TIMES. LINE 40 HOLDS THEM: THE"
+160 PRINT "MACHINE CODE IS THOSE NUMBERS, AT 32512 IN THE MEMORY."
+RUN
+`,
+  },
+];

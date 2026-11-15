@@ -26,6 +26,8 @@ import { tapeInfo } from "./system-tape.js";
 export const FAST_TAPE = 32;
 /** "Type it" types at this many times the machine's speed, so a listing goes in quickly. */
 export const FAST_TYPING = 8;
+/** Type in faster (design/v0.0.3.md, S2), for a long listing: this many times. */
+export const TYPE_FASTER = 64;
 /** Seconds a unit takes to come out; to go back with the rest, after Put it all back. */
 export const OUT_S = 0.8;
 export const BACK_S = 0.12;
@@ -59,6 +61,8 @@ export class System {
     /** @private the tape last decoded, how many pulses it had, and what it holds @type {{ tape: object | null, n: number, end: number, info: ReturnType<typeof tapeInfo> | null }} */
     this.infoKey = { tape: null, n: 0, end: 0, info: null };
     this.fastTyping = true;
+    /** Type in faster, for the listing being typed: off again once it is typed. */
+    this.typeFaster = false;
     /** The memory traffic of the last frame, for the chips and the memory map. @type {import("./machine.js").Traffic} */
     this.traffic = this.machine.takeTraffic();
     /** What the visitor should be told. @type {(m: Message) => void} */
@@ -322,7 +326,8 @@ export class System {
    */
   frame(dt) {
     this.deck.wind(dt * (this.fastTape ? FAST_TAPE : 1), this.machine.t);
-    this.clock.boost = this.deck.running && this.fastTape ? FAST_TAPE : this.typist.busy && this.fastTyping ? FAST_TYPING : 1;
+    if (!this.typist.busy) this.typeFaster = false;
+    this.clock.boost = this.deck.running && this.fastTape ? FAST_TAPE : this.typist.busy && this.fastTyping ? (this.typeFaster ? TYPE_FASTER : FAST_TYPING) : 1;
     this.stepMotion(dt);
     this.traffic = this.machine.takeTraffic();
   }

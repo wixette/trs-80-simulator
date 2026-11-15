@@ -21,6 +21,8 @@ export default {
   "lesson.meet.ready.title": "READY",
   "lesson.meet.ready.text": "Appuie sur ENTER pour utiliser toute la mémoire. L’ordinateur répond `RADIO SHACK LEVEL II BASIC` et `READY`. Il t’attend. Tape sur ton propre clavier : Entrée, c’est ENTER, et Échap, c’est BREAK.",
   "lesson.meet.ready.more": "Le BASIC est un programme rangé dans 12 Ko de ROM, une mémoire qui garde son contenu quand le courant est coupé. L’ordinateur est donc prêt dès qu’on l’allume, sans disque ni système d’exploitation. C’est Microsoft qui a écrit ce BASIC pour Tandy, en 1978.",
+  "lesson.meet.play.title": "De quoi jouer",
+  "lesson.meet.play.text": "Avant la prochaine leçon, un jeu dans le style de l’époque : **Alunissage**. Ouvre-le et choisis **Mettre sa cassette**, appuie sur **PLAY** sur le magnétophone, tape `CLOAD`, puis `RUN`. Ou choisis **Le taper** et regarde les touches le taper toutes seules. Programmes, dans la barre du haut, en propose d’autres : jeux, utilitaires et musique.",
 
   "lesson.basic.title": "Parle au BASIC",
   "lesson.basic.lead": "Un programme est une liste d’instructions que l’ordinateur suit, l’une après l’autre.",
@@ -41,6 +43,8 @@ export default {
   "lesson.basic.input.title": "Pose une question",
   "lesson.basic.input.text": "`INPUT` attend que tu tapes quelque chose et que tu appuies sur ENTER. Lance ce programme, tape ton prénom après le point d’interrogation, et appuie sur ENTER.",
   "lesson.basic.input.more": "`N$` est une variable chaîne : le `$` veut dire qu’elle contient des lettres, pas un nombre. Le BASIC range aussi le programme lui-même en mémoire, à partir de l’adresse 42E9H, chaque mot comme `PRINT` étant compacté en un seul octet. La leçon 6 regarde directement dans la mémoire.",
+  "lesson.basic.guess.title": "Un jeu entier",
+  "lesson.basic.guess.text": "**Devine mon nombre** est un jeu en onze lignes, fait de ce que tu viens d’utiliser : `INPUT`, `PRINT`, `IF` et une boucle. Ouvre-le et joue. Puis appuie sur **BREAK**, tape `LIST`, et trouve les deux lignes `IF` qui répondent TOO LOW et TOO HIGH.",
 
   "lesson.screen.title": "L’écran est de la mémoire",
   "lesson.screen.lead": "1 024 octets de mémoire forment l’image : change un octet, et l’écran change.",
@@ -57,6 +61,8 @@ export default {
   "lesson.screen.seven.title": "La puce manquante",
   "lesson.screen.seven.text": "Range 193 dans le premier octet de l’écran, puis relis-le : il vaut 129. Un bit, le bit 6, n’a jamais été gardé.",
   "lesson.screen.seven.more": "La mémoire de l’écran est faite de sept puces, pas huit, pour faire des économies. Le bit 6 est reconstruit à partir des bits 5 et 7 quand on lit l’octet. C’est pour ça que le Model I n’a pas de minuscules : elles ont besoin du bit 6.",
+  "lesson.screen.kaleido.title": "Des images faites d’octets",
+  "lesson.screen.kaleido.text": "**Kaléidoscope** dessine en écrivant avec POKE des caractères graphiques, de 128 à 191, directement dans la RAM vidéo, chacun en miroir dans quatre sens. Lance-le avec l’outil **RAM vidéo** à côté de la leçon, et regarde les cases changer à mesure que l’image grandit.",
 
   "lesson.keyboard.title": "Le clavier est de la mémoire",
   "lesson.keyboard.lead": "Les touches sont des interrupteurs. L’ordinateur les lit comme des octets, comme de la mémoire.",
@@ -73,6 +79,8 @@ export default {
   "lesson.keyboard.ghost.title": "Les touches fantômes",
   "lesson.keyboard.ghost.text": "Maintiens A, B et I ensemble, et regarde l’outil Clavier : J s’allume aussi, alors que tu n’as jamais appuyé dessus.",
   "lesson.keyboard.ghost.more": "La matrice n’a pas de diodes : le courant de la ligne 1 passe par I, puis A, puis B, et arrive à la colonne de J. Trois touches aux coins d’un rectangle font apparaître la quatrième. Les claviers plus récents ont ajouté une diode sur chaque interrupteur pour éviter ça.",
+  "lesson.keyboard.worm.title": "Un jeu lit les touches",
+  "lesson.keyboard.worm.text": "**Le ver** se dirige avec les flèches en lisant la même ligne que ton carnet à dessin, `PEEK(14400)`, plusieurs fois par seconde. Joue avec l’outil **Clavier** à côté de la leçon, et regarde la ligne s’allumer quand tu le diriges.",
 
   "lesson.tape.title": "Des programmes en son",
   "lesson.tape.lead": "Un programme peut être gardé sur une cassette audio ordinaire, sous forme d’impulsions sonores.",
@@ -90,6 +98,11 @@ export default {
   "lesson.tape.list.title": "Il est revenu",
   "lesson.tape.list.text": "Fais un `LIST`. Le programme est revenu à partir du son de la cassette. **Cassettes ▸ Enregistrer la cassette en .wav** te donne le son lui-même, à écouter.",
   "lesson.tape.list.more": "Les propriétaires s’échangeaient des programmes en copiant des cassettes, et les magazines publiaient des programmes à taper. Une bande pouvait s’étirer ou s’user, alors on enregistrait souvent un programme deux fois.",
+  "lesson.tape.notes.title": "Des données sur cassette",
+  "lesson.tape.notes.text": "Une cassette ne garde pas que des programmes. **Des notes sur cassette** écrit cinq lignes de toi sur une cassette avec `PRINT #-1`, et les relit avec `INPUT #-1`. Mets d’abord une cassette vierge (Cassettes ▸ Cassette vierge), et suis ce que dit son écran.",
+  "lesson.tape.music.title": "Le même câble fait de la musique",
+  "lesson.tape.music.text": "Le câble du magnétophone porte un niveau que le programme règle : pour enregistrer, la ROM le fait basculer en impulsions. Les propriétaires branchaient plutôt ce câble sur un petit amplificateur, et les programmes faisaient basculer le niveau pour produire des sons et des airs. Le simulateur a l’amplificateur branché. Ouvre **Boîte à musique**, et écoute.",
+  "lesson.tape.music.more": "Le Model I n’a ni haut-parleur ni instruction pour le son. **Boîte à musique** écrit avec POKE quelques octets de code machine tout en haut de la mémoire et les appelle avec `USR` : ils font basculer le port 255 entre deux niveaux des centaines de fois par seconde, et la vitesse de ces bascules donne la hauteur de la note. Ses premières lignes `DATA` sont cette routine.",
 
   "lesson.cpu.title": "Dans le processeur",
   "lesson.cpu.lead": "Le processeur va chercher une instruction en mémoire, l’exécute, puis va chercher la suivante. Les programmes aussi sont des octets.",
@@ -112,4 +125,6 @@ export default {
   "lesson.cpu.chips.title": "Regarde les puces",
   "lesson.cpu.chips.text": "**Voir** regarde à l’intérieur. Relance-le avec `X=USR(0)` et regarde : tant que le BASIC tourne, la ROM A brille ; ton programme tourne depuis les puces de RAM, et les puces de l’écran clignotent pendant qu’il écrit.",
   "lesson.cpu.chips.more": "Ces lumières, la vraie machine ne les a jamais eues : chaque puce brille selon sa part des lectures et écritures du processeur. Le Z80 ne peut faire qu’une chose à la fois, et tu peux le voir passer de la ROM à la RAM, et revenir.",
+  "lesson.cpu.race.title": "Pourquoi le code machine ?",
+  "lesson.cpu.race.text": "**BASIC contre code machine** remplit l’écran deux fois. Le BASIC met environ 7 secondes ; le Z80, en exécutant six instructions en boucle, environ 1/45 de seconde. Son code machine est à 32512 : avec l’outil **CPU & mémoire** à côté de la leçon, tu peux voir ses octets, l’arrêter et l’exécuter pas à pas comme tu l’as fait ici.",
 };

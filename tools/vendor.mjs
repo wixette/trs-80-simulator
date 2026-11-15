@@ -48,6 +48,7 @@ const DIR = /** @type {Record<string, string>} */ ({
 
 /** Material Symbols the page uses (Rounded, weight 400). */
 export const ICONS = [
+  "article",
   "check",
   "check_circle",
   "chevron_left",
@@ -76,6 +77,7 @@ export const ICONS = [
   "skip_next",
   "stop",
   "translate",
+  "travel_explore",
   "upload_file",
   "view_in_ar",
   "visibility",

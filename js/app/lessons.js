@@ -2,7 +2,7 @@
 //
 // The Lessons tool (docs/ui-design.md, U7): a bar of numbered lessons, one shown at a time;
 // "Lesson 3 of 6", its title and lead; then its steps, each with its text, the program it
-// types as the machine's own text, its chips (Type it, Show me), a tick when the machine
+// types as the machine's own text, its chips (Type it, one of our programs to open, Show me), a tick when the machine
 // shows it done, and a "Going further" aside, folded. Show me points at what a step is about
 // and never works the machine; a tool it opens goes beside the lesson, so that the lesson
 // stays in view (U7). The lesson open and each step's tick are remembered.
@@ -41,10 +41,12 @@ export class LessonsTool {
    * @param {HTMLElement} host
    * @param {System} system
    * @param {(show: Show) => void} show what Show me does: the page points at it
+   * @param {(id: string) => void} program opens one of our programs' dialogs (Programs)
    */
-  constructor(host, system, show) {
+  constructor(host, system, show, program) {
     this.system = system;
     this.showMe = show;
+    this.openProgram = program;
     const saved = load();
     /** The steps done, by lesson. @type {Record<string, Set<string>>} */
     this.done = Object.fromEntries(LESSONS.map((l) => [l.id, new Set(saved.done?.[l.id] ?? [])]));
@@ -84,6 +86,14 @@ export class LessonsTool {
           typeKeys(this.system, /** @type {string} */ (st.type));
           this.system.say({ key: "lessons.typing" });
         });
+        chips.append(b);
+      }
+      if (st.program) {
+        const id = st.program;
+        const b = el("button", { class: "chip open-program", type: "button" }, [icon("play_arrow"), el("span", { text: t("lessons.openProgram", { title: t(`sample.${id}.title`) }) })]);
+        b.setAttribute("data-tip-describes", "");
+        setTip(b, t("lessons.openProgram.tip"));
+        b.addEventListener("click", () => this.openProgram(id));
         chips.append(b);
       }
       if (st.show) {
