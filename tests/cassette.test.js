@@ -355,7 +355,29 @@ describe("TAP: with Level II", { skip: NO_ROM }, () => {
   });
 });
 
-describe("TAP: a long CSAVE", { skip: NO_ROM }, () => {
+describe("TAP: saving onto a tape", { skip: NO_ROM }, () => {
+  it("TAP-17: two programs saved one after the other are two recordings on the tape, and each loads", () => {
+    const b = ready();
+    const tape = new Tape("two");
+    b.deck.insert(tape);
+    b.deck.press("record", b.m.t);
+    b.type('10 PRINT "ONE"\nCSAVE "A"\n');
+    b.untilMotorOff(60);
+    b.type('NEW\n10 PRINT "TWO"\nCSAVE "B"\n');
+    b.untilMotorOff(60);
+    const blocks = tape.blocks();
+    assert.equal(blocks.length, 2, "two recordings");
+    assert.deepEqual(blocks.map((x) => /** @type {any} */ (tapeInfo(x)).name), ["A", "B"]);
+    b.deck.stop(b.m.t);
+    b.deck.press("rewind", b.m.t);
+    for (let i = 0; i < 400 && b.deck.mode === "rewind"; i++) b.deck.wind(0.05, b.m.t);
+    b.deck.press("play", b.m.t);
+    b.type('NEW\nCLOAD "B"\n');
+    b.untilMotorOff(60);
+    b.type("LIST\n");
+    assert.ok(b.screen().includes('10 PRINT "TWO"'), b.screen().join(" | "));
+  });
+
   it("TAP-16: a 12 KB program saved with CSAVE goes onto the tape whole, and the deck stops", () => {
     const b = ready();
     // a program of REM lines, 12 KB, put in memory as BASIC keeps it (42E9H on)
@@ -403,6 +425,17 @@ describe("TAP: .wav files", () => {
     assert.equal(poor.rate, 44100);
     const bytes = new Tape("w", pulsesFromSound(poor)).blocks()[0];
     assert.deepEqual(bytes.slice(bytes.indexOf(0xa5)), [...cas].slice(cas.indexOf(0xa5)));
+  });
+
+  it("TAP-36: reads a recording made very quietly (1.5 % of full scale, with hiss); hiss alone is silence", () => {
+    const cas = screenProgramCas();
+    const clean = parseWav(wavFromPulses(tapeFromCas("s", cas).pulses, 44100));
+    let seed = 7;
+    const hiss = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648 - 0.5) * 0.001;
+    const quiet = { rate: 44100, samples: clean.samples.map((v) => v * 0.015 + hiss()) };
+    const bytes = new Tape("q", pulsesFromSound(quiet)).blocks()[0];
+    assert.deepEqual(bytes.slice(bytes.indexOf(0xa5)), [...cas].slice(cas.indexOf(0xa5)));
+    assert.equal(pulsesFromSound({ rate: 44100, samples: new Float32Array(44100).map(hiss) }).length, 0);
   });
 
   it("TAP-32: reads WAVE_FORMAT_EXTENSIBLE by its sub-format: 32-bit float", () => {

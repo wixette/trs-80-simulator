@@ -119,6 +119,7 @@ How the simulator is checked, built and released is in [docs/development.md](doc
 - the page's design: [docs/ui-design.md](docs/ui-design.md);
 - the machine's decisions: [design/decisions.md](design/decisions.md), and the plan: [design/roadmap.md](design/roadmap.md);
 - the 3D model: [model/README.md](model/README.md);
+- how to contribute: [CONTRIBUTING.md](CONTRIBUTING.md); what the page keeps in your browser: [docs/privacy.md](docs/privacy.md);
 - the machine's sources: [research/](research/).
 
 ### How it is made

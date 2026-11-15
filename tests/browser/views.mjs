@@ -64,7 +64,7 @@ export default async function (h) {
     const r = app.viewer.canvas.getBoundingClientRect(); return { x: r.left + ((p.x + 1) / 2) * r.width, y: r.top + ((1 - p.y) / 2) * r.height }; })()`);
   await h.clickAt(shift.x, shift.y);
   await h.sleep(800);
-  h.verify("SHIFT clicked with the computer off latches, and takes nothing out", (await h.js("app.desk().shiftLatched")) && (await h.js("trs80.whole && [...trs80.motion.values()].every((m) => m.target === 0)")));
+  h.verify("SHIFT clicked with the computer off latches, and takes nothing out", (await h.js("trs80.typist.isHeld(7, 0)")) && (await h.js("trs80.whole && [...trs80.motion.values()].every((m) => m.target === 0)")));
   await h.clickAt(shift.x, shift.y);
 
   // Show me (a view) pressed while the camera still flies to 2D: it ends in 3D, at that view

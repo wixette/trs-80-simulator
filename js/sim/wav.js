@@ -90,7 +90,8 @@ export function pulsesFromSound({ rate, samples }) {
     dc += (samples[i] - dc) * dcRate;
     const a = Math.abs(samples[i] - dc);
     peak = Math.max(a, peak * decay);
-    if (peak < 0.02) {
+    // silence below about -50 dBFS: a recording made very quietly (-34 dBFS, say) still reads
+    if (peak < 0.003) {
       armed = true; // silence
       continue;
     }

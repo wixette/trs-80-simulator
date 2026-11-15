@@ -49,7 +49,14 @@ It says what just happened, and why something is greyed. It keeps one line's hei
 
 ### P8. A link is a public contract, from 1.0.0
 
-Once released, a link field is never renamed, dropped or read differently. Until 1.0.0 the format may still change, and the README says so. It lives in one module with nothing of the page in it, and its own test pins it down.
+Once released, a link field is never renamed, dropped or read differently; new fields may be added. It lives in one module with nothing of the page in it (`js/app/link.js`), and its own test pins it down (`tests/link.test.js`). As of 1.0.0:
+
+| In the address | What | Values |
+|---|---|---|
+| `#view=` | the view the page opens in | `3d`, `2d`; anything else is ignored |
+| `?lang=` | the language (U11) | `en`, `es`, `fr`, `de`, `it`, `pt-BR`, `zh`, `zh-TW`, `ja`, `ko`, or a tag that maps to one (`fr-CA`, `zh-Hant`); else the visitor's choice or the browser's |
+
+`?debug` and `?selftest` are for development (docs/development.md), not part of the contract.
 
 ### P9. A phone gets the same app, not a different one
 

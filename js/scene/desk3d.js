@@ -111,8 +111,6 @@ export class Desk3D {
         row: o.userData.matrix_row, bit: o.userData.matrix_bit, name: o.userData.key_name, down: 0,
       });
     });
-    /** SHIFT clicked: down until the next key is let go. */
-    this.shiftLatched = false;
 
     this.led = this.ownMaterial(this.node("led.power"));
     /** The recorder's RECORD/BATTERY lamp. */
@@ -518,9 +516,9 @@ export class Desk3D {
         const bit = keyObj.userData.matrix_bit;
         this.viewer.controls.enabled = false;
         if (row === 7) {
-          this.shiftLatched = !this.shiftLatched;
-          if (this.shiftLatched) s.typist.hold(7, 0);
-          else s.typist.release(7, 0);
+          // one latch, the typist's: latched in 3D, it is latched in 2D too
+          if (s.typist.isHeld(7, 0)) s.typist.release(7, 0);
+          else s.typist.hold(7, 0);
           return;
         }
         held = { row, bit };
@@ -566,10 +564,7 @@ export class Desk3D {
       if (held) {
         s.typist.release(held.row, held.bit);
         held = null;
-        if (this.shiftLatched) {
-          this.shiftLatched = false;
-          s.typist.release(7, 0);
-        }
+        if (s.typist.isHeld(7, 0)) s.typist.release(7, 0);
         return true;
       }
       return false;

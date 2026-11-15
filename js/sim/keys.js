@@ -129,6 +129,11 @@ export class Typist {
     this.held.set(`${row}.${bit}`, this.m.t);
   }
 
+  /** Whether a key is held by hand now (SHIFT latched, in 3D or 2D alike). @param {number} row @param {number} bit */
+  isHeld(row, bit) {
+    return this.held.has(`${row}.${bit}`);
+  }
+
   /** @param {number} row @param {number} bit */
   release(row, bit) {
     const since = this.held.get(`${row}.${bit}`) ?? this.m.t;

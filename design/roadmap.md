@@ -7,7 +7,7 @@
 | **v0.0.1** | The first pre-release ([v0.0.1.md](v0.0.1.md)). **Feature frozen.** What remains before it is released: the unit tests checked and brought up to date; a set of browser checks, run by hand before a release and not in CI, as the Altair 8800 simulator's are; a thorough code review; a first, short README with screenshots, taken by a tool, as the 8800 simulator's are |
 | **v0.0.2** | The interface in ten languages, as the Altair 8800 simulator's |
 | **v0.0.3** | Programs worth running, then the lessons rewritten round them ([v0.0.3.md](v0.0.3.md)): sound from the cassette port, a catalogue for learning, games, utilities and music, and where to find the era's own software |
-| **v1.0.0** | Built on v0.0.3. **Feature frozen:** a review of the code and the docs, and fixes, only; the README in full, with the screenshots for it, as the 8800 simulator's |
+| **v1.0.0** | Built on v0.0.3 ([v1.0.0.md](v1.0.0.md)). **Feature frozen:** a review of the code and the docs, and fixes, only; the README in full, with the screenshots for it, as the 8800 simulator's |
 
 ## Where it stands
 

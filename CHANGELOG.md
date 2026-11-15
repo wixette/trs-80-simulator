@@ -15,7 +15,8 @@ No new features: a review of the code and the docs, and what it found fixed. Eac
 - **Without the ROM,** the warning is no longer replaced, and the power the visitor left is kept.
 - **Dialogs:** opened with the mouse, the next Enter after closing one is the machine's again; tooltips show in dialogs.
 - **Smaller:** a damaged lessons store, RESET and an old Run to, the tape winding while paused, the Keyboard tab's reads after a power cycle, zh-Hans-HK, names for icon-only buttons on phones, the CPU flags' tooltips, the 2D layout at tiny sizes.
-- **Docs:** the README rewritten for newcomers; the UI design, development, decisions, licensing and model docs brought up to date.
+- **Also:** two programs saved one after the other are two recordings on the tape, each named in the Cassette tab; a WAV recorded very quietly reads; SHIFT latched in 3D stays latched in 2D, and a power cycle unlatches it; the CPU tool's memory map is reached with Tab.
+- **Docs:** the README rewritten for newcomers; a contributing guide, a privacy note, the link format frozen in a table, and the v1.0.0 plan; the UI design, development, decisions, licensing and model docs brought up to date.
 
 **Tools**
 - `pnpm video` records short clips for posts, frame by frame, in any of the ten languages; `pnpm shots` gains shots for posts. The browser checks run `?selftest`, and can fail a request (the page without its ROM).

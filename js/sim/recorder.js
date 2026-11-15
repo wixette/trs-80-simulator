@@ -13,7 +13,7 @@
 // The machine sees the tape through its hooks: `pulseSince(t)` and `activeAt(t)` for its
 // flip-flop, `portWrite(value, t)` for recording, `setRelay(on, t)` for the motor.
 
-import { PULSE_T, Tape } from "./cassette.js";
+import { GAP_T, PULSE_T, Tape } from "./cassette.js";
 import { CLOCK_HZ } from "./machine.js";
 
 /** Winding speed, relative to playing (est: a C-60 winds end to end in about a minute). */
@@ -183,7 +183,13 @@ export class Recorder {
 
   /** @private */
   startRecording() {
-    if (!this.rec) this.rec = { from: this.pos, pulses: [], level: 0 };
+    if (this.rec) return;
+    // the motor takes a moment to run up to speed: a recording made just after another (two
+    // CSAVEs, the motor stopped between) starts a gap past it, and is a recording of its own
+    const pulses = this.tape?.pulses ?? [];
+    const i = this.tape ? this.tape.indexAt(this.pos) - 1 : -1;
+    if (i >= 0 && this.pos - pulses[i] <= GAP_T) this.pos = pulses[i] + GAP_T + 1;
+    this.rec = { from: this.pos, pulses: [], level: 0 };
   }
 
   /** @private @param {number} t */
