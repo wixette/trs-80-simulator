@@ -4,9 +4,62 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="The TRS-80 Model I (1977) in 3D in your browser: switch it on, type Level II BASIC, load tapes, open it up and watch the screen and keyboard work as memory.">
+    <!-- What a search result and a shared link show. In English, as the page is before any
+         script runs, which is how it is read; the page then titles itself in its language. -->
+    <meta name="description" content="TRS-80 Model I emulator in 3D, free in your browser: Level II BASIC on a Z80, cassette tapes (.cas, .wav), games, music and six lessons. In 10 languages.">
     <meta name="theme-color" content="#1f1f1f">
-    <title>TRS-80 Simulator: the Model I in 3D</title>
+    <title>TRS-80 Simulator: a Model I emulator in 3D, with Level II BASIC</title>
+    <link rel="canonical" href="https://wixette.github.io/trs-80-simulator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="TRS-80 Simulator">
+    <meta property="og:title" content="TRS-80 Simulator: a Model I emulator in 3D, with Level II BASIC">
+    <meta property="og:description" content="TRS-80 Model I emulator in 3D, free in your browser: Level II BASIC on a Z80, cassette tapes (.cas, .wav), games, music and six lessons. In 10 languages.">
+    <meta property="og:url" content="https://wixette.github.io/trs-80-simulator/">
+    <meta property="og:image" content="https://wixette.github.io/trs-80-simulator/screenshots/app.jpg">
+    <meta property="og:image:width" content="1600">
+    <meta property="og:image:height" content="900">
+    <meta property="og:image:alt" content="The TRS-80 Model I in 3D, its screen showing a kaleidoscope pattern, with the first lesson below">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "TRS-80 Simulator",
+  "alternateName": "TRS-80 Model I emulator",
+  "url": "https://wixette.github.io/trs-80-simulator/",
+  "description": "TRS-80 Model I emulator in 3D, free in your browser: Level II BASIC on a Z80, cassette tapes (.cas, .wav), games, music and six lessons. In 10 languages.",
+  "image": "https://wixette.github.io/trs-80-simulator/screenshots/app.jpg",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any (in a web browser)",
+  "browserRequirements": "Requires JavaScript and WebGL",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": [
+    "en",
+    "es",
+    "fr",
+    "de",
+    "it",
+    "pt-BR",
+    "zh-Hans",
+    "zh-Hant",
+    "ja",
+    "ko"
+  ],
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "sameAs": "https://github.com/wixette/trs-80-simulator",
+  "about": {
+    "@type": "Thing",
+    "name": "TRS-80 Model I",
+    "sameAs": "https://en.wikipedia.org/wiki/TRS-80"
+  }
+}
+    </script>
     <link rel="icon" href="images/favicon.svg?v=0.0.3" type="image/svg+xml">
     <link rel="stylesheet" href="css/style.css?v=0.0.3">
     <!-- Every file name here carries the version (?v=), and so does each module the
@@ -150,6 +203,9 @@
       <div id="pane-refs" class="dock-pane" role="tabpanel" aria-labelledby="tab-refs" hidden></div>
     </section>
 
+    <noscript>
+      <p>TRS-80 Simulator: the TRS-80 Model I of 1977, emulated in your browser, in 3D. Type Level II BASIC on its keyboard, load and save programs on cassette tape, play games and music, and open the machine up to see how a computer works, with six lessons for schools. It needs JavaScript and WebGL. The source is on <a href="https://github.com/wixette/trs-80-simulator">GitHub</a>.</p>
+    </noscript>
     <footer id="status"><span id="status-text" role="status" aria-live="polite"></span></footer>
     <script type="module" src="js/app/main.js?v=0.0.3"></script>
   </body>

@@ -12,7 +12,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 Simulator",
-  "app.title": "TRS-80 Simulator: the Model I in 3D",
+  "app.title": "TRS-80 Simulator: a Model I emulator in 3D, with Level II BASIC",
   "bar.tapes": "Tapes",
   "bar.tapes.tip": "A blank tape, your own .cas or .wav, or save the one in the recorder",
   "bar.programs": "Programs",

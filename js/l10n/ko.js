@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 시뮬레이터",
-  "app.title": "TRS-80 시뮬레이터: 3D로 보는 Model I",
+  "app.title": "TRS-80 시뮬레이터: 3D로 보는 Model I 에뮬레이터, Level II BASIC 탑재",
   "bar.tapes": "테이프",
   "bar.tapes.tip": "빈 테이프, 여러분의 .cas나 .wav 파일, 또는 녹음기에 든 테이프 저장",
   "bar.programs": "프로그램",

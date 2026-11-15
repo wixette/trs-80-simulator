@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "Simulatore TRS-80",
-  "app.title": "Simulatore TRS-80: il Model I in 3D",
+  "app.title": "Simulatore TRS-80: un emulatore del Model I in 3D, con il BASIC Level II",
   "bar.tapes": "Nastri",
   "bar.tapes.tip": "Un nastro vergine, un tuo file .cas o .wav, oppure salva quello nel registratore",
   "bar.programs": "Programmi",

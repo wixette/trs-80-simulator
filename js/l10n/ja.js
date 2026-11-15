@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 シミュレーター",
-  "app.title": "TRS-80 シミュレーター：3D の Model I",
+  "app.title": "TRS-80 シミュレーター：3D の Model I エミュレーター、Level II BASIC 搭載",
   "bar.tapes": "テープ",
   "bar.tapes.tip": "空のテープ、手持ちの .cas や .wav を入れる、またはレコーダーのテープを保存",
   "bar.programs": "プログラム",

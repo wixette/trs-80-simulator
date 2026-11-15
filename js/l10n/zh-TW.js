@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 模擬器",
-  "app.title": "TRS-80 模擬器：3D 的 Model I",
+  "app.title": "TRS-80 模擬器：在瀏覽器裡執行的 3D Model I，內建 Level II BASIC",
   "bar.tapes": "磁帶",
   "bar.tapes.tip": "空白磁帶、你自己的 .cas 或 .wav 檔案，或把錄音機裡的磁帶存下來",
   "bar.programs": "程式",

@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80-Simulator",
-  "app.title": "TRS-80-Simulator: das Model I in 3D",
+  "app.title": "TRS-80-Simulator: ein Model-I-Emulator in 3D, mit Level II BASIC",
   "bar.tapes": "Kassetten",
   "bar.tapes.tip": "Eine leere Kassette, deine eigene .cas oder .wav, oder die Kassette im Rekorder speichern",
   "bar.programs": "Programme",
