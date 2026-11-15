@@ -5,10 +5,10 @@
 
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { HostKeys } from "../js/sim/host-keys.js";
+import { HostKeys, READ_MAX_T } from "../js/sim/host-keys.js";
 import { KEY_DOWN_T, KEY_UP_T, Typist } from "../js/sim/keys.js";
 import { CLOCK_HZ, Machine } from "../js/sim/machine.js";
-import { NO_ROM, rom } from "./boot.js";
+import { NO_ROM, ready, rom } from "./boot.js";
 
 /** A matrix that only records its switches. */
 function matrix() {
@@ -156,6 +156,49 @@ describe("KEY: fast typing", () => {
     h.up({ key: "Enter", code: "Enter" });
     run(3);
     assert.ok(m.screenText().includes(" 64"), m.screenText().filter(Boolean).join(" | "));
+  });
+
+  it("KEY-18: a key let go before the program read its row stays down until it does, for up to READ_MAX_T; and holds up no other key", () => {
+    const m = { ...matrix(), rowScanT: new Array(8).fill(-1) };
+    const h = new HostKeys(m);
+    h.down({ key: "ArrowUp", code: "ArrowUp" });
+    m.t = 2 * KEY_DOWN_T;
+    h.up({ key: "ArrowUp", code: "ArrowUp" });
+    h.tick();
+    assert.equal(m.rows[6] & 8, 8, "UP still down: the game has not read row 6 since");
+    h.down({ key: "ArrowDown", code: "ArrowDown" });
+    assert.equal(m.rows[6] & 16, 16, "DOWN goes down at once: a key waiting to be read holds up none");
+    m.t += 1000;
+    m.rowScanT[6] = m.t;
+    h.tick();
+    assert.equal(m.rows[6] & 8, 0, "read once, UP is let go");
+    h.down({ key: "a", code: "KeyA" });
+    m.t += KEY_DOWN_T;
+    h.up({ key: "a", code: "KeyA" });
+    h.tick();
+    assert.equal(m.rows[0] & 2, 2, "A waits for row 0 to be read");
+    m.t += READ_MAX_T;
+    h.tick();
+    assert.equal(m.rows[0] & 2, 0, "and is let go after READ_MAX_T if it never is");
+  });
+
+  it("KEY-19: quick taps between a BASIC game's reads all reach it, once each", { skip: NO_ROM }, () => {
+    const b = ready();
+    const h = new HostKeys(b.m);
+    b.clock.add(h);
+    // a game that reads the arrows' row once in about half a second, and counts UP
+    b.type("10 IF PEEK(14400) AND 8 THEN N=N+1\n20 FOR D=1 TO 150:NEXT D:GOTO 10\nRUN\n", 0.5);
+    for (let i = 0; i < 5; i++) {
+      h.down({ key: "ArrowUp", code: "ArrowUp" });
+      b.run(0.03);
+      h.up({ key: "ArrowUp", code: "ArrowUp" });
+      b.run(0.9 + i * 0.13);
+    }
+    b.m.keyDown(6, 2); // BREAK
+    b.run(0.2);
+    b.m.keyUp(6, 2);
+    b.type("PRINT N\n");
+    assert.ok(b.screen().includes(" 5"), b.screen().join(" | "));
   });
 
   it("KEY-17: keys held together are down together (a game's arrow and SPACE)", () => {

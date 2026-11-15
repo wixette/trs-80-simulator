@@ -129,3 +129,9 @@ On the CTR-80 the computer's REM plug stops the motor whenever the computer has 
 Level II reads one key at a time, and debounces it for tens of milliseconds. A visitor's key is held down for at least 70 ms of machine time (KEY_DOWN_T), so that a quick tap is seen. A key pressed while an earlier tap is still held for that reason, or less than 70 ms after it was let go (KEY_UP_T), waits its turn, then goes down. So fast typing, or text a browser sends all at once, reaches BASIC letter by letter. Keys that are really held together (an arrow and SPACE in a game) are down together, because neither is a tap waiting to be let go.
 
 *Found while building:* keys arriving a few milliseconds apart overlapped in the matrix, and Level II kept only some of them.
+
+## D18. A key let go is held until the program has read it
+
+A game reads the keys only at moments of its loop: a BASIC game between moving, drawing and beeping, so a quick tap of the visitor's could start and end between two reads and be lost, though the Keyboard tool showed it pressed. On a real Model I the owner learned to hold a key a little longer. Here a key let go stays down until the program has read its row once since it went down, for up to half a second (READ_MAX_T). A program that reads the row itself (PEEK, or its own machine code) must read it; Level II's keyboard driver (03E3H–045FH) scans every row between statements, looking for BREAK, so its reads count only for a program that takes its keys from the driver (INKEY$, INPUT). A key waiting to be read holds up no other key.
+
+*Found while checking v0.0.3:* in Worm, quick taps of the arrows turned the worm three times in sixteen; with this, sixteen in sixteen.
