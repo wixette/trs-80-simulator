@@ -20,7 +20,7 @@ const walk = (dir) =>
   readdirSync(join(ROOT, dir), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(`${dir}/${e.name}`) : e.name.endsWith(".js") ? [`${dir}/${e.name}`] : []));
 
 /** The keys built at run time, by the prefix the code builds them from. */
-const FAMILIES = [/^lesson\./, /^view\.[a-z]+$/, /^stage\.(2d|3d)\.tip$/, /^deck\.key\./, /^sample\./, /^programs\.(learn|games|utilities|music)$/, /^part\./, /^unit\./, /^role\./, /^region\./, /^flag\./, /^cpu\.follow\./, /^(flat|display)\.(contrast|brightness)$/, /^deck\.(record|play|rewind|fastf|stop|eject)$/];
+const FAMILIES = [/^lesson\./, /^view\.[a-z]+$/, /^stage\.(2d|3d)\.tip$/, /^deck\.key\./, /^sample\./, /^programs\.(learn|games|utilities|music)$/, /^listing\.(notText|noNumbers|untypable)$/, /^part\./, /^unit\./, /^role\./, /^region\./, /^flag\./, /^cpu\.follow\./, /^(flat|display)\.(contrast|brightness)$/, /^deck\.(record|play|rewind|fastf|stop|eject)$/];
 
 describe("APP: every text is a message", () => {
   const code = [...walk("js"), "index.html"].filter((f) => !f.startsWith("js/l10n/")).map((f) => readFileSync(join(ROOT, f), "utf8")).join("\n");
@@ -59,6 +59,8 @@ describe("APP: the page in ten languages (U11)", () => {
     assert.equal(pickLocale({ browser: ["sv-SE", "ja-JP"] }), "ja");
     assert.equal(pickLocale({ browser: ["sv-SE"] }), "en");
     assert.equal(matchLocale("zh-Hant-HK"), "zh-TW");
+    assert.equal(matchLocale("zh-Hans-HK"), "zh", "the script stated wins over the region");
+    assert.equal(matchLocale("zh-Hans-TW"), "zh");
     assert.equal(matchLocale("zh-CN"), "zh");
     assert.equal(matchLocale("pt-PT"), "pt-BR");
     assert.equal(matchLocale("fr-CA"), "fr");

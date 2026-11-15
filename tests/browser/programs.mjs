@@ -81,7 +81,7 @@ export default async function (h) {
   /** Hands the listing input a file. @param {string} name @param {string} text */
   const give = (name, text) =>
     h.js(`(() => { const i = document.querySelector('input[type=file][accept^=".bas"]'); const d = new DataTransfer(); d.items.add(new File([${JSON.stringify(text)}], ${JSON.stringify(name)})); i.files = d.files; i.dispatchEvent(new Event("change")); })()`);
-  await give("tokens.bas", "\xff\x80\x42");
+  await h.js(`(() => { const i = document.querySelector('input[type=file][accept^=".bas"]'); const d = new DataTransfer(); d.items.add(new File([new Uint8Array([0xff, 0x80, 0x42])], "tokens.bas")); i.files = d.files; i.dispatchEvent(new Event("change")); })()`);
   h.verify("a tokenised file is turned away, saying why", await h.until("/not a BASIC text file/.test(document.getElementById('status').textContent)", 3000));
   await give("hi.bas", '10 print "from a listing"\r\n20 goto 10\r\n');
   await h.typed();

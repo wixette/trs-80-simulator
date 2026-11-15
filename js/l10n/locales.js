@@ -33,7 +33,8 @@ export const LOCALE_STORE = "trs80.lang";
 
 /**
  * The locale a language tag stands for here, or null: an exact match first ("pt-BR"), then
- * Chinese by script or region (zh-Hant, zh-TW, zh-HK, zh-MO are traditional), then the base
+ * Chinese by its script, else its region (zh-Hant, zh-TW, zh-HK, zh-MO are traditional; a
+ * stated zh-Hans, zh-Hans-HK say, simplified), then the base
  * language ("fr-CA" is French, "pt-PT" is Portuguese, as Brazil's).
  * @param {string | null | undefined} tag
  * @returns {Locale | null}
@@ -44,7 +45,8 @@ export function matchLocale(tag) {
   const exact = LOCALES.find((l) => l.toLowerCase() === lower);
   if (exact) return exact;
   const [base, ...rest] = lower.split(/[-_]/);
-  if (base === "zh") return rest.some((p) => ["hant", "tw", "hk", "mo"].includes(p)) ? "zh-TW" : "zh";
+  // the script, when the tag names one, before the region: zh-Hans-HK is simplified
+  if (base === "zh") return rest.includes("hans") ? "zh" : rest.some((p) => ["hant", "tw", "hk", "mo"].includes(p)) ? "zh-TW" : "zh";
   if (base === "pt") return "pt-BR";
   return LOCALES.find((l) => l === base) ?? null;
 }

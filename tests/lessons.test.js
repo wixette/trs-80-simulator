@@ -31,10 +31,14 @@ describe("LES: the lessons", () => {
     assert.deepEqual(missing, []);
   });
 
-  it("LES-1 to 6: every step of every lesson can be done, in order, and its check then passes", { skip: NO_ROM, timeout: 120_000 }, () => {
+  it("LES-1 to 7: every step of every lesson can be done, in order, and its check then passes; none ticks before its turn", { skip: NO_ROM, timeout: 120_000 }, () => {
     const s = new System({ rom: rom(), takeApart: TAKE_APART });
     /** @type {string[]} */
     const notDone = [];
+    /** Steps whose check may pass before their turn, by design: the box drawn just before covers the corner. */
+    const AHEAD = ["screen.corner"];
+    /** @type {string[]} */
+    const early = [];
     for (const lesson of LESSONS) {
       for (const step of lesson.steps) {
         step.before?.(s);
@@ -51,8 +55,14 @@ describe("LES: the lessons", () => {
           s.clock.step(0.25);
         }
         if (step.done && !step.done(s)) notDone.push(`${lesson.id}.${step.id}: ${s.machine.screenText().filter(Boolean).slice(-3).join(" | ")}`);
+        // the page checks every step of the lesson open, all the time: none further on may pass yet
+        for (const later of lesson.steps.slice(lesson.steps.indexOf(step) + 1)) {
+          const id = `${lesson.id}.${later.id}`;
+          if (later.done?.(s) && !AHEAD.includes(id) && !early.includes(id)) early.push(id);
+        }
       }
     }
     assert.deepEqual(notDone, []);
+    assert.deepEqual(early, [], "LES-7: ticked before their turn");
   });
 });

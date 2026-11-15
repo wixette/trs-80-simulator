@@ -17,7 +17,9 @@ import { CLOCK_HZ, Machine } from "../js/sim/machine.js";
 import { Recorder } from "../js/sim/recorder.js";
 import { recordSampleTape } from "../js/sim/sample-tapes.js";
 import { tapeInfo } from "../js/sim/system-tape.js";
-import { LONG, SAMPLES, SECTIONS } from "../js/sim/samples.js";
+import { LONG, parseListing, SAMPLES, SECTIONS } from "../js/sim/samples.js";
+import { typeKeys } from "../js/lessons/lessons.js";
+import { System } from "../js/sim/system.js";
 import { NO_ROM, rom } from "./boot.js";
 
 /**
@@ -124,4 +126,32 @@ describe("our programs", () => {
       assert.ok(ok === true, typeof ok === "string" ? ok : r.screen.join(" | "));
     });
   }
+});
+
+describe("a visitor's BASIC file (Type in a BASIC file)", () => {
+  const typist = new Typist(/** @type {any} */ ({}));
+  /** @param {string | number[]} x */
+  const parse = (x) => parseListing(typeof x === "string" ? new TextEncoder().encode(x) : new Uint8Array(x), (t) => typist.untypable(t));
+  it("LST-1: a listing as people keep them: CRLF, tabs, blank lines, a byte-order mark, a Ctrl-Z, a last RUN, lower case", () => {
+    assert.deepEqual(parse("﻿10 print \"hi\"\r\n\r\n20\tgoto 10\r\nRUN\r\n\x1a\x1a"), { text: '10 print "hi"\n20 goto 10\n' });
+  });
+  it("LST-2: the power operator written ^ or [ is typed with the ↑ key", () => {
+    assert.deepEqual(parse("10 PRINT 2^3, 2[3\n"), { text: "10 PRINT 2{UP}3, 2{UP}3\n" });
+  });
+  it("LST-3: turned away, saying why: tokens, no line numbers, an empty file, a character with no key", () => {
+    assert.equal(/** @type {any} */ (parse([0xff, 0x80, 0x42])).error, "notText", "Disk BASIC's tokens");
+    assert.equal(/** @type {any} */ (parse([0xe9, 0x42, 0x0a, 0x00, 0x93, 0x00])).error, "notText", "Level II's: lines end with 00H");
+    assert.equal(/** @type {any} */ (parse("PRINT 1\n")).error, "noNumbers");
+    assert.equal(/** @type {any} */ (parse("")).error, "noNumbers");
+    assert.deepEqual(parse("10 REM CAFÉ {X}\n"), { error: "untypable", chars: "É { }" });
+  });
+  it("LST-4: ↑ typed in a listing is Level II's power operator", { skip: NO_ROM }, () => {
+    const s = new System({ rom: rom(), takeApart: [] });
+    s.power(true);
+    s.clock.step(1.5);
+    typeKeys(s, "{ENTER}" + /** @type {{ text: string }} */ (parse("10 PRINT 2^3\nRUN\n")).text + "RUN\n");
+    for (let t = 0; s.typist.busy && t < 60; t += 0.05) s.clock.step(0.05);
+    s.clock.step(1);
+    assert.ok(s.machine.screenText().includes(" 8"), s.machine.screenText().join(" | "));
+  });
 });

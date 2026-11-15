@@ -253,6 +253,22 @@ describe("APP: the desk's rules", () => {
     assert.ok(!screen.some((l) => /^[7-9]0 /.test(l)), "the longer program's lines 70 to 90 are gone");
   });
 
+  it("APP-18: Type it in pressed the moment the machine is on, before it asks MEMORY SIZE?, still types the program in", { skip: NO_ROM }, () => {
+    const { s } = desk(rom());
+    s.power(true);
+    s.clock.step(0.02);
+    const sm = /** @type {import("../js/sim/samples.js").Sample} */ (SAMPLES.find((x) => x.id === "bounce"));
+    const { asking, keys } = typeIn(s.machine.screenText(), sm.text, true);
+    assert.equal(asking, true, "the screen is still blank: ENTER first, which waits for the question");
+    typeKeys(s, keys);
+    for (let t = 0; s.typist.busy && t < 120; t += 0.05) s.clock.step(0.05);
+    typeKeys(s, "{BREAK}LIST\n");
+    for (let t = 0; s.typist.busy && t < 30; t += 0.05) s.clock.step(0.05);
+    s.clock.step(1);
+    assert.ok(s.machine.screenText().includes("60 GOTO 20"), s.machine.screenText().join(" | "));
+    assert.equal(typeIn([""], sm.text).asking, false, "a running program's blank screen gets BREAK");
+  });
+
   it("APP-11: with Level II, power on reaches MEMORY SIZE?", { skip: NO_ROM }, () => {
     const { s } = desk(rom());
     s.power(true);

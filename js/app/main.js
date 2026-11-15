@@ -165,6 +165,8 @@ new ReferencesTool($("pane-refs"));
 let companion = null;
 /** The Keyboard tool beside the lesson, which hears the program's reads too. @type {KeyboardTool | null} */
 let companionKeys = null;
+/** The companion when it is a Video RAM tool, which hears the writes to the video RAM as the dock's does. @type {VramTool | null} */
+let companionVram = null;
 /** Where the companion tool is: once closed, out of the page. @type {HTMLElement | null} */
 let companionHost = null;
 system.machine.on.scan = (sel, value) => {
@@ -190,6 +192,7 @@ function showMe(s) {
   if (s.tool) {
     const host = el("div", { class: "companion-tool" });
     companionKeys = null; // a tool that replaces the Keyboard one no longer hears the reads
+    companionVram = null;
     companionHost = host;
     if (s.tool === "vram") {
       const v = new VramTool(host, system, (cell) => {
@@ -202,6 +205,7 @@ function showMe(s) {
         flat.invalidate();
       }
       companion = v;
+      companionVram = v;
     } else if (s.tool === "keyboard") {
       companionKeys = new KeyboardTool(host, system);
       companion = companionKeys;
@@ -255,6 +259,7 @@ system.machine.on.video = (addr) => {
   if (crt) crt.dirty = true;
   flat.invalidate();
   vram.written(addr);
+  if (companionHost?.isConnected) companionVram?.written(addr);
 };
 system.machine.on.mode32 = () => {
   if (crt) crt.dirty = true;
@@ -264,6 +269,7 @@ system.onChange.push(() => {
   if (crt) crt.dirty = true;
   flat.invalidate();
   vram.invalidate();
+  if (companionHost?.isConnected) companionVram?.invalidate();
 });
 /** The pulses of this frame, for the tape's sound: machine times. @type {number[]} */
 const pulses = [];
