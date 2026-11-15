@@ -14,6 +14,7 @@
 - **v0.0.1:** released 2026-11-15 as a pre-release ([the release](https://github.com/wixette/trs-80-simulator/releases/tag/v0.0.1)).
 - **v0.0.2:** released 2026-11-15 as a pre-release ([the release](https://github.com/wixette/trs-80-simulator/releases/tag/v0.0.2)). The page in ten languages (docs/ui-design.md, U11): the language button, the choice from the address, the visitor or the browser, one message file per language, tests that hold each to English's keys, placeholders and code, and a browser check that no English is left on the page and each fits a phone.
 - **v0.0.3:** released 2026-11-15 as a pre-release ([the release](https://github.com/wixette/trs-80-simulator/releases/tag/v0.0.3); [v0.0.3.md](v0.0.3.md)). Checked by the owner in Chrome, Safari, Firefox and Chrome on an iPhone. Sound from the cassette lead; 19 programs of our own in four sections, each with its tape and a test that runs it from the tape; Type in faster; Find original programs; Type in a BASIC file; each lesson ends with a program; the ten languages for all of it.
+- **v1.0.0:** on `dev-v1.0.0`, waiting for the owner's manual check ([v1.0.0.md](v1.0.0.md)): the code and the docs reviewed, area by area, and what was found fixed, each with a test; the README for newcomers; screenshots and clips for posts in English and Chinese.
 
 ## Decided
 
