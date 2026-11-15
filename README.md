@@ -10,18 +10,21 @@ The **TRS-80 Model I** (1977) in 3D in your browser: switch it on, type Level II
 
 > **v0.0.3 is a pre-release.** Everything below works, and the six lessons are complete. The layout may still change before 1.0.0 ([design/roadmap.md](design/roadmap.md)).
 
-![The simulator: the TRS-80 Model I in 3D, its screen showing a frame and a diagonal drawn with SET, the helper strip under it, and the first lesson, Meet the TRS-80, in the dock below](./screenshots/app.jpg)
+![The simulator: the TRS-80 Model I in 3D, its screen showing the Kaleidoscope program's mirrored patterns, the helper strip under it, and the first lesson, Meet the TRS-80, in the dock below](./screenshots/app.jpg)
 
 ## What you can do
 
 <table>
 <tr>
-<td width="50%"><b>Switch to 2D</b><br>The machine's own faces, flat: the screen, the recorder, the keyboard. On a phone, this is where you type.<br><img src="./screenshots/2d.jpg" alt="The 2D view: the Video Display with a frame and a diagonal on its screen, the CTR-80 recorder beside it from above, and the keyboard below"></td>
+<td colspan="2"><b>Run programs of our own</b><br>21 of them, typed in for you on the Model I's keys or loaded from tape: games, utilities and music in the style of 1977–80, and short ones to learn from.<br><img src="./screenshots/programs.jpg" alt="The Programs menu open on its Games section: Moon lander, Worm, Bricks, Meteors and The lighthouse, beside the sections Learn, Utilities and Music, and Find original programs and Open a listing"></td>
+</tr>
+<tr>
+<td width="50%"><b>Switch to 2D</b><br>The machine's own faces, flat: the screen, the recorder, the keyboard. On a phone, this is where you type.<br><img src="./screenshots/2d.jpg" alt="The 2D view: the Video Display with a sine wave drawn with SET on its screen, the CTR-80 recorder beside it, and the keyboard below"></td>
 <td width="50%"><b>Look inside while it runs</b><br>The case turns to glass; the board's chips light up as they work.<br><img src="./screenshots/inside.jpg" alt="The Inside, from below view: the keyboard unit's case as glass, and under it the main board's chips, seen from below"></td>
 </tr>
 <tr>
 <td><b>Take it apart</b><br>With the power off, in the order the real one comes apart.<br><img src="./screenshots/apart.jpg" alt="The computer taken apart in 3D: the case top lifted, the keyboard raised, the main board out in front and turned over"></td>
-<td><b>See the screen as memory</b><br>1,024 bytes, live; pick one to see its bits become dots.<br><img src="./screenshots/vram.jpg" alt="The Video RAM tool: the 64 by 16 grid of bytes, one picked, and beside it the letter H drawn by the character generator, row by row"></td>
+<td><b>See the screen as memory</b><br>1,024 bytes, live; pick one to see its bits become dots.<br><img src="./screenshots/vram.jpg" alt="The Video RAM tool: the 64 by 16 grid of bytes as the Kaleidoscope program fills it, one graphics byte picked, and beside it its bits and the 2 by 3 blocks they light"></td>
 </tr>
 <tr>
 <td><b>Save and load programs on tape</b><br>The tape under the head, as pulses, bits and bytes.<br><img src="./screenshots/tape.jpg" alt="The Cassette tool while a machine-code tape loads: the pulses under the head, the bits they make, and the bytes, each named"></td>

@@ -67,7 +67,11 @@ const HELPERS = `
 /** @type {Shot[]} */
 const SHOTS = [
   // the first picture: the desk in 3D, a sample drawn on the screen, the lessons below
-  { name: "app-3d-lessons", readme: "app", setup: `await ready(); await program("wave"); dockHeight(330); tab("lessons"); await view("desk");` },
+  { name: "app-3d-lessons", readme: "app", wait: 4000, setup: `await ready(); await program("kaleido"); dockHeight(330); tab("lessons"); await view("desk");` },
+  // Programs: our own, in sections, with Games open
+  { name: "programs-menu", readme: "programs", setup: `await ready(); await program("wave"); dockHeight(330); tab("lessons"); await view("desk"); await sleep(4000);
+      document.getElementById("programs").click(); await sleep(300);
+      [...document.querySelectorAll(".menu [role=menuitem]")].find((b) => b.textContent === "Games")?.click(); await sleep(300);` },
   // the 2D view: the display, the recorder and the keyboard, flat
   { name: "2d-drawers", readme: "2d", setup: `await ready(); await program("wave"); fold(); app.stage.setMode("2d"); await sleep(1500);
       if (!app.flat.drawerOpen("rec")) app.flat.toggleDrawer("rec"); if (!app.flat.drawerOpen("kbd")) app.flat.toggleDrawer("kbd");` },
@@ -79,7 +83,8 @@ const SHOTS = [
   { name: "3d-keyboard", setup: `await ready(); await program("keys"); fold(); await view("keyboard");` },
   // the tools
   { name: "tool-vram", readme: "vram", setup: `await ready(); await program("kaleido"); dockHeight(470); tab("vram"); await sleep(800);
-      document.querySelectorAll("#pane-vram .vram-cell")[200]?.click();` },
+      const at = [...trs80.machine.vram].findIndex((v, i) => i > 300 && (v & 0x80) && (v & 0x3f) > 20);
+      document.querySelectorAll("#pane-vram .vram-cell")[at]?.click();` },
   { name: "tool-tape", readme: "tape", wait: 500, setup: `await ready(); dockHeight(470); tab("cassette");
       const { tapeFromCas } = await import("./js/sim/cassette.js"); const { screenProgramCas } = await import("./js/sim/system-samples.js");
       trs80.setFastTape(false); trs80.insertTape(tapeFromCas("SCREEN (machine code)", screenProgramCas())); trs80.deckKey("play");
