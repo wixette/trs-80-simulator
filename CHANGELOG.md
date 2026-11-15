@@ -2,6 +2,24 @@
 
 What changed in each release. Versions follow `package.json` and are tagged `vX.Y.Z` ([docs/development.md](docs/development.md)). Versions 0.0.x are pre-releases. The decisions cited (D1, U10, …) are in [design/decisions.md](design/decisions.md) and [docs/ui-design.md](docs/ui-design.md).
 
+## 1.0.0 (in progress)
+
+No new features: a review of the code and the docs, and what it found fixed. Each fix has a test that fails without it.
+
+- **The tape:** a CSAVE of 11 KB or more crashed and lost its recording; FAST-F could wind back; a tape put in mid-recording took the recording; the Cassette tool misnamed the bytes of a recording cut short.
+- **The machine:** Run to could miss its stop (always while typed keys waited on the program); the visitor's keys were dead for a while after a power cycle; a key pressed again quickly could be let go while held; a key clicked in 3D or 2D waited behind typing, sped games up, and now waits for a read as the visitor's do (D18).
+- **Taking it apart:** clicking parts while parts moved could leave units stuck, and POWER refused.
+- **The views:** Show me pressed during the flight to 2D left the page in 2D; SHIFT clicked in 3D with the power off took the keyboard out; the tube froze during that flight; the 3D view follows the browser's zoom.
+- **The lessons:** the Video RAM tool beside a lesson never updated; two steps ticked before their turn; Type it in pressed the moment the machine was on lost the program.
+- **Type in a BASIC file** takes files as people keep them: a byte-order mark, a Ctrl-Z, a last RUN, ↑ written ^ or [.
+- **Without the ROM,** the warning is no longer replaced, and the power the visitor left is kept.
+- **Dialogs:** opened with the mouse, the next Enter after closing one is the machine's again; tooltips show in dialogs.
+- **Smaller:** a damaged lessons store, RESET and an old Run to, the tape winding while paused, the Keyboard tab's reads after a power cycle, zh-Hans-HK, names for icon-only buttons on phones, the CPU flags' tooltips, the 2D layout at tiny sizes.
+- **Docs:** the README rewritten for newcomers; the UI design, development, decisions, licensing and model docs brought up to date.
+
+**Tools**
+- `pnpm video` records short clips for posts, frame by frame, in any of the ten languages; `pnpm shots` gains shots for posts. The browser checks run `?selftest`, and can fail a request (the page without its ROM).
+
 ## 0.0.3
 
 Programs worth running, then the lessons rewritten round them (design/v0.0.3.md).
@@ -15,6 +33,7 @@ Programs worth running, then the lessons rewritten round them (design/v0.0.3.md)
 - **Type in a BASIC file:** a program of your own, written out as text (`.bas`, `.txt`), typed in on the Model I's keys.
 - **The lessons** each end with one of the programs to open, run and read; lesson 5 adds data on tape and music. The lessons' bar is centred and keeps on screen; the first photo stands beside its text; Show me always answers, the stage's edge glowing.
 - **References** start with further reading; what the simulator simplifies is last, folded.
+- **Every dock tab centred:** the instruments as one block of cards, each at its own width, its notes beside what they describe. On the Keyboard tab the reads a second keep to one line in every language.
 
 **Tools**
 - `tools/basic.mjs` runs a listing on the headless Model I: keys at given times, the screen, the notes played. `pnpm tapes` records our programs' tapes into `tapes/`; a test holds each to a fresh recording, and runs every program from its tape.
@@ -26,7 +45,7 @@ The page in ten languages.
 - **Ten languages,** as the Altair 8800 simulator's: English, Español, Français, Deutsch, Italiano, Português (Brasil), 简体中文, 繁體中文, 日本語 and 한국어. Everything of the page's own is translated, the six lessons included; the machine's own words (BREAK, `READY`, BASIC, the key legends) stay as the machine has them, and the teacher notes stay in English (U11).
 - **The language button,** in the top bar between Sound and About: a translate icon and the language's short name. Its menu lists each language as it names itself; a choice is remembered, and the page opens again in it.
 - **Which language a visit uses:** the address's `?lang=`, else the one chosen before, else the browser's, else English.
-- **The dock opens smaller,** at 30% of the window's height rather than 40%, so the stage has more room (at 1440 × 900, 418 px rather than 328). Its handle still sets any height, and that is remembered.
+- **The dock opens smaller,** at 30% of the window's height rather than 40%, so the stage has more room (at 1440 × 900 the stage is 418 px tall rather than 328). Its handle still sets any height, and that is remembered.
 - **The default view is named Whole system,** not Desk: the scene draws no desk, and in other languages the word means only the furniture. The tips and the first lesson say the computer or the whole system instead.
 
 **Tools**

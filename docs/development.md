@@ -3,7 +3,7 @@
 How to run, check, change and release the simulator. Related documents:
 - the rules the code follows: [conventions.md](conventions.md)
 - the page's design: [ui-design.md](ui-design.md)
-- the release being built: [../design/v0.0.1.md](../design/v0.0.1.md)
+- the plan, release by release: [../design/roadmap.md](../design/roadmap.md)
 - the machine's decisions: [../design/decisions.md](../design/decisions.md)
 
 ## Running it
@@ -23,7 +23,7 @@ Then open <http://localhost:8000/>. `pnpm serve` tells the browser not to cache,
 | `?selftest` | Runs the page's acceptance checks and shows a tick or a cross for each; publishes `window.__selftest = { done, passed, failed }` |
 | `?debug` | Exposes the machine to the console as `trs80`, and the page as `app` |
 
-The page's own link format (`#view=3d`, `#view=2d`) is described in [ui-design.md](ui-design.md). It is not frozen before 1.0.0.
+The page's own link format (`#view=3d`, `#view=2d`) is described in [ui-design.md](ui-design.md) (P8). From 1.0.0 it is frozen: a field is never renamed, dropped or read differently, only added.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ pnpm test:browser              # every check, a few minutes
 pnpm test:browser boot tape    # just these
 ```
 
-`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events: booting and typing, the keys going to BASIC after a click on the 3D view, Programs and its dialogs, the cassette end to end (CSAVE, REWIND, CLOAD), the 3D views and taking it apart, the 2D view and its drawers, the layout at every width and on phones, the dock, and the dialogs. They need Chrome (or `CHROME` set to its path) and a GPU for the 3D view, so they are **run by hand before a release**, not in CI, as the Altair 8800 simulator's are. Each check starts a fresh browser profile and opens the page with `?debug`, which gives it the handles `trs80` (the System) and `app` (the stage, dock, 2D view, viewer and lessons).
+`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events: booting and typing, the keys going to BASIC after a click on the 3D view, Programs and its dialogs, the cassette end to end (CSAVE, REWIND, CLOAD), the 3D views and taking it apart, the 2D view and its drawers, the layout at every width and on phones, the dock, the dialogs, the ten languages, and `?selftest`. They need Chrome (or `CHROME` set to its path) and a GPU for the 3D view, so they are **run by hand before a release**, not in CI, as the Altair 8800 simulator's are. Each check starts a fresh browser profile and opens the page with `?debug`, which gives it the handles `trs80` (the System) and `app` (the stage, dock, 2D view, viewer and lessons).
 
 ## Screenshots and videos
 

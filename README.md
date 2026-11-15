@@ -32,7 +32,7 @@ This simulator is that machine, part for part: the same Z80 processor at the sam
 
 <table>
 <tr>
-<td colspan="2"><b>Run programs</b><br>21 of our own, typed in for you on the Model I's keys or loaded from tape: games, utilities and music in the style of 1977–80, and short ones to learn from.<br><img src="./screenshots/programs.jpg" alt="The Programs menu open on its Games section: Moon lander, Worm, Bricks, Meteors and The lighthouse, beside the sections Learn, Utilities and Music, and Find original programs and Type in a BASIC file"></td>
+<td colspan="2"><b>Run programs</b><br>19 of our own, typed in for you on the Model I's keys or loaded from tape: games, utilities and music in the style of 1977–80, and short ones to learn from.<br><img src="./screenshots/programs.jpg" alt="The Programs menu open on its Games section: Moon lander, Worm, Bricks, Meteors and The lighthouse, beside the sections Learn, Utilities and Music, and Find original programs and Type in a BASIC file"></td>
 </tr>
 <tr>
 <td width="50%"><b>Switch to 2D</b><br>The machine's own faces, flat: the screen, the recorder, the keyboard. On a phone, this is where you type.<br><img src="./screenshots/2d.jpg" alt="The 2D view: the Video Display with a sine wave drawn with SET on its screen, the CTR-80 recorder beside it, and the keyboard below"></td>

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // The top bar (docs/ui-design.md, U8): what you do to the machine on the left (Tapes,
-// Programs), what you do with the app on the right (Sound, About). Programs is the one
+// Programs), what you do with the app on the right (Sound, the language, About). Programs is the one
 // catalogue of our programs, in sections (design/v0.0.3.md, S2): each opens a dialog that
 // offers both ways in, typed on the keys or loaded from its tape; then where to find the
 // era's own programs, and a BASIC file of the visitor's to type in (S3). Tapes is for tapes

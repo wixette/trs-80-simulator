@@ -7,7 +7,7 @@
 // the rebuilt model still fits the page.
 
 import assert from "node:assert/strict";
-import { readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { describe, it } from "node:test";
 import { Assembly } from "../js/sim/assembly.js";
 import { KEYS } from "../js/sim/keymap.js";
@@ -34,9 +34,15 @@ export const CONTRACT = [
 ];
 
 describe("MOD: the model", () => {
-  it("MOD-1: every node the page uses is there", () => {
+  it("MOD-1: every node the page uses is there: the contract, and every name js/scene/ asks for", () => {
     const missing = CONTRACT.filter((n) => !nodes.has(n));
     assert.deepEqual(missing, []);
+    const dir = new URL("../js/scene/", import.meta.url);
+    const asked = readdirSync(dir)
+      .filter((f) => f.endsWith(".js"))
+      .flatMap((f) => [...readFileSync(new URL(f, dir), "utf8").matchAll(/node\("([a-z0-9_.]+)"\)/g)].map((m) => m[1]));
+    assert.ok(asked.length >= 10, `${asked.length} names found`);
+    assert.deepEqual(asked.filter((n) => !nodes.has(n)), []);
   });
 
   it("MOD-2: the model's keys are the matrix's: every key in keymap.js has a cap, at its row and bit", () => {

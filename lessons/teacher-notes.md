@@ -9,9 +9,9 @@ Each lesson takes one class period of 40–50 minutes. Lessons 1 and 2 can share
 
 The steps live in the simulator's Lessons tab. Each step ticks itself when the machine shows it done, so a teacher can see at a glance how far a student has got. Lessons 3 to 6 each have a task that students do on their own: a prediction to write down before they look.
 
-**Programs** (top bar) has our own programs, all short Level II BASIC: **Learn**, which the lessons use; **Games**, **Utilities** and **Music**, for fun, in the style of 1977–80; and **Find original programs**, which says where the era's own software is archived and how to load it. Each program can be typed in on the Model I's keys or loaded from its tape. Sound comes through the cassette lead, as on the real machine with an amplifier plugged in.
+**Programs** (top bar) has 19 programs of our own, all Level II BASIC (the music and two games POKE in a few bytes of machine code): **Learn**, which the lessons use; **Games**, **Utilities** and **Music**, for fun, in the style of 1977–80; and **Find original programs**, which says where the era's own software is archived and how to load it. Each program can be typed in on the Model I's keys or loaded from its tape. Sound comes through the cassette lead, as on the real machine with an amplifier plugged in.
 
-**Before the class:** open the simulator in a recent browser (Chrome, Edge, Safari or Firefox) on each machine; nothing is installed. On tablets and phones, the 2D view (top right) is the place to type.
+**Before the class:** open the simulator in a recent browser (Chrome, Edge, Safari or Firefox) on each machine; nothing is installed. On tablets and phones, the 2D view ([2D | 3D] at the right, above the machine) is the place to type.
 
 ## 1. Meet the TRS-80
 

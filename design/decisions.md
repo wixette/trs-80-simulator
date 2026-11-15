@@ -54,8 +54,8 @@ The Expansion Interface (26-1140, 1978) added RAM, disks, a printer port and a t
 ## D7. Visitors bring their own tapes; no third-party software ships
 
 - A visitor opens their own `.cas` or `.wav` file, read locally and never uploaded. The Cassette tool says what a tape holds: a BASIC program and its name, or machine code with its name, blocks, load and entry addresses and any bad checksum. It also says how to load it: `CLOAD`, or `SYSTEM`, the name at `*?`, then `/`.
-- **No third-party software ships:** no commercial tapes, no archive downloads, no links that fetch them. The only third-party program is Level II itself (D2), which the machine cannot run without.
-- **Our own samples only,** Apache-licensed, so that `CLOAD` and `SYSTEM` can be tried at once. The BASIC samples are typed in and `CSAVE`d at run time by a second, headless Model I, so nothing but the ROM's own output is on a tape. One machine-code sample is written out with its listing.
+- **No third-party software ships:** no commercial tapes and no archive downloads. The only third-party program is Level II itself (D2), which the machine cannot run without. *Changed in v0.0.3:* Programs ▸ Find original programs names and links to archives that keep the era's software, says what of it runs here and how to load it, and that its rights differ and are the visitor's to mind; nothing is fetched or hosted (design/v0.0.3.md, S3).
+- **Our own samples only,** Apache-licensed, so that `CLOAD` and `SYSTEM` can be tried at once. Their tapes are typed in and `CSAVE`d by a headless Model I, so nothing but the ROM's own output is on a tape. *Changed in v0.0.3:* recorded beforehand (`pnpm tapes`, into `tapes/`) rather than at run time, as a long program took seconds to record in the browser; a test holds each tape to a fresh recording. The machine-code sample, written out with its listing, stays as a test's fixture and the Cassette tool's picture.
 
 ## D8. The model is built from parameters, not imported meshes
 

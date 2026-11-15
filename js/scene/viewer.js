@@ -7,7 +7,7 @@
 //
 // - Drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and
 //   limited, so the machine can't be lost.
-// - With the canvas focused (by Tab), the arrows orbit, Shift and the arrows pan, + and -
+// - With the canvas focused (by Tab), the arrows pan, Shift (or Ctrl, ⌘) and the arrows orbit, + and -
 //   zoom, Home goes home.
 // - Camera flights are eased, and a cut under prefers-reduced-motion.
 // - It renders only while active: under the 2D view the scene stops (U1).
