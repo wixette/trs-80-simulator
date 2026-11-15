@@ -39,6 +39,9 @@ const ORIGINALS = [
   ["https://archive.org/details/80-microcomputing-magazine", "originals.80micro"],
 ];
 
+/** Each section's icon in Programs. @type {Record<import("../sim/samples.js").Section, import("../ui/components.js").IconName>} */
+const SECTION_ICONS = { learn: "school", games: "sports_esports", utilities: "construction", music: "music_note" };
+
 /** Where Sound on or off is remembered. */
 const SOUND_STORE = "trs80.sound";
 
@@ -157,8 +160,11 @@ export class TopBar {
   programItems() {
     /** @type {import("../ui/components.js").MenuItem[]} */
     const items = [];
-    for (const sec of SECTIONS)
-      SAMPLES.filter((sm) => sm.section === sec).forEach((sm, i) => items.push({ label: t(`sample.${sm.id}.title`), divider: i ? undefined : t(`programs.${sec}`), run: () => this.program(sm) }));
+    // a submenu for each section (Learn, Games, Utilities, Music), then the two that are not ours
+    for (const sec of SECTIONS) {
+      const list = SAMPLES.filter((sm) => sm.section === sec).map((sm) => ({ label: t(`sample.${sm.id}.title`), run: () => this.program(sm) }));
+      if (list.length) items.push({ label: t(`programs.${sec}`), icon: SECTION_ICONS[sec], items: list });
+    }
     items.push({ label: t("programs.find"), icon: "travel_explore", divider: true, run: () => this.findOriginals() });
     items.push({ label: t("programs.listing"), icon: "article", run: () => this.listing.click() });
     return items;
@@ -190,10 +196,11 @@ export class TopBar {
       el("div", { class: "program-faster" }, [fast]),
     ];
     const off = s.machine.powered ? undefined : t("bar.switchOnFirst");
-    // two ways in, of equal weight, in the order the dialog lists them
+    // two ways in: the tape, and the one we recommend, Type it in, last (on the right, where a
+    // dialog's confirming action goes), filled, and with the focus
     showDialog(title, body, [
-      { label: t("program.type"), choice: true, icon: "keyboard", disabled: off, run: () => this.typeProgram(sm.text, title, faster) },
       { label: t("program.tape"), choice: true, icon: "voicemail", run: () => this.sampleTape(sm) },
+      { label: t("program.type"), primary: true, icon: "keyboard", disabled: off, run: () => this.typeProgram(sm.text, title, faster) },
     ]);
   }
 

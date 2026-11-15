@@ -8,6 +8,7 @@ Programs worth running, then the lessons rewritten round them (design/v0.0.3.md)
 
 - **Sound,** as owners had it: the cassette lead into an amplifier. While the motor is off, what a program writes to port 255 is played. A small machine-code tone routine (`js/sim/tone.js`), POKEd in from BASIC and called with `USR`, plays notes.
 - **Programs in sections.** **Learn:** Hello, Guess my number, Sine wave, Kaleidoscope, Bouncing block, Sketch with the arrows, Notes to tape, BASIC against machine code. **Games:** Moon lander, Worm, Bricks, Meteors, The lighthouse (a text adventure). **Utilities:** Clock, Calendar, Biorhythm, Banner. **Music:** Music box, Organ. All our own, in the style of 1977–80.
+- **Programs has two levels:** a submenu for each section, beside the menu on a desktop and in its place on a phone. In a program's dialog, **Type it in**, the way we recommend, is the filled button on the right.
 - **Type in faster,** on at first for a long listing: up to 64 times the machine's speed while it types.
 - **Find original programs:** where the era's software is archived, what of it runs here, and how to load it.
 - **Quick taps reach games** (D18): a key let go is held until the program has read it, so a tap between a game's reads still steers it.

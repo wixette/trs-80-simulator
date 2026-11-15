@@ -137,7 +137,8 @@ export function setTip(e, text) {
 /**
  * @typedef {object} MenuItem
  * @property {string} label
- * @property {() => void} run
+ * @property {() => void} [run] what choosing it does (not for an item with `items`)
+ * @property {MenuItem[]} [items] a submenu: beside the menu where there is room, else in its place
  * @property {boolean} [checked] shown with a check (a choice among several, or a toggle)
  * @property {boolean} [toggle] the check is a setting on or off, not a choice among several
  * @property {IconName} [icon] shown before the label
@@ -145,21 +146,61 @@ export function setTip(e, text) {
  * @property {string} [disabled] greyed, with this reason at its right; choosing it still runs it, which says why (P6)
  */
 
-/** @type {{ box: HTMLElement; anchor: HTMLElement } | null} */
+/** @type {{ box: HTMLElement; anchor: HTMLElement; sub: HTMLElement | null } | null} */
 let openMenu = null;
 
 /** Close the open menu, if any. */
 export function closeMenu() {
   if (!openMenu) return;
-  const { box, anchor } = openMenu;
+  const { box, anchor, sub } = openMenu;
   openMenu = null;
   box.remove();
+  sub?.remove();
   anchor.setAttribute("aria-expanded", "false");
 }
 
 /**
+ * Puts a menu box beside or below a rectangle, inside the window; a box taller than the room
+ * scrolls.
+ * @param {HTMLElement} box
+ * @param {DOMRect} r what it opens from
+ * @param {"below" | "beside"} how
+ */
+function place(box, r, how) {
+  box.style.maxHeight = "";
+  box.style.overflowY = "";
+  const b = box.getBoundingClientRect();
+  if (how === "below") {
+    // below the anchor, else above it; a menu taller than either side scrolls, on the roomier one
+    const down = window.innerHeight - 8 - (r.bottom + 4);
+    const up = r.top - 4 - 8;
+    if (b.height > down && b.height > up) {
+      box.style.maxHeight = `${Math.max(down, up)}px`;
+      box.style.overflowY = "auto";
+    }
+    const top = b.height <= down || down >= up ? r.bottom + 4 : Math.max(8, r.top - 4 - Math.min(b.height, up));
+    box.style.top = `${top}px`;
+    // open towards the middle of the window: from the anchor's left edge, or its right edge on the right
+    const left = r.left + r.width / 2 > window.innerWidth / 2 ? r.right - b.width : r.left;
+    box.style.left = `${Math.max(8, Math.min(window.innerWidth - b.width - 8, left))}px`;
+    return;
+  }
+  // beside: level with the item, to its right where there is room, else to its left
+  const room = window.innerHeight - 16;
+  if (b.height > room) {
+    box.style.maxHeight = `${room}px`;
+    box.style.overflowY = "auto";
+  }
+  const h = Math.min(b.height, room);
+  box.style.top = `${Math.max(8, Math.min(window.innerHeight - 8 - h, r.top - 6))}px`;
+  box.style.left = `${r.right + b.width + 8 <= window.innerWidth ? r.right - 2 : r.left - b.width + 2}px`;
+}
+
+/**
  * Open a menu under (or above) an anchor button. Arrow keys move, Enter or Space choose,
- * Escape and a click outside close it.
+ * Escape and a click outside close it. An item with `items` opens a submenu: beside the
+ * menu where the window has room for it (→ or a click opens it, ← or Escape goes back), else
+ * in the menu's place, headed by a row that goes back (a phone).
  * @param {HTMLElement} anchor
  * @param {MenuItem[]} items
  */
@@ -168,62 +209,157 @@ export function showMenu(anchor, items) {
   closeMenu();
   if (again) return;
   const box = el("div", { class: "menu", role: "menu" });
-  const buttons = items.map((it) => {
-    if (it.divider) box.appendChild(el("div", { class: "menu-divider", role: "separator" }, [typeof it.divider === "string" ? el("span", { text: it.divider }) : null]));
-    const role = it.checked === undefined ? "menuitem" : it.toggle ? "menuitemcheckbox" : "menuitemradio";
-    const mark = it.checked === undefined ? null : it.checked ? icon("check") : el("span", { class: "check" });
-    const b = el("button", { role, tabindex: "-1" }, [mark, it.icon ? icon(it.icon) : null, el("span", { text: it.label }), it.disabled ? el("small", { class: "why", text: it.disabled }) : null]);
-    if (it.checked !== undefined) b.setAttribute("aria-checked", String(it.checked));
-    if (it.disabled) b.setAttribute("aria-disabled", "true");
-    b.addEventListener("click", (e) => {
-      closeMenu();
-      // chosen by the keyboard, the focus goes back to the menu's button; by the pointer, it is
-      // let go, so that the next keys (Enter, Space) are the machine's, not a reopened menu
-      if (e.detail === 0) anchor.focus();
-      else anchor.blur();
-      it.run();
+  /** @type {{ box: HTMLElement; anchor: HTMLElement; sub: HTMLElement | null }} */
+  const state = { box, anchor, sub: null };
+  /** Chosen: close everything, the focus as the way it was chosen asks. @param {MenuItem} it @param {Event} e */
+  const choose = (it, e) => {
+    closeMenu();
+    // chosen by the keyboard, the focus goes back to the menu's button; by the pointer, it is
+    // let go, so that the next keys (Enter, Space) are the machine's, not a reopened menu
+    if (/** @type {MouseEvent} */ (e).detail === 0) anchor.focus();
+    else anchor.blur();
+    it.run?.();
+  };
+  /**
+   * Fills a box with items, and gives it the arrow keys. Returns the buttons.
+   * @param {HTMLElement} into
+   * @param {MenuItem[]} list
+   * @param {{ back?: () => void }} [o] `back`: ← and Escape go back (a submenu)
+   */
+  const fill = (into, list, o = {}) => {
+    /** @type {HTMLButtonElement[]} */
+    const buttons = [];
+    for (const it of list) {
+      if (it.divider) into.appendChild(el("div", { class: "menu-divider", role: "separator" }, [typeof it.divider === "string" ? el("span", { text: it.divider }) : null]));
+      const role = it.checked === undefined ? "menuitem" : it.toggle ? "menuitemcheckbox" : "menuitemradio";
+      const mark = it.checked === undefined ? null : it.checked ? icon("check") : el("span", { class: "check" });
+      const b = /** @type {HTMLButtonElement} */ (el("button", { role, tabindex: "-1" }, [mark, it.icon ? icon(it.icon) : null, el("span", { text: it.label }), it.disabled ? el("small", { class: "why", text: it.disabled }) : null, it.items ? icon("chevron_right") : null]));
+      if (it.checked !== undefined) b.setAttribute("aria-checked", String(it.checked));
+      if (it.disabled) b.setAttribute("aria-disabled", "true");
+      if (it.items) {
+        const children = it.items;
+        b.setAttribute("aria-haspopup", "menu");
+        b.setAttribute("aria-expanded", "false");
+        b.classList.add("has-sub");
+        b.addEventListener("click", () => openSub(b, it.label, children, into, list));
+        b.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "mouse" && into === box && state.sub?.dataset.from !== it.label) openSub(b, it.label, children, into, list, true);
+        });
+      } else {
+        b.addEventListener("click", (e) => choose(it, e));
+        b.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "mouse" && into === box) closeSub();
+        });
+      }
+      into.appendChild(b);
+      buttons.push(b);
+    }
+    into.onkeydown = (e) => {
+      const i = buttons.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        buttons[(i + (e.key === "ArrowDown" ? 1 : -1) + buttons.length) % buttons.length].focus();
+      } else if (e.key === "Home" || e.key === "End") {
+        e.preventDefault();
+        buttons[e.key === "Home" ? 0 : buttons.length - 1].focus();
+      } else if (e.key === "ArrowRight" && buttons[i]?.classList.contains("has-sub")) {
+        e.preventDefault();
+        buttons[i].click();
+      } else if (o.back && (e.key === "ArrowLeft" || e.key === "Escape")) {
+        e.preventDefault();
+        e.stopPropagation();
+        o.back();
+      } else if (e.key === "Escape" || e.key === "Tab") {
+        e.preventDefault();
+        closeMenu();
+        anchor.focus();
+      }
+    };
+    return buttons;
+  };
+  /** Closes a submenu beside the menu. */
+  const closeSub = () => {
+    if (!state.sub) return;
+    state.sub.remove();
+    state.sub = null;
+    for (const x of box.querySelectorAll("[aria-haspopup]")) x.setAttribute("aria-expanded", "false");
+  };
+  /**
+   * Opens a submenu: beside the menu if the window has room, else in its place.
+   * @param {HTMLButtonElement} from its item
+   * @param {string} label
+   * @param {MenuItem[]} children
+   * @param {HTMLElement} parent the box its item is in
+   * @param {MenuItem[]} siblings the items of that box
+   * @param {boolean} [hovered] only hovered: beside the menu, or not at all (never in its place,
+   *   which would put another item under the pointer that is about to click), and no focus
+   */
+  const openSub = (from, label, children, parent, siblings, hovered = false) => {
+    closeSub();
+    const sub = el("div", { class: "menu submenu", role: "menu", "aria-label": label });
+    sub.dataset.from = label;
+    const subButtons = fill(sub, children, {
+      back: () => {
+        closeSub();
+        from.focus();
+      },
     });
-    box.appendChild(b);
-    return b;
-  });
+    document.body.appendChild(sub);
+    const r = from.getBoundingClientRect();
+    const w = sub.getBoundingClientRect().width;
+    if (r.right + w + 8 <= window.innerWidth || r.left - w - 8 >= 0) {
+      state.sub = sub;
+      from.setAttribute("aria-expanded", "true");
+      const p = parent.getBoundingClientRect();
+      place(sub, new DOMRect(p.left, r.top, p.width, r.height), "beside");
+      if (!hovered) subButtons[0]?.focus();
+      return;
+    }
+    if (hovered) return void sub.remove();
+    // no room beside it (a phone): the submenu takes the menu's place, under a row going back
+    sub.remove();
+    const restore = () => {
+      parent.replaceChildren();
+      const again = fill(parent, siblings);
+      place(parent, anchor.getBoundingClientRect(), "below");
+      again[siblings.findIndex((x) => x.label === label)]?.focus();
+    };
+    parent.replaceChildren();
+    const back = /** @type {HTMLButtonElement} */ (el("button", { role: "menuitem", tabindex: "-1", class: "menu-back" }, [icon("chevron_left"), el("span", { text: label })]));
+    back.addEventListener("click", restore);
+    parent.appendChild(back);
+    const inner = el("div", { class: "menu-inner" });
+    const kids = fill(inner, children, { back: restore });
+    parent.appendChild(inner);
+    const all = [back, ...kids];
+    const keys = inner.onkeydown;
+    parent.onkeydown = (e) => {
+      const i = all.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        all[(i + (e.key === "ArrowDown" ? 1 : -1) + all.length) % all.length].focus();
+      } else if (i === 0 && (e.key === "ArrowLeft" || e.key === "Escape")) {
+        e.preventDefault();
+        restore();
+      } else keys?.call(inner, e);
+    };
+    inner.onkeydown = null;
+    place(parent, anchor.getBoundingClientRect(), "below");
+    (kids[0] ?? back).focus();
+  };
+  const buttons = fill(box, items);
   document.body.appendChild(box);
-  openMenu = { box, anchor };
+  openMenu = state;
   if (tipBox) tipBox.hidden = true;
   anchor.setAttribute("aria-expanded", "true");
-  const r = anchor.getBoundingClientRect();
-  const b = box.getBoundingClientRect();
-  // below the anchor, else above it; a menu taller than either side scrolls, on the roomier one
-  const down = window.innerHeight - 8 - (r.bottom + 4);
-  const up = r.top - 4 - 8;
-  if (b.height > down && b.height > up) {
-    box.style.maxHeight = `${Math.max(down, up)}px`;
-    box.style.overflowY = "auto";
-  }
-  const top = b.height <= down || down >= up ? r.bottom + 4 : Math.max(8, r.top - 4 - Math.min(b.height, up));
-  box.style.top = `${top}px`;
-  // open towards the middle of the window: from the anchor's left edge, or its right edge on the right
-  const left = r.left + r.width / 2 > window.innerWidth / 2 ? r.right - b.width : r.left;
-  box.style.left = `${Math.max(8, Math.min(window.innerWidth - b.width - 8, left))}px`;
+  place(box, anchor.getBoundingClientRect(), "below");
   const start = Math.max(0, items.findIndex((it) => it.checked && !it.toggle));
   buttons[start]?.focus();
-  box.addEventListener("keydown", (e) => {
-    const i = buttons.indexOf(/** @type {HTMLButtonElement} */ (document.activeElement));
-    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-      e.preventDefault();
-      buttons[(i + (e.key === "ArrowDown" ? 1 : -1) + buttons.length) % buttons.length].focus();
-    } else if (e.key === "Home" || e.key === "End") {
-      e.preventDefault();
-      buttons[e.key === "Home" ? 0 : buttons.length - 1].focus();
-    } else if (e.key === "Escape" || e.key === "Tab") {
-      e.preventDefault();
-      closeMenu();
-      anchor.focus();
-    }
-  });
 }
 
 document.addEventListener("pointerdown", (e) => {
-  if (openMenu && !openMenu.box.contains(/** @type {Node} */ (e.target)) && !openMenu.anchor.contains(/** @type {Node} */ (e.target))) closeMenu();
+  const t = /** @type {Node} */ (e.target);
+  if (openMenu && !openMenu.box.contains(t) && !openMenu.sub?.contains(t) && !openMenu.anchor.contains(t)) closeMenu();
 });
 window.addEventListener("resize", closeMenu);
 

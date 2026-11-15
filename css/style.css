@@ -270,7 +270,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 
 /* the Keyboard tool */
 .matrix { display: inline-grid; gap: 2px; padding: 6px; background: var(--md-well); border-radius: var(--radius-m); font-size: 12px; max-width: 100%; overflow-x: auto; }
-.matrix-row { display: grid; grid-template-columns: 64px repeat(8, 54px) 64px 64px; gap: 2px; align-items: center; border-radius: var(--radius-xs); }
+.matrix-row { display: grid; grid-template-columns: 64px repeat(8, 54px) 64px 96px; gap: 2px; align-items: center; border-radius: var(--radius-xs); }
 .matrix-head { color: var(--md-outline); font-size: 11px; }
 .matrix-row.read .mx-addr { color: var(--md-primary-text); }
 .matrix-row.read { background: color-mix(in srgb, var(--md-primary) 10%, transparent); }
@@ -278,7 +278,7 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .mx-key { height: 26px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-xs); background: var(--md-surface-high); font-weight: 560; }
 .mx-key.none { background: transparent; }
 .mx-key.down { background: var(--md-primary); color: var(--md-on-primary); }
-.mx-byte, .mx-rate { text-align: right; padding-right: 6px; color: var(--md-on-surface-variant); }
+.mx-byte, .mx-rate { text-align: right; padding-right: 6px; color: var(--md-on-surface-variant); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 /* the Cassette tool */
 .tape-name { display: block; font-size: 15px; margin: 4px 0; }
@@ -402,6 +402,9 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .menu button[aria-disabled="true"] > span { color: color-mix(in srgb, var(--md-on-surface) 38%, transparent); }
 .menu .why { margin-left: auto; padding-left: 16px; color: var(--md-outline); font-size: 12px; }
 .menu .check { width: 20px; }
+.menu button.has-sub > .icon:last-child { margin-left: auto; color: var(--md-outline); }
+.menu button.has-sub[aria-expanded="true"] { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); }
+.menu .menu-back { font-weight: 640; border-bottom: 1px solid var(--md-outline-variant); margin-bottom: 4px; }
 .menu-divider { margin: 6px 0; border-top: 1px solid var(--md-outline-variant); }
 .menu-divider span { display: block; padding: 8px 16px 2px; font-size: 12px; color: var(--md-outline); }
 .tooltip { position: fixed; z-index: 60; max-width: 320px; padding: 6px 10px; border-radius: var(--radius-xs); background: var(--md-on-surface); color: var(--md-surface); font-size: 12px; pointer-events: none; }
