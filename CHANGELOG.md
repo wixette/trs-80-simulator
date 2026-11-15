@@ -24,7 +24,7 @@ The fixes:
 - **Docs:** the README rewritten for newcomers; a contributing guide, a privacy note, the link format frozen in a table, and the v1.0.0 plan; the UI design, development, decisions, licensing and model docs brought up to date.
 
 **Tools**
-- `pnpm video` records short clips for posts, frame by frame, in any of the ten languages; `pnpm shots` gains shots for posts. The browser checks run `?selftest`, and can fail a request (the page without its ROM).
+- `pnpm video` records ten short clips for posts, frame by frame and with the machine's sound (the tape, the games, the music), in any of the ten languages; `pnpm shots` gains shots for posts. The browser checks run `?selftest`, and can fail a request (the page without its ROM).
 
 ## 0.0.3
 
