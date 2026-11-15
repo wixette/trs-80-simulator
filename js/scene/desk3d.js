@@ -593,6 +593,8 @@ export class Desk3D {
   click(o) {
     const s = this.system;
     if (!o || o === this.screen) return; // the tube: a double-click opens 2D (U1)
+    // a key (SHIFT, which latches on its press) is the keyboard's, never a click that takes it out
+    if (this.up(o, (x) => x.userData.matrix_row !== undefined)) return;
     const is = (/** @type {string} */ n) => !!this.up(o, (x) => this.modelName(x) === n);
     if (is("button.power")) return void s.power(!s.machine.powered);
     if (is("display.power_button")) return void s.displayPower(!s.display.on);

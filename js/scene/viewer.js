@@ -185,8 +185,16 @@ export class Viewer {
   frame() {
     const dt = Math.min(this.clock.getDelta(), 0.1);
     for (const f of this.onFrame) f(dt);
-    if (this.flight && this.flight(dt)) this.flight = null;
+    // a landing whose callback starts another flight keeps that one
+    const flight = this.flight;
+    if (flight && flight(dt) && this.flight === flight) this.flight = null;
     if (!this.active) return;
+    // the pixels per CSS pixel change with the browser's zoom, or on another display
+    const ratio = Math.min(window.devicePixelRatio, 2);
+    if (ratio !== this.renderer.getPixelRatio()) {
+      this.renderer.setPixelRatio(ratio);
+      this.resize();
+    }
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
@@ -246,8 +254,8 @@ export class Viewer {
   }
 
   /**
-   * @private Ends the flight under way, if any, for another move: what was to follow it still
-   * follows (a stage waiting for it to land would otherwise wait for ever).
+   * Ends the flight under way, if any, for another move: what was to follow it still follows
+   * (a stage waiting for it to land would otherwise wait for ever).
    */
   endFlight() {
     const then = this.flightThen;

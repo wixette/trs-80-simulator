@@ -402,7 +402,8 @@ function frame() {
   pulses.length = 0;
   frameT0 = system.machine.t;
   const pic = { read: (/** @type {number} */ a) => system.machine.peek(a), computer: system.machine.powered, display: system.display.on, mode32: system.machine.mode32, contrast: system.display.contrast, brightness: system.display.brightness };
-  if (crt && stage.mode === "3d") crt.draw(pic);
+  // the tube is drawn while the 3D view is, the flight to 2D included
+  if (crt && viewer?.active) crt.draw(pic);
   if (stage.mode === "2d") flat.tick(dt);
   if (dock.shows("vram")) vram.tick();
   if (dock.shows("keyboard")) keyboard.tick();

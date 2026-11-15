@@ -234,7 +234,19 @@ export class System {
     const m = this.motion.get(unit);
     if (!m) return false;
     const out = m.target === 0;
-    const plan = out ? this.assembly.planOut(unit) : this.assembly.planIn(unit);
+    // planned by where units are going, not where they are, so that a click while parts move
+    // keeps the rule the motion needs: a unit going out has everything it requires going out
+    // too, and a unit going back everything that sits on it going back
+    /** @type {Set<string>} */
+    const plan = new Set();
+    /** @param {string} u */
+    const visit = (u) => {
+      if (plan.has(u)) return;
+      plan.add(u);
+      if (out) for (const r of this.assembly.order.find((st) => st.unit === u)?.requires ?? []) visit(r);
+      else for (const st of this.assembly.order) if (st.requires.includes(u)) visit(st.unit);
+    };
+    visit(unit);
     for (const u of plan) {
       const v = /** @type {Motion} */ (this.motion.get(u));
       v.target = out ? 1 : 0;

@@ -127,7 +127,7 @@ export function fitFlat(o) {
   let keyboard = 0;
   if (k && o.fullKeyboard) {
     // the stage's width, while that leaves the display at least its share of the height
-    keyboard = Math.min(width, ((height - gap) * (1 - DISPLAY_SHARE) * k.w) / k.h);
+    keyboard = Math.max(0, Math.min(width, ((height - gap) * (1 - DISPLAY_SHARE) * k.w) / k.h));
     down = (height - gap - (keyboard * k.h) / k.w) / topH;
   } else if (k) {
     down = (height - gap) / (topH + k.h / d.w);

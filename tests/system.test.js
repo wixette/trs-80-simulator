@@ -52,6 +52,52 @@ describe("APP: the desk's rules", () => {
     assert.ok(s.whole);
   });
 
+  it("APP-17: clicks while parts move always settle with every part where it was going, and the machine can be put back and switched on", () => {
+    /** Every unit at rest where it was going, and none going out without what it requires. @param {System} s */
+    const consistent = (s) => {
+      for (const [u, m] of s.motion) {
+        if (m.f !== m.target) return `${u} rests at ${m.f}, going to ${m.target}`;
+        const req = TAKE_APART.find((/** @type {{ unit: string }} */ st) => st.unit === u)?.requires ?? [];
+        if (m.target === 1 && req.some((/** @type {string} */ r) => s.motion.get(r)?.target !== 1)) return `${u} out without what it requires`;
+      }
+      return "";
+    };
+    // the review's two: a click on a unit while the one before it is still on its way
+    const a = desk().s;
+    a.toggleUnit("board.main");
+    for (let i = 0; i < 20; i++) a.stepMotion(0.05);
+    a.toggleUnit("cables");
+    settle(a);
+    assert.equal(consistent(a), "");
+    const b = desk().s;
+    b.toggleUnit("case.top");
+    settle(b);
+    b.toggleUnit("cables");
+    for (let i = 0; i < 6; i++) b.stepMotion(0.05);
+    b.toggleUnit("case.top");
+    settle(b);
+    assert.equal(consistent(b), "");
+    // and any sequence at all (a seeded generator, so a failure repeats)
+    let seed = 1;
+    const rnd = (/** @type {number} */ n) => ((seed = (seed * 1103515245 + 12345) % 2147483648) % n);
+    const units = TAKE_APART.map((/** @type {{ unit: string }} */ st) => st.unit);
+    for (let run = 0; run < 2000; run++) {
+      const { s } = desk();
+      for (let k = 0; k < 12; k++) {
+        const r = rnd(10);
+        if (r < 6) s.toggleUnit(units[rnd(units.length)]);
+        else if (r === 6) s.takeAllApart();
+        else if (r === 7) s.putAllBack();
+        for (let i = rnd(15); i > 0; i--) s.stepMotion(0.05);
+      }
+      settle(s);
+      assert.equal(consistent(s), "", `run ${run}`);
+      s.putAllBack();
+      settle(s);
+      assert.ok(s.whole && s.power(true), `run ${run}: put back, it switches on`);
+    }
+  });
+
   it("APP-3: units move one at a time, never one before what it needs out; back in the reverse order", () => {
     const { s } = desk();
     s.takeAllApart();

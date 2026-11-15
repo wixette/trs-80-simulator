@@ -232,7 +232,11 @@ export class Stage {
     if (!this.viewer) return;
     // a running machine stays closed: Taken apart is refused, and says how to see inside
     if (v === "apart" && !this.system.takeAllApart()) return;
-    if (this.mode === "2d") this.setMode("3d");
+    if (this.mode === "2d") {
+      // still flying to 2D (Show me pressed just after 2D): land that first, then come back
+      if (this.moving) this.viewer.endFlight();
+      this.setMode("3d");
+    }
     if (this.view === "apart" && v !== "apart" && !this.system.whole) this.system.putAllBack();
     this.view = v;
     // on the way back from 2D, the flight that lands the camera goes to this view, not the last
