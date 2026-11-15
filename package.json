@@ -27,6 +27,7 @@
     "serve": "node tools/serve.mjs 8000",
     "shots": "node tools/shots.mjs",
     "tapes": "node tools/tapes.mjs",
+    "video": "node tools/video.mjs",
     "build:model": "\"${BLENDER:-/Applications/Blender.app/Contents/MacOS/Blender}\" --background --factory-startup --python-exit-code 1 --python model/blender/scripts/build_desk.py",
     "params": "python3 -I tools/kicad_to_params.py"
   },

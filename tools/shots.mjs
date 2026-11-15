@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
-// The release screenshots, `pnpm shots`: the README's pictures, and a set for posts. After the
-// Altair 8800 simulator's tools/shots.mjs.
+// The release screenshots, `pnpm shots`: the README's pictures, and a set for posts (the
+// machine in 3D from several sides, inside, taken apart, our programs and games on its screen,
+// the tools, a phone), in one language or several. After the Altair 8800 simulator's
+// tools/shots.mjs. Short clips for posts are `pnpm video` (tools/video.mjs).
 //
 //     pnpm shots                     into ~/Downloads/trs-80-simulator-v<version>-media/shots/
 //     pnpm shots --only tape         the shots whose name holds "tape"
@@ -19,6 +21,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
 import { findChrome, ROOT, serve, sleep, start } from "../tests/browser/harness.mjs";
+import { HELPERS } from "./page-helpers.mjs";
 
 const QUALITY = 90;
 const VERSION = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8")).version;
@@ -28,35 +31,6 @@ const SIZES = {
   desktop: { width: 1600, height: 900, phone: false, scale: 2 },
   phone: { width: 390, height: 844, phone: true, scale: 3 },
 };
-
-// Helpers the setups use, run in the page: the machine answered at MEMORY SIZE?, a sample
-// typed in as Type it in types it, a view, a tab, the dock's height or fold.
-const HELPERS = `
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const until = async (f, ms = 30000) => { const end = Date.now() + ms; while (!f() && Date.now() < end) await sleep(100); };
-  const { typeKeys } = await import("./js/lessons/lessons.js");
-  const samples = await import("./js/sim/samples.js");
-  const { t } = await import("./js/l10n/l10n.js");
-  const typed = async () => { await until(() => !trs80.typist.busy, 90000); await sleep(600); };
-  const ready = async () => {
-    await until(() => trs80.machine.screenText().some((l) => /^MEMORY SIZE\\?/.test(l)));
-    typeKeys(trs80, "{ENTER}");
-    await until(() => trs80.machine.screenText().includes("READY"));
-  };
-  const program = async (id) => {
-    const sm = samples.SAMPLES.find((x) => x.id === id);
-    const { asking, keys } = samples.typeIn(trs80.machine.screenText(), sm.text);
-    typeKeys(trs80, keys);
-    trs80.say({ key: asking ? "program.typingMemory" : "program.typing", params: { title: t("sample." + id + ".title") } });
-    await typed();
-  };
-  const type = async (text) => { trs80.type(text); await typed(); };
-  const view = async (v) => { app.stage.goTo(v); await sleep(200); await until(() => !app.viewer.isFlying(), 8000); await sleep(400); };
-  const tab = (id) => app.dock.show(id);
-  const dockHeight = (px) => { app.dock.folded = false; app.dock.choose(px); };
-  const fold = () => { app.dock.folded = true; app.dock.apply(); };
-  await until(() => app.desk() !== null);
-`;
 
 /**
  * A shot: its file name, its size, its setup (run in the page with HELPERS), how long to let
@@ -70,8 +44,16 @@ const SHOTS = [
   { name: "app-3d-lessons", readme: "app", wait: 4000, setup: `await ready(); await program("kaleido"); dockHeight(330); tab("lessons"); await view("desk");` },
   // Programs: our own, in sections, with Games open
   { name: "programs-menu", readme: "programs", setup: `await ready(); await program("wave"); dockHeight(330); tab("lessons"); await view("desk"); await sleep(4000);
-      document.getElementById("programs").click(); await sleep(300);
-      [...document.querySelectorAll(".menu [role=menuitem]")].find((b) => b.textContent === "Games")?.click(); await sleep(300);` },
+      await programsMenu(1);` },
+  // a program's dialog: what it does, its listing, and the two ways in
+  { name: "program-dialog", setup: `await ready(); fold(); app.lessons.openProgram("lighthouse"); await sleep(500);` },
+  // games on the screen, close up
+  { name: "3d-screen-lander", wait: 3000, setup: `await ready(); await program("lander", true); fold(); await view("screen");
+      trs80.machine.keyDown(6, 7); await sleep(400); trs80.machine.keyUp(6, 7); await sleep(4000);` },
+  { name: "3d-screen-worm", wait: 3000, setup: `await ready(); await program("worm", true); fold(); await view("screen");
+      typeKeys(trs80, " "); await sleep(2500); trs80.machine.keyDown(6, 4); await sleep(300); trs80.machine.keyUp(6, 4); await sleep(1500);` },
+  { name: "3d-screen-banner", wait: 6000, setup: `await ready(); await program("banner", true); fold(); await view("screen");
+      await sleep(2500); await type("TRS-80\n");` },
   // the 2D view: the display, the recorder and the keyboard, flat
   { name: "2d-drawers", readme: "2d", setup: `await ready(); await program("wave"); fold(); app.stage.setMode("2d"); await sleep(1500);
       if (!app.flat.drawerOpen("rec")) app.flat.toggleDrawer("rec"); if (!app.flat.drawerOpen("kbd")) app.flat.toggleDrawer("kbd");` },
