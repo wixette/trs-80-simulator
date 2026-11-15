@@ -20,7 +20,7 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 
 | Step | Time | What happens | Talking points |
 |---|---|---|---|
-| The whole system | 5 min | A photo, then the desk in 3D | Radio Shack showed it on 3 August 1977. The complete system was $599.95 `[reed-m1]`. Compare the Altair 8800 of 1975: a kit, with switches and lamps and no screen. |
+| The whole system | 5 min | A photo, then the whole system in 3D | Radio Shack showed it on 3 August 1977. The complete system was $599.95 `[reed-m1]`. Compare the Altair 8800 of 1975: a kit, with switches and lamps and no screen. |
 | The keyboard is the computer | 3 min | The keyboard unit | One board, under the keys. Ask: where is the computer in a laptop? In a phone? |
 | Look inside | 5 min | Views ▸ Inside, from below | The board hangs upside down. Hover over the chips: the Z80, the ROMs, the RAM. With the power off, students can take it apart (Views ▸ Taken apart, or click a part): it comes apart in the real order. |
 | The Video Display | 2 min | The display | A television without a tuner. 64 × 16 capital letters. |

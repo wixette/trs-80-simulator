@@ -86,9 +86,9 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 ```
 ┌ [logo] TRS-80 Simulator   [▤ Tapes ▾] [▶ Programs ▾]                            [🔊] [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                          [⌂] [− +] [Desk ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
+│                                  [⌂] [− +] [Whole system ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
 │ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
-│ │                  THE STAGE: the desk in 3D, or the flat views in 2D                 │ │
+│ │                  THE STAGE: the whole system in 3D, or the flat views in 2D         │ │
 │ │                                                                  [Put it all back]  │ │
 │ ╰─────────────────────────────────────────────────────────────────────────────────────╯ │
 │        [⏻ Computer|↺ Reset] [⏻ Display] │ [● RECORD|◀◀|▶ PLAY|▶▶|■ STOP|⏏ EJECT]          │  helper strip
@@ -101,7 +101,7 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 ```
 
 The page is a fixed frame of top bar, stage, dock and status line. The page itself never scrolls.
-- **The dock sits below the stage,** as in the 8800 and AGT-30 simulators. The desk is a wide subject, and the tools (a 64-column grid, a memory dump) want the width.
+- **The dock sits below the stage,** as in the 8800 and AGT-30 simulators. The whole system is a wide subject, and the tools (a 64-column grid, a memory dump) want the width.
 - **The dock can be resized** by its top edge, and folds to its tab bar. Growing it shrinks the stage, and the 3D view refits.
 - **The stage keeps at least 240 px** on a desktop. On a phone it keeps at least 40 % of the height in 2D, where the keyboard is.
 
@@ -120,7 +120,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 
 ### U2. The 3D views
 
-- **Views** (a menu naming the view on show): Desk (the way in: from the front, a little above the desk, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), **Inside, from below** and **Taken apart**. ⌂ goes to Desk, with every part back.
+- **Views** (a menu naming the view on show): Whole system (the way in: from the front and a little above, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), **Inside, from below** and **Taken apart**. ⌂ goes to Whole system, with every part back. The default view is named for what it shows, not for a desk the scene does not draw: in other languages "desk" is only the piece of furniture.
 - **Inside, from below** turns the keyboard unit's case to outlined glass, and the camera looks up from below, where the main board's parts hang (it is mounted upside down). The ROM and RAM chips glow by their share of the memory traffic, and the video RAM chips flash on writes. The machine keeps running. Leaving the view makes the case solid again. (There is no separate Show menu: only the computer's case can be seen into, so the view is enough.)
 - **Taken apart** takes the computer apart (the cables, the case top, the keyboard, the board, in the real order) and frames the parts as they will lie. A running machine stays closed: while the computer is on, the view is greyed in the menu with "switch off first" beside it, and choosing it anyway says to switch it off, or to look Inside instead (P6). Choosing another view puts it back together; clicking a part with the power off still takes it out or puts it back on its own (U3).
 - **The camera:** drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and limited, so the machine can't be lost. The 3D view's focus has two states: reached by Tab, it shows the amber focus ring, and the arrows orbit, + and − zoom and Home resets; otherwise it has no focus, and every key is the machine's. A click or a tap on the view never focuses it, and lets go of whatever had the focus: pressing the machine is typing at it. (A click then a key used to light the ring as `:focus-visible` and take + − and the arrows from BASIC.)

@@ -10,7 +10,7 @@ The **TRS-80 Model I** (1977) in 3D in your browser: switch it on, type Level II
 
 > **v0.0.2 is a pre-release.** Everything below works, and the six lessons are complete. The layout may still change before 1.0.0; more sample programs and better lessons come first ([design/roadmap.md](design/roadmap.md)).
 
-![The simulator: the TRS-80 Model I in 3D on a desk, its screen showing a frame and a diagonal drawn with SET, the helper strip under it, and the first lesson, Meet the TRS-80, in the dock below](./screenshots/app.jpg)
+![The simulator: the TRS-80 Model I in 3D, its screen showing a frame and a diagonal drawn with SET, the helper strip under it, and the first lesson, Meet the TRS-80, in the dock below](./screenshots/app.jpg)
 
 ## What you can do
 
