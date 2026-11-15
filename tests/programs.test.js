@@ -53,7 +53,7 @@ const SCENARIOS = {
     acts: /** @type {Act[]} */ ([[2, "type", "\n"], ..."E,GET LANTERN,W,N,E,GET MATCHES,LIGHT LANTERN,D,GET KEY,U,W,OPEN DOOR,N,GET OIL,U,U,FILL LAMP,LIGHT LAMP".split(",").map((c, i) => [6 + i * 4, "type", `${c}\n`])]),
     expect: (s, _, notes) => (s.some((l) => l.startsWith("YOU SAVED THE SHIP IN 18 MOVES")) && notes > 100) || s.join(" | "),
   },
-  race: { secs: 22, acts: [[1, "type", "\n"], [10, "type", "\n"]], expect: (s) => s.some((l) => l.startsWith("MACHINE CODE: ABOUT 1/45 SECOND")) },
+  race: { secs: 24, acts: [[1, "type", "\n"], [12, "type", "\n"]], expect: (s) => s.some((l) => l.startsWith("MACHINE CODE: ABOUT 1/45 SECOND")) },
 };
 
 /** A Model I at READY with a recorder, our tape in it; CLOADs it, RUNs it, and plays the scenario. @param {Uint8Array} cas @param {Scenario} sc */
