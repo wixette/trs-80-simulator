@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "Le phare",
   "sample.lighthouse.about": "une petite aventure textuelle par une nuit de tempête : allume le vieux phare à temps pour un navire en danger. Tape un ou deux mots : N, S, E, W, U, D, LOOK, GET LAMP, HELP.",
   "sample.lander.title": "Alunissage",
-  "sample.lander.about": "pose le vaisseau en douceur sur la plateforme avant d’être à court de carburant : SPACE allume le moteur, les flèches LEFT et RIGHT le font glisser sur le côté.",
+  "sample.lander.about": "pose le vaisseau en douceur sur la plateforme avant d’être à court de carburant : SPACE allume le moteur, les flèches LEFT et RIGHT le déplacent. La ligne du haut affiche SAFE quand tu vas assez lentement pour te poser.",
   "sample.worm.title": "Le ver",
   "sample.worm.about": "guide un ver affamé autour du terrain ; chaque bouchée l’allonge. Ne touche ni le mur ni toi-même : les flèches le dirigent.",
   "sample.bricks.title": "Casse-briques",

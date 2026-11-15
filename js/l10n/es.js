@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "El faro",
   "sample.lighthouse.about": "una pequeña aventura de texto en una noche de tormenta: enciende el viejo faro a tiempo para salvar a un barco en peligro. Escribe una o dos palabras: N, S, E, W, U, D, LOOK, GET LAMP, HELP.",
   "sample.lander.title": "Alunizaje",
-  "sample.lander.about": "posa la nave con suavidad sobre la plataforma antes de que se acabe el combustible: SPACE enciende el motor y las flechas LEFT y RIGHT la desplazan de lado.",
+  "sample.lander.about": "posa la nave con suavidad sobre la plataforma antes de que se acabe el combustible: SPACE enciende el motor y las flechas LEFT y RIGHT la mueven. La línea de arriba dice SAFE cuando vas lo bastante despacio para aterrizar.",
   "sample.worm.title": "Gusano",
   "sample.worm.about": "guía a un gusano hambriento por el campo; cada bocado lo hace más largo. No choques con la pared ni contigo mismo: las flechas lo dirigen.",
   "sample.bricks.title": "Rompeladrillos",

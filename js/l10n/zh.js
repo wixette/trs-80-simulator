@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "灯塔",
   "sample.lighthouse.about": "一个暴风雨之夜的小型文字冒险：及时点亮旧灯塔，救下一艘遇险的船。输入一两个词：N、S、E、W、U、D、LOOK、GET LAMP、HELP。",
   "sample.lander.title": "月球着陆",
-  "sample.lander.about": "在燃料耗尽前，把飞船轻轻降落在着陆台上：SPACE 点燃发动机，LEFT 和 RIGHT 方向键让它左右漂移。",
+  "sample.lander.about": "在燃料耗尽前，把飞船轻轻降落在着陆台上：SPACE 点燃发动机，LEFT 和 RIGHT 方向键让它左右移动。速度慢到可以着陆时，最上面一行会显示 SAFE。",
   "sample.worm.title": "贪吃虫",
   "sample.worm.about": "操纵一条饥饿的虫子在场地里转；每吃一口就变长一截。别撞到墙，也别撞到自己：用方向键控制方向。",
   "sample.bricks.title": "打砖块",

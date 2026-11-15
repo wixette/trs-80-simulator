@@ -347,7 +347,7 @@ export default {
   "sample.lighthouse.title": "The lighthouse",
   "sample.lighthouse.about": "a small text adventure on a stormy night: light the old lighthouse in time for a ship in danger. Type one or two words: N, S, E, W, U, D, LOOK, GET LAMP, HELP.",
   "sample.lander.title": "Moon lander",
-  "sample.lander.about": "set the craft down gently on the pad before the fuel runs out: SPACE fires the engine, the LEFT and RIGHT arrows drift.",
+  "sample.lander.about": "set the craft down gently on the pad before the fuel runs out: SPACE fires the engine, the LEFT and RIGHT arrows move it. The top line says SAFE when you are slow enough to land.",
   "sample.worm.title": "Worm",
   "sample.worm.about": "steer a hungry worm round the field; each bite makes it longer. Don't hit the wall or yourself: the arrow keys steer.",
   "sample.bricks.title": "Bricks",

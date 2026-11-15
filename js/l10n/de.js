@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "Der Leuchtturm",
   "sample.lighthouse.about": "ein kleines Textabenteuer in einer stürmischen Nacht: Zünde das Licht im alten Leuchtturm rechtzeitig für ein Schiff in Not an. Tipp ein oder zwei Wörter: N, S, E, W, U, D, LOOK, GET LAMP, HELP.",
   "sample.lander.title": "Mondlandung",
-  "sample.lander.about": "Setz die Fähre sanft auf der Landefläche ab, bevor der Treibstoff ausgeht: SPACE zündet das Triebwerk, die Pfeile LEFT und RIGHT lassen sie seitwärts treiben.",
+  "sample.lander.about": "Setz die Fähre sanft auf der Landefläche ab, bevor der Treibstoff ausgeht: SPACE zündet das Triebwerk, die Pfeile LEFT und RIGHT bewegen sie. Die oberste Zeile zeigt SAFE, wenn du langsam genug zum Landen bist.",
   "sample.worm.title": "Wurm",
   "sample.worm.about": "Steuere einen hungrigen Wurm über das Spielfeld; jeder Bissen macht ihn länger. Stoß nicht gegen die Wand oder dich selbst: Die Pfeiltasten lenken.",
   "sample.bricks.title": "Mauerbrecher",

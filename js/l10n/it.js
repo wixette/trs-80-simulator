@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "Il faro",
   "sample.lighthouse.about": "una piccola avventura testuale in una notte di tempesta: accendi il vecchio faro in tempo per una nave in pericolo. Scrivi una o due parole: N, S, E, W, U, D, LOOK, GET LAMP, HELP.",
   "sample.lander.title": "Allunaggio",
-  "sample.lander.about": "posa il modulo dolcemente sulla piazzola prima che finisca il carburante: SPACE accende il motore, le frecce LEFT e RIGHT lo spostano di lato.",
+  "sample.lander.about": "posa il modulo dolcemente sulla piazzola prima che finisca il carburante: SPACE accende il motore, le frecce LEFT e RIGHT lo spostano. La riga in alto dice SAFE quando vai abbastanza piano per atterrare.",
   "sample.worm.title": "Verme",
   "sample.worm.about": "guida un verme affamato per il campo; ogni boccone lo allunga. Non sbattere contro il muro o contro te stesso: le frecce lo guidano.",
   "sample.bricks.title": "Spaccamattoni",

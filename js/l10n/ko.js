@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "등대",
   "sample.lighthouse.about": "폭풍우 치는 밤의 작은 텍스트 어드벤처예요. 위험에 빠진 배를 위해 늦기 전에 낡은 등대에 불을 켜세요. 한두 단어로 입력해요: N, S, E, W, U, D, LOOK, GET LAMP, HELP.",
   "sample.lander.title": "달 착륙",
-  "sample.lander.about": "연료가 떨어지기 전에 착륙선을 착륙장에 살며시 내려놓으세요. SPACE는 엔진을 켜고, LEFT와 RIGHT 화살표로 옆으로 움직여요.",
+  "sample.lander.about": "연료가 떨어지기 전에 착륙선을 착륙장에 살며시 내려놓으세요. SPACE는 엔진을 켜고, LEFT와 RIGHT 화살표로 좌우로 움직여요. 착륙할 만큼 느려지면 맨 윗줄에 SAFE가 나와요.",
   "sample.worm.title": "지렁이",
   "sample.worm.about": "배고픈 지렁이를 몰고 들판을 돌아다녀요. 한 입 먹을 때마다 길어져요. 벽이나 자기 몸에 부딪히면 안 돼요. 화살표 키로 방향을 바꿔요.",
   "sample.bricks.title": "벽돌 깨기",

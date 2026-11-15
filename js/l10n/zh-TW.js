@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "燈塔",
   "sample.lighthouse.about": "暴風雨夜裡的小小文字冒險：及時點亮老燈塔，救一艘遇險的船。輸入一兩個字：N、S、E、W、U、D、LOOK、GET LAMP、HELP。",
   "sample.lander.title": "登陸月球",
-  "sample.lander.about": "在燃料用完之前，把太空船輕輕降落在平台上：SPACE 點燃引擎，LEFT 和 RIGHT 方向鍵讓它左右飄移。",
+  "sample.lander.about": "在燃料用完之前，把太空船輕輕降落在平台上：SPACE 點燃引擎，LEFT 和 RIGHT 方向鍵讓它左右移動。速度慢到可以降落時，最上面一行會顯示 SAFE。",
   "sample.worm.title": "貪吃蟲",
   "sample.worm.about": "操控一隻餓壞的蟲在場地裡繞；每吃一口就變長一點。別撞到牆，也別撞到自己：用方向鍵控制方向。",
   "sample.bricks.title": "打磚塊",

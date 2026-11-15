@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "O farol",
   "sample.lighthouse.about": "uma pequena aventura de texto numa noite de tempestade: acenda o velho farol a tempo de salvar um navio em perigo. Digite uma ou duas palavras: N, S, E, W, U, D, LOOK, GET LAMP, HELP.",
   "sample.lander.title": "Pouso na Lua",
-  "sample.lander.about": "pouse a nave com cuidado na plataforma antes que o combustível acabe: SPACE liga o motor, e as setas LEFT e RIGHT a deslocam para os lados.",
+  "sample.lander.about": "pouse a nave com cuidado na plataforma antes que o combustível acabe: SPACE liga o motor, e as setas LEFT e RIGHT a movem. A linha de cima mostra SAFE quando você está devagar o bastante para pousar.",
   "sample.worm.title": "Minhoca",
   "sample.worm.about": "guie uma minhoca faminta pelo campo; cada mordida a deixa mais comprida. Não bata na parede nem em você mesmo: as setas fazem a direção.",
   "sample.bricks.title": "Quebra-tijolos",

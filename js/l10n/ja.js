@@ -345,7 +345,7 @@ export default {
   "sample.lighthouse.title": "灯台",
   "sample.lighthouse.about": "嵐の夜の小さなテキストアドベンチャー。危ない目にあっている船のために、古い灯台に間に合うよう明かりをともしましょう。1 語か 2 語で打ち込みます：N、S、E、W、U、D、LOOK、GET LAMP、HELP。",
   "sample.lander.title": "月面着陸",
-  "sample.lander.about": "燃料がなくなる前に、着陸船を発着場にそっと降ろしましょう。SPACE でエンジンを噴射し、LEFT と RIGHT の矢印キーで横に流れます。",
+  "sample.lander.about": "燃料がなくなる前に、着陸船を発着場にそっと降ろしましょう。SPACE でエンジンを噴射し、LEFT と RIGHT の矢印キーで左右に動かします。着陸できるほど遅くなると、いちばん上の行に SAFE と出ます。",
   "sample.worm.title": "ミミズ",
   "sample.worm.about": "おなかをすかせたミミズをフィールドで動かします。ひと口食べるごとに長くなります。壁や自分の体にぶつからないように。矢印キーで向きを変えます。",
   "sample.bricks.title": "ブロック崩し",
