@@ -150,6 +150,36 @@ const RECORDER = `(async () => {
     if (key) trs80.hostKeys.down({ key, code: key });
     held = key;
   };
+  // Worm played by the screen: the shortest way through free cells from the head to the food,
+  // or, with none, the free neighbour with the most room round it
+  rec.worm = (on) => {
+    if (!on) return void ((rec.pilot = null), hold(null));
+    const STEPS = [[-64, "ArrowUp"], [64, "ArrowDown"], [-1, "ArrowLeft"], [1, "ArrowRight"]];
+    rec.pilot = () => {
+      const v = trs80.machine.vram, free = (i) => i >= 128 && i < 960 && (v[i] === 32 || v[i] === 42);
+      // the head is @, 64: kept as 0, as the Model I's video RAM has no bit 6
+      const head = v.indexOf(0, 128), food = v.indexOf(42, 64);
+      if (head < 0) return hold(null);
+      if (food > 0) {
+        // each cell reached keeps the first step that reached it (0: not reached yet)
+        const first = new Int16Array(1024), queue = [];
+        for (const [d] of STEPS) if (free(head + d)) { first[head + d] = d; queue.push(head + d); }
+        while (queue.length) {
+          const c = queue.shift();
+          if (c === food) return hold(STEPS.find(([d]) => d === first[c])[1]);
+          for (const [d] of STEPS) if (free(c + d) && !first[c + d] && c + d !== head) { first[c + d] = first[c]; queue.push(c + d); }
+        }
+      }
+      let best = null, most = -1;
+      for (const [d, key] of STEPS) {
+        if (!free(head + d)) continue;
+        const seen = new Set([head, head + d]), q = [head + d];
+        while (q.length && seen.size < 200) { const c = q.shift(); for (const [e] of STEPS) if (free(c + e) && !seen.has(c + e)) { seen.add(c + e); q.push(c + e); } }
+        if (seen.size > most) { most = seen.size; best = key; }
+      }
+      hold(best);
+    };
+  };
   rec.bricks = (on) => {
     if (!on) return void ((rec.pilot = null), hold(null));
     rec.pilot = () => {
@@ -186,6 +216,8 @@ const RECORDER = `(async () => {
  * @property {(key: string, seconds?: number) => Promise<void>} tap presses a key of the visitor's (an arrow, " ") for a moment
  * @property {(js: string, seconds?: number) => Promise<void>} until records until page code is true (or for at most so long)
  * @property {(on: boolean) => Promise<void>} bricks plays Bricks: holds the arrow that takes the bat to the ball, each frame
+ * @property {(on: boolean) => Promise<void>} worm plays Worm: holds the arrow of the shortest safe way to the food, each frame
+ * @property {(notes: string, beat?: number) => Promise<void>} play plays keys of the visitor's in time: "D D F G2" (a letter, and its length in beats)
  */
 
 /** @typedef {{ name: string, setup: string, script: (t: Take) => Promise<void> }} Scene */
@@ -193,23 +225,38 @@ const RECORDER = `(async () => {
 /** @type {Scene[]} */
 const SCENES = [
   {
-    // switched on, at MEMORY SIZE?, ENTER, and a first line of BASIC typed on its keys
-    name: "01-switch-on-and-type",
+    // the page at a glance: switched on, a first line of BASIC typed on its keys, the views of
+    // the 3D model, then 2D with the recorder and the keyboard drawn out, and back to 3D
+    name: "01-switch-on-and-tour",
     setup: `fold(); trs80.power(false); trs80.displayPower(false); await view("angle");`,
     async script(t) {
       await t.drift(-1.5, 0.2);
-      await t.hold(1.5);
+      await t.hold(1.2);
       await t.run(`trs80.power(true); trs80.displayPower(true)`);
-      await t.hold(2.5);
+      await t.hold(2.2);
       await t.drift(0);
-      await t.view("screen", 1.6);
+      await t.view("screen", 1.4);
       await t.type("\n");
-      await t.hold(0.8);
+      await t.hold(0.6);
       await t.type('PRINT "HELLO FROM 1977"\n');
       await t.hold(1);
-      await t.type("PRINT 2+2\n");
-      await t.drift(0, 0, 1.03);
-      await t.hold(2.5);
+      await t.view("keyboard", 2);
+      await t.view("recorder", 2);
+      await t.view("inside", 1.2);
+      await t.drift(5, 0.3);
+      await t.hold(2);
+      await t.drift(0);
+      await t.view("desk", 2);
+      await t.run(`app.stage.setMode("2d")`);
+      await t.until("!app.stage.moving", 6);
+      await t.hold(1.2);
+      await t.run(`document.querySelector('#band [data-drawer="rec"]').click()`);
+      await t.hold(1.4);
+      await t.run(`document.querySelector('#band [data-drawer="kbd"]').click()`);
+      await t.hold(1.8);
+      await t.run(`app.stage.setMode("3d")`);
+      await t.until("!app.stage.moving && !app.viewer.isFlying()", 6);
+      await t.hold(1.5);
     },
   },
   {
@@ -226,18 +273,15 @@ const SCENES = [
     },
   },
   {
-    // a game of Worm, steered round the field
+    // a game of Worm: the worm steered to the food, growing as it eats
     name: "03-a-game-of-worm",
     setup: `fold(); await ready(); await program("worm", true); await view("screen");`,
     async script(t) {
-      await t.hold(1);
-      await t.tap(" ");
-      await t.hold(2);
-      for (const [key, after] of /** @type {[string, number][]} */ ([["ArrowDown", 1.1], ["ArrowLeft", 1.6], ["ArrowUp", 1.1], ["ArrowRight", 2.2], ["ArrowDown", 0.9], ["ArrowLeft", 1.4]])) {
-        await t.tap(key);
-        await t.hold(after);
-      }
       await t.hold(1.5);
+      await t.tap(" ");
+      await t.worm(true);
+      await t.hold(22);
+      await t.worm(false);
     },
   },
   {
@@ -342,6 +386,22 @@ const SCENES = [
       await t.hold(12);
     },
   },
+  {
+    // 2D only: the Organ played on the keyboard drawn out under the screen, each key going down
+    // as it sounds, the note lit on the machine's own screen; the recorder drawn out beside
+    name: "11-organ-in-2d",
+    setup: `fold(); await ready(); await program("organ", true); await until(() => trs80.machine.screenText().some((l) => l.includes("PLAY THE KEYS")));
+      app.stage.setMode("2d"); await sleep(1500);
+      for (const d of ["rec", "kbd"]) if (!app.stage.flat.drawerOpen(d)) document.querySelector('#band [data-drawer="' + d + '"]').click();
+      await sleep(800);`,
+    async script(t) {
+      await t.hold(1);
+      // Ode to Joy: A is C, S D, D E, F F, G G, H A, J B, K the C above
+      await t.play("D D F G G F D S A A S D D1.5 S0.5 S2");
+      await t.play("D D F G G F D S A A S D S1.5 A0.5 A2");
+      await t.hold(1.5);
+    },
+  },
 ];
 
 const { values: opts } = parseArgs({
@@ -416,9 +476,25 @@ for (const lang of opts.lang.split(",")) {
           await h.js(`trs80.hostKeys.up(${ev})`);
         },
         bricks: async (on) => void (await h.js(`__rec.bricks(${on})`)),
+        worm: async (on) => void (await h.js(`__rec.worm(${on})`)),
+        async play(notes, beat = 0.42) {
+          for (const n of notes.split(/\s+/).filter(Boolean)) {
+            const key = n[0].toLowerCase(), beats = Number(n.slice(1) || 1);
+            if (key === "-") {
+              await hold(beat * beats);
+              continue;
+            }
+            const ev = JSON.stringify({ key, code: `Key${key.toUpperCase()}` });
+            await h.js(`trs80.hostKeys.down(${ev})`);
+            await hold(beat * beats - 0.08);
+            await h.js(`trs80.hostKeys.up(${ev})`);
+            await hold(0.08);
+          }
+        },
       };
       await scene.script(take);
       await take.bricks(false);
+      await take.worm(false);
       encoder.stdin.end();
       await encoded;
       // the sound, as long as the picture, put with it
