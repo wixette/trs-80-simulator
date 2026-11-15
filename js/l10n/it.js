@@ -448,7 +448,6 @@ export default {
   "about.title": "Informazioni",
   "about.what": "Il TRS-80 Model I (1977) nel tuo browser: il suo Level II BASIC su uno Z80 emulato, il suo monitor, il suo registratore a cassette, e tutta la macchina in 3D fino ai chip sulla scheda.",
   "about.version": "Versione {version}",
-  "about.prerelease": "Una versione preliminare: il formato dei link e la disposizione possono ancora cambiare prima della 1.0.0.",
   "about.issues": "Segnala un problema",
   "about.licences": "Licenze",
   "about.lic.code": "Simulatore",

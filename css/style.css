@@ -3,8 +3,8 @@
    then the machine in 3D or in 2D), the handle, the dock below, the status line. The page never
    scrolls. Every colour, corner and state is a token (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.3");
-@import url("fonts.css?v=0.0.3");
+@import url("theme.css?v=1.0.0");
+@import url("fonts.css?v=1.0.0");
 
 :root {
   font-family: var(--font);

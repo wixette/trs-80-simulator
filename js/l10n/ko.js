@@ -448,7 +448,6 @@ export default {
   "about.title": "정보",
   "about.what": "브라우저 속의 TRS-80 Model I(1977): 에뮬레이션한 Z80 위의 Level II BASIC, 디스플레이, 카세트 녹음기, 그리고 기판의 칩까지 보여 주는 3D 기계 전체.",
   "about.version": "버전 {version}",
-  "about.prerelease": "정식 출시 전 버전이에요. 1.0.0 전까지 링크 형식과 화면 배치가 바뀔 수 있어요.",
   "about.issues": "문제 신고",
   "about.licences": "라이선스",
   "about.lic.code": "시뮬레이터",

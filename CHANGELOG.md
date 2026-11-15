@@ -1,8 +1,10 @@
 # Changelog
 
-What changed in each release. Versions follow `package.json` and are tagged `vX.Y.Z` ([docs/development.md](docs/development.md)). Versions 0.0.x are pre-releases. The decisions cited (D1, U10, …) are in [design/decisions.md](design/decisions.md) and [docs/ui-design.md](docs/ui-design.md).
+What changed in each release. Versions follow `package.json` and are tagged `vX.Y.Z` ([docs/development.md](docs/development.md)). Versions 0.0.x were pre-releases. The decisions cited (D1, U10, …) are in [design/decisions.md](design/decisions.md) and [docs/ui-design.md](docs/ui-design.md).
 
-## 1.0.0 (in progress)
+## 1.0.0
+
+The first release. The link format is frozen from here on (docs/ui-design.md, P8).
 
 A review of the code and the docs, and what it found fixed. Each fix has a test that fails without it. One small addition:
 

@@ -448,7 +448,6 @@ export default {
   "about.title": "このアプリについて",
   "about.what": "TRS-80 Model I（1977 年）をブラウザで。エミュレートした Z80 で動く Level II BASIC、ディスプレイ、カセットレコーダー、そして基板のチップまで再現したマシン全体の 3D モデル。",
   "about.version": "バージョン {version}",
-  "about.prerelease": "プレリリース版です。1.0.0 までに、リンクの形式や画面の配置が変わることがあります。",
   "about.issues": "問題を報告",
   "about.licences": "ライセンス",
   "about.lic.code": "シミュレーター",

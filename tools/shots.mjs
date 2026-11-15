@@ -43,8 +43,9 @@ const SHOTS = [
   // the first picture: the desk in 3D, a sample drawn on the screen, the lessons below
   { name: "app-3d-lessons", readme: "app", wait: 4000, setup: `await ready(); await program("kaleido"); dockHeight(330); tab("lessons"); await view("desk");` },
   // Programs: our own, in sections, with Games open
+  // (the camera moved sideways, so that the machine is on the right, clear of the menu)
   { name: "programs-menu", readme: "programs", setup: `await ready(); await program("wave"); dockHeight(330); tab("lessons"); await view("desk"); await sleep(4000);
-      await programsMenu(1);` },
+      pan(400); await sleep(300); await programsMenu(1);` },
   // a program's dialog: what it does, its listing, and the two ways in
   { name: "program-dialog", setup: `await ready(); fold(); app.lessons.openProgram("lighthouse"); await sleep(500);` },
   // games on the screen, close up
@@ -53,7 +54,7 @@ const SHOTS = [
   { name: "3d-screen-worm", wait: 3000, setup: `await ready(); await program("worm", true); fold(); await view("screen");
       typeKeys(trs80, " "); await sleep(2500); trs80.machine.keyDown(6, 4); await sleep(300); trs80.machine.keyUp(6, 4); await sleep(1500);` },
   { name: "3d-screen-banner", wait: 6000, setup: `await ready(); await program("banner", true); fold(); await view("screen");
-      await sleep(2500); await type("TRS-80\n");` },
+      await sleep(2500); await type("TRS-80\\n");` },
   // the 2D view: the display, the recorder and the keyboard, flat
   { name: "2d-drawers", readme: "2d", setup: `await ready(); await program("wave"); fold(); app.stage.setMode("2d"); await sleep(1500);
       if (!app.flat.drawerOpen("rec")) app.flat.toggleDrawer("rec"); if (!app.flat.drawerOpen("kbd")) app.flat.toggleDrawer("kbd");` },

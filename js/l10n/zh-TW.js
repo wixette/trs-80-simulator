@@ -448,7 +448,6 @@ export default {
   "about.title": "關於",
   "about.what": "在你的瀏覽器裡執行 TRS-80 Model I（1977）：在模擬的 Z80 上執行它的 Level II BASIC、它的螢幕、它的卡式錄音機，還有整台機器的 3D 模型，連電路板上的晶片都有。",
   "about.version": "版本 {version}",
-  "about.prerelease": "預覽版：在 1.0.0 之前，連結格式和版面都可能還會改變。",
   "about.issues": "回報問題",
   "about.licences": "授權",
   "about.lic.code": "模擬器",

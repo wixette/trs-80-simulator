@@ -448,7 +448,6 @@ export default {
   "about.title": "关于",
   "about.what": "在浏览器里运行的 TRS-80 Model I（1977 年）：模拟的 Z80 上运行着它的 Level II BASIC，还有它的显示器、磁带录音机，以及细致到电路板上每块芯片的整台机器 3D 模型。",
   "about.version": "版本 {version}",
-  "about.prerelease": "预发布版：在 1.0.0 之前，链接格式和布局可能还会改变。",
   "about.issues": "报告问题",
   "about.licences": "许可证",
   "about.lic.code": "模拟器",

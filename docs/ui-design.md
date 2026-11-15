@@ -198,7 +198,7 @@ Every dialog closes on Escape, its ✕, an action, or a click on the scrim that 
 
 
 A dialog, short as the 8800 simulator's is, holding:
-- the logo, the version and what the simulator is, and that it is a pre-release;
+- the logo, the version and what the simulator is (and, before 1.0.0, that it was a pre-release);
 - links to the source and to report a problem;
 - the licences, a line each, what then whose, the Level II ROM's notice among them;
 - "not affiliated with Tandy or RadioShack";
