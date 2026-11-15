@@ -185,6 +185,9 @@ export async function start(chromePath, base, query = "") {
     if (msg.id && pending.has(msg.id)) {
       pending.get(msg.id)?.ok(msg);
       pending.delete(msg.id);
+    } else if (msg.method === "Fetch.requestPaused") {
+      // a request block() fails: as if the file were not on the server
+      void send("Fetch.failRequest", { requestId: msg.params.requestId, errorReason: "Failed" });
     } else if (msg.method === "Runtime.exceptionThrown") {
       errors.push(msg.params.exceptionDetails.exception?.description ?? msg.params.exceptionDetails.text);
     } else if (msg.method === "Runtime.consoleAPICalled" && msg.params.type === "error") {
@@ -350,7 +353,9 @@ export async function start(chromePath, base, query = "") {
     ws.close();
     await stopChrome(live);
   };
-  return { base, send, js, until, viewport, open, centre, clickAt, press, pressText, drag, key, typeHost, screen, shows, status, typed, choose, verify, results, errors, stop, sleep };
+  /** Fails every request whose address matches (a * pattern), from now on, as a missing file. @param {string} pattern */
+  const block = (pattern) => send("Fetch.enable", { patterns: [{ urlPattern: pattern }] });
+  return { base, send, js, until, viewport, open, centre, clickAt, press, pressText, drag, key, typeHost, screen, shows, status, typed, choose, verify, results, errors, stop, sleep, block };
 }
 
 /** @typedef {Awaited<ReturnType<typeof start>>} Harness */

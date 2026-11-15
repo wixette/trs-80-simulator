@@ -151,8 +151,16 @@ export class Stage {
     if (this.viewer) {
       const v = this.viewer;
       v.onUserMove.push(() => (this.fitted = null));
+      // a stage resized during a flight or a move is framed again once the camera has landed
+      let refit = false;
       v.onResize.push(() => {
         if (this.fitted && this.mode === "3d" && !this.moving && !v.isFlying()) v.jumpTo(this.framed(this.fitted));
+        else refit = true;
+      });
+      v.onFrame.push(() => {
+        if (!refit || this.moving || v.isFlying()) return;
+        refit = false;
+        if (this.fitted && this.mode === "3d") v.jumpTo(this.framed(this.fitted));
       });
     }
     /** @private @type {ReturnType<typeof setTimeout> | undefined} */
@@ -170,6 +178,7 @@ export class Stage {
     d.on.hover = (h, x, y) => this.hover(h, x, y);
     d.on.info = (node) => this.system.say({ key: "part.said", params: { name: `${partName(node, "")}${partRole(node) ? `: ${partRole(node)}` : ""}` } });
     d.on.screenDoubleClick = () => this.setMode("2d");
+    d.on.unitDoubleClick = (v) => this.goTo(v);
     if (this.view === "inside") d.setSeeInside(true);
     if (this.fitted && this.mode === "3d" && this.viewer) this.viewer.jumpTo(this.framed(this.fitted));
   }
@@ -232,7 +241,11 @@ export class Stage {
     if (!this.viewer) return;
     // a running machine stays closed: Taken apart is refused, and says how to see inside
     if (v === "apart" && !this.system.takeAllApart()) return;
-    if (this.mode === "2d") this.setMode("3d");
+    if (this.mode === "2d") {
+      // still flying to 2D (Show me pressed just after 2D): land that first, then come back
+      if (this.moving) this.viewer.endFlight();
+      this.setMode("3d");
+    }
     if (this.view === "apart" && v !== "apart" && !this.system.whole) this.system.putAllBack();
     this.view = v;
     // on the way back from 2D, the flight that lands the camera goes to this view, not the last
@@ -292,7 +305,7 @@ export class Stage {
       // a view the page chose is framed again, as the stage may have changed size meanwhile
       this.fitted = this.fittedBefore ?? (this.before ? null : this.view);
       viewer.flyTo(this.fitted ? this.framed(this.fitted) : /** @type {import("../scene/viewer.js").Pose} */ (this.before), () => (this.moving = false));
-    }, o.instant ? 0 : 220);
+    }, o.instant || viewer.reducedMotion.matches ? 0 : 220);
     this.refresh();
     this.onModeChange("3d");
   }

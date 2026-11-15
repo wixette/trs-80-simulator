@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "Simulateur TRS-80",
-  "app.title": "Simulateur TRS-80 : le Model I en 3D",
+  "app.title": "Simulateur TRS-80 : un émulateur du Model I en 3D, avec le BASIC Level II",
   "bar.tapes": "Cassettes",
   "bar.tapes.tip": "Une cassette vierge, ton propre fichier .cas ou .wav, ou enregistrer celle du magnétophone",
   "bar.programs": "Programmes",
@@ -140,6 +140,7 @@ export default {
   "tape.none": "Pas de cassette dans le magnétophone",
   "tape.none.how": "Cassettes ▸ Cassette vierge pour enregistrer, ou ton propre .cas ou .wav ; Programmes ▸ un programme ▸ Mettre sa cassette pour l’un des nôtres.",
   "tape.blank.how": "Une cassette vierge. Appuie sur RECORD sur le magnétophone, puis tape CSAVE \"A\" (n’importe quelle lettre).",
+  "tape.recording.how": "Enregistrement : l’ordinateur écrit sur la cassette, impulsion par impulsion. Les octets s’affichent à mesure qu’ils sont écrits.",
   "tape.basic.how": "Un programme BASIC, enregistré sous « {letter} ». Appuie sur PLAY, puis tape CLOAD.",
   "tape.system.how": "Du code machine, « {program} » : {blocks} blocs, démarrage en {entry}. Appuie sur PLAY, tape SYSTEM, à *? tape {program}, et quand *? revient, tape / pour le lancer. {bad}",
   "tape.badBlocks": "{n} blocs ont une somme de contrôle fausse : SYSTEM s’arrêtera dessus.",
@@ -447,7 +448,6 @@ export default {
   "about.title": "À propos",
   "about.what": "Le TRS-80 Model I (1977) dans ton navigateur : son Level II BASIC sur un Z80 émulé, son moniteur, son magnétophone à cassettes, et toute la machine en 3D, jusqu’aux puces de sa carte.",
   "about.version": "Version {version}",
-  "about.prerelease": "Une préversion : le format des liens et la mise en page peuvent encore changer avant la 1.0.0.",
   "about.issues": "Signaler un problème",
   "about.licences": "Licences",
   "about.lic.code": "Simulateur",

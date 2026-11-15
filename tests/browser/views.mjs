@@ -54,4 +54,50 @@ export default async function (h) {
     const r = app.viewer.canvas.getBoundingClientRect(); return { x: r.left + ((p.x + 1) / 2) * r.width, y: r.top + ((1 - p.y) / 2) * r.height }; })()`);
   await h.clickAt(c.x, c.y, 2);
   h.verify("a double-click on C puts it back to the middle", (await h.js("trs80.display.contrast")) === 0.5);
+
+  // SHIFT clicked with the computer off latches; it never takes the keyboard out
+  if (await h.js("trs80.machine.powered")) await h.pressText("#helper-strip button", "Computer");
+  await h.choose("#band .menu-btn", "Keyboard");
+  await h.until("!app.viewer.isFlying()", 5000);
+  const shift = await h.js(`(() => { let k = null; app.viewer.scene.traverse((o) => { if (o.userData.matrix_row === 7 && !k) k = o; });
+    const p = k.getWorldPosition(k.position.clone()).project(app.viewer.camera);
+    const r = app.viewer.canvas.getBoundingClientRect(); return { x: r.left + ((p.x + 1) / 2) * r.width, y: r.top + ((1 - p.y) / 2) * r.height }; })()`);
+  await h.clickAt(shift.x, shift.y);
+  await h.sleep(800);
+  h.verify("SHIFT clicked with the computer off latches, and takes nothing out", (await h.js("trs80.typist.isHeld(7, 0)")) && (await h.js("trs80.whole && [...trs80.motion.values()].every((m) => m.target === 0)")));
+  await h.clickAt(shift.x, shift.y);
+
+  // a double-click on a unit's body goes to its view; never where a click takes a part out
+  /** A point on the stage over a part that passes a test (given `o`, the part picked). @param {string} test */
+  const spot = (test) =>
+    h.js(`(() => { const d = app.desk(), r = app.viewer.canvas.getBoundingClientRect();
+      for (let y = r.top + 10; y < r.bottom - 10; y += 6) for (let x = r.left + 10; x < r.right - 10; x += 6) {
+        const o = d.pick({ clientX: x, clientY: y })?.object ?? null; if (${test}) return { x, y }; }
+      return null; })()`);
+  const viewAfter = async (/** @type {{ x: number, y: number }} */ p) => {
+    await h.clickAt(p.x, p.y, 2);
+    await h.until("!app.viewer.isFlying() && !app.stage.moving", 5000);
+    return h.js("app.stage.view");
+  };
+  await h.choose("#band .menu-btn", "Whole system");
+  await h.until("!app.viewer.isFlying()", 5000);
+  const lid = await spot(`d.up(o, (x) => d.modelName(x) === "case.top")`);
+  // its two clicks take the case top out and put it back (the cables, out first, stay out)
+  h.verify("with the computer off, a double-click on its case top is two clicks, and the view stays", !!lid && (await viewAfter(lid)) === "desk" && (await h.until("trs80.motion.get('case.top').target === 0 && trs80.motion.get('case.top').f === 0", 5000)));
+  await h.press(".put-back");
+  await h.until("trs80.whole && [...trs80.motion.values()].every((m) => m.f === 0)", 10000);
+  for (const [v, name] of [["recorder", "Recorder"], ["screen", "Screen"], ["keyboard", "Keyboard"]]) {
+    if (v === "keyboard") await h.pressText("#helper-strip button", "Computer");
+    await h.choose("#band .menu-btn", "Whole system");
+    await h.until("!app.viewer.isFlying()", 5000);
+    const p = await spot(`o !== d.screen && d.viewOf(o) === "${v}"`);
+    h.verify(`a double-click on the ${v === "screen" ? "display" : v}'s body goes to the ${name} view`, !!p && (await viewAfter(p)) === v && (await h.js("app.stage.mode")) === "3d", p);
+  }
+
+  // Show me (a view) pressed while the camera still flies to 2D: it ends in 3D, at that view
+  await h.press('#band [data-mode="2d"]');
+  await h.sleep(150);
+  await h.js("app.stage.goTo('angle')");
+  await h.until("!app.stage.moving && !app.viewer.isFlying()", 5000);
+  h.verify("a view chosen during the flight to 2D lands in 3D, on it", (await h.js("[app.stage.mode, app.stage.view, document.getElementById('view2d').hidden].join()")) === "3d,angle,true", await h.js("[app.stage.mode, app.stage.view]"));
 }

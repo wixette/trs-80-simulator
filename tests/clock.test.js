@@ -76,6 +76,22 @@ describe("the clock", () => {
     clock.step(0.01);
     assert.equal(m.registers().a, 2, "resumed, it runs on to the stop again");
   });
+
+  it("DBG-6: a stop is seen at the start of any slice, as when the typist makes every slice one instruction", () => {
+    for (const next of [16, 0]) {
+      const m = loop();
+      const clock = new Clock(m, [{ tick: () => {}, next: () => next }]);
+      clock.stops.add(0x4000);
+      clock.step(0.01);
+      assert.equal(clock.paused, true, `slices of ${next || 1} T: paused`);
+      assert.equal(m.pc, 0x4000);
+      const a = m.registers().a;
+      clock.resume();
+      clock.step(0.01);
+      assert.equal(m.pc, 0x4000, "resumed: it leaves the stop, and pauses there again next time round");
+      assert.equal(m.registers().a, a + 1);
+    }
+  });
 });
 
 describe("the ROM", () => {

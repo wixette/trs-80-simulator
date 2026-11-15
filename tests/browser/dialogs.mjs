@@ -27,4 +27,8 @@ export default async function (h) {
   await h.press("#about");
   await h.press("dialog .dialog-head .btn");
   h.verify("its ✕ closes it", !(await h.js("document.querySelector('dialog[open]')")));
+  await h.sleep(200);
+  await h.key("Enter");
+  await h.sleep(300);
+  h.verify("opened with the mouse and closed, the next Enter is the machine's, not About again", !(await h.js("document.querySelector('dialog[open]')")) && (await h.js("document.activeElement?.id")) !== "about");
 }

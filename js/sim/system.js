@@ -154,6 +154,7 @@ export class System {
       return false;
     }
     this.clock.resume();
+    this.clock.stops.clear(); // a Run to set before is not this run's
     this.machine.reset();
     this.say({ key: "reset.done" });
     return true;
@@ -197,7 +198,7 @@ export class System {
    */
   insertTape(tape) {
     this.deck.eject(this.machine.t);
-    this.deck.insert(tape);
+    this.deck.insert(tape, this.machine.t);
     const info = tape.pulses.length ? tapeInfo(casFromTape(tape)) : null;
     const long = tape.end / CLOCK_HZ > 30;
     const params = { name: tape.name, length: mmss(tape.end) };
@@ -234,7 +235,19 @@ export class System {
     const m = this.motion.get(unit);
     if (!m) return false;
     const out = m.target === 0;
-    const plan = out ? this.assembly.planOut(unit) : this.assembly.planIn(unit);
+    // planned by where units are going, not where they are, so that a click while parts move
+    // keeps the rule the motion needs: a unit going out has everything it requires going out
+    // too, and a unit going back everything that sits on it going back
+    /** @type {Set<string>} */
+    const plan = new Set();
+    /** @param {string} u */
+    const visit = (u) => {
+      if (plan.has(u)) return;
+      plan.add(u);
+      if (out) for (const r of this.assembly.order.find((st) => st.unit === u)?.requires ?? []) visit(r);
+      else for (const st of this.assembly.order) if (st.requires.includes(u)) visit(st.unit);
+    };
+    visit(unit);
     for (const u of plan) {
       const v = /** @type {Motion} */ (this.motion.get(u));
       v.target = out ? 1 : 0;
@@ -325,7 +338,8 @@ export class System {
    * @param {number} dt seconds of wall time
    */
   frame(dt) {
-    this.deck.wind(dt * (this.fastTape ? FAST_TAPE : 1), this.machine.t);
+    // paused (the CPU tool), the tape waits too (docs/ui-design.md, U6)
+    if (!this.clock.paused) this.deck.wind(dt * (this.fastTape ? FAST_TAPE : 1), this.machine.t);
     if (!this.typist.busy) this.typeFaster = false;
     this.clock.boost = this.deck.running && this.fastTape ? FAST_TAPE : this.typist.busy && this.fastTyping ? (this.typeFaster ? TYPE_FASTER : FAST_TYPING) : 1;
     this.stepMotion(dt);

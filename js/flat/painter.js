@@ -151,7 +151,8 @@ export class Painter {
     c.drawImage(layer, 0, 0);
     c.globalAlpha = 1;
     if (highlight >= 0) {
-      const col = highlight % COLS;
+      // in 32-column mode a character is two cells wide, from the even one
+      const col = p.mode32 ? highlight % COLS & ~1 : highlight % COLS;
       const row = Math.floor(highlight / COLS);
       c.strokeStyle = "rgba(255, 185, 92, 0.95)";
       c.lineWidth = Math.max(1.5, dx * 0.5);

@@ -9,7 +9,7 @@
 // lasts, so a write to port FF clears the flip-flop only when no pulse is under the head.
 // That matters: after the sync byte the ROM clears it about 10 T-states after the next data
 // pulse begins, and with a pulse taken as an instant the bit is lost and CLOAD fails
-// (design/decisions.md, D13; tests/cassette.test.js, TAP-2).
+// (design/decisions.md, D13; tests/cassette.test.js, TAP-20 and TAP-21, which load through it).
 //
 // Level II (500 baud) writes every bit as a clock pulse and, for a 1, a data pulse about
 // half a cell later [rs-info cassette]. Measured from its own CSAVE: cells of 3,570 T-states
@@ -69,7 +69,9 @@ export class Tape {
   overwrite(from, to, pulses) {
     const a = this.indexAt(from);
     const b = this.indexAt(to);
-    this.pulses.splice(a, b - a, ...pulses);
+    // not splice(a, n, ...pulses): a long recording (a CSAVE of 11 KB or more) has more pulses
+    // than a call may take arguments
+    this.pulses = this.pulses.slice(0, a).concat(pulses, this.pulses.slice(b));
   }
 
   /** Every recording on the tape, decoded to bytes (one array per block). */

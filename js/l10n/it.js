@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "Simulatore TRS-80",
-  "app.title": "Simulatore TRS-80: il Model I in 3D",
+  "app.title": "Simulatore TRS-80: un emulatore del Model I in 3D, con il BASIC Level II",
   "bar.tapes": "Nastri",
   "bar.tapes.tip": "Un nastro vergine, un tuo file .cas o .wav, oppure salva quello nel registratore",
   "bar.programs": "Programmi",
@@ -140,6 +140,7 @@ export default {
   "tape.none": "Nessun nastro nel registratore",
   "tape.none.how": "Nastri ▸ Nastro vergine per registrare, oppure un tuo .cas o .wav; Programmi ▸ un programma ▸ Inserisci il nastro per uno dei nostri.",
   "tape.blank.how": "Un nastro vergine. Premi RECORD sul registratore, poi scrivi CSAVE \"A\" (una lettera qualsiasi).",
+  "tape.recording.how": "Registrazione: il computer scrive sul nastro, impulso dopo impulso. I byte compaiono man mano che vengono scritti.",
   "tape.basic.how": "Un programma BASIC, salvato come «{letter}». Premi PLAY, poi scrivi CLOAD.",
   "tape.system.how": "Codice macchina, «{program}»: {blocks} blocchi, che parte da {entry}. Premi PLAY, scrivi SYSTEM, a *? scrivi {program} e, quando *? ricompare, scrivi / per eseguirlo. {bad}",
   "tape.badBlocks": "{n} blocchi hanno un checksum sbagliato: SYSTEM si fermerà lì.",
@@ -447,7 +448,6 @@ export default {
   "about.title": "Informazioni",
   "about.what": "Il TRS-80 Model I (1977) nel tuo browser: il suo Level II BASIC su uno Z80 emulato, il suo monitor, il suo registratore a cassette, e tutta la macchina in 3D fino ai chip sulla scheda.",
   "about.version": "Versione {version}",
-  "about.prerelease": "Una versione preliminare: il formato dei link e la disposizione possono ancora cambiare prima della 1.0.0.",
   "about.issues": "Segnala un problema",
   "about.licences": "Licenze",
   "about.lic.code": "Simulatore",

@@ -58,6 +58,16 @@ const hold = (s, name, seconds) => {
   s.clock.step(seconds);
   s.machine.keyUp(k.row, k.bit);
 };
+/** Whether the program in memory (from 42E9H) holds this text, as typed. @param {System} s @param {string} text */
+const holds = (s, text) => {
+  let a = 0x42e9;
+  let all = "";
+  for (let n = 0; n < 64 && word(s, a) !== 0; n++) {
+    for (let i = a + 4; s.machine.peek(i) !== 0 && i < a + 260; i++) all += String.fromCharCode(s.machine.peek(i));
+    a = word(s, a);
+  }
+  return all.includes(text);
+};
 /** Graphics bytes lit with at least one block. @param {System} s */
 const blocks = (s) => [...s.machine.vram].filter((v) => v & 0x80 && v & 0x3f).length;
 
@@ -88,7 +98,7 @@ export const LESSONS = [
         show: { mode: "3d", view: "angle" },
         photo: { src: "images/photos/Radio_Shack_Tandy_TRS-80_Model_I_System.jpg", credit: "photo.system.credit", href: "https://commons.wikimedia.org/wiki/File:Radio_Shack_Tandy_TRS-80_Model_I_System.JPG" },
       },
-      { id: "computer", show: { mode: "3d", view: "keyboard" } },
+      { id: "computer", show: { mode: "3d", view: "keyboard" }, more: true },
       { id: "inside", show: { mode: "3d", view: "inside" }, more: true },
       { id: "display", show: { mode: "3d", view: "screen" } },
       { id: "recorder", show: { mode: "3d", view: "recorder" } },
@@ -168,7 +178,8 @@ export const LESSONS = [
         },
         more: true,
       },
-      { id: "sketch", type: `{BREAK}NEW\n${SKETCH}\nRUN\n`, listing: SKETCH, done: (s) => blocks(s) >= 12, act: (s) => hold(s, "RIGHT", 2.5) },
+      // the sketch's own blocks: blocks left from lesson 3 do not tick it
+      { id: "sketch", type: `{BREAK}NEW\n${SKETCH}\nRUN\n`, listing: SKETCH, done: (s) => holds(s, "14400") && blocks(s) >= 12, act: (s) => hold(s, "RIGHT", 2.5) },
       { id: "ghost", show: { tool: "keyboard" }, more: true },
       { id: "worm", program: "worm", show: { tool: "keyboard" } },
     ],
@@ -200,7 +211,8 @@ export const LESSONS = [
         id: "cload",
         type: 'NEW\nCLOAD "T"\n',
         show: { tool: "cassette" },
-        done: (s) => s.deck.at(s.machine.t) > 0 && !s.machine.motor && s.machine.peek(0x42ed) === 0xb2,
+        // PLAY down: the program saved is still in memory before CLOAD, which must not tick it
+        done: (s) => s.deck.mode === "play" && s.deck.at(s.machine.t) > 0 && !s.machine.motor && s.machine.peek(0x42ed) === 0xb2,
         act: (s) => s.deckKey("play"),
       },
       { id: "list", type: "LIST\n", done: (s) => shows(s, /^10 PRINT "SAVED ON TAPE"/), more: true },

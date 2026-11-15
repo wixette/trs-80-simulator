@@ -3,8 +3,8 @@
    then the machine in 3D or in 2D), the handle, the dock below, the status line. The page never
    scrolls. Every colour, corner and state is a token (css/theme.css, P11). */
 
-@import url("theme.css?v=0.0.3");
-@import url("fonts.css?v=0.0.3");
+@import url("theme.css?v=1.0.0");
+@import url("fonts.css?v=1.0.0");
 
 :root {
   font-family: var(--font);
@@ -324,6 +324,8 @@ code, pre, .mono, kbd { font-family: var(--mono); }
 .code li.at-pc .c-addr { color: var(--md-primary-text); }
 .memmap { display: flex; height: 26px; margin: 8px 0; border-radius: var(--radius-xs); overflow: hidden; gap: 1px; background: var(--md-outline-variant); }
 .region { --lit: 0; position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; background: color-mix(in srgb, var(--md-primary) calc(var(--lit) * 70%), var(--md-surface-high)); font-size: 10px; color: var(--md-on-surface-variant); cursor: pointer; overflow: hidden; }
+button.region { padding: 0; border: 0; border-radius: 0; font: inherit; font-size: 10px; }
+button.region:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
 .region span { white-space: nowrap; overflow: hidden; text-overflow: clip; padding: 0 2px; }
 .region.none, .region.high, .region.ei { background: var(--md-well); color: var(--md-outline); }
 .dump { font-size: 12px; overflow-x: auto; }

@@ -18,10 +18,19 @@ export default async function (h) {
   h.verify("Tapes ▸ Blank tape puts a tape in", await h.until("trs80.deck.tape !== null", 2000));
   await h.pressText("#helper-strip .deck-key", "RECORD");
   h.verify("RECORD latches RECORD and PLAY", (await h.js("trs80.deck.mode")) === "record");
+  // at the real speed, with the Cassette tab open: the recording is shown as it is written
+  const fastBefore = await h.js("trs80.fastTape");
+  await h.js("trs80.setFastTape(false); app.dock.show('cassette')");
   await h.typeHost('CSAVE "A"\n');
   h.verify("CSAVE starts the motor: the tape records", await h.until("trs80.deck.running && trs80.deck.recording", 5000));
+  h.verify(
+    "while CSAVE writes, the Cassette tool reads the bytes being written, and says it is recording",
+    await h.until("trs80.deck.recording && /^Byte \\d+ of \\d+/.test(document.querySelector('.tape-now').textContent) && /^Recording/.test(document.querySelector('.tape-what').textContent)", 15000),
+    await h.js("[document.querySelector('.tape-what').textContent, document.querySelector('.tape-now').textContent]"),
+  );
   h.verify("the 3D RECORD/BATTERY lamp lights while it records", await h.until("app.desk().recLamp.emissiveIntensity > 0", 3000));
   h.verify("CSAVE ends at READY", await h.until("!trs80.deck.running && trs80.machine.screenText().filter((l) => l.trim()).at(-2) === 'READY'", 60000), await h.screen());
+  await h.js(`trs80.setFastTape(${fastBefore})`);
   h.verify("the counter counted", (await h.js("trs80.deck.counterAt(trs80.machine.t)")) > 0);
   h.verify("the lamp is out once the motor stops", await h.until("app.desk().recLamp.emissiveIntensity === 0", 3000));
 

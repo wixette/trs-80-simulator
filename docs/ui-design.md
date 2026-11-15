@@ -8,7 +8,7 @@ This document holds the principles the simulator's page is laid out by, and the 
 
 The machine's own decisions (D1, D2, …) are in [../design/decisions.md](../design/decisions.md).
 
-**Status:** draft for v0.0.1, 2026-11-14.
+**Status:** as built for v1.0.0 (first drafted for v0.0.1, 2026-11-14).
 
 ## Part 1. Principles
 
@@ -49,7 +49,14 @@ It says what just happened, and why something is greyed. It keeps one line's hei
 
 ### P8. A link is a public contract, from 1.0.0
 
-Once released, a link field is never renamed, dropped or read differently. Until 1.0.0 the format may still change, and the README says so. It lives in one module with nothing of the page in it, and its own test pins it down.
+Once released, a link field is never renamed, dropped or read differently; new fields may be added. It lives in one module with nothing of the page in it (`js/app/link.js`), and its own test pins it down (`tests/link.test.js`). As of 1.0.0:
+
+| In the address | What | Values |
+|---|---|---|
+| `#view=` | the view the page opens in | `3d`, `2d`; anything else is ignored |
+| `?lang=` | the language (U11) | `en`, `es`, `fr`, `de`, `it`, `pt-BR`, `zh`, `zh-TW`, `ja`, `ko`, or a tag that maps to one (`fr-CA`, `zh-Hant`); else the visitor's choice or the browser's |
+
+`?debug` and `?selftest` are for development (docs/development.md), not part of the contract.
 
 ### P9. A phone gets the same app, not a different one
 
@@ -84,16 +91,16 @@ The canvas drawings, the 2D views and the 3D scene read the same tokens.
 ## Part 2. The layout
 
 ```
-┌ [logo] TRS-80 Simulator   [▤ Tapes ▾] [▶ Programs ▾]                            [🔊] [ⓘ] ┐  top bar
+┌ [logo] TRS-80 Simulator   [▤ Tapes ▾] [▶ Programs ▾]                  [🔊] [文A EN ▾] [ⓘ] ┐  top bar
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                  [⌂] [− +] [Whole system ▾] [◉ Show ▾]  [2D | 3D]       │  stage band
+│                                             [⌂] [− +] [Whole system ▾]  [2D | 3D]       │  stage band
 │ ╭─────────────────────────────────────────────────────────────────────────────────────╮ │
 │ │                  THE STAGE: the whole system in 3D, or the flat views in 2D         │ │
 │ │                                                                  [Put it all back]  │ │
 │ ╰─────────────────────────────────────────────────────────────────────────────────────╯ │
 │        [⏻ Computer|↺ Reset] [⏻ Display] │ [● RECORD|◀◀|▶ PLAY|▶▶|■ STOP|⏏ EJECT]          │  helper strip
 ├══════════════════════════════════════ drag ═════════════════════════════════════════════┤
-│ Lessons   Video RAM   Keyboard   Cassette   CPU & Memory                              ▾ │  dock
+│ Video RAM   Keyboard   Cassette   CPU & Memory   Lessons   References                 ▾ │  dock
 │ …                                                                                       │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
 │ READY. Type on your keyboard: Esc is BREAK, Enter is ENTER.                             │  status line
@@ -104,7 +111,7 @@ The page is a fixed frame of top bar, stage, dock and status line. The page itse
 - **The dock sits below the stage,** as in the 8800 and AGT-30 simulators. The whole system is a wide subject, and the tools (a 64-column grid, a memory dump) want the width.
 - **Every tab's content is centred:** a lesson and the references as a reading column; an instrument (Video RAM, Keyboard, Cassette, CPU & Memory) as one block of cards side by side at their own widths, at most 1,400 px, so that a card's notes stand next to what they describe rather than at the window's far edge.
 - **The dock can be resized** by its top edge, and folds to its tab bar. Growing it shrinks the stage, and the 3D view refits.
-- **The stage keeps at least 240 px** on a desktop. On a phone it keeps at least 40 % of the height in 2D, where the keyboard is.
+- **The stage keeps at least 300 px** on a desktop; on a phone (700 px wide or less) at least 55 % of the height, and in a window 520 px tall or less 65 %, in 2D or 3D.
 
 ## Part 3. Decisions
 
@@ -114,6 +121,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 - **3D is the default** on a first visit. After that the choice is remembered, and a link can carry it as `#view=3d` or `#view=2d`. A link's view wins over the remembered one.
 - **Going to 2D, the camera flies** to face the screen, then the flat views cross-fade in (as AGT-30's Screen). Going back, they fade out and the camera flies back to where it was. With `prefers-reduced-motion`, both are a cut.
 - **A double-click on the CRT in 3D** goes to 2D. A single click does nothing there, so that clicks and drags turn the camera.
+- **A double-click on a unit's body in 3D** goes to its view: the display's cabinet to *Screen*, the keyboard's case to *Keyboard*, the recorder's body to *Recorder*. Only where a single click does nothing: not on a key, a switch or a knob, and not on a part that a click takes out (the computer off), so that a double-click never undoes its own first click.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
 - **The 3D view's own tools** (⌂, zoom, Views, Put it all back) show only in 3D. In 2D the band holds the Recorder and Keyboard toggles and the 2D | 3D toggle. The helper strip (U4) is under the stage in both.
 
@@ -124,8 +132,8 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 - **Views** (a menu naming the view on show): Whole system (the way in: from the front and a little above, the screen face on enough to read and the keyboard under it to type at), Three-quarter (the whole system from the front left), Keyboard (straight on from the front and well above, the keys filling the stage to read and click), Screen, Recorder (as Keyboard, straight on from above), **Inside, from below** and **Taken apart**. ⌂ goes to Whole system, with every part back. The default view is named for what it shows, not for a desk the scene does not draw: in other languages "desk" is only the piece of furniture.
 - **Inside, from below** turns the keyboard unit's case to outlined glass, and the camera looks up from below, where the main board's parts hang (it is mounted upside down). The ROM and RAM chips glow by their share of the memory traffic, and the video RAM chips flash on writes. The machine keeps running. Leaving the view makes the case solid again. (There is no separate Show menu: only the computer's case can be seen into, so the view is enough.)
 - **Taken apart** takes the computer apart (the cables, the case top, the keyboard, the board, in the real order) and frames the parts as they will lie. A running machine stays closed: while the computer is on, the view is greyed in the menu with "switch off first" beside it, and choosing it anyway says to switch it off, or to look Inside instead (P6). Choosing another view puts it back together; clicking a part with the power off still takes it out or puts it back on its own (U3).
-- **The camera:** drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and limited, so the machine can't be lost. The 3D view's focus has two states: reached by Tab, it shows the amber focus ring, and the arrows orbit, + and − zoom and Home resets; otherwise it has no focus, and every key is the machine's. A click or a tap on the view never focuses it, and lets go of whatever had the focus: pressing the machine is typing at it. (A click then a key used to light the ring as `:focus-visible` and take + − and the arrows from BASIC.)
-- **Labels:** hovering a part (or tapping it on a phone) shows its name and one line on what it does, after 400 ms, beside the pointer.
+- **The camera:** drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and limited, so the machine can't be lost. The 3D view's focus has two states: reached by Tab, it shows the amber focus ring, and the arrows pan (with Shift, Ctrl or ⌘ they orbit), + and − zoom and Home resets; otherwise it has no focus, and every key is the machine's. A click or a tap on the view never focuses it, and lets go of whatever had the focus: pressing the machine is typing at it. (A click then a key used to light the ring as `:focus-visible` and take + − and the arrows from BASIC.)
+- **Labels:** hovering a part shows its name and one line on what it does, after 400 ms, beside the pointer; on a phone, with no hover, a tap writes the part's name in the status line.
 
 ### U3. Taking it apart
 
@@ -157,10 +165,10 @@ The instruments first, in the order lessons 3 to 6 use them, then the reading: L
 
 1. **Video RAM:** the 64 × 16 grid of bytes, live, cells flashing on write. Click a cell, here or on the screen in 2D, to inspect it: its address, its byte as read back with bit 6 marked as rebuilt, and either the character's 6 × 12 dots from the character generator, row by row, or the 2 × 3 blocks by bit.
 2. **Keyboard:** the 8 × 8 matrix, keys lit while down. The rows the program reads light as it reads them, with each read's address and byte, and reads a second.
-3. **Cassette:** the tape in the recorder (its name and what it holds, how to load it), the position and length, Fast tape, and the tape under the head: pulses, bits, bytes, and what each byte is (leader, sync, name, block, address, data, checksum, entry).
-4. **CPU & Memory:** the registers (AF, BC, DE, HL, IX, IY, SP, PC, the alternate set, I, R) and the flags by letter (S Z H P/V N C). The next instruction disassembled. A memory map strip (ROM, unused, keyboard, video, RAM) lit where the CPU reads and writes. A memory dump that can follow PC, SP or HL. Pause, Step, Run to (an address), and a clock speed (real, 1/10, 1/100, 1/1,000). Paused, everything else waits too: the screen, the tape, the keys.
+3. **Cassette:** the tape in the recorder (its name and what it holds, how to load it), the position and length, Fast tape, and the tape under the head: pulses, bits, bytes, and what each byte is (leader, sync, name, block, address, data, checksum, entry). While a CSAVE records, it shows the recording as it is written (the recorder keeps it apart until the motor stops).
+4. **CPU & Memory:** the registers (AF, BC, DE, HL, IX, IY, SP, PC, the alternate set, I, R) and the flags by letter (S Z H P/V N C). The next instructions disassembled. A memory map strip (ROM, unused, keyboard, video, RAM) lit where the CPU reads and writes. A memory dump that can follow PC, SP or HL. Pause, Step, Run to (an address), and a clock speed (real, 1/10, 1/100, 1/1,000). Paused, everything else waits too: the screen, the tape, the keys.
 5. **Lessons:** the lesson bar (numbered tabs, one lesson at a time), then the lesson's steps (U7).
-6. **References:** what the simulator simplifies, what it is built on, further reading and the source, one column down the middle, as the 8800 simulator's References tab. About's *References* button opens it.
+6. **References:** further reading first, then what it is built on and the source, and last, folded, what the simulator simplifies; one column down the middle, as the 8800 simulator's References tab. About's *References* button opens it.
 
 The first visit opens the dock on Lessons, at 30% of the window's height: with the helper strip under the stage, a larger share left the stage barely a third of the window. After that the dock remembers its tab and its height. What the machine does never switches the dock's tab by itself. A tab that changes while not shown gets an activity dot.
 
@@ -180,7 +188,7 @@ The design follows the 8800's U11.
 
 ### U8. The top bar
 
-- **Left (the machine):** the logo and title; **Tapes**, for tapes themselves (insert a blank tape; open a `.cas` or `.wav` file…; save the tape as `.cas` or `.wav`; eject; **Fast tape**, checked while on, the same switch as the Cassette tab's, at hand when a tape is chosen); **Programs**, the one catalogue of our samples, each listed once. Choosing one opens its dialog: what it does, its listing, and the two ways in, **Type it in** (the Model I's keys type it as an owner did, every key on the screen: ENTER first if the machine still asks `MEMORY SIZE?`, which reads its line as a number and throws anything else away, else BREAK to stop whatever runs; then NEW, so no old line is left in, the listing, and RUN) and **Put its tape in** (the same program saved on a tape, with how to load it): each with its icon (keyboard, tape). Type it in is the one we recommend: since v0.0.3 it is the dialog's primary action, filled, last, on the right where a dialog's confirming action goes and the eye and hand end up, and with the focus; Put its tape in is a tonal button before it. (They were two tonal buttons of equal weight, Type it in first.) Under the two ways, **Type in faster**, a switch: on at first for a long listing (1,200 characters or more), it runs the machine up to 64 times faster while it types rather than 8. Our tapes are recorded beforehand by a Model I of our own (`pnpm tapes`), as recording a long one in the visitor's browser took seconds. A way that cannot be taken now is greyed with its reason (switch on first), and still says why when chosen (P6). *Rejected:* the samples in both menus, which read as two sets of programs and doubled with each new one; a card beside the menu, which has no room on a phone, no hover on touch, and is awkward to reach by keyboard. Since v0.0.3 the menu has two levels: its sections, **Learn**, **Games**, **Utilities**, **Music** (design/v0.0.3.md), each a submenu, beside the menu where the window has room (→, a click, or the mouse over it opens it; ← or Escape goes back) and in the menu's place where it has not, under a row going back (a phone); a hovered section only ever opens beside, so that the item under the pointer does not change before it clicks. Then **Find original programs…**, a dialog of where the era's own software is archived, what of it runs here and how to load it (we host none: its rights are unclear), and **Type in a BASIC file…**, which types a visitor's program, written out as text (`.bas`, `.txt`), in as Type it in does, and turns away a tokenised file or text that is not a program, saying why. (It was *Open a listing…*: "listing" is the 1970s word for a program's text, unknown to most today, and the action types rather than opens or loads, *load* being `CLOAD` here.) A menu taller than the window scrolls. *Rejected:* one long list with headings, which with 21 programs was taller than most windows.
+- **Left (the machine):** the logo and title; **Tapes**, for tapes themselves (insert a blank tape; open a `.cas` or `.wav` file…; save the tape as `.cas` or `.wav`; eject; **Fast tape**, checked while on, the same switch as the Cassette tab's, at hand when a tape is chosen); **Programs**, the one catalogue of our samples, each listed once. Choosing one opens its dialog: what it does, its listing, and the two ways in, **Type it in** (the Model I's keys type it as an owner did, every key on the screen: ENTER first if the machine still asks `MEMORY SIZE?`, which reads its line as a number and throws anything else away, else BREAK to stop whatever runs; then NEW, so no old line is left in, the listing, and RUN) and **Put its tape in** (the same program saved on a tape, with how to load it): each with its icon (keyboard, tape). Type it in is the one we recommend: since v0.0.3 it is the dialog's primary action, filled, last, on the right where a dialog's confirming action goes and the eye and hand end up, and with the focus; Put its tape in is a tonal button before it. (They were two tonal buttons of equal weight, Type it in first.) Under the two ways, **Type in faster**, a switch: on at first for a long listing (1,200 characters or more), it runs the machine up to 64 times faster while it types rather than 8. Our tapes are recorded beforehand by a Model I of our own (`pnpm tapes`), as recording a long one in the visitor's browser took seconds. A way that cannot be taken now is greyed with its reason (switch on first), and still says why when chosen (P6). *Rejected:* the samples in both menus, which read as two sets of programs and doubled with each new one; a card beside the menu, which has no room on a phone, no hover on touch, and is awkward to reach by keyboard. Since v0.0.3 the menu has two levels: its sections, **Learn**, **Games**, **Utilities**, **Music** (design/v0.0.3.md), each a submenu, beside the menu where the window has room (→, a click, or the mouse over it opens it; ← or Escape goes back) and in the menu's place where it has not, under a row going back (a phone); a hovered section only ever opens beside, so that the item under the pointer does not change before it clicks. Then **Find original programs…**, a dialog of where the era's own software is archived, what of it runs here and how to load it (we host none: its rights are unclear), and **Type in a BASIC file…**, which types a visitor's program, written out as text (`.bas`, `.txt`), in as Type it in does, and turns away a tokenised file or text that is not a program, saying why. (It was *Open a listing…*: "listing" is the 1970s word for a program's text, unknown to most today, and the action types rather than opens or loads, *load* being `CLOAD` here.) A menu taller than the window scrolls. *Rejected:* one long list with headings, which with 19 programs was taller than most windows.
 - **Right (the app):** **Sound** (an icon button, a speaker, crossed out while off; remembered), the **language** (U11), then About. Sound is the page's, not the tape's: it is the only sound yet, but it is switched where any later one would be.
 - On a phone the menus keep their icons and lose their names.
 
@@ -190,7 +198,7 @@ Every dialog closes on Escape, its ✕, an action, or a click on the scrim that 
 
 
 A dialog, short as the 8800 simulator's is, holding:
-- the logo, the version and what the simulator is, and that it is a pre-release;
+- the logo, the version and what the simulator is (and, before 1.0.0, that it was a pre-release);
 - links to the source and to report a problem;
 - the licences, a line each, what then whose, the Level II ROM's notice among them;
 - "not affiliated with Tandy or RadioShack";

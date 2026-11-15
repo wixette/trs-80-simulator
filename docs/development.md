@@ -3,7 +3,7 @@
 How to run, check, change and release the simulator. Related documents:
 - the rules the code follows: [conventions.md](conventions.md)
 - the page's design: [ui-design.md](ui-design.md)
-- the release being built: [../design/v0.0.1.md](../design/v0.0.1.md)
+- the plan, release by release: [../design/roadmap.md](../design/roadmap.md)
 - the machine's decisions: [../design/decisions.md](../design/decisions.md)
 
 ## Running it
@@ -23,7 +23,7 @@ Then open <http://localhost:8000/>. `pnpm serve` tells the browser not to cache,
 | `?selftest` | Runs the page's acceptance checks and shows a tick or a cross for each; publishes `window.__selftest = { done, passed, failed }` |
 | `?debug` | Exposes the machine to the console as `trs80`, and the page as `app` |
 
-The page's own link format (`#view=3d`, `#view=2d`) is described in [ui-design.md](ui-design.md). It is not frozen before 1.0.0.
+The page's own link format (`#view=3d`, `#view=2d`) is described in [ui-design.md](ui-design.md) (P8). From 1.0.0 it is frozen: a field is never renamed, dropped or read differently, only added.
 
 ## Requirements
 
@@ -53,17 +53,22 @@ pnpm test:browser              # every check, a few minutes
 pnpm test:browser boot tape    # just these
 ```
 
-`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events: booting and typing, the keys going to BASIC after a click on the 3D view, Programs and its dialogs, the cassette end to end (CSAVE, REWIND, CLOAD), the 3D views and taking it apart, the 2D view and its drawers, the layout at every width and on phones, the dock, and the dialogs. They need Chrome (or `CHROME` set to its path) and a GPU for the 3D view, so they are **run by hand before a release**, not in CI, as the Altair 8800 simulator's are. Each check starts a fresh browser profile and opens the page with `?debug`, which gives it the handles `trs80` (the System) and `app` (the stage, dock, 2D view, viewer and lessons).
+`tests/browser/` drives the page itself in a headless Chrome, with real mouse and key events: booting and typing, the keys going to BASIC after a click on the 3D view, Programs and its dialogs, the cassette end to end (CSAVE, REWIND, CLOAD), the 3D views and taking it apart, the 2D view and its drawers, the layout at every width and on phones, the dock, the dialogs, the ten languages, and `?selftest`. They need Chrome (or `CHROME` set to its path) and a GPU for the 3D view, so they are **run by hand before a release**, not in CI, as the Altair 8800 simulator's are. Each check starts a fresh browser profile and opens the page with `?debug`, which gives it the handles `trs80` (the System) and `app` (the stage, dock, 2D view, viewer and lessons).
 
-## Screenshots
+## Screenshots and videos
 
 ```
-pnpm shots              # into ~/Downloads/trs-80-simulator-v<version>-media/shots/
-pnpm shots --readme     # and the README's pictures, into screenshots/ (needs ffmpeg)
-pnpm shots --only tape  # the shots whose names hold "tape"
+pnpm shots                  # into ~/Downloads/trs-80-simulator-v<version>-media/shots/en/
+pnpm shots --lang en,zh     # in English and Simplified Chinese, each into its own folder
+pnpm shots --readme         # and the README's pictures, into screenshots/ (needs ffmpeg)
+pnpm shots --only screen    # the shots whose names hold "screen"
+pnpm video --lang en,zh     # short clips, into .../videos/<lang>/ (needs ffmpeg)
+pnpm video --only apart --fps 60
 ```
 
-`tools/shots.mjs` opens the page in a headless Chrome (the browser checks' harness), sets each shot up through the page as a visitor would leave it, and writes a JPEG, 1600 × 900 at twice the pixels. The shots, and which of them the README shows, are listed in the tool. Retake the README's before a release.
+`tools/shots.mjs` opens the page in a headless Chrome (the browser checks' harness), sets each shot up through the page as a visitor would leave it, and writes a JPEG, 1600 × 900 at twice the pixels. The shots, and which of them the README shows, are listed in the tool: the README's pictures, and a set for posts (the machine from several sides, inside, taken apart, games on its screen, the tools, a phone). Retake the README's before a release.
+
+`tools/video.mjs` records eleven short clips for posts, 1920 × 1080 in MP4 with sound: a tour (switched on, a line typed, the 3D views, 2D with its drawers, back to 3D), the Kaleidoscope, a game of Worm, taken apart, inside while it runs, a program loaded from tape, a game of Bricks, the Music box, a program saved with `CSAVE`, the 2D view with the Video RAM tool, and the Organ played in 2D, its keys going down. The games are played by reading the screen, as a player would: Worm takes the shortest safe way to the food, Bricks holds the bat under the ball. It replaces the page's clock before the page loads and moves it on one frame at a time, so the machine, the typing, the tape and the camera all run at their own speed in the clip however slowly the frames are taken. The sound is the page's own (the tape's pulses and the amplifier on the cassette lead), rendered into a track at its place on that clock rather than played, so it keeps to the picture; as on the page, Fast tape and Type in faster are silent. Each scene is a script in the tool. The setups shared by both tools, which name no label in any language, are in `tools/page-helpers.mjs`.
 
 ## The vendored files
 

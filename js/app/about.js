@@ -26,7 +26,6 @@ export function aboutBody(pkg) {
   return [
     el("div", { class: "about-band" }, [el("img", { src: new URL("../../images/logo.svg", import.meta.url).href, alt: "" }), el("div", {}, [el("strong", { text: t("app.name") }), el("br"), version])]),
     el("p", { class: "dialog-text", text: t("about.what") }),
-    el("p", { class: "dialog-text dim", text: t("about.prerelease") }),
     el("ul", { class: "about-links" }, [
       el("li", {}, [link(REPO, t("about.source"))]),
       el("li", {}, [link(`${REPO}/issues`, t("about.issues"))]),

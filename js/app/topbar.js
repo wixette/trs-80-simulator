@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 // The top bar (docs/ui-design.md, U8): what you do to the machine on the left (Tapes,
-// Programs), what you do with the app on the right (Sound, About). Programs is the one
+// Programs), what you do with the app on the right (Sound, the language, About). Programs is the one
 // catalogue of our programs, in sections (design/v0.0.3.md, S2): each opens a dialog that
 // offers both ways in, typed on the keys or loaded from its tape; then where to find the
 // era's own programs, and a BASIC file of the visitor's to type in (S3). Tapes is for tapes
@@ -14,7 +14,8 @@ import { LOCALE_NAMES, LOCALE_SHORT, LOCALE_STORE, LOCALES } from "../l10n/local
 import { casFromTape, Tape, tapeFromCas } from "../sim/cassette.js";
 import { typeKeys } from "../lessons/lessons.js";
 import { Typist } from "../sim/keys.js";
-import { LONG, SAMPLES, SECTIONS, typeIn } from "../sim/samples.js";
+import { CLOCK_HZ } from "../sim/machine.js";
+import { LONG, parseListing, SAMPLES, SECTIONS, typeIn } from "../sim/samples.js";
 import { parseWav, pulsesFromSound, wavFromPulses } from "../sim/wav.js";
 import { el, icon, setTip, showDialog, showMenu, toggle } from "../ui/components.js";
 
@@ -214,7 +215,7 @@ export class TopBar {
   typeProgram(text, title, faster) {
     const s = this.system;
     if (!s.machine.powered) return void s.say({ key: "type.off" });
-    const { asking, keys } = typeIn(s.machine.screenText(), text);
+    const { asking, keys } = typeIn(s.machine.screenText(), text, s.machine.t < 2 * CLOCK_HZ);
     typeKeys(s, keys);
     s.typeFaster = faster;
     s.say({ key: asking ? "program.typingMemory" : "program.typing", params: { title } });
@@ -255,16 +256,18 @@ export class TopBar {
     if (!f) return;
     this.listing.value = "";
     const s = this.system;
-    const bytes = new Uint8Array(await f.arrayBuffer());
-    // a tokenised program (saved by BASIC itself) is not text: its keywords are single bytes
-    if (bytes[0] === 0xff || bytes.some((b) => b >= 0x80 || (b < 0x20 && b !== 0x0a && b !== 0x0d && b !== 0x09))) return void s.say({ key: "listing.notText", params: { name: f.name } });
-    const lines = new TextDecoder().decode(bytes).replace(/\t/g, " ").replace(/\r\n?/g, "\n").split("\n").map((l) => l.trim()).filter(Boolean);
-    if (!lines.length || !lines.every((l) => /^\d+/.test(l))) return void s.say({ key: "listing.noNumbers", params: { name: f.name } });
-    const text = lines.join("\n") + "\n";
-    const bad = new Typist(/** @type {any} */ ({})).untypable(text);
-    if (bad.length) return void s.say({ key: "listing.untypable", params: { name: f.name, chars: bad.join(" ") } });
+    /** @type {Uint8Array} */
+    let bytes;
+    try {
+      bytes = new Uint8Array(await f.arrayBuffer());
+    } catch {
+      return void s.say({ key: "listing.notText", params: { name: f.name } });
+    }
+    const typist = new Typist(/** @type {any} */ ({}));
+    const r = parseListing(bytes, (text) => typist.untypable(text));
+    if ("error" in r) return void s.say({ key: `listing.${r.error}`, params: { name: f.name, chars: r.chars ?? "" } });
     if (!s.machine.powered) return void s.say({ key: "type.off" });
-    this.typeProgram(text, f.name, text.length >= LONG);
+    this.typeProgram(r.text, f.name, r.text.length >= LONG);
   }
 
   /** @private A visitor's own .cas or .wav: read here, never uploaded (D7). */

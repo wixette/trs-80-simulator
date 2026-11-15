@@ -30,7 +30,6 @@ These rules keep the model, the parameters, the code and the tests consistent. R
   |---|---|---|
   | `js/sim/` | the machine: CPU, memory, clock, keys, cassette, recorder, disassembler | no DOM, no three.js, no Web Audio; runs in Node |
   | `js/lessons/` | the lessons, as data, and their checks | no DOM |
-  | `js/accept/` | the acceptance checks, shared by `node --test` and `?selftest` | no DOM |
   | `js/scene/` | the 3D view: viewer, the model's bindings, the CRT texture | three.js |
   | `js/flat/` | the 2D view: the flat drawings and the screen canvas | DOM |
   | `js/app/` | the page: top bar, stage, dock, tools, status line, About | DOM |

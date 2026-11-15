@@ -99,3 +99,20 @@ for (const [w, h] of [[348, 150], [378, 310], [400, 420], [348, 90]]) {
     }
   });
 }
+
+test("APP-FLAT-8: at any size, however small, no drawing is wider than the room (the display at least 1 px) or narrower than nothing", () => {
+  for (const w of [0, 1, 7, 40, 200, 390, 1600]) {
+    for (const h of [0, 1, 5, 7, 8, 30, 300, 900]) {
+      for (const full of [false, true]) {
+        for (const rec of [null, recorder]) {
+          for (const kbd of [null, keyboard]) {
+            const o = fitFlat({ width: w, height: h, gap: 8, display, recorder: rec, keyboard: kbd, fullKeyboard: full });
+            for (const k of /** @type {const} */ (["display", "recorder", "keyboard"])) {
+              assert.ok(Number.isFinite(o[k]) && o[k] >= 0 && o[k] <= Math.max(w, 1) + 0.01, `${k} ${o[k]} at ${w} x ${h}, full ${full}`);
+            }
+          }
+        }
+      }
+    }
+  }
+});

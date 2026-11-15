@@ -13,7 +13,7 @@
 // The machine sees the tape through its hooks: `pulseSince(t)` and `activeAt(t)` for its
 // flip-flop, `portWrite(value, t)` for recording, `setRelay(on, t)` for the motor.
 
-import { PULSE_T, Tape } from "./cassette.js";
+import { GAP_T, PULSE_T, Tape } from "./cassette.js";
 import { CLOCK_HZ } from "./machine.js";
 
 /** Winding speed, relative to playing (est: a C-60 winds end to end in about a minute). */
@@ -58,6 +58,16 @@ export class Recorder {
   /** True while a recording is being made. */
   get recording() {
     return !!this.rec;
+  }
+
+  /**
+   * The recording being made, as far as it has got: where on the tape it started, and its
+   * pulses (not to be changed). It goes onto the tape when the recording ends; until then the
+   * tape still holds what was there before.
+   * @returns {{ from: number, pulses: readonly number[] } | null}
+   */
+  get pending() {
+    return this.rec ? { from: this.rec.from, pulses: this.rec.pulses } : null;
   }
 
   /** The counter's three digits at machine time t: it counts while the tape plays or winds. @param {number} t */
@@ -105,8 +115,12 @@ export class Recorder {
     return tape;
   }
 
-  /** Puts a tape in, at its start. @param {Tape} tape */
-  insert(tape) {
+  /** Puts a tape in, at its start: a recording on the tape taken out is finished on it first. @param {Tape} tape @param {number} [t] machine time */
+  insert(tape, t = 0) {
+    if (this.rec) {
+      this.settle(t);
+      this.finishRecording(t);
+    }
     this.tape = tape;
     this.mode = "stop";
     this.pos = 0;
@@ -129,7 +143,9 @@ export class Recorder {
     if (!this.tape || (this.mode !== "rewind" && this.mode !== "fast")) return;
     this.settle(t);
     const d = dtSeconds * CLOCK_HZ * WIND;
-    const end = Math.max(this.tape.end + CLOCK_HZ, CLOCK_HZ * 2);
+    // FAST-F stops a second past the last pulse, or where the tape already is if it has played
+    // further than that (never winding back)
+    const end = Math.max(this.tape.end + CLOCK_HZ, CLOCK_HZ * 2, this.pos);
     this.pos = this.mode === "rewind" ? Math.max(0, this.pos - d) : Math.min(end, this.pos + d);
     if (this.pos === 0 || this.pos === end) this.mode = "stop";
     this.next = this.tape.indexAt(this.pos);
@@ -177,7 +193,13 @@ export class Recorder {
 
   /** @private */
   startRecording() {
-    if (!this.rec) this.rec = { from: this.pos, pulses: [], level: 0 };
+    if (this.rec) return;
+    // the motor takes a moment to run up to speed: a recording made just after another (two
+    // CSAVEs, the motor stopped between) starts a gap past it, and is a recording of its own
+    const pulses = this.tape?.pulses ?? [];
+    const i = this.tape ? this.tape.indexAt(this.pos) - 1 : -1;
+    if (i >= 0 && this.pos - pulses[i] <= GAP_T) this.pos = pulses[i] + GAP_T + 1;
+    this.rec = { from: this.pos, pulses: [], level: 0 };
   }
 
   /** @private @param {number} t */

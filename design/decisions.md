@@ -54,8 +54,8 @@ The Expansion Interface (26-1140, 1978) added RAM, disks, a printer port and a t
 ## D7. Visitors bring their own tapes; no third-party software ships
 
 - A visitor opens their own `.cas` or `.wav` file, read locally and never uploaded. The Cassette tool says what a tape holds: a BASIC program and its name, or machine code with its name, blocks, load and entry addresses and any bad checksum. It also says how to load it: `CLOAD`, or `SYSTEM`, the name at `*?`, then `/`.
-- **No third-party software ships:** no commercial tapes, no archive downloads, no links that fetch them. The only third-party program is Level II itself (D2), which the machine cannot run without.
-- **Our own samples only,** Apache-licensed, so that `CLOAD` and `SYSTEM` can be tried at once. The BASIC samples are typed in and `CSAVE`d at run time by a second, headless Model I, so nothing but the ROM's own output is on a tape. One machine-code sample is written out with its listing.
+- **No third-party software ships:** no commercial tapes and no archive downloads. The only third-party program is Level II itself (D2), which the machine cannot run without. *Changed in v0.0.3:* Programs ▸ Find original programs names and links to archives that keep the era's software, says what of it runs here and how to load it, and that its rights differ and are the visitor's to mind; nothing is fetched or hosted (design/v0.0.3.md, S3).
+- **Our own samples only,** Apache-licensed, so that `CLOAD` and `SYSTEM` can be tried at once. Their tapes are typed in and `CSAVE`d by a headless Model I, so nothing but the ROM's own output is on a tape. *Changed in v0.0.3:* recorded beforehand (`pnpm tapes`, into `tapes/`) rather than at run time, as a long program took seconds to record in the browser; a test holds each tape to a fresh recording. The machine-code sample, written out with its listing, stays as a test's fixture and the Cassette tool's picture.
 
 ## D8. The model is built from parameters, not imported meshes
 
@@ -135,3 +135,5 @@ Level II reads one key at a time, and debounces it for tens of milliseconds. A v
 A game reads the keys only at moments of its loop: a BASIC game between moving, drawing and beeping, so a quick tap of the visitor's could start and end between two reads and be lost, though the Keyboard tool showed it pressed. On a real Model I the owner learned to hold a key a little longer. Here a key let go stays down until the program has read its row once since it went down, for up to half a second (READ_MAX_T). A program that reads the row itself (PEEK, or its own machine code) must read it; Level II's keyboard driver (03E3H–045FH) scans every row between statements, looking for BREAK, so its reads count only for a program that takes its keys from the driver (INKEY$, INPUT). A key waiting to be read holds up no other key.
 
 *Found while checking v0.0.3:* in Worm, quick taps of the arrows turned the worm three times in sixteen; with this, sixteen in sixteen.
+
+The same holds for a key clicked or touched in 3D or 2D (`Typist.hold` and `release`), whose release also waits apart from typed keys, and is not typing: a game played by touch is not sped up while a key is held. *Found in the v1.0.0 review.*

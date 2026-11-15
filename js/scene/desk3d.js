@@ -55,6 +55,7 @@ const DOOR_S = [0.25, 0.5, 0.3];
  * @property {(h: Hover | null, x: number, y: number) => void} [hover]
  * @property {(node: string) => void} [info] a click on a part that does nothing: its name, to say
  * @property {() => void} [screenDoubleClick]
+ * @property {(view: "screen" | "keyboard" | "recorder") => void} [unitDoubleClick] a double-click on a unit's body: its view
  */
 
 export class Desk3D {
@@ -111,8 +112,6 @@ export class Desk3D {
         row: o.userData.matrix_row, bit: o.userData.matrix_bit, name: o.userData.key_name, down: 0,
       });
     });
-    /** SHIFT clicked: down until the next key is let go. */
-    this.shiftLatched = false;
 
     this.led = this.ownMaterial(this.node("led.power"));
     /** The recorder's RECORD/BATTERY lamp. */
@@ -518,9 +517,9 @@ export class Desk3D {
         const bit = keyObj.userData.matrix_bit;
         this.viewer.controls.enabled = false;
         if (row === 7) {
-          this.shiftLatched = !this.shiftLatched;
-          if (this.shiftLatched) s.typist.hold(7, 0);
-          else s.typist.release(7, 0);
+          // one latch, the typist's: latched in 3D, it is latched in 2D too
+          if (s.typist.isHeld(7, 0)) s.typist.release(7, 0);
+          else s.typist.hold(7, 0);
           return;
         }
         held = { row, bit };
@@ -566,10 +565,7 @@ export class Desk3D {
       if (held) {
         s.typist.release(held.row, held.bit);
         held = null;
-        if (this.shiftLatched) {
-          this.shiftLatched = false;
-          s.typist.release(7, 0);
-        }
+        if (s.typist.isHeld(7, 0)) s.typist.release(7, 0);
         return true;
       }
       return false;
@@ -585,14 +581,35 @@ export class Desk3D {
       // C or B: back to the middle
       const knob = this.up(o, (x) => x === this.knobs.contrast) ? "contrast" : this.up(o, (x) => x === this.knobs.brightness) ? "brightness" : null;
       if (knob) return void s.resetControl(knob);
-      if (o === this.screen) this.on.screenDoubleClick?.();
+      if (o === this.screen) return void this.on.screenDoubleClick?.();
+      const view = this.viewOf(o);
+      if (view) this.on.unitDoubleClick?.(view);
     });
+  }
+
+  /**
+   * @private The view a double-click on a part goes to: the display's, the keyboard's or the
+   * recorder's body. Only where a click does nothing (not a key, a switch, a knob, nor a part
+   * that a click takes out), and not the board or the cables seen inside.
+   * @param {THREE.Object3D | null} o
+   * @returns {"screen" | "keyboard" | "recorder" | null}
+   */
+  viewOf(o) {
+    if (!o || (this.describe(o)?.action ?? "none") !== "none") return null;
+    const under = (/** @type {string} */ n) => !!this.up(o, (x) => this.modelName(x) === n);
+    if (under("board.main") || under("cable.ribbon")) return null;
+    if (under("unit.display")) return "screen";
+    if (under("unit.keyboard")) return "keyboard";
+    if (under("unit.recorder")) return "recorder";
+    return null;
   }
 
   /** @private A click (not a drag) on a part. @param {THREE.Object3D | null} o */
   click(o) {
     const s = this.system;
     if (!o || o === this.screen) return; // the tube: a double-click opens 2D (U1)
+    // a key (SHIFT, which latches on its press) is the keyboard's, never a click that takes it out
+    if (this.up(o, (x) => x.userData.matrix_row !== undefined)) return;
     const is = (/** @type {string} */ n) => !!this.up(o, (x) => this.modelName(x) === n);
     if (is("button.power")) return void s.power(!s.machine.powered);
     if (is("display.power_button")) return void s.displayPower(!s.display.on);

@@ -4,7 +4,7 @@
 
 | What | Licence |
 |---|---|
-| Code: JavaScript, the Blender scripts, configuration | **Apache-2.0** |
+| Code: JavaScript, the Blender scripts, configuration, our programs and their tapes (`tapes/`) | **Apache-2.0** |
 | Content: docs, design and research notes, lessons and teacher notes, `model/params/`, `research/data/`, the 3D model, the README's pictures | **CC BY-SA 4.0** |
 
 The repository follows the [REUSE](https://reuse.software) specification. `REUSE.toml` sets these defaults and lists every third-party exception, and the licence texts are in `LICENSES/`. CI runs `reuse lint`.

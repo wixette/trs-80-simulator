@@ -121,8 +121,8 @@ export function byteRoles(bytes) {
   }
   out[i++] = { role: "sync" };
   if (bytes[i] === 0xd3 && bytes[i + 1] === 0xd3 && bytes[i + 2] === 0xd3) {
-    for (let k = 0; k < 3; k++) out[i++] = { role: "basicHeader" };
-    out[i] = { role: "basicName", name: String.fromCharCode(bytes[i] ?? 0x20) };
+    for (let k = 0; k < 3 && i < bytes.length; k++) out[i++] = { role: "basicHeader" };
+    if (i < bytes.length) out[i] = { role: "basicName", name: String.fromCharCode(bytes[i]) };
     i++;
     rest("basicProgram");
     return out;
@@ -138,10 +138,9 @@ export function byteRoles(bytes) {
     block++;
     const n = bytes[i + 1] || 256;
     const addr = (bytes[i + 2] ?? 0) | ((bytes[i + 3] ?? 0) << 8);
-    out[i++] = { role: "blockStart", block };
-    out[i++] = { role: "blockCount", block, index: n };
-    out[i++] = { role: "blockAddrLo", block, addr };
-    out[i++] = { role: "blockAddrHi", block, addr };
+    // a recording cut short ends wherever it ends: no role for a byte that is not there
+    const head = [{ role: "blockStart", block }, { role: "blockCount", block, index: n }, { role: "blockAddrLo", block, addr }, { role: "blockAddrHi", block, addr }];
+    for (const r of head) if (i < bytes.length) out[i++] = /** @type {ByteRole} */ (r);
     for (let k = 0; k < n && i < bytes.length; k++) out[i++] = { role: "blockData", block, addr: (addr + k) & 0xffff };
     if (i < bytes.length) out[i++] = { role: "blockChecksum", block };
   }

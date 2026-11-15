@@ -161,6 +161,19 @@ describe("TAP: the tape format", () => {
   });
 });
 
+describe("TAP: recordings cut short", () => {
+  it("TAP-6: a recording cut anywhere gives one role per byte, and its information reads without throwing", () => {
+    const basic = [0, 0, 0xa5, 0xd3, 0xd3, 0xd3, 0x41, 0x1e, 0x43, 0x0a, 0x00, 0xb2, 0x22, 0x48, 0x22, 0x00, 0x00, 0x00];
+    for (const whole of [screenProgramCas(), new Uint8Array(basic)]) {
+      for (let n = 0; n <= whole.length; n++) {
+        const cut = whole.slice(0, n);
+        assert.equal(byteRoles(cut).length, n, `${n} bytes`);
+        assert.doesNotThrow(() => tapeInfo(cut));
+      }
+    }
+  });
+});
+
 describe("TAP: the recorder", () => {
   it("TAP-10: the tape moves only while PLAY is down and the computer closes the relay (port FFH bit 2)", () => {
     const deck = new Recorder();
@@ -192,6 +205,51 @@ describe("TAP: the recorder", () => {
     assert.equal(deck.mode, "stop", "the deck stops at the end of the tape");
     assert.ok(deck.eject(0));
     assert.equal(deck.tape, null);
+  });
+
+  it("TAP-14: FAST-F never winds back: from beyond the last pulse (a long play) it stops where it is", () => {
+    const deck = new Recorder();
+    deck.insert(tapeFromCas("t", screenProgramCas()));
+    const end = deck.tape?.end ?? 0;
+    deck.press("play", 0);
+    deck.setRelay(true, 0);
+    deck.setRelay(false, end + 10 * CLOCK_HZ); // a CLOAD that found nothing played on
+    const played = deck.at(end + 10 * CLOCK_HZ);
+    deck.press("fast", end + 10 * CLOCK_HZ);
+    deck.wind(0.01, end + 10 * CLOCK_HZ);
+    assert.ok(deck.at(0) >= played, `${deck.at(0)} < ${played}`);
+    assert.equal(deck.mode, "stop");
+  });
+
+  it("TAP-15: a recording is kept by STOP, EJECT and a new tape put in; recording over a tape keeps what follows", () => {
+    // over pulses at 1, 2 and 3 s, a recording from 1.5 s to 2.5 s replaces only the one at 2 s
+    const tape = new Tape("t", [CLOCK_HZ, 2 * CLOCK_HZ, 3 * CLOCK_HZ]);
+    const deck = new Recorder();
+    deck.insert(tape);
+    deck.pos = 1.5 * CLOCK_HZ;
+    deck.press("record", 0);
+    deck.setRelay(true, 0);
+    deck.portWrite(1, 0.2 * CLOCK_HZ);
+    deck.portWrite(0, 0.3 * CLOCK_HZ);
+    deck.press("stop", CLOCK_HZ);
+    assert.deepEqual(tape.pulses, [CLOCK_HZ, 1.7 * CLOCK_HZ, 3 * CLOCK_HZ]);
+    // EJECT mid-recording commits it to the tape taken out
+    const t2 = new Tape("t2");
+    deck.insert(t2);
+    deck.press("record", 0);
+    deck.portWrite(1, 0.1 * CLOCK_HZ);
+    deck.eject(0.2 * CLOCK_HZ);
+    assert.deepEqual(t2.pulses, [0.1 * CLOCK_HZ]);
+    // a new tape put in while recording: the recording stays on the old one
+    const t3 = new Tape("t3");
+    const t4 = new Tape("t4");
+    deck.insert(t3);
+    deck.press("record", 0);
+    deck.portWrite(1, 100);
+    deck.insert(t4, 200);
+    deck.press("play", 300);
+    assert.deepEqual(t3.pulses, [100]);
+    assert.deepEqual(t4.pulses, []);
   });
 
   it("TAP-13: the counter counts as the tape moves, playing or winding, not only when it stops", () => {
@@ -297,6 +355,79 @@ describe("TAP: with Level II", { skip: NO_ROM }, () => {
   });
 });
 
+describe("TAP: saving onto a tape", { skip: NO_ROM }, () => {
+  it("TAP-17: two programs saved one after the other are two recordings on the tape, and each loads", () => {
+    const b = ready();
+    const tape = new Tape("two");
+    b.deck.insert(tape);
+    b.deck.press("record", b.m.t);
+    b.type('10 PRINT "ONE"\nCSAVE "A"\n');
+    b.untilMotorOff(60);
+    b.type('NEW\n10 PRINT "TWO"\nCSAVE "B"\n');
+    b.untilMotorOff(60);
+    const blocks = tape.blocks();
+    assert.equal(blocks.length, 2, "two recordings");
+    assert.deepEqual(blocks.map((x) => /** @type {any} */ (tapeInfo(x)).name), ["A", "B"]);
+    b.deck.stop(b.m.t);
+    b.deck.press("rewind", b.m.t);
+    for (let i = 0; i < 400 && b.deck.mode === "rewind"; i++) b.deck.wind(0.05, b.m.t);
+    b.deck.press("play", b.m.t);
+    b.type('NEW\nCLOAD "B"\n');
+    b.untilMotorOff(60);
+    b.type("LIST\n");
+    assert.ok(b.screen().includes('10 PRINT "TWO"'), b.screen().join(" | "));
+  });
+
+  it("TAP-18: while CSAVE records, the recording made so far can be read (the Cassette tool shows it); then it is on the tape", () => {
+    const b = ready();
+    const tape = new Tape("live");
+    b.deck.insert(tape);
+    b.deck.press("record", b.m.t);
+    b.type('10 PRINT "LIVE"\nCSAVE "L"\n');
+    for (let i = 0; i < 400 && !b.deck.recording; i++) b.clock.step(0.05);
+    b.clock.step(1.5);
+    const sofar = b.deck.pending?.pulses.slice() ?? [];
+    assert.ok(sofar.length > 500, "pulses written so far");
+    assert.equal(tape.pulses.length, 0, "not on the tape until the recording ends");
+    b.untilMotorOff(60);
+    assert.equal(b.deck.pending, null);
+    assert.ok(tape.pulses.length > sofar.length, "the whole recording is on the tape");
+    assert.deepEqual(tape.pulses.slice(0, sofar.length), sofar, "it begins as it was read while recording");
+  });
+
+  it("TAP-16: a 12 KB program saved with CSAVE goes onto the tape whole, and the deck stops", () => {
+    const b = ready();
+    // a program of REM lines, 12 KB, put in memory as BASIC keeps it (42E9H on)
+    let a = 0x42e9;
+    let line = 10;
+    while (a < 0x42e9 + 12 * 1024) {
+      const next = a + 4 + 201 + 1;
+      for (const [k, v] of [[0, next & 255], [1, next >> 8], [2, line & 255], [3, line >> 8], [4, 0x93]]) b.m.write(a + k, v);
+      for (let k = 0; k < 200; k++) b.m.write(a + 5 + k, 0x58);
+      b.m.write(a + 205, 0);
+      a = next;
+      line += 10;
+    }
+    b.m.write(a, 0);
+    b.m.write(a + 1, 0);
+    a += 2;
+    for (const p of [0x40f9, 0x40fb, 0x40fd]) {
+      b.m.write(p, a & 255);
+      b.m.write(p + 1, a >> 8);
+    }
+    const tape = new Tape("long");
+    b.deck.insert(tape);
+    b.deck.press("record", b.m.t);
+    b.type('CSAVE "L"\n');
+    b.untilMotorOff(300);
+    assert.ok(!b.m.motor && !b.deck.recording, "the motor stopped and the recording ended");
+    assert.ok(tape.pulses.length > 124000, `${tape.pulses.length} pulses`);
+    const bytes = tape.blocks()[0];
+    assert.deepEqual([...bytes.slice(bytes.indexOf(0xa5), bytes.indexOf(0xa5) + 5)], [0xa5, 0xd3, 0xd3, 0xd3, 0x4c]);
+    assert.ok(bytes.length > 12 * 1024);
+  });
+});
+
 describe("TAP: .wav files", () => {
   it("TAP-30: a tape written as .wav reads back to the same bytes", () => {
     const cas = screenProgramCas();
@@ -311,6 +442,17 @@ describe("TAP: .wav files", () => {
     assert.equal(poor.rate, 44100);
     const bytes = new Tape("w", pulsesFromSound(poor)).blocks()[0];
     assert.deepEqual(bytes.slice(bytes.indexOf(0xa5)), [...cas].slice(cas.indexOf(0xa5)));
+  });
+
+  it("TAP-36: reads a recording made very quietly (1.5 % of full scale, with hiss); hiss alone is silence", () => {
+    const cas = screenProgramCas();
+    const clean = parseWav(wavFromPulses(tapeFromCas("s", cas).pulses, 44100));
+    let seed = 7;
+    const hiss = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648 - 0.5) * 0.001;
+    const quiet = { rate: 44100, samples: clean.samples.map((v) => v * 0.015 + hiss()) };
+    const bytes = new Tape("q", pulsesFromSound(quiet)).blocks()[0];
+    assert.deepEqual(bytes.slice(bytes.indexOf(0xa5)), [...cas].slice(cas.indexOf(0xa5)));
+    assert.equal(pulsesFromSound({ rate: 44100, samples: new Float32Array(44100).map(hiss) }).length, 0);
   });
 
   it("TAP-32: reads WAVE_FORMAT_EXTENSIBLE by its sub-format: 32-bit float", () => {

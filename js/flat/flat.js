@@ -109,8 +109,6 @@ export class Flat {
     this.keyEls = [];
     /** @private @type {{ el: HTMLButtonElement, kind: "power" | "reset" }[]} */
     this.rear = [];
-    /** @private */
-    this.shiftLatched = false;
     this.canvas = /** @type {HTMLCanvasElement} */ (el("canvas"));
     /** @private the display's POWER button, placed by buildDisplay */
     this.dpower = el("button");
@@ -509,9 +507,9 @@ export class Flat {
           // a pointer the browser no longer tracks: the key still goes down
         }
         if (isShift) {
-          this.shiftLatched = !this.shiftLatched;
-          if (this.shiftLatched) s.typist.hold(7, 0);
-          else s.typist.release(7, 0);
+          // one latch, the typist's: latched in 3D, it is latched in 2D too
+          if (s.typist.isHeld(7, 0)) s.typist.release(7, 0);
+          else s.typist.hold(7, 0);
           return;
         }
         s.typist.hold(k.matrix_row, k.matrix_bit);
@@ -519,10 +517,7 @@ export class Flat {
       const up = () => {
         if (isShift) return;
         s.typist.release(k.matrix_row, k.matrix_bit);
-        if (this.shiftLatched) {
-          this.shiftLatched = false;
-          s.typist.release(7, 0);
-        }
+        if (s.typist.isHeld(7, 0)) s.typist.release(7, 0);
       };
       b.addEventListener("pointerup", up);
       b.addEventListener("pointercancel", up);

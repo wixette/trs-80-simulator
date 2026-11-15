@@ -64,6 +64,8 @@ export class KeyboardTool {
     for (let r = 0; r < 8; r++) {
       if (!(sel & (1 << r))) continue;
       const list = this.reads[r];
+      // the machine's time starts again at 0 when it is switched on: older reads are another run's
+      if (list.length && list[list.length - 1] > t0) list.length = 0;
       list.push(t0);
       if (list.length > 4000) list.splice(0, list.length - 4000);
       this.last[r] = { value, at: now, sel };
@@ -79,6 +81,7 @@ export class KeyboardTool {
     for (let r = 0; r < 8; r++) {
       for (let b = 0; b < 8; b++) this.cellEls[r][b].classList.toggle("down", (m.rows[r] & (1 << b)) !== 0);
       const list = this.reads[r];
+      if (list.length && list[list.length - 1] > m.t) list.length = 0;
       while (list.length && list[0] < second) list.shift();
       const e = this.rowEls[r];
       e.row.classList.toggle("read", now - this.last[r].at < LIT_MS && m.powered);

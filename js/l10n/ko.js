@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 시뮬레이터",
-  "app.title": "TRS-80 시뮬레이터: 3D로 보는 Model I",
+  "app.title": "TRS-80 시뮬레이터: 3D로 보는 Model I 에뮬레이터, Level II BASIC 탑재",
   "bar.tapes": "테이프",
   "bar.tapes.tip": "빈 테이프, 여러분의 .cas나 .wav 파일, 또는 녹음기에 든 테이프 저장",
   "bar.programs": "프로그램",
@@ -140,6 +140,7 @@ export default {
   "tape.none": "녹음기에 테이프가 없어요",
   "tape.none.how": "녹음하려면 테이프 ▸ 빈 테이프, 또는 여러분의 .cas나 .wav 파일을 고르세요. 예제는 프로그램 ▸ 프로그램 ▸ 테이프 넣기로 넣을 수 있어요.",
   "tape.blank.how": "빈 테이프예요. 녹음기의 RECORD를 누른 다음 CSAVE \"A\"를 입력하세요(아무 글자나 돼요).",
+  "tape.recording.how": "녹음 중: 컴퓨터가 펄스를 하나씩 테이프에 쓰고 있어요. 바이트가 쓰이는 대로 보여요.",
   "tape.basic.how": "“{letter}”(으)로 저장된 BASIC 프로그램이에요. PLAY를 누른 다음 CLOAD를 입력하세요.",
   "tape.system.how": "기계어 “{program}”: 블록 {blocks}개, 시작 주소 {entry}. PLAY를 누르고 SYSTEM을 입력한 다음, *?에 {program}을(를) 입력하고, *?가 다시 나오면 /를 입력해서 실행하세요. {bad}",
   "tape.badBlocks": "블록 {n}개의 체크섬이 맞지 않아요. SYSTEM이 거기서 멈출 거예요.",
@@ -447,7 +448,6 @@ export default {
   "about.title": "정보",
   "about.what": "브라우저 속의 TRS-80 Model I(1977): 에뮬레이션한 Z80 위의 Level II BASIC, 디스플레이, 카세트 녹음기, 그리고 기판의 칩까지 보여 주는 3D 기계 전체.",
   "about.version": "버전 {version}",
-  "about.prerelease": "정식 출시 전 버전이에요. 1.0.0 전까지 링크 형식과 화면 배치가 바뀔 수 있어요.",
   "about.issues": "문제 신고",
   "about.licences": "라이선스",
   "about.lic.code": "시뮬레이터",

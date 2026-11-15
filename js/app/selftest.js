@@ -18,7 +18,7 @@ export async function selftest(system) {
       return system.machine.screenText()[0].startsWith("MEMORY SIZE?");
     }],
     ["APP-23: the 2D view has 65 keys and six recorder keys", () => document.querySelectorAll(".flat-key").length === 65 && document.querySelectorAll(".flat-deckkey").length === 6],
-    ["APP-24: the dock has five tools", () => document.querySelectorAll("#dock-tabs [role=tab]").length === 5],
+    ["APP-24: the dock has six tabs", () => document.querySelectorAll("#dock-tabs [role=tab]").length === 6],
   ];
   /** @type {string[]} */
   const passed = [];

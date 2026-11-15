@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 模擬器",
-  "app.title": "TRS-80 模擬器：3D 的 Model I",
+  "app.title": "TRS-80 模擬器：在瀏覽器裡執行的 3D Model I，內建 Level II BASIC",
   "bar.tapes": "磁帶",
   "bar.tapes.tip": "空白磁帶、你自己的 .cas 或 .wav 檔案，或把錄音機裡的磁帶存下來",
   "bar.programs": "程式",
@@ -140,6 +140,7 @@ export default {
   "tape.none": "錄音機裡沒有磁帶",
   "tape.none.how": "用「磁帶 ▸ 空白磁帶」來錄音，或放入你自己的 .cas 或 .wav；用「程式 ▸ 某個程式 ▸ 放入它的磁帶」來使用我們的程式。",
   "tape.blank.how": "空白磁帶。按錄音機的 RECORD，再輸入 CSAVE \"A\"（任何字母都可以）。",
+  "tape.recording.how": "正在錄音：電腦把脈衝一個接一個地寫到磁帶上。位元組一邊寫，一邊顯示出來。",
   "tape.basic.how": "BASIC 程式，以「{letter}」為名儲存。按 PLAY，再輸入 CLOAD。",
   "tape.system.how": "機器碼「{program}」：{blocks} 個區塊，從 {entry} 開始。按 PLAY，輸入 SYSTEM，在 *? 輸入 {program}，等 *? 再出現時輸入 / 來執行。{bad}",
   "tape.badBlocks": "有 {n} 個區塊的檢查碼錯誤：SYSTEM 會在那裡停下來。",
@@ -447,7 +448,6 @@ export default {
   "about.title": "關於",
   "about.what": "在你的瀏覽器裡執行 TRS-80 Model I（1977）：在模擬的 Z80 上執行它的 Level II BASIC、它的螢幕、它的卡式錄音機，還有整台機器的 3D 模型，連電路板上的晶片都有。",
   "about.version": "版本 {version}",
-  "about.prerelease": "預覽版：在 1.0.0 之前，連結格式和版面都可能還會改變。",
   "about.issues": "回報問題",
   "about.licences": "授權",
   "about.lic.code": "模擬器",

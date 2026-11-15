@@ -12,7 +12,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80 Simulator",
-  "app.title": "TRS-80 Simulator: the Model I in 3D",
+  "app.title": "TRS-80 Simulator: a Model I emulator in 3D, with Level II BASIC",
   "bar.tapes": "Tapes",
   "bar.tapes.tip": "A blank tape, your own .cas or .wav, or save the one in the recorder",
   "bar.programs": "Programs",
@@ -142,6 +142,7 @@ export default {
   "tape.none": "No tape in the recorder",
   "tape.none.how": "Tapes ▸ Blank tape to record, or your own .cas or .wav; Programs ▸ a program ▸ Put its tape in for one of ours.",
   "tape.blank.how": "A blank tape. Press RECORD on the recorder, then type CSAVE \"A\" (any letter).",
+  "tape.recording.how": "Recording: the computer is writing onto the tape, pulse by pulse. The bytes show as they are written.",
   "tape.basic.how": "A BASIC program, saved as “{letter}”. Press PLAY, then type CLOAD.",
   "tape.system.how": "Machine code, “{program}”: {blocks} blocks, starting at {entry}. Press PLAY, type SYSTEM, at *? type {program}, and when *? comes back type / to run it. {bad}",
   "tape.badBlocks": "{n} blocks have a bad checksum: SYSTEM will stop at them.",
@@ -449,7 +450,6 @@ export default {
   "about.title": "About",
   "about.what": "The TRS-80 Model I (1977) in your browser: its Level II BASIC on an emulated Z80, its Video Display, its cassette recorder, and the whole machine in 3D down to the chips on its board.",
   "about.version": "Version {version}",
-  "about.prerelease": "A pre-release: the link format and the layout may still change before 1.0.0.",
   "about.issues": "Report a problem",
   "about.licences": "Licences",
   "about.lic.code": "Simulator",

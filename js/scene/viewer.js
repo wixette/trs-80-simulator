@@ -7,7 +7,7 @@
 //
 // - Drag to orbit, right-drag or two fingers to pan, wheel or pinch to zoom; damped and
 //   limited, so the machine can't be lost.
-// - With the canvas focused (by Tab), the arrows orbit, Shift and the arrows pan, + and -
+// - With the canvas focused (by Tab), the arrows pan, Shift (or Ctrl, ⌘) and the arrows orbit, + and -
 //   zoom, Home goes home.
 // - Camera flights are eased, and a cut under prefers-reduced-motion.
 // - It renders only while active: under the 2D view the scene stops (U1).
@@ -185,8 +185,16 @@ export class Viewer {
   frame() {
     const dt = Math.min(this.clock.getDelta(), 0.1);
     for (const f of this.onFrame) f(dt);
-    if (this.flight && this.flight(dt)) this.flight = null;
+    // a landing whose callback starts another flight keeps that one
+    const flight = this.flight;
+    if (flight && flight(dt) && this.flight === flight) this.flight = null;
     if (!this.active) return;
+    // the pixels per CSS pixel change with the browser's zoom, or on another display
+    const ratio = Math.min(window.devicePixelRatio, 2);
+    if (ratio !== this.renderer.getPixelRatio()) {
+      this.renderer.setPixelRatio(ratio);
+      this.resize();
+    }
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
@@ -209,6 +217,7 @@ export class Viewer {
   /** Puts the camera at a pose at once. @param {Pose} pose */
   jumpTo(pose) {
     this.endFlight();
+    this.stopDrift();
     this.camera.position.set(...pose.pos);
     this.controls.target.set(...pose.target);
   }
@@ -220,6 +229,7 @@ export class Viewer {
    * @param {number} [seconds]
    */
   flyTo(pose, then, seconds = FLIGHT_S) {
+    this.stopDrift();
     const p1 = new THREE.Vector3(...pose.pos);
     const t1 = new THREE.Vector3(...pose.target);
     const p0 = this.camera.position.clone();
@@ -246,14 +256,22 @@ export class Viewer {
   }
 
   /**
-   * @private Ends the flight under way, if any, for another move: what was to follow it still
-   * follows (a stage waiting for it to land would otherwise wait for ever).
+   * Ends the flight under way, if any, for another move: what was to follow it still follows
+   * (a stage waiting for it to land would otherwise wait for ever).
    */
   endFlight() {
     const then = this.flightThen;
     this.flight = null;
     this.flightThen = null;
     then?.();
+  }
+
+  /** @private What is left of a drag's damped momentum is spent now, so that it does not carry the camera on past where it is put. */
+  stopDrift() {
+    const damping = this.controls.enableDamping;
+    this.controls.enableDamping = false;
+    this.controls.update();
+    this.controls.enableDamping = damping;
   }
 
   /** Where the camera is now. @returns {Pose} */

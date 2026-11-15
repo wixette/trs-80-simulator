@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "Simulador TRS-80",
-  "app.title": "Simulador TRS-80: el Model I en 3D",
+  "app.title": "Simulador TRS-80: un emulador del Model I en 3D, con BASIC Level II",
   "bar.tapes": "Cintas",
   "bar.tapes.tip": "Una cinta virgen, tu propio .cas o .wav, o guardar la que está en la grabadora",
   "bar.programs": "Programas",
@@ -140,6 +140,7 @@ export default {
   "tape.none": "No hay cinta en la grabadora",
   "tape.none.how": "Cintas ▸ Cinta virgen para grabar, o tu propio .cas o .wav; Programas ▸ un programa ▸ Poner su cinta para uno de los nuestros.",
   "tape.blank.how": "Una cinta virgen. Pulsa RECORD en la grabadora y escribe CSAVE \"A\" (cualquier letra).",
+  "tape.recording.how": "Grabando: la computadora escribe en la cinta, pulso a pulso. Los bytes aparecen a medida que se escriben.",
   "tape.basic.how": "Un programa en BASIC, guardado como “{letter}”. Pulsa PLAY y escribe CLOAD.",
   "tape.system.how": "Código máquina, “{program}”: {blocks} bloques, que empieza en {entry}. Pulsa PLAY, escribe SYSTEM, en *? escribe {program}, y cuando vuelva *? escribe / para ejecutarlo. {bad}",
   "tape.badBlocks": "{n} bloques tienen una suma de control errónea: SYSTEM se detendrá en ellos.",
@@ -447,7 +448,6 @@ export default {
   "about.title": "Acerca de",
   "about.what": "La TRS-80 Model I (1977) en tu navegador: su Level II BASIC sobre un Z80 emulado, su monitor, su grabadora de casete y la máquina entera en 3D, hasta los chips de su placa.",
   "about.version": "Versión {version}",
-  "about.prerelease": "Una versión preliminar: el formato de los enlaces y la disposición pueden cambiar todavía antes de la 1.0.0.",
   "about.issues": "Informar de un problema",
   "about.licences": "Licencias",
   "about.lic.code": "Simulador",

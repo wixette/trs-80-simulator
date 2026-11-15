@@ -9,9 +9,9 @@ Each lesson takes one class period of 40–50 minutes. Lessons 1 and 2 can share
 
 The steps live in the simulator's Lessons tab. Each step ticks itself when the machine shows it done, so a teacher can see at a glance how far a student has got. Lessons 3 to 6 each have a task that students do on their own: a prediction to write down before they look.
 
-**Programs** (top bar) has our own programs, all short Level II BASIC: **Learn**, which the lessons use; **Games**, **Utilities** and **Music**, for fun, in the style of 1977–80; and **Find original programs**, which says where the era's own software is archived and how to load it. Each program can be typed in on the Model I's keys or loaded from its tape. Sound comes through the cassette lead, as on the real machine with an amplifier plugged in.
+**Programs** (top bar) has 19 programs of our own, all Level II BASIC (the music and two games POKE in a few bytes of machine code): **Learn**, which the lessons use; **Games**, **Utilities** and **Music**, for fun, in the style of 1977–80; and **Find original programs**, which says where the era's own software is archived and how to load it. Each program can be typed in on the Model I's keys or loaded from its tape. Sound comes through the cassette lead, as on the real machine with an amplifier plugged in.
 
-**Before the class:** open the simulator in a recent browser (Chrome, Edge, Safari or Firefox) on each machine; nothing is installed. On tablets and phones, the 2D view (top right) is the place to type.
+**Before the class:** open the simulator in a recent browser (Chrome, Edge, Safari or Firefox) on each machine; nothing is installed. On tablets and phones, the 2D view ([2D | 3D] at the right, above the machine) is the place to type.
 
 ## 1. Meet the TRS-80
 
@@ -23,12 +23,12 @@ The steps live in the simulator's Lessons tab. Each step ticks itself when the m
 | Step | Time | What happens | Talking points |
 |---|---|---|---|
 | The whole system | 5 min | A photo, then the whole system in 3D | Radio Shack showed it on 3 August 1977. The complete system was $599.95 `[reed-m1]`. Compare the Altair 8800 of 1975: a kit, with switches and lamps and no screen. |
-| The keyboard is the computer | 3 min | The keyboard unit | One board, under the keys. Ask: where is the computer in a laptop? In a phone? |
+| The keyboard is the computer | 3 min | The keyboard unit | One board, under the keys: a Z80 at 1.77 MHz, 16 KB of RAM, BASIC in 12 KB of ROM. The first machines of 1977 had 4 KB and Level I. Ask: where is the computer in a laptop? In a phone? How many times more memory has a phone (a few GB) than 16 KB? |
 | Look inside | 5 min | Views ▸ Inside, from below | The board hangs upside down. Hover over the chips: the Z80, the ROMs, the RAM. With the power off, students can take it apart (Views ▸ Taken apart, or click a part): it comes apart in the real order. |
 | The Video Display | 2 min | The display | A television without a tuner. 64 × 16 capital letters. |
 | The cassette recorder | 2 min | The recorder | No disk: programs went onto audio tape. |
 | Switch it off and on | 3 min | `MEMORY SIZE?` | The page opens with the machine on. Two POWER buttons: the computer's, and the display's. Off, the memory is gone; on again, the ROM starts BASIC at once. |
-| READY | 5 min | ENTER, then `READY` | BASIC is in ROM, so the computer is ready at once. Microsoft wrote this BASIC (Level II, 1978). |
+| READY | 5 min | ENTER, then `READY` | `MEMORY SIZE?` asks for the last address BASIC may use; ENTER gives it all (to 32767). A number out of range, or a word, and it asks again. BASIC is in ROM, so the computer is ready at once. Microsoft wrote this BASIC (Level II, 1978). |
 | Something to play | at home | Moon lander, from Programs | Load it from its tape: PLAY, `CLOAD`, `RUN`. It shows what the machine was bought for, and the next lessons explain how it works. |
 
 **Questions students ask:**

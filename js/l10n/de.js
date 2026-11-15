@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "TRS-80-Simulator",
-  "app.title": "TRS-80-Simulator: das Model I in 3D",
+  "app.title": "TRS-80-Simulator: ein Model-I-Emulator in 3D, mit Level II BASIC",
   "bar.tapes": "Kassetten",
   "bar.tapes.tip": "Eine leere Kassette, deine eigene .cas oder .wav, oder die Kassette im Rekorder speichern",
   "bar.programs": "Programme",
@@ -140,6 +140,7 @@ export default {
   "tape.none": "Keine Kassette im Rekorder",
   "tape.none.how": "Kassetten ▸ Leere Kassette zum Aufnehmen, oder deine eigene .cas oder .wav; Programme ▸ ein Programm ▸ Kassette einlegen für eins von unseren.",
   "tape.blank.how": "Eine leere Kassette. Drück RECORD am Rekorder und tipp dann CSAVE \"A\" (ein beliebiger Buchstabe).",
+  "tape.recording.how": "Aufnahme: Der Computer schreibt Impuls für Impuls auf das Band. Die Bytes erscheinen, während sie geschrieben werden.",
   "tape.basic.how": "Ein BASIC-Programm, gespeichert als „{letter}“. Drück PLAY und tipp dann CLOAD.",
   "tape.system.how": "Maschinencode, „{program}“: {blocks} Blöcke, Start bei {entry}. Drück PLAY, tipp SYSTEM, bei *? tipp {program}, und wenn *? wiederkommt, tipp / zum Starten. {bad}",
   "tape.badBlocks": "{n} Blöcke haben eine falsche Prüfsumme: SYSTEM bleibt dort stehen.",
@@ -447,7 +448,6 @@ export default {
   "about.title": "Über",
   "about.what": "Der TRS-80 Model I (1977) in deinem Browser: sein Level II BASIC auf einem emulierten Z80, sein Monitor, sein Kassettenrekorder und das ganze Gerät in 3D, bis hin zu den Chips auf seiner Platine.",
   "about.version": "Version {version}",
-  "about.prerelease": "Eine Vorabversion: Das Link-Format und das Layout können sich bis 1.0.0 noch ändern.",
   "about.issues": "Ein Problem melden",
   "about.licences": "Lizenzen",
   "about.lic.code": "Simulator",

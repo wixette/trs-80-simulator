@@ -32,4 +32,19 @@ export default async function (h) {
   await h.pressText("#helper-strip button", "Computer");
   await h.open({ keep: true });
   h.verify("switched off, it stays off after a reload", !(await h.js("trs80.machine.powered")));
+
+  // ?selftest: the page's own checks, which a visitor can run, all pass
+  await h.send("Page.navigate", { url: `${h.base}?debug&selftest` });
+  await h.until("window.__selftest?.done", 30000);
+  const st = await h.js("window.__selftest");
+  h.verify("?selftest: the page's own checks all pass", st?.failed?.length === 0 && st.passed.length > 0, st?.failed);
+
+  // no ROM, starting in 2D: the status line says so, and what the visitor chose is kept
+  await h.js("localStorage.setItem('trs80.power', JSON.stringify({ computer: true, display: true })); localStorage.setItem('trs80.view', '2d')");
+  await h.block("*level2-v12.bin*");
+  await h.open({ keep: true });
+  await h.sleep(800);
+  h.verify("without the ROM, the status line says so, even starting in 2D", !/Switch on/.test(await h.status()) && /Level II/.test(await h.status()) && !(await h.js("trs80.machine.powered")), await h.status());
+  await h.js("trs80.displayPower(true)");
+  h.verify("and the power remembered is kept, not the forced off", JSON.parse(await h.js("localStorage.getItem('trs80.power')")).computer === true);
 }

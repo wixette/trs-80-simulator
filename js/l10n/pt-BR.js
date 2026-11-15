@@ -10,7 +10,7 @@ export default {
 
   // ---- the page ----
   "app.name": "Simulador do TRS-80",
-  "app.title": "Simulador do TRS-80: o Model I em 3D",
+  "app.title": "Simulador do TRS-80: um emulador do Model I em 3D, com BASIC Level II",
   "bar.tapes": "Fitas",
   "bar.tapes.tip": "Uma fita virgem, seu próprio .cas ou .wav, ou salvar a fita que está no gravador",
   "bar.programs": "Programas",
@@ -140,6 +140,7 @@ export default {
   "tape.none": "Nenhuma fita no gravador",
   "tape.none.how": "Fitas ▸ Fita virgem para gravar, ou seu próprio .cas ou .wav; Programas ▸ um programa ▸ Pôr a fita para um dos nossos.",
   "tape.blank.how": "Uma fita virgem. Pressione RECORD no gravador e digite CSAVE \"A\" (qualquer letra).",
+  "tape.recording.how": "Gravando: o computador escreve na fita, pulso a pulso. Os bytes aparecem à medida que são escritos.",
   "tape.basic.how": "Um programa em BASIC, salvo como “{letter}”. Pressione PLAY e digite CLOAD.",
   "tape.system.how": "Código de máquina, “{program}”: {blocks} blocos, começando em {entry}. Pressione PLAY, digite SYSTEM, em *? digite {program} e, quando *? voltar, digite / para executar. {bad}",
   "tape.badBlocks": "{n} blocos têm checksum errado: SYSTEM vai parar neles.",
@@ -447,7 +448,6 @@ export default {
   "about.title": "Sobre",
   "about.what": "O TRS-80 Model I (1977) no seu navegador: o Level II BASIC num Z80 emulado, o monitor, o gravador cassete e a máquina inteira em 3D, até os chips da placa.",
   "about.version": "Versão {version}",
-  "about.prerelease": "Uma versão prévia: o formato dos links e o layout ainda podem mudar antes da 1.0.0.",
   "about.issues": "Relatar um problema",
   "about.licences": "Licenças",
   "about.lic.code": "Simulador",

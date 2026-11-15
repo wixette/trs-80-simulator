@@ -21,7 +21,7 @@ export const SLICE_T = Math.round(CLOCK_HZ / 1000);
 
 /**
  * @typedef {object} Runnable
- * @property {(t: number, stops?: ReadonlySet<number>) => number} run
+ * @property {(t: number, stops?: ReadonlySet<number>, leaving?: boolean) => number} run
  * @property {() => number} stepInstruction
  * @property {number} t
  * @property {boolean} powered
@@ -50,6 +50,8 @@ export class Clock {
     this.stops = new Set();
     /** Called when the machine reaches a stop, with its address. @type {((pc: number) => void) | null} */
     this.onStop = null;
+    /** @private resumed: the first instruction runs even at a stop (it is the one paused at), and only it */
+    this.leaving = false;
     /** @private */
     this.raf = 0;
     /** @private */
@@ -80,8 +82,10 @@ export class Clock {
         d.tick();
         slice = Math.min(slice, Math.max(1, d.next()));
       }
-      const ran = this.m.run(slice, this.stops);
-      if (ran === 0) break; // switched off
+      const ran = this.m.run(slice, this.stops, this.leaving);
+      if (ran === 0 && !this.m.powered) break;
+      if (ran > 0) this.leaving = false;
+      // fewer T-states than asked, with stops set: the machine is at one (perhaps at once)
       if (ran < slice && this.stops.size) {
         this.paused = true;
         this.onStop?.(this.m.pc);
@@ -108,6 +112,7 @@ export class Clock {
   resume() {
     this.paused = false;
     this.last = 0;
+    this.leaving = true;
   }
 
   /** The T-states a frame of `dt` seconds is worth at the current speed, carrying fractions. @param {number} dt */

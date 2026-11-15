@@ -82,10 +82,11 @@ export class CpuTool {
     // the next instructions
     this.code = el("ol", { class: "code mono", "aria-label": t("cpu.next") });
     // the memory map
-    this.map = el("div", { class: "memmap", role: "img", "aria-label": t("cpu.map") });
+    // a group of buttons, each region reached with Tab as with the pointer (P10)
+    this.map = el("div", { class: "memmap", role: "group", "aria-label": t("cpu.map") });
     for (const r of REGIONS) {
       const size = r.end - r.start + 1;
-      const seg = el("div", { class: `region ${r.id}`, style: `flex: ${Math.max(0.035, size / 0x10000)} 1 0`, "data-region": r.id }, [el("span", { text: t(`region.${r.id}`) })]);
+      const seg = el("button", { type: "button", class: `region ${r.id}`, style: `flex: ${Math.max(0.035, size / 0x10000)} 1 0`, "data-region": r.id, "data-tip-describes": "" }, [el("span", { text: t(`region.${r.id}`) })]);
       setTip(seg, t("cpu.region", { name: t(`region.${r.id}`), start: hex(r.start, 4), end: hex(r.end, 4), chips: r.chips.length ? r.chips.map((c) => c.toUpperCase()).join(", ") : t("cpu.noChips") }));
       seg.addEventListener("click", () => {
         this.follow = r.start;
@@ -219,14 +220,16 @@ export class CpuTool {
       ...rows.map((row) => el("div", { class: "reg-row" }, row.map(([n, v, w]) => cell(/** @type {string} */ (n), /** @type {number | undefined} */ (v ?? undefined), 4, /** @type {number | undefined} */ (w ?? undefined))))),
       el("div", { class: "reg-row" }, [cell("I", r?.i, 2, b?.i), cell("R", r?.r, 2, undefined), el("span", { class: "reg" }, [el("small", { text: "IM" }), el("b", { text: r ? String(r.im) : "–" })]), el("span", { class: "reg" }, [el("small", { text: "IFF" }), el("b", { text: r ? (r.iff1 ? "1" : "0") : "–" })])]),
     );
-    this.flags.replaceChildren(
-      ...FLAGS.map(([n, bit]) => {
-        const set = r ? (r.f >> /** @type {number} */ (bit)) & 1 : 0;
-        const e = el("span", { class: `flag${set ? " on" : ""}`, text: String(n) });
-        setTip(e, t(`flag.${n === "P/V" ? "PV" : n}`));
-        return e;
-      }),
-    );
+    // the flags are made once and lit after: made again each time, their tooltips never showed
+    if (!this.flags.childElementCount)
+      this.flags.replaceChildren(
+        ...FLAGS.map(([n]) => {
+          const e = el("span", { class: "flag", text: String(n) });
+          setTip(e, t(`flag.${n === "P/V" ? "PV" : n}`));
+          return e;
+        }),
+      );
+    FLAGS.forEach(([, bit], i) => this.flags.children[i].classList.toggle("on", !!r && ((r.f >> /** @type {number} */ (bit)) & 1) === 1));
   }
 
   /** @private @param {Registers | null} r */

@@ -21,7 +21,7 @@ Check renders: `Blender --background --factory-startup --python blender/scripts/
 
 ## The node contract
 
-The page finds parts by name, `<unit>.<part>[.<index>]`. `tests/model.test.js` holds the model to the names the page uses, and to the machine's own key matrix and memory map.
+The page finds parts by name, `<unit>.<part>[.<index>]`. `tests/model.test.js` holds the model to the names the page uses (its contract, and every name `js/scene/` asks for), and to the machine's own key matrix and memory map. The table names the families; besides them the page uses `led.power`, `case.bottom`, `case.feet`, `case.din_panel`, `cable.ribbon`, `recorder.counter` and `recorder.lamp`.
 
 | Nodes | What | Motion (glTF extras) |
 |---|---|---|
