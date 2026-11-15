@@ -16,12 +16,22 @@ In August 1977, Radio Shack, a chain of American electronics shops, introduced t
 
 Switched on, it asked one question, `MEMORY SIZE?`, then said `READY` and waited for you to type. What you typed was **BASIC**, a simple programming language kept in the computer's own memory chips. People typed in programs printed in magazines, played games, saved their work onto ordinary audio tape, and learned how computers work along the way.
 
-This simulator is that machine, part for part: the same Z80 processor at the same speed, the same BASIC (Level II, 1978), the same screen, keyboard and tape, all running in your browser.
+This simulator is that machine, part for part, as one was in about 1979:
+
+| | The Model I | The simulator |
+|---|---|---|
+| Processor | Zilog Z80 at 1.77 MHz | the same, to the clock tick |
+| ROM | Level I BASIC in 4 KB (1977); Level II BASIC in 12 KB (from 1978) | Level II |
+| RAM | 4 KB or 16 KB in the keyboard unit; up to 48 KB with the Expansion Interface | 16 KB, at addresses 16384 to 32767 |
+| Screen | 16 lines of 64 capital letters, or 128 × 48 blocks; black and white | the same |
+| Keyboard | 53 keys, plus a 12-key numeric keypad on later units | the same, with the keypad |
+| Storage | an audio cassette recorder: 250 bits a second (Level I), 500 (Level II) | the same, at 500, with tapes as `.cas` or `.wav` files |
+| Not here | the Expansion Interface (disks, printer, more RAM) | |
 
 ## Your first five minutes
 
 1. **Open the simulator.** The machine is already on and asks `MEMORY SIZE?`.
-2. **Press Enter** to answer it. The screen says `READY`.
+2. **Press Enter** to answer it. `MEMORY SIZE?` asks how much memory BASIC may use, and Enter gives it all 16 KB. (A number instead is the last address BASIC may use, up to 32767; lesson 6 types 32000 to keep the memory above it for machine code.) The screen says `READY`.
 3. **Type** `PRINT "HELLO"` and press Enter. The computer answers.
 4. **Play something:** open **Programs** in the top bar, choose **Games**, then **Moon lander**, and **Type it in**. Watch the keys type it for you, then follow the screen.
 5. **Learn:** the **Lessons** tab below the machine has six short lessons. Each step can type for you, and ticks itself when the machine shows it done.

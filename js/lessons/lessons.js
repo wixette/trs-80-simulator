@@ -98,7 +98,7 @@ export const LESSONS = [
         show: { mode: "3d", view: "angle" },
         photo: { src: "images/photos/Radio_Shack_Tandy_TRS-80_Model_I_System.jpg", credit: "photo.system.credit", href: "https://commons.wikimedia.org/wiki/File:Radio_Shack_Tandy_TRS-80_Model_I_System.JPG" },
       },
-      { id: "computer", show: { mode: "3d", view: "keyboard" } },
+      { id: "computer", show: { mode: "3d", view: "keyboard" }, more: true },
       { id: "inside", show: { mode: "3d", view: "inside" }, more: true },
       { id: "display", show: { mode: "3d", view: "screen" } },
       { id: "recorder", show: { mode: "3d", view: "recorder" } },
