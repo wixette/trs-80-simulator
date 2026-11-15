@@ -55,6 +55,7 @@ const DOOR_S = [0.25, 0.5, 0.3];
  * @property {(h: Hover | null, x: number, y: number) => void} [hover]
  * @property {(node: string) => void} [info] a click on a part that does nothing: its name, to say
  * @property {() => void} [screenDoubleClick]
+ * @property {(view: "screen" | "keyboard" | "recorder") => void} [unitDoubleClick] a double-click on a unit's body: its view
  */
 
 export class Desk3D {
@@ -580,8 +581,27 @@ export class Desk3D {
       // C or B: back to the middle
       const knob = this.up(o, (x) => x === this.knobs.contrast) ? "contrast" : this.up(o, (x) => x === this.knobs.brightness) ? "brightness" : null;
       if (knob) return void s.resetControl(knob);
-      if (o === this.screen) this.on.screenDoubleClick?.();
+      if (o === this.screen) return void this.on.screenDoubleClick?.();
+      const view = this.viewOf(o);
+      if (view) this.on.unitDoubleClick?.(view);
     });
+  }
+
+  /**
+   * @private The view a double-click on a part goes to: the display's, the keyboard's or the
+   * recorder's body. Only where a click does nothing (not a key, a switch, a knob, nor a part
+   * that a click takes out), and not the board or the cables seen inside.
+   * @param {THREE.Object3D | null} o
+   * @returns {"screen" | "keyboard" | "recorder" | null}
+   */
+  viewOf(o) {
+    if (!o || (this.describe(o)?.action ?? "none") !== "none") return null;
+    const under = (/** @type {string} */ n) => !!this.up(o, (x) => this.modelName(x) === n);
+    if (under("board.main") || under("cable.ribbon")) return null;
+    if (under("unit.display")) return "screen";
+    if (under("unit.keyboard")) return "keyboard";
+    if (under("unit.recorder")) return "recorder";
+    return null;
   }
 
   /** @private A click (not a drag) on a part. @param {THREE.Object3D | null} o */

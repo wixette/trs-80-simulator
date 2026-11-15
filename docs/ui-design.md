@@ -121,6 +121,7 @@ The stage shows the machine in 3D or in 2D, chosen from a `[2D | 3D]` segmented 
 - **3D is the default** on a first visit. After that the choice is remembered, and a link can carry it as `#view=3d` or `#view=2d`. A link's view wins over the remembered one.
 - **Going to 2D, the camera flies** to face the screen, then the flat views cross-fade in (as AGT-30's Screen). Going back, they fade out and the camera flies back to where it was. With `prefers-reduced-motion`, both are a cut.
 - **A double-click on the CRT in 3D** goes to 2D. A single click does nothing there, so that clicks and drags turn the camera.
+- **A double-click on a unit's body in 3D** goes to its view: the display's cabinet to *Screen*, the keyboard's case to *Keyboard*, the recorder's body to *Recorder*. Only where a single click does nothing: not on a key, a switch or a knob, and not on a part that a click takes out (the computer off), so that a double-click never undoes its own first click.
 - **Under 2D the 3D scene stops rendering.** The machine keeps running.
 - **The 3D view's own tools** (⌂, zoom, Views, Put it all back) show only in 3D. In 2D the band holds the Recorder and Keyboard toggles and the 2D | 3D toggle. The helper strip (U4) is under the stage in both.
 

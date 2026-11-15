@@ -178,6 +178,7 @@ export class Stage {
     d.on.hover = (h, x, y) => this.hover(h, x, y);
     d.on.info = (node) => this.system.say({ key: "part.said", params: { name: `${partName(node, "")}${partRole(node) ? `: ${partRole(node)}` : ""}` } });
     d.on.screenDoubleClick = () => this.setMode("2d");
+    d.on.unitDoubleClick = (v) => this.goTo(v);
     if (this.view === "inside") d.setSeeInside(true);
     if (this.fitted && this.mode === "3d" && this.viewer) this.viewer.jumpTo(this.framed(this.fitted));
   }

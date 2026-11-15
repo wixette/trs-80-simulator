@@ -4,7 +4,11 @@ What changed in each release. Versions follow `package.json` and are tagged `vX.
 
 ## 1.0.0 (in progress)
 
-No new features: a review of the code and the docs, and what it found fixed. Each fix has a test that fails without it.
+A review of the code and the docs, and what it found fixed. Each fix has a test that fails without it. One small addition:
+
+- **In 3D, a double-click** on the display's cabinet, the keyboard's case or the recorder goes to its view (Screen, Keyboard, Recorder), as one on the tube goes to 2D.
+
+The fixes:
 
 - **The tape:** a CSAVE of 11 KB or more crashed and lost its recording; FAST-F could wind back; a tape put in mid-recording took the recording; the Cassette tool misnamed the bytes of a recording cut short.
 - **The machine:** Run to could miss its stop (always while typed keys waited on the program); the visitor's keys were dead for a while after a power cycle; a key pressed again quickly could be let go while held; a key clicked in 3D or 2D waited behind typing, sped games up, and now waits for a read as the visitor's do (D18).
