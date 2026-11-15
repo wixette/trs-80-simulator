@@ -4,7 +4,7 @@
 // Programs), what you do with the app on the right (Sound, About). Programs is the one
 // catalogue of our programs, in sections (design/v0.0.3.md, S2): each opens a dialog that
 // offers both ways in, typed on the keys or loaded from its tape; then where to find the
-// era's own programs, and a listing of the visitor's to type in (S3). Tapes is for tapes
+// era's own programs, and a BASIC file of the visitor's to type in (S3). Tapes is for tapes
 // themselves. Each is a menu or a dialog (P4, P10). Visitors bring their own tapes and
 // listings, read locally and never uploaded (D7); our tapes were recorded by a Model I of
 // our own (pnpm tapes), so nothing but the ROM's own output is on them.
@@ -249,7 +249,7 @@ export class TopBar {
     ]);
   }
 
-  /** @private A visitor's own listing, plain text, typed in as Type it in types ours (S3). */
+  /** @private Type in a BASIC file: a visitor's own program, written out as text, typed in as Type it in types ours (S3). */
   async openListing() {
     const f = this.listing.files?.[0];
     if (!f) return;

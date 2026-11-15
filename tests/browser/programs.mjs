@@ -4,7 +4,7 @@
 // offers Type it in and Put its tape in, of equal weight, and Type in faster, on at first for
 // a long listing. Type it in answers MEMORY SIZE? first, or BREAKs a running program, then
 // NEW, so no old line is left in. Find original programs says where the era's own are; Open
-// a listing types a visitor's plain-text listing in, and turns away what is not one.
+// in a BASIC file types a visitor's program, written out as text, in, and turns away what is not one.
 
 /** @param {import("./harness.mjs").Harness} h */
 export default async function (h) {
@@ -13,7 +13,7 @@ export default async function (h) {
   await h.until("trs80.machine.screenText().some((l) => /^MEMORY SIZE\\?/.test(l))", 20000);
   await h.press("#programs");
   const items = await h.js("[...document.querySelectorAll('.menu [role^=menuitem]')].map((b) => b.textContent)");
-  h.verify("Programs lists the four sections, then Find original programs and Open a listing", JSON.stringify(items) === JSON.stringify(["Learn", "Games", "Utilities", "Music", "Find original programs…", "Open a listing…"]), items);
+  h.verify("Programs lists the four sections, then Find original programs and Type in a BASIC file", JSON.stringify(items) === JSON.stringify(["Learn", "Games", "Utilities", "Music", "Find original programs…", "Type in a BASIC file…"]), items);
   await h.key("ArrowRight");
   await h.sleep(200);
   const beside = await h.js("(() => { const [m, s] = document.querySelectorAll('.menu'); return s ? [s.getBoundingClientRect().left >= m.getBoundingClientRect().right - 4, [...s.querySelectorAll('[role^=menuitem]')].map((b) => b.textContent), document.activeElement?.textContent] : null; })()");
@@ -82,11 +82,11 @@ export default async function (h) {
   const give = (name, text) =>
     h.js(`(() => { const i = document.querySelector('input[type=file][accept^=".bas"]'); const d = new DataTransfer(); d.items.add(new File([${JSON.stringify(text)}], ${JSON.stringify(name)})); i.files = d.files; i.dispatchEvent(new Event("change")); })()`);
   await give("tokens.bas", "\xff\x80\x42");
-  h.verify("a tokenised file is turned away, saying why", await h.until("/plain-text listing/.test(document.getElementById('status').textContent)", 3000));
+  h.verify("a tokenised file is turned away, saying why", await h.until("/not a BASIC text file/.test(document.getElementById('status').textContent)", 3000));
   await give("hi.bas", '10 print "from a listing"\r\n20 goto 10\r\n');
   await h.typed();
   await h.js("import('./js/lessons/lessons.js').then((m) => m.typeKeys(trs80, 'RUN\\n'))");
-  h.verify("a plain-text listing is typed in, in capitals, and runs", await h.until("trs80.machine.screenText().filter((l) => l === 'FROM A LISTING').length > 3", 20000), await h.screen());
+  h.verify("a BASIC text file is typed in, in capitals, and runs", await h.until("trs80.machine.screenText().filter((l) => l === 'FROM A LISTING').length > 3", 20000), await h.screen());
 
   // switched off: Type it in is greyed with why, and says why when chosen
   await h.pressText("#helper-strip button", "Computer");

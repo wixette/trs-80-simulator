@@ -12,7 +12,7 @@ Programs worth running, then the lessons rewritten round them (design/v0.0.3.md)
 - **Type in faster,** on at first for a long listing: up to 64 times the machine's speed while it types.
 - **Find original programs:** where the era's software is archived, what of it runs here, and how to load it.
 - **Quick taps reach games** (D18): a key let go is held until the program has read it, so a tap between a game's reads still steers it.
-- **Open a listing:** a plain-text BASIC listing of your own, typed in on the Model I's keys.
+- **Type in a BASIC file:** a program of your own, written out as text (`.bas`, `.txt`), typed in on the Model I's keys.
 - **The lessons** each end with one of the programs to open, run and read; lesson 5 adds data on tape and music. The lessons' bar is centred and keeps on screen; the first photo stands beside its text; Show me always answers, the stage's edge glowing.
 - **References** start with further reading; what the simulator simplifies is last, folded.
 
