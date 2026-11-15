@@ -27,12 +27,10 @@
 // here every press is seen once. Keys pressed while the program reads no keys at all are
 // still missed after READ_MAX_T, as on the real machine.
 
-import { KEY_DOWN_T, KEY_UP_T } from "./keys.js";
+import { KEY_DOWN_T, KEY_UP_T, READ_MAX_T, readSince } from "./keys.js";
 import { keyNamed, SHIFT, STROKES } from "./keymap.js";
-import { CLOCK_HZ } from "./machine.js";
 
-/** The longest a key let go is kept down waiting for the program to read its row, in T-states. */
-export const READ_MAX_T = Math.round(0.5 * CLOCK_HZ);
+export { READ_MAX_T };
 
 /** The visitor's keys that are not characters, by `KeyboardEvent.key`, to Model I key names. */
 export const SPECIAL_KEYS = /** @type {Record<string, string>} */ ({
@@ -141,6 +139,8 @@ export class HostKeys {
     this.held.clear();
     this.pending = [];
     this.queue = [];
+    // the machine's time may start again from 0 (a power cycle): no old key-up holds up the next
+    this.lastUp = -Infinity;
     this.shift = false;
     this.apply();
   }
@@ -152,11 +152,7 @@ export class HostKeys {
 
   /** @private Whether a key let go may be released now: held long enough, and read since it went down (or waited long enough for that). @param {Pending} p */
   due(p) {
-    // a program that reads this row itself (a game's PEEK) must read it; else Level II's driver
-    // reading it will do (INKEY$, INPUT)
-    const own = this.m.ownScanT?.[p.row] ?? -1;
-    const scans = own >= 0 && own > p.since - READ_MAX_T ? this.m.ownScanT : this.m.rowScanT;
-    const read = !scans || scans[p.row] > p.since;
+    const read = readSince(this.m, p.row, p.since);
     return this.m.t >= p.at && (read || this.m.t >= p.since + READ_MAX_T);
   }
 
@@ -171,6 +167,8 @@ export class HostKeys {
     }
     if (!this.debouncing() && this.queue.length && this.m.t >= this.lastUp + KEY_UP_T) {
       const q = /** @type {(typeof this.queue)[number]} */ (this.queue.shift());
+      // pressed again: an earlier release of this key, still waiting, must not let this one go
+      this.pending = this.pending.filter((p) => p.code !== q.code);
       this.held.set(q.code, { ...q.key, since: this.m.t });
       if (q.released) this.pending.push({ code: q.code, at: this.m.t + KEY_DOWN_T, row: q.key.row, since: this.m.t });
       this.apply();

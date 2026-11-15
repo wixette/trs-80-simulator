@@ -10,9 +10,14 @@
 // Like a person reading the screen, the typist waits for the program before each key
 // (D15): a queued keystroke starts only once the keyboard has been read since it fell due,
 // at row 0 (the ROM's scan for a key) or at the key's own row (a game reading the keys
-// itself). While BASIC is busy (setting up after MEMORY SIZE?, storing a line, running
-// a program) it does not read the keyboard, and a key pressed then is lost on the real
-// machine too; the typist waits instead, up to 10 s.
+// itself; for a shifted character, SHIFT's row, which goes down first). While BASIC is busy
+// (setting up after MEMORY SIZE?, storing a line, loading a tape) it does not read the
+// keyboard, and a key pressed then is lost on the real machine too; the typist waits instead,
+// up to 10 s. (A running BASIC program is not busy in this sense: Level II scans every row
+// between statements, for BREAK.)
+//
+// A key held by hand (a click or a touch on one in 3D or 2D) goes down at once and up when let
+// go, after KEY_DOWN_T and once the program has read its row (D18), apart from the typed queue.
 
 import { CLOCK_HZ } from "./machine.js";
 import { SHIFT, STROKES } from "./keymap.js";
@@ -22,6 +27,23 @@ export const KEY_DOWN_T = Math.round(0.07 * CLOCK_HZ);
 export const KEY_UP_T = Math.round(0.07 * CLOCK_HZ);
 /** How long a keystroke waits for its own row while the program reads only other rows. */
 export const GATE_MAX_T = Math.round(0.5 * CLOCK_HZ);
+/** The longest a key let go is kept down waiting for the program to read its row (D18). */
+export const READ_MAX_T = Math.round(0.5 * CLOCK_HZ);
+
+/**
+ * Whether the program has read a key's row since the key went down (D18). A program that
+ * reads the row itself (a game's PEEK, its own machine code) must have read it: Level II's
+ * keyboard driver, which scans every row between statements for BREAK, counts only for a
+ * program that takes its keys from the driver (INKEY$, INPUT). A switch matrix with no scan
+ * times (a test's) has always been read.
+ * @param {{ rowScanT?: number[], ownScanT?: number[] }} m @param {number} row @param {number} since
+ */
+export function readSince(m, row, since) {
+  const own = m.ownScanT?.[row] ?? -1;
+  const scans = own >= 0 && own > since - READ_MAX_T ? m.ownScanT : m.rowScanT;
+  return !scans || scans[row] > since;
+}
+
 /** The longest a keystroke waits while the program reads no keys at all. */
 export const GATE_IDLE_MAX_T = Math.round(10 * CLOCK_HZ);
 
@@ -35,6 +57,7 @@ export const GATE_IDLE_MAX_T = Math.round(10 * CLOCK_HZ);
  * @property {number} t machine time, T-states
  * @property {number} scanT when row 0 was last read
  * @property {number[]} rowScanT when each row was last read
+ * @property {number[]} [ownScanT] when each row was last read by the program itself (D18)
  * @property {number} anyScanT when the keyboard was last read at all
  */
 
@@ -53,11 +76,11 @@ export class Typist {
     this.until = 0;
     /** @private keys held by hand (a click on a key), and when each went down @type {Map<string, number>} */
     this.held = new Map();
-    /** Characters typed so far of the current text, for "Type it" progress. */
-    this.typed = 0;
+    /** @private keys held by hand and let go, waiting to be let up (KEY_DOWN_T, and a read: D18), apart from the typed queue, which may wait on the program @type {{ at: number, since: number, row: number, bit: number }[]} */
+    this.releases = [];
   }
 
-  /** True while strokes are waiting. */
+  /** True while typed strokes are waiting (a key held by hand is not typing). */
   get busy() {
     return this.events.length > 0;
   }
@@ -96,32 +119,33 @@ export class Typist {
 
   /**
    * A key held by hand (a click or a touch on a key): down now, up at release, but never
-   * sooner than KEY_DOWN_T after it went down, so the ROM always sees it.
+   * sooner than KEY_DOWN_T after it went down, nor before the program has read its row (for up
+   * to READ_MAX_T, D18), so the program always sees it.
    * @param {number} row @param {number} bit
    */
   hold(row, bit) {
+    this.releases = this.releases.filter((r) => r.row !== row || r.bit !== bit);
     this.m.keyDown(row, bit);
     this.held.set(`${row}.${bit}`, this.m.t);
   }
 
   /** @param {number} row @param {number} bit */
   release(row, bit) {
-    const since = this.held.get(`${row}.${bit}`);
+    const since = this.held.get(`${row}.${bit}`) ?? this.m.t;
     this.held.delete(`${row}.${bit}`);
-    const at = Math.max(this.m.t, (since ?? this.m.t) + KEY_DOWN_T);
-    this.insert({ at, down: false, row, bit });
+    const at = Math.max(this.m.t, since + KEY_DOWN_T);
+    this.releases.push({ at, since, row, bit });
     this.until = Math.max(this.until, at + KEY_UP_T);
-  }
-
-  /** @private @param {SwitchEvent} e */
-  insert(e) {
-    let i = this.events.length;
-    while (i > 0 && this.events[i - 1].at > e.at) i--;
-    this.events.splice(i, 0, e);
   }
 
   /** Applies every event due by now; called before each slice the clock runs. */
   tick() {
+    if (this.releases.length) {
+      const t = this.m.t;
+      const due = this.releases.filter((r) => t >= r.at && (readSince(this.m, r.row, r.since) || t >= r.since + READ_MAX_T));
+      for (const r of due) this.m.keyUp(r.row, r.bit);
+      if (due.length) this.releases = this.releases.filter((r) => !due.includes(r));
+    }
     while (this.events.length && this.events[0].at <= this.m.t) {
       const first = this.events[0];
       if (first.gate) {
@@ -137,18 +161,22 @@ export class Typist {
       const e = /** @type {SwitchEvent} */ (this.events.shift());
       if (e.down) this.m.keyDown(e.row, e.bit);
       else this.m.keyUp(e.row, e.bit);
-      if (e.down && !(e.row === SHIFT.row && e.bit === SHIFT.bit)) this.typed++;
     }
   }
 
   /** T-states until the next event, or Infinity. */
   next() {
-    return this.events.length ? Math.max(0, this.events[0].at - this.m.t) : Infinity;
+    const typed = this.events.length ? Math.max(0, this.events[0].at - this.m.t) : Infinity;
+    // a release waiting for a read is checked at each slice (1 ms at most)
+    const hand = this.releases.length ? Math.max(0, Math.min(...this.releases.map((r) => (this.m.t < r.at ? r.at : r.since + READ_MAX_T))) - this.m.t) : Infinity;
+    return Math.min(typed, hand);
   }
 
   /** Drops everything queued, and opens every switch it closed. */
   clear() {
     for (const e of this.events) if (!e.down) this.m.keyUp(e.row, e.bit);
+    for (const r of this.releases) this.m.keyUp(r.row, r.bit);
+    this.releases = [];
     for (const k of this.held.keys()) {
       const [row, bit] = k.split(".").map(Number);
       this.m.keyUp(row, bit);

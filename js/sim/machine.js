@@ -327,15 +327,16 @@ export class Machine {
    * Runs whole instructions for at least `tStates` T-states, if powered.
    * @param {number} tStates
    * @param {ReadonlySet<number>} [stops] addresses to stop at, before running the instruction there
+   * @param {boolean} [leaving] the machine sits at a stop it is leaving: run that first instruction
    * @returns {number} the T-states run; fewer than asked if it reached a stop
    */
-  run(tStates, stops) {
+  run(tStates, stops, leaving = false) {
     if (!this.powered) return 0;
     const start = this.t;
     const end = start + tStates;
     if (stops && stops.size) {
       while (this.t < end) {
-        if (this.t > start && stops.has(this.cpu.pc)) break;
+        if (!(leaving && this.t === start) && stops.has(this.cpu.pc)) break;
         this.t += this.cpu.step();
       }
     } else {

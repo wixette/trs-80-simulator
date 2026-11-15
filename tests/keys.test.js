@@ -201,6 +201,40 @@ describe("KEY: fast typing", () => {
     assert.ok(b.screen().includes(" 5"), b.screen().join(" | "));
   });
 
+  it("KEY-22: after a power cycle (the machine's time starts again at 0) the next key goes down at once", () => {
+    const m = matrix();
+    const h = new HostKeys(m);
+    m.t = 5 * CLOCK_HZ;
+    h.down({ key: "a", code: "KeyA" });
+    m.t += KEY_DOWN_T;
+    h.up({ key: "a", code: "KeyA" });
+    h.releaseAll(); // System.power does this
+    m.t = 0;
+    h.down({ key: "b", code: "KeyB" });
+    assert.equal(m.rows[0] & 4, 4, "B is down");
+  });
+
+  it("KEY-23: a key pressed again while its last tap waits to be read stays down while held", () => {
+    const m = { ...matrix(), rowScanT: new Array(8).fill(-1) };
+    const h = new HostKeys(m);
+    h.down({ key: "ArrowUp", code: "ArrowUp" });
+    m.t = 100;
+    h.up({ key: "ArrowUp", code: "ArrowUp" });
+    m.t = 200;
+    h.down({ key: "ArrowUp", code: "ArrowUp" }); // waits its turn: the first is held for the debounce
+    m.t = KEY_DOWN_T + KEY_UP_T;
+    h.tick();
+    m.t += 1000;
+    m.rowScanT[6] = m.t;
+    h.tick();
+    assert.equal(m.rows[6] & 8, 8, "UP still down: the visitor holds it");
+    h.up({ key: "ArrowUp", code: "ArrowUp" });
+    m.t += KEY_DOWN_T + 1000;
+    m.rowScanT[6] = m.t;
+    h.tick();
+    assert.equal(m.rows[6] & 8, 0, "let go, it goes up");
+  });
+
   it("KEY-17: keys held together are down together (a game's arrow and SPACE)", () => {
     const m = matrix();
     const h = new HostKeys(m);
@@ -212,6 +246,30 @@ describe("KEY: fast typing", () => {
 });
 
 describe("KEY: the typist", () => {
+  it("KEY-24: a key held by hand goes up when let go, whatever the typing waits on, and is not typing; it waits for a read (D18)", () => {
+    const m = { ...matrix(), scanT: -1, anyScanT: -1, rowScanT: new Array(8).fill(-1) };
+    const typist = new Typist(m);
+    typist.type("X"); // waits for the program to read the keyboard, which it does not
+    typist.hold(1, 0); // H, clicked
+    m.t = 10;
+    typist.release(1, 0);
+    assert.equal(typist.busy, true, "the X is still queued");
+    m.t = KEY_DOWN_T + 10;
+    typist.tick();
+    assert.equal(m.rows[1] & 1, 1, "H waits for its row to be read");
+    m.rowScanT[1] = m.t;
+    m.t += 1;
+    typist.tick();
+    assert.equal(m.rows[1] & 1, 0, "read, H goes up, though the X still waits");
+    typist.clear();
+    typist.hold(1, 0);
+    typist.release(1, 0);
+    assert.equal(typist.busy, false, "a click is not typing (no typing speed-up)");
+    m.t += READ_MAX_T + 1;
+    typist.tick();
+    assert.equal(m.rows[1] & 1, 0, "never read: up after READ_MAX_T");
+  });
+
   it("KEY-20: lower case is typed as capitals; a character the Model I lacks is named", () => {
     const t = new Typist({ ...matrix(), scanT: 0, anyScanT: 0, rowScanT: new Array(8).fill(0) });
     assert.deepEqual(t.untypable("print [x]"), ["[", "]"]);
